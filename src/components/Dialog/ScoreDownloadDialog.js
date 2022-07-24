@@ -166,7 +166,7 @@ export const ScoreDownloadDialog = () => {
       </DialogContent>
       <DialogActions>
         <ButtonLoading btnText="Tải xuống" loading={loading} handleButtonClick={handleDownload} disabled={!templateId || studentIds.length === 0} />
-        <Button variant="contained" onClick={handleClose}>
+        <Button size="large" variant="contained" onClick={handleClose}>
           Quay về
         </Button>
       </DialogActions>

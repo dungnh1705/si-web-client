@@ -92,8 +92,8 @@ export const DocumentPreviewDialog = () => {
     <Dialog open={openPreviewDialog} onClose={handleClose} fullScreen={fullscreen} scroll="body" maxWidth="md" fullWidth>
       <DialogContent>
         <CardContent style={{ padding: 0 }}>
-          <Grid container spacing={2} alignContent="center">
-            <Grid item xs={12} md={6}>
+          <Grid container spacing={1} alignContent="center">
+            <Grid item xs={12} md={5}>
               <TextField label="Chọn biễu mẫu" variant="outlined" fullWidth InputLabelProps={{ shrink: true }} select onChange={e => setTemplateId(e.target.value)}>
                 {_.uniqBy(templates, 'id')
                   ?.filter(temp => temp.templateType === templateType)
@@ -104,33 +104,35 @@ export const DocumentPreviewDialog = () => {
                   ))}
               </TextField>
             </Grid>
-            <Grid container item xs={12} md={6} alignItems="center" justifyContent="flex-end" spacing={1}>
-              <Grid item xs={6} sm={4}>
-                <Button
+            <Grid container item xs={12} md={7} alignItems="center" justifyContent="flex-end" spacing={1}>
+              <Grid item xs={12} sm={4}>
+                <Button 
+                  size='large'
                   fullWidth
                   variant="contained"
-                  style={{ fontSize: '0.9em' }}
                   color="primary"
                   disabled={!templateId}
                   startIcon={<VisibilityRoundedIcon />}
-                  onClick={handlePreview}>
+                  onClick={handlePreview}
+                  style={{padding: 'auto 0'}}>
                   Xem trước
                 </Button>
               </Grid>
-              <Grid item xs={6} sm={4}>
-                <Button
+              <Grid item xs={12} sm={4}>
+                <Button 
+                  size='large'
                   fullWidth
                   variant="contained"
-                  style={{ fontSize: '0.9em' }}
                   color="secondary"
                   disabled={!templateId}
                   startIcon={<GetAppRoundedIcon />}
-                  onClick={handleDownload}>
+                  onClick={handleDownload}
+                  style={{padding: 'auto 0'}}>
                   Tải xuống
                 </Button>
               </Grid>
               <Grid item xs={12} sm={4}>
-                <Button fullWidth variant='outlined' style={{fontSize: '0.9em'}} onClick={handleClose}>
+                <Button size='large' fullWidth variant='outlined' onClick={handleClose} style={{padding: 'auto 0'}}>
                   Quay về
                 </Button>
               </Grid>

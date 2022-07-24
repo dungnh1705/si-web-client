@@ -29,13 +29,13 @@ export const DialerDialog = () => {
       </DialogContent>
       <DialogActions>
         <Grid container item spacing={2} justifyContent="flex-end">
-          <Grid item xs={6} md={3}>
-            <Button onClick={handleCall} color="primary" variant="contained" fullWidth>
+          <Grid item xs={6}>
+            <Button size="large" onClick={handleCall} color="primary" variant="contained" fullWidth>
               Gọi
             </Button>
           </Grid>
-          <Grid item xs={6} md={3}>
-            <Button onClick={handleClose} fullWidth variant="outlined">
+          <Grid item xs={6}>
+            <Button size="large" onClick={handleClose} variant="outlined" fullWidth>
               Quay về
             </Button>
           </Grid>

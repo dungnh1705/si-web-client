@@ -124,7 +124,7 @@ export const AbsentDialog = () => {
               <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={handleSaveAbsent} disabled={absentMode.length === 0} />
             </Grid>
             <Grid item xs={6} md={2}>
-              <Button onClick={handleClose} variant="outlined">
+              <Button size='large' onClick={handleClose} variant="outlined">
                 Quay về
               </Button>
             </Grid>

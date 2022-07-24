@@ -283,7 +283,7 @@ export const StudentDialog = () => {
                   <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={handleChangeStatus} disabled={!formData.values['reason']} />
                 </Grid>
                 <Grid item xs={6} sm={3} md={2} lg={6}>
-                  <Button onClick={handleCancelStatus} variant="outlined" fullWidth>
+                  <Button size='large' onClick={handleCancelStatus} variant="outlined" fullWidth>
                     Hủy bỏ
                   </Button>
                 </Grid>
@@ -463,13 +463,13 @@ export const StudentDialog = () => {
           <Grid item xs={6} sm={3} md={2}>
             {isEdit && <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={saveStudentInfo} disabled={!formData.isValid || changeStatus} />}
             {!isEdit && (
-              <Button onClick={() => setIsEdit(!isEdit)} color="secondary" variant="contained" disabled={changeStatus} fullWidth>
+              <Button size='large' onClick={() => setIsEdit(!isEdit)} color="secondary" variant="contained" disabled={changeStatus} fullWidth>
                 Chỉnh sửa
               </Button>
             )}
           </Grid>
           <Grid item xs={6} sm={3} md={2}>
-            <Button onClick={handleClose} variant="outlined" fullWidth>
+            <Button size='large' onClick={handleClose} variant="outlined" fullWidth>
               Quay về
             </Button>
           </Grid>

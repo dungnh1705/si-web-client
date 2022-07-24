@@ -452,12 +452,12 @@ function Profile() {
             <CardActions>
               <Grid container item spacing={2} justifyContent="flex-end">
                 <Grid item>
-                  <Button color="primary" onClick={handleClickSave} variant="contained" type="submit" disabled={!userForm.isValid}>
+                  <Button size='large' color="primary" onClick={handleClickSave} variant="contained" type="submit" disabled={!userForm.isValid}>
                     Lưu
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button onClick={() => setIsEdit(false)}>Hủy bỏ</Button>
+                  <Button size='large' onClick={() => setIsEdit(false)}>Hủy bỏ</Button>
                 </Grid>
               </Grid>
             </CardActions>

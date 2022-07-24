@@ -121,12 +121,12 @@ const EditAvatar = () => {
         <CardActions>
           <Grid container spacing={3} justifyContent="flex-end">
             <Grid item>
-              <Button color="primary" onClick={handleClickSave} variant="contained" type="submit" disabled={preview == null}>
+              <Button size='large' color="primary" onClick={handleClickSave} variant="contained" type="submit" disabled={preview == null}>
                 Lưu
               </Button>
             </Grid>
             <Grid item>
-              <Button onClick={handleClose}>Quay lại</Button>
+              <Button size='large' onClick={handleClose}>Quay lại</Button>
             </Grid>
           </Grid>
         </CardActions>

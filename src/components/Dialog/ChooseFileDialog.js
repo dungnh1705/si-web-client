@@ -90,7 +90,7 @@ export const ChooseFileDialog = () => {
                 readOnly: true,
                 endAdornment: (
                   <InputAdornment position="end">
-                    <Button variant="contained" component="label" fullWidth>
+                    <Button size='large' variant="contained" component="label" fullWidth>
                       Tìm
                       <TextField type="file" onChange={onFileSelect} inputProps={{ accept: '.xlsx', hidden: true }} />
                     </Button>

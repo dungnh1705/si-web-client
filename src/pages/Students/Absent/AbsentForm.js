@@ -219,7 +219,7 @@ const AbsentForm = () => {
             <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={handleSave} disabled={!formData.isValid} />
           </Grid>
           <Grid item xs={6} md={2}>
-            <Button onClick={handleCloseForm} variant="outlined" fullWidth>
+            <Button size="large" onClick={handleCloseForm} variant="outlined" fullWidth>
               Quay về
             </Button>
           </Grid>

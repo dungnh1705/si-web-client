@@ -113,10 +113,10 @@ const ChangePasswordDialog = () => {
         </CardContent>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleChangePass} color="primary" variant="contained" disabled={!formData.isValid}>
+        <Button size='large' onClick={handleChangePass} color="primary" variant="contained" disabled={!formData.isValid}>
           Lưu
         </Button>
-        <Button onClick={handleCloseDialog}>Quay về</Button>
+        <Button size='large' onClick={handleCloseDialog}>Quay về</Button>
       </DialogActions>
     </Dialog>
   )

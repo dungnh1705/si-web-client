@@ -296,7 +296,7 @@ const EditorForm = () => {
               <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={handleSaveForm} disabled={loading || checkSaveButton()} />
             </Grid>
             <Grid item>
-              <Button fullWidth onClick={handleClose} disabled={loading}>
+              <Button size='large' fullWidth onClick={handleClose} disabled={loading}>
                 Quay về
               </Button>
             </Grid>

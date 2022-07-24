@@ -93,7 +93,7 @@ const ConfirmDialog = () => {
             <ButtonLoading btnText="Đồng ý" loading={loading} handleButtonClick={handleOk} />
           </Grid>
           <Grid item xs={6}>
-            <Button onClick={handleClose} variant="outlined" fullWidth>
+            <Button size="large" onClick={handleClose} variant="outlined" fullWidth>
               Hủy bỏ
             </Button>
           </Grid>

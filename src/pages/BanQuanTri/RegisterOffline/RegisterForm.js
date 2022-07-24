@@ -289,14 +289,14 @@ const RegisterForm = () => {
           <Grid container spacing={2}>
             <Grid container item spacing={2} justifyContent="flex-end" style={{ padding: '16px' }}>
               <Grid item xs={12} sm={6} md={2}>
-                <Button color="primary" onClick={handleClickSave} variant="contained" disabled={!stuForm.isValid} fullWidth>
+                <Button size="large" color="primary" onClick={handleClickSave} variant="contained" disabled={!stuForm.isValid} fullWidth>
                   LƯU
                 </Button>
               </Grid>
 
               {isEdit && (
                 <Grid item xs={12} sm={6} md={2}>
-                  <Button onClick={handleCancel} fullWidth variant="outlined">
+                  <Button size="large" onClick={handleCancel} fullWidth variant="outlined">
                     HỦY BỎ
                   </Button>
                 </Grid>
