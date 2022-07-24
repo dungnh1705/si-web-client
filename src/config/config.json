@@ -1,5 +1,5 @@
 {
-  "ApplicationName": "TNTT THẠCH ĐÀ Testing",
+  "ApplicationName": "TNTT THẠCH ĐÀ",
   "ApiEndpoint": "http://localhost:51357/api",
   "PointDivide": "6",
   "S2PointDivide": "7",
