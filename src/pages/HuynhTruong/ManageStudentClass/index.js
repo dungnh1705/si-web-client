@@ -22,7 +22,7 @@ const ManageStudentsClass = () => {
   const body = () => {
     return (
       <>
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
+        <Grid container spacing={2} justifyContent="center">
           {lstStudent && (
             <Grid container item spacing={2}>
               <Grid item xs={12} lg={9}>
