@@ -1,9 +1,9 @@
-import config from 'config'
 import jwt from 'jsonwebtoken'
 import _ from 'lodash'
 import StringUtils from './StringUtils'
 
 const LOGIN_INFO_KEY = 'login_info'
+const secretKey = process.env.REACT_APP_SECRET_KEY
 
 export function setLocalStoreData(key, data) {
   const localData = JSON.parse(localStorage.getItem(LOGIN_INFO_KEY))
@@ -50,7 +50,7 @@ export function checkLoginToken() {
 
     const token = JSON.parse(loginInfo).token
     if (token) {
-      const auth = jwt.verify(token, config.SecretKey)
+      const auth = jwt.verify(token, secretKey)
       if (auth) {
         if (Date.now() >= auth.exp * 1000) {
           deleteLoginData()

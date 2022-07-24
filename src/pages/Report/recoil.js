@@ -20,7 +20,7 @@ export const reportTemplateQuery = selector({
     const userRoles = sessionHelper().roles
     const classId = sessionHelper().classId
 
-    const res = await doGet(`${config.ApiEndpoint}/template/get`)
+    const res = await doGet(`template/get`)
 
     if (res && res.data.success) {
       let result = []

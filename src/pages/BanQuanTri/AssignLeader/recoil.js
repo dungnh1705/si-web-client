@@ -2,7 +2,6 @@ import { atom, selector } from 'recoil'
 import _ from 'lodash'
 import sessionHelper from 'utils/sessionHelper'
 
-import config from 'config'
 import { doGet } from 'utils/axios'
 import { UserStatus } from 'app/enums'
 
@@ -16,7 +15,7 @@ export const ClassesQuery = selector({
   get: async ({ get }) => {
     get(ReloadClasses)
 
-    const res = await doGet(`${config.ApiEndpoint}/class/getClasses`, { scholasticId: sessionHelper().scholasticId })
+    const res = await doGet(`class/getClasses`, { scholasticId: sessionHelper().scholasticId })
     if (res && res.data.success) {
       return _.orderBy(res.data.data, item => item.group.branch.branchOrder, ['asc'])
     }
@@ -26,7 +25,7 @@ export const ClassesQuery = selector({
 export const UsersQuery = selector({
   key: 'UsersQuery',
   get: async () => {
-    var res = await doGet(`${config.ApiEndpoint}/user/getUsers`, { scholasticId: sessionHelper().scholasticId })
+    var res = await doGet(`user/getUsers`, { scholasticId: sessionHelper().scholasticId })
 
     if (res && res.data.success) {
       return _.orderBy(

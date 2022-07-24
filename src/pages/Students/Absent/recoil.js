@@ -40,7 +40,7 @@ export const LoadStudentAbsent = selector({
     const { classId, userId, scholasticId, unionId, roles } = sessionHelper()
 
     try {
-      var res = await doGet(`${config.ApiEndpoint}/student/getAbsent`, { scholasticId: scholasticId, classCode: classId, userId: userId })
+      var res = await doGet(`student/getAbsent`, { scholasticId: scholasticId, classCode: classId, userId: userId })
       if (res && res.data.success && res.data.data) {
         let result = []
 
@@ -79,8 +79,8 @@ export const LoadListStudent = selector({
     try {
       var res =
         Number(classId) !== 0
-          ? await doGet(`${config.ApiEndpoint}/student/getStudentInClass`, { classCode: classId, unionId: unionId })
-          : await doGet(`${config.ApiEndpoint}/student/getStudentInGroup`, { scholasticId: scholasticId, userId: userId })
+          ? await doGet(`student/getStudentInClass`, { classCode: classId, unionId: unionId })
+          : await doGet(`student/getStudentInGroup`, { scholasticId: scholasticId, userId: userId })
 
       if (res && res.data.success) {
         let newList = _.orderBy(

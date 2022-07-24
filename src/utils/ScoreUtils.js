@@ -1,7 +1,8 @@
 import accounting from 'accounting'
-
-import config from 'config'
 import { SemesterEnum } from 'app/enums'
+
+const s1PointDivide = process.env.REACT_APP_S1_POINT_DIVIDE
+const s2PointDivide = process.env.REACT_APP_S2_POINT_DIVIDE
 
 export default {
   calculateRating(avg) {
@@ -15,7 +16,7 @@ export default {
 
   calculateAvgScore(workingSemester, oldVal, newVal) {
     // console.log({ ...oldVal })
-    const pointDivide = workingSemester === SemesterEnum.semesterOne ? config.PointDivide : workingSemester === SemesterEnum.semesterTwo ? config.S2PointDivide : 7
+    const pointDivide = workingSemester === SemesterEnum.semesterOne ? s1PointDivide : workingSemester === SemesterEnum.semesterTwo ? s2PointDivide : 7
 
     return newVal && Number(newVal.average) === Number(oldVal.average)
       ? accounting.toFixed(

@@ -33,7 +33,7 @@ const StudentTeamItem = ({ student, unionId, viewAbsentMode, team }) => {
     const newUnion = e.target.value
 
     try {
-      const res = await doPost(`${config.ApiEndpoint}/student/updateStudentUnion`, { studentId: student.id, classId: student.classId, unionId: newUnion })
+      const res = await doPost(`student/updateStudentUnion`, { studentId: student.id, classId: student.classId, unionId: newUnion })
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         setReloadStudent(reload => reload + 1)
@@ -67,7 +67,7 @@ const StudentTeamItem = ({ student, unionId, viewAbsentMode, team }) => {
     }
 
     try {
-      var res = await doPost(`${config.ApiEndpoint}/student/absent`, val)
+      var res = await doPost(`student/absent`, val)
       if (res && res.data.success) {
         setLoading(false)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })

@@ -34,7 +34,7 @@ const ConfirmDialog = () => {
     setLoading(true)
 
     try {
-      let res = await doPost(`${config.ApiEndpoint}/student/absent`, { ...absent, mode: 3 })
+      let res = await doPost(`student/absent`, { ...absent, mode: 3 })
 
       if (res && res.data.success) {
         setLoading(false)

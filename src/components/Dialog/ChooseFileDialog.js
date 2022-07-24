@@ -3,7 +3,6 @@ import { useRecoilState, useSetRecoilState } from 'recoil'
 import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Button, Divider, InputAdornment, ButtonGroup } from '@material-ui/core'
 
 import ButtonLoading from 'components/UI/ButtonLoading'
-import config from 'config'
 import { doPost } from 'utils/axios'
 import { toastState } from 'recoils/atoms'
 import sessionHelper from 'utils/sessionHelper'
@@ -44,7 +43,7 @@ export const ChooseFileDialog = () => {
       fromData.append('Semester', semester)
       fromData.append('IsLeader', pageCall === 'HT-StudentScore' ? false : true)
 
-      var res = await doPost(`${config.ApiEndpoint}/file/uploadScoreFile`, fromData)
+      var res = await doPost(`file/uploadScoreFile`, fromData)
       if (res && res.data.success) {
         handleClose()
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
@@ -90,7 +89,7 @@ export const ChooseFileDialog = () => {
                 readOnly: true,
                 endAdornment: (
                   <InputAdornment position="end">
-                    <Button size='large' variant="contained" component="label" fullWidth>
+                    <Button size="large" variant="contained" component="label" fullWidth>
                       Tìm
                       <TextField type="file" onChange={onFileSelect} inputProps={{ accept: '.xlsx', hidden: true }} />
                     </Button>

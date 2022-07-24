@@ -17,7 +17,7 @@ export const themeOptionsActions = selector({
 export const HolyNameQuery = selector({
   key: 'HolyNameQuery',
   get: async () => {
-    let res = await doGet(`${config.ApiEndpoint}/holyname/getall`)
+    let res = await doGet(`holyname/getall`)
 
     if (res && res.data && res.data.success) return _.orderBy(res.data.data, ['name'], ['asc'])
     else return null
@@ -27,7 +27,7 @@ export const HolyNameQuery = selector({
 export const BranchQuery = selector({
   key: 'BranchQuery',
   get: async () => {
-    let res = await doGet(`${config.ApiEndpoint}/class/getBranch`)
+    let res = await doGet(`class/getBranch`)
 
     if (res && res.data.success) return _.orderBy(res.data.data, ['branchOrder'], ['asc'])
     else return null
@@ -37,7 +37,7 @@ export const BranchQuery = selector({
 export const GroupQuery = selector({
   key: 'GroupQuery',
   get: async () => {
-    let res = await doGet(`${config.ApiEndpoint}/class/getGroup`)
+    let res = await doGet(`class/getGroup`)
 
     if (res && res.data.success) return _.orderBy(res.data.data, ['groupId'], ['asc'])
     else return null
@@ -50,7 +50,7 @@ export const UnionQuery = selector({
     const userId = sessionHelper().userId
     const scholasticId = sessionHelper().scholasticId
 
-    let res = await doGet(`${config.ApiEndpoint}/assignment/getListUnionInGroup`, { scholasticId: scholasticId, userId: userId })
+    let res = await doGet(`assignment/getListUnionInGroup`, { scholasticId: scholasticId, userId: userId })
 
     if (res && res.data.success) {
       return _.orderBy(res.data.data, ['unionCode'], ['asc'])
@@ -65,7 +65,7 @@ export const TemplatesQuery = selector({
     get(reloadTemplates)
 
     let userRoles = sessionHelper().roles
-    let res = await doGet(`${config.ApiEndpoint}/template/get`)
+    let res = await doGet(`template/get`)
 
     if (res && res.data.success) {
       let result = []

@@ -8,13 +8,14 @@ import _ from 'lodash'
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded'
 import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded'
 
-import config from 'config'
 import { doPost } from 'utils/axios'
 import { TemplatesQuery } from 'recoils/selectors'
 import { Editor } from '@tinymce/tinymce-react'
 import { DocumentPreviewDialogAtom } from './recoil'
 import { toastState, loadingState } from 'recoils/atoms'
 import sessionHelper from 'utils/sessionHelper'
+
+const apiEndpoint = process.env.REACT_APP_WEB_API
 
 export const DocumentPreviewDialog = () => {
   let [templateId, setTemplateId] = useState('')
@@ -49,7 +50,7 @@ export const DocumentPreviewDialog = () => {
         IsPreview: true
       }
 
-      let res = await doPost(`${config.ApiEndpoint}/download/previewForm`, data)
+      let res = await doPost(`download/previewForm`, data)
       if (res && res.data.success) {
         setLoading(false)
         let { data } = res.data
@@ -76,11 +77,11 @@ export const DocumentPreviewDialog = () => {
         IsPreview: false
       }
 
-      let res = await doPost(`${config.ApiEndpoint}/download/previewForm`, data)
+      let res = await doPost(`download/previewForm`, data)
       if (res && res.data.success) {
         setLoading(false)
         let { data } = res.data
-        window.open(`${config.ApiEndpoint}/file/get?fileName=${data}`, '_parent')
+        window.open(`${apiEndpoint}/file/get?fileName=${data}`, '_parent')
       }
     } catch (err) {
       setLoading(false)
@@ -106,33 +107,33 @@ export const DocumentPreviewDialog = () => {
             </Grid>
             <Grid container item xs={12} md={7} alignItems="center" justifyContent="flex-end" spacing={1}>
               <Grid item xs={12} sm={4}>
-                <Button 
-                  size='large'
+                <Button
+                  size="large"
                   fullWidth
                   variant="contained"
                   color="primary"
                   disabled={!templateId}
                   startIcon={<VisibilityRoundedIcon />}
                   onClick={handlePreview}
-                  style={{padding: 'auto 0'}}>
+                  style={{ padding: 'auto 0' }}>
                   Xem trước
                 </Button>
               </Grid>
               <Grid item xs={12} sm={4}>
-                <Button 
-                  size='large'
+                <Button
+                  size="large"
                   fullWidth
                   variant="contained"
                   color="secondary"
                   disabled={!templateId}
                   startIcon={<GetAppRoundedIcon />}
                   onClick={handleDownload}
-                  style={{padding: 'auto 0'}}>
+                  style={{ padding: 'auto 0' }}>
                   Tải xuống
                 </Button>
               </Grid>
               <Grid item xs={12} sm={4}>
-                <Button size='large' fullWidth variant='outlined' onClick={handleClose} style={{padding: 'auto 0'}}>
+                <Button size="large" fullWidth variant="outlined" onClick={handleClose} style={{ padding: 'auto 0' }}>
                   Quay về
                 </Button>
               </Grid>

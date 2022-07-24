@@ -31,7 +31,7 @@ export const NewStudentQuery = selector({
     get(ReloadNewStudent)
     const filter = get(NewStudentSearchKey)
 
-    var res = await doGet(`${config.ApiEndpoint}/student/getNewStudent`)
+    var res = await doGet(`student/getNewStudent`)
 
     if (res && res.data.success) {
       let result = null

@@ -102,14 +102,14 @@ const StudentScoreDetails = ({ student }) => {
         try {
           var res =
             workingSemester === SemesterEnum.semesterOne
-              ? await doPost(`${config.ApiEndpoint}/student/updateSemesterOne`, {
+              ? await doPost(`student/updateSemesterOne`, {
                   ...data,
                   classId: student.classId,
                   studentId: student.id,
                   scholasticId: sessionHelper().scholasticId,
                   userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`
                 })
-              : await doPost(`${config.ApiEndpoint}/student/updateSemesterTwo`, {
+              : await doPost(`student/updateSemesterTwo`, {
                   ...data,
                   classId: student.classId,
                   studentId: student.id,

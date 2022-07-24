@@ -1,6 +1,5 @@
 import { atom, selector } from 'recoil'
 import _ from 'lodash'
-import config from 'config'
 import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 
@@ -20,9 +19,7 @@ export const UserListQuery = selector({
     get(ReloadUserList)
     const searchKey = get(SearchKey)
 
-    var res = searchKey
-      ? await doGet(`${config.ApiEndpoint}/user/searchUsers`, { keywords: searchKey })
-      : await doGet(`${config.ApiEndpoint}/user/getUsers`, { scholasticId: sessionHelper().scholasticId })
+    var res = searchKey ? await doGet(`user/searchUsers`, { keywords: searchKey }) : await doGet(`user/getUsers`, { scholasticId: sessionHelper().scholasticId })
 
     return _.orderBy(
       res.data.data.filter(i => Number(i.id) !== Number(sessionHelper().userId)),

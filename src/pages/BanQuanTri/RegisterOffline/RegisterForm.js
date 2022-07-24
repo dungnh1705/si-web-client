@@ -113,7 +113,7 @@ const RegisterForm = () => {
       setGroupId('CC-CC')
 
       try {
-        var res = await doPost(`${config.ApiEndpoint}/student/updateNewStudentInfo`, { ...formData, UserFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}` })
+        var res = await doPost(`student/updateNewStudentInfo`, { ...formData, UserFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}` })
         if (res && res.data.success) {
           setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
           setReloadStu(reload => reload + 1)
@@ -130,7 +130,7 @@ const RegisterForm = () => {
       setGroupId(formData.stuGroupId)
 
       try {
-        const res = await doPost(`${config.ApiEndpoint}/student/registerStudent`, {
+        const res = await doPost(`student/registerStudent`, {
           ...formData,
           UserFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`,
           RegisterMode: 0

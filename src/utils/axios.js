@@ -1,7 +1,10 @@
 import axios from 'axios'
 import { history } from 'App'
-import sessionHelper from './sessionHelper'
 import moment from 'moment'
+
+import sessionHelper from './sessionHelper'
+
+const apiEndpoint = process.env.REACT_APP_WEB_API
 
 axios.interceptors.request.use(
   config => config,
@@ -46,7 +49,7 @@ const doAxios = (method, action, data, params = null) => {
 
   return axios({
     method: method,
-    url: action,
+    url: `${apiEndpoint}\\${action}`,
     params: params,
     data: data ? convertDateTimeOffset(data) : data,
     withCredentials: true,
@@ -58,7 +61,7 @@ const doAxios = (method, action, data, params = null) => {
 const doAxiosDownload = (method, action, data) => {
   return axios({
     method: method,
-    url: action,
+    url: `${apiEndpoint}\\${action}`,
     data: data,
     withCredentials: true,
     timeout: 30000,

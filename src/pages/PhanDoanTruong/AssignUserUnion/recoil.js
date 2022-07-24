@@ -23,7 +23,7 @@ export const UserInGroupQuery = selector({
     const scholasticId = sessionHelper().scholasticId
     const userId = sessionHelper().userId
 
-    const res = await doGet(`${config.ApiEndpoint}/user/getUserInGroup`, { scholasticId: scholasticId, userId: userId })
+    const res = await doGet(`user/getUserInGroup`, { scholasticId: scholasticId, userId: userId })
 
     if (res && res.data.success) {
       const result = _.chain(res.data.data)

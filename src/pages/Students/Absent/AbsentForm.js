@@ -90,7 +90,7 @@ const AbsentForm = () => {
     let value = formData.values
 
     try {
-      var res = await doPost(`${config.ApiEndpoint}/student/absent`, {
+      var res = await doPost(`student/absent`, {
         ...value,
         userId: sessionHelper().userId,
         classId: sessionHelper().classId,

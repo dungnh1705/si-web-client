@@ -20,7 +20,7 @@ export const UserQuery = selector({
   get: async ({ get }) => {
     get(ReloadUser)
 
-    const res = await doGet(`${config.ApiEndpoint}/user/getUser`, { userId: sessionHelper().userId })
+    const res = await doGet(`user/getUser`, { userId: sessionHelper().userId })
     if (res && res.data.success) {
       return res.data.data
     }

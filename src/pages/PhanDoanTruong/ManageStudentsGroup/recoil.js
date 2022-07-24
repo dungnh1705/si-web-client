@@ -22,7 +22,7 @@ export const StudentsGroupQuery = selector({
 
     const lstUnion = get(UnionQuery)
 
-    var res = await doGet(`${config.ApiEndpoint}/student/getStudentInGroup`, { scholasticId: scholasticId, userId: userId })
+    var res = await doGet(`student/getStudentInGroup`, { scholasticId: scholasticId, userId: userId })
 
     if (res && res.data.success) {
       // const distinctUnion = [...new Set(res.result.map(x => x.studentClass.find(sc => sc.classId === x.classId).unionId))]

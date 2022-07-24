@@ -71,7 +71,7 @@ const Register = () => {
     setLoading(true)
 
     try {
-      const response = await doPost(`${config.ApiEndpoint}/auth/register`, data)
+      const response = await doPost(`auth/register`, data)
 
       if (response && response.data.success) {
         setToast({ ...toast, open: true, message: response.data.message, title: 'Success!', type: 'success' })

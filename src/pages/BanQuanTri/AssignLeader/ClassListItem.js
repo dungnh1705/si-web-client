@@ -33,7 +33,7 @@ const ClassListItem = ({ classInfo, users }) => {
 
     setLoading(true)
     try {
-      const res = await doPost(`${config.ApiEndpoint}/user/assignLeader`, { ...formData.values, leader: newVal, userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}` })
+      const res = await doPost(`user/assignLeader`, { ...formData.values, leader: newVal, userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}` })
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         setReloadClass(reload => reload + 1)

@@ -17,9 +17,10 @@ import { TemplateType } from 'app/enums'
 import { loadingState, toastState } from 'recoils/atoms'
 import { documentReview, reportTemplateQuery } from './recoil'
 
-const buttonStyle = {fontSize: "0.9em", padding: "0.75em 0"};
-const inputGrid = {xs: 12, sm: 6, md:8, lg:9};
-const buttonGrid = {xs: 12, sm: 6, md:4, lg:3};
+const buttonStyle = { fontSize: '0.9em', padding: '0.75em 0' }
+const inputGrid = { xs: 12, sm: 6, md: 8, lg: 9 }
+const buttonGrid = { xs: 12, sm: 6, md: 4, lg: 3 }
+const apiEndpoint = process.env.REACT_APP_WEB_API
 
 export default function () {
   const templates = useRecoilValue(reportTemplateQuery)
@@ -42,10 +43,10 @@ export default function () {
         TemplateId: selectedTemplate,
         IsPreview: isPreview
       }
-      let res = await doPost(`${config.ApiEndpoint}/download/previewForm`, data)
+      let res = await doPost(`download/previewForm`, data)
       if (res && res.data.success) {
         let { data } = res.data
-        isPreview ? setDocument(data) : window.open(`${config.ApiEndpoint}/file/get?fileName=${data}`, '_parent')
+        isPreview ? setDocument(data) : window.open(`${apiEndpoint}/file/get?fileName=${data}`, '_parent')
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })
@@ -79,14 +80,21 @@ export default function () {
           {reportList()}
         </TextField>
       </Grid>
-      <Grid container {...buttonGrid} item spacing={1} alignContent="center" justifyContent="space-between" direction='row'>
+      <Grid container {...buttonGrid} item spacing={1} alignContent="center" justifyContent="space-between" direction="row">
         <Grid item xs={6}>
           <Button fullWidth variant="contained" color="primary" disabled={!selectedTemplate} startIcon={<VisibilityRoundedIcon />} onClick={handleReport} style={buttonStyle}>
             Xem trước
           </Button>
         </Grid>
         <Grid item xs={6}>
-          <Button fullWidth variant="contained" color="secondary" disabled={!selectedTemplate} startIcon={<GetAppRoundedIcon />} onClick={e => handleReport(e, false)} style={buttonStyle}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="secondary"
+            disabled={!selectedTemplate}
+            startIcon={<GetAppRoundedIcon />}
+            onClick={e => handleReport(e, false)}
+            style={buttonStyle}>
             Tải xuống
           </Button>
         </Grid>

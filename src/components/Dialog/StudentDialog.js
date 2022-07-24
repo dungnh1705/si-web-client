@@ -128,7 +128,7 @@ export const StudentDialog = () => {
     const formVal = formData.values
 
     try {
-      const res = await doPost(`${config.ApiEndpoint}/student/updateStudent`, {
+      const res = await doPost(`student/updateStudent`, {
         ...formVal,
         userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`
       })
@@ -170,7 +170,7 @@ export const StudentDialog = () => {
     }
 
     try {
-      const res = await doPost(`${config.ApiEndpoint}/student/updateStudentStatus`, data)
+      const res = await doPost(`student/updateStudentStatus`, data)
 
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
@@ -208,7 +208,7 @@ export const StudentDialog = () => {
 
     let stuClass = student.studentClass.find(sl => sl.classId === Number(sessionHelper().classId))
     try {
-      let res = await doPost(`${config.ApiEndpoint}/student/updateTeamLead`, stuClass)
+      let res = await doPost(`student/updateTeamLead`, stuClass)
       if (res && res.data.success) {
         setLoading(false)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
@@ -283,7 +283,7 @@ export const StudentDialog = () => {
                   <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={handleChangeStatus} disabled={!formData.values['reason']} />
                 </Grid>
                 <Grid item xs={6} sm={3} md={2} lg={6}>
-                  <Button size='large' onClick={handleCancelStatus} variant="outlined" fullWidth>
+                  <Button size="large" onClick={handleCancelStatus} variant="outlined" fullWidth>
                     Hủy bỏ
                   </Button>
                 </Grid>
@@ -463,13 +463,13 @@ export const StudentDialog = () => {
           <Grid item xs={6} sm={3} md={2}>
             {isEdit && <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={saveStudentInfo} disabled={!formData.isValid || changeStatus} />}
             {!isEdit && (
-              <Button size='large' onClick={() => setIsEdit(!isEdit)} color="secondary" variant="contained" disabled={changeStatus} fullWidth>
+              <Button size="large" onClick={() => setIsEdit(!isEdit)} color="secondary" variant="contained" disabled={changeStatus} fullWidth>
                 Chỉnh sửa
               </Button>
             )}
           </Grid>
           <Grid item xs={6} sm={3} md={2}>
-            <Button size='large' onClick={handleClose} variant="outlined" fullWidth>
+            <Button size="large" onClick={handleClose} variant="outlined" fullWidth>
               Quay về
             </Button>
           </Grid>

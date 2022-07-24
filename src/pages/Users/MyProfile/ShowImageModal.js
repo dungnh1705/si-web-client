@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { CardContent, Modal, Grid, Divider, IconButton, CardHeader, Tooltip } from '@material-ui/core'
+import { CardContent, Modal, Grid, Divider, IconButton, Tooltip } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import CardOnModal from 'components/CardOnModal'
 
-import config from 'config'
 import { doGet } from 'utils/axios'
 import noImage from 'assets/images/no_image.jpg'
 
@@ -13,7 +12,7 @@ const ShowImageModal = ({ imageId, open, handleClose }) => {
 
   useEffect(() => {
     async function fetchData() {
-      let res = await doGet(`${config.ApiEndpoint}/image/base64image`, { id: imageId })
+      let res = await doGet(`image/base64image`, { id: imageId })
       if (res && res.data.success) setBase64(res.data.data)
     }
 

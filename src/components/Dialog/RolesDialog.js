@@ -1,4 +1,19 @@
-import { Dialog, DialogTitle, DialogContent, CardContent, Grid, DialogActions, Typography, Button, FormControl, FormLabel, FormGroup, RadioGroup, FormControlLabel, Divider } from '@material-ui/core'
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  CardContent,
+  Grid,
+  DialogActions,
+  Typography,
+  Button,
+  FormControl,
+  FormLabel,
+  FormGroup,
+  RadioGroup,
+  FormControlLabel,
+  Divider
+} from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -8,7 +23,6 @@ import StyledCheckbox from 'components/UI/StyledCheckbox'
 import StyledRadio from 'components/UI/StyledRadio'
 import ButtonLoading from 'components/UI/ButtonLoading'
 
-import config from 'config'
 import { doPost } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { Roles } from 'app/enums'
@@ -85,7 +99,7 @@ export const RolesDialog = () => {
     setLoading(true)
 
     try {
-      var res = await doPost(`${config.ApiEndpoint}/user/updateRoles`, { id: user?.id, roles: data })
+      var res = await doPost(`user/updateRoles`, { id: user?.id, roles: data })
 
       if (res.data && res.data.success) {
         setLoading(false)
@@ -126,8 +140,14 @@ export const RolesDialog = () => {
                 <FormLabel component="legend">Cấp bậc</FormLabel>
                 <FormGroup>
                   <RadioGroup>
-                    <FormControlLabel control={<StyledRadio checked={formRoles.values.includes(Roles.DuTruong)} onChange={handleRole} value={Roles.DuTruong} />} label="Dự trưởng" />
-                    <FormControlLabel control={<StyledRadio checked={formRoles.values.includes(Roles.HuynhTruong)} onChange={handleRole} value={Roles.HuynhTruong} />} label="Huynh trưởng" />
+                    <FormControlLabel
+                      control={<StyledRadio checked={formRoles.values.includes(Roles.DuTruong)} onChange={handleRole} value={Roles.DuTruong} />}
+                      label="Dự trưởng"
+                    />
+                    <FormControlLabel
+                      control={<StyledRadio checked={formRoles.values.includes(Roles.HuynhTruong)} onChange={handleRole} value={Roles.HuynhTruong} />}
+                      label="Huynh trưởng"
+                    />
                   </RadioGroup>
                 </FormGroup>
               </FormControl>
@@ -140,9 +160,18 @@ export const RolesDialog = () => {
                     control={<StyledCheckbox checked={formRoles.values.includes(Roles.PhanDoanTruong)} onChange={handleCheckRole} value={Roles.PhanDoanTruong} disabled />}
                     label="Phân đoàn trưởng"
                   />
-                  <FormControlLabel control={<StyledCheckbox checked={formRoles.values.includes(Roles.NganhTruong)} onChange={handleCheckRole} value={Roles.NganhTruong} />} label="Ngành trưởng" />
-                  <FormControlLabel control={<StyledCheckbox checked={formRoles.values.includes(Roles.KyLuat)} onChange={handleCheckRole} value={Roles.KyLuat} />} label="Kỷ luật" />
-                  <FormControlLabel control={<StyledCheckbox checked={formRoles.values.includes(Roles.PhongTrao)} onChange={handleCheckRole} value={Roles.PhongTrao} />} label="Phong trào" />
+                  <FormControlLabel
+                    control={<StyledCheckbox checked={formRoles.values.includes(Roles.NganhTruong)} onChange={handleCheckRole} value={Roles.NganhTruong} />}
+                    label="Ngành trưởng"
+                  />
+                  <FormControlLabel
+                    control={<StyledCheckbox checked={formRoles.values.includes(Roles.KyLuat)} onChange={handleCheckRole} value={Roles.KyLuat} />}
+                    label="Kỷ luật"
+                  />
+                  <FormControlLabel
+                    control={<StyledCheckbox checked={formRoles.values.includes(Roles.PhongTrao)} onChange={handleCheckRole} value={Roles.PhongTrao} />}
+                    label="Phong trào"
+                  />
                   <FormControlLabel
                     control={<StyledCheckbox checked={formRoles.values.includes(Roles.BanQuanTri)} onChange={handleCheckRole} value={Roles.BanQuanTri} />}
                     label="Ban quản trị"
@@ -156,7 +185,9 @@ export const RolesDialog = () => {
       </DialogContent>
       <DialogActions>
         <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={handleSaveRoles} />
-        <Button size='large' onClick={handleCloseDialog}>Quay về</Button>
+        <Button size="large" onClick={handleCloseDialog}>
+          Quay về
+        </Button>
       </DialogActions>
     </Dialog>
   )

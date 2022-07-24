@@ -19,7 +19,7 @@ export const StudentSearchList = selector({
     get(ReloadStuSearch)
     const searchKey = get(SearchKeyword)
     try {
-      var res = await doGet(`${config.ApiEndpoint}/student/findStudent`, { keywords: searchKey })
+      var res = await doGet(`student/findStudent`, { keywords: searchKey })
 
       if (res && res.data.success) {
         if (res.data.data) return _.orderBy(res.data.data, ['stuLastName', 'stuFirstName'], ['asc'])

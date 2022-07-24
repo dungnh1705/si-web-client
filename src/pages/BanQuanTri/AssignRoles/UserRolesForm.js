@@ -72,7 +72,7 @@ const UserRolesForm = () => {
     setLoading(true)
 
     try {
-      var res = await doPost(`${config.ApiEndpoint}/user/updateRoles`, { id: editingUser.id, roles: data })
+      var res = await doPost(`user/updateRoles`, { id: editingUser.id, roles: data })
 
       if (res.data && res.data.success) {
         setLoading(false)

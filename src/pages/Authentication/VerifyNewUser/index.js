@@ -20,7 +20,7 @@ const VerifyNewUser = () => {
       setIsLoading(true)
 
       try {
-        let res = await doGet(`${config.ApiEndpoint}/auth/verifyUser`, { Email: email })
+        let res = await doGet(`auth/verifyUser`, { Email: email })
 
         if (res) {
           setToast({ ...toast, open: true, message: res.data.message, title: res.data.success ? 'Success!' : 'Error', type: res.data.success ? 'success' : 'error' })

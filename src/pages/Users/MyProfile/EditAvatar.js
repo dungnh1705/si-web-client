@@ -27,16 +27,16 @@ const EditAvatar = () => {
       let fromData = new FormData()
       fromData.append('file', src)
 
-      let imageRes = await doUpload(`${config.ApiEndpoint}/image/uploadAvatarFile`, fromData)
+      let imageRes = await doUpload(`image/uploadAvatarFile`, fromData)
       if (imageRes && imageRes.data.success) {
         let avatarId = imageRes.data.data
 
-        let res = await doPost(`${config.ApiEndpoint}/image/upload`, { fileName: src.name, image: preview })
+        let res = await doPost(`image/upload`, { fileName: src.name, image: preview })
         if (res && res.data.success) {
           let { croppedAvatarId } = res.data.data
 
           try {
-            let resUpdate = await doPost(`${config.ApiEndpoint}/user/updateAvatar`, { id: sessionHelper().userId, croppedAvatarId: croppedAvatarId, avatarId: avatarId })
+            let resUpdate = await doPost(`user/updateAvatar`, { id: sessionHelper().userId, croppedAvatarId: croppedAvatarId, avatarId: avatarId })
             if (resUpdate && resUpdate.data.success) {
               setLocalStoreData('croppedAvatarId', croppedAvatarId)
               setLocalStoreData('avatarId', avatarId)
@@ -121,12 +121,14 @@ const EditAvatar = () => {
         <CardActions>
           <Grid container spacing={3} justifyContent="flex-end">
             <Grid item>
-              <Button size='large' color="primary" onClick={handleClickSave} variant="contained" type="submit" disabled={preview == null}>
+              <Button size="large" color="primary" onClick={handleClickSave} variant="contained" type="submit" disabled={preview == null}>
                 Lưu
               </Button>
             </Grid>
             <Grid item>
-              <Button size='large' onClick={handleClose}>Quay lại</Button>
+              <Button size="large" onClick={handleClose}>
+                Quay lại
+              </Button>
             </Grid>
           </Grid>
         </CardActions>

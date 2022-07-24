@@ -74,7 +74,7 @@ const ChangePasswordDialog = () => {
     let oldPassword = formData.values['CurrentPassword']
     let newPassword = formData.values['NewPassword']
     try {
-      let res = await doPost(`${config.ApiEndpoint}/user/resetPassword`, { userId: sessionHelper().userId, oldPassword: oldPassword, newPassword: newPassword })
+      let res = await doPost(`user/resetPassword`, { userId: sessionHelper().userId, oldPassword: oldPassword, newPassword: newPassword })
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         handleCloseDialog()
@@ -113,10 +113,12 @@ const ChangePasswordDialog = () => {
         </CardContent>
       </DialogContent>
       <DialogActions>
-        <Button size='large' onClick={handleChangePass} color="primary" variant="contained" disabled={!formData.isValid}>
+        <Button size="large" onClick={handleChangePass} color="primary" variant="contained" disabled={!formData.isValid}>
           Lưu
         </Button>
-        <Button size='large' onClick={handleCloseDialog}>Quay về</Button>
+        <Button size="large" onClick={handleCloseDialog}>
+          Quay về
+        </Button>
       </DialogActions>
     </Dialog>
   )
