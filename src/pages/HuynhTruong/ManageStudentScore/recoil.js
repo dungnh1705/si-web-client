@@ -17,7 +17,7 @@ export const StudentListQuery = selector({
     const { classId, scholasticId, unionId } = sessionHelper()
 
     try {
-      var res = await doGet(`${config.ApiEndpoint}/student/getStudentInClass`, { classCode: classId, unionId: unionId })
+      var res = await doGet(`student/getStudentInClass`, { classCode: classId, unionId: unionId })
 
       if (res && res.data.success && res.data.data) {
         const distinctTeam = [...new Set(res.data.data.map(x => x.studentClass.find(sc => sc.classId == classId).team))]

@@ -70,7 +70,7 @@ const RegisterForm = () => {
     const formData = stuForm.values
 
     try {
-      var res = await doPost(`${config.ApiEndpoint}/student/registerStudent`, {
+      var res = await doPost(`student/registerStudent`, {
         ...formData,
         UserFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`,
         RegisterMode: RegisterMode.Offline,
@@ -198,12 +198,12 @@ const RegisterForm = () => {
       <CardActions style={{ padding: '8px 16px' }}>
         <Grid container item spacing={2} justifyContent="flex-end">
           <Grid item xs={6} sm={3} lg={2}>
-            <Button size='large' color="default" onClick={handleClearForm} variant="outlined" fullWidth>
+            <Button size="large" color="default" onClick={handleClearForm} variant="outlined" fullWidth>
               Nhập lại
             </Button>
           </Grid>
           <Grid item xs={6} sm={3} lg={2}>
-            <Button size='large' color="primary" onClick={handleClickSave} variant="contained" fullWidth disabled={!stuForm.isValid}>
+            <Button size="large" color="primary" onClick={handleClickSave} variant="contained" fullWidth disabled={!stuForm.isValid}>
               Lưu
             </Button>
           </Grid>

@@ -38,25 +38,9 @@ const HeaderSearch = () => {
 
   const [state, setState] = useState(false)
 
-  const searchQuotes = value => {
-    // const gqlc = createGqlClient(config.ApiEndpoint)
-    // gqlc
-    //   .query({ variables: { offset: 0, limit: 10, filter: value }, query: QUOTES })
-    //   .then(res => {
-    //     setDummySearchesQuotes(res.data.Quotes.Quotes)
-    //   })
-    //   .catch(error => {})
-  }
+  const searchQuotes = value => {}
 
-  const searchClients = value => {
-    // const gqlc = createGqlClient(config.ApiEndpoint)
-    // gqlc
-    //   .query({ variables: { offset: 0, limit: 10, filter: value }, query: CLIENTS })
-    //   .then(res => {
-    //     setDummySearchesClients(res.data.Clients.Clients)
-    //   })
-    //   .catch(error => {})
-  }
+  const searchClients = value => {}
 
   useEffect(() => {
     searchQuotes(searchValue)

@@ -27,7 +27,7 @@ const FormItem = ({ item }) => {
     const val = e.target.checked
 
     try {
-      let res = await doPost(`${config.ApiEndpoint}/template/updateTemplateStatus`, { id: item.id, updatedUserId: sessionHelper().userId, isActive: val })
+      let res = await doPost(`template/updateTemplateStatus`, { id: item.id, updatedUserId: sessionHelper().userId, isActive: val })
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         setTemplate({ ...template, isActive: val })

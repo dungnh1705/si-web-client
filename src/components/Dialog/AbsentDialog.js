@@ -14,7 +14,6 @@ import sessionHelper from 'utils/sessionHelper'
 import { toastState } from 'recoils/atoms'
 
 import { doPost } from 'utils/axios'
-import config from 'config'
 
 export const AbsentDialog = () => {
   let theme = useTheme()
@@ -47,7 +46,7 @@ export const AbsentDialog = () => {
     }
 
     try {
-      var res = await doPost(`${config.ApiEndpoint}/student/absent`, val)
+      var res = await doPost('student/absent', val)
       if (res && res.data.success) {
         setAbsentDialog(false)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
@@ -124,7 +123,7 @@ export const AbsentDialog = () => {
               <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={handleSaveAbsent} disabled={absentMode.length === 0} />
             </Grid>
             <Grid item xs={6} md={2}>
-              <Button size='large' onClick={handleClose} variant="outlined">
+              <Button size="large" onClick={handleClose} variant="outlined">
                 Quay về
               </Button>
             </Grid>

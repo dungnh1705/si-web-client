@@ -112,7 +112,7 @@ const EditorForm = () => {
     let data = editor.values
 
     try {
-      let res = await doPost(`${config.ApiEndpoint}/template/createOrUpdateTemplate`, { ...data, updatedUserId: sessionHelper().userId, content: editorState })
+      let res = await doPost(`template/createOrUpdateTemplate`, { ...data, updatedUserId: sessionHelper().userId, content: editorState })
       if (res && res.data.success) {
         setLoading(false)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
@@ -296,7 +296,7 @@ const EditorForm = () => {
               <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={handleSaveForm} disabled={loading || checkSaveButton()} />
             </Grid>
             <Grid item>
-              <Button size='large' fullWidth onClick={handleClose} disabled={loading}>
+              <Button size="large" fullWidth onClick={handleClose} disabled={loading}>
                 Quay về
               </Button>
             </Grid>

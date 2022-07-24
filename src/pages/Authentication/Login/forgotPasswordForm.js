@@ -55,7 +55,7 @@ const ForgotPasswordFrom = () => {
     const data = formData.values
     setLoading(true)
 
-    doGet(`${config.ApiEndpoint}/user/forgotPassword`, { email: data['Email'] })
+    doGet(`user/forgotPassword`, { email: data['Email'] })
       .then(res => {
         if (res && res.data && res.data.success) {
           setToast({ ...toast, open: true, message: res.data.message, title: 'Success!', type: 'success' })

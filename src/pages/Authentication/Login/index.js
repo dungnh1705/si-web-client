@@ -84,7 +84,7 @@ const Login = () => {
     signInForm.setFieldTouched('Email', true)
     signInForm.setFieldTouched('Password', true)
 
-    doPost(`${config.ApiEndpoint}/auth/login`, signInForm.values)
+    doPost(`auth/login`, signInForm.values)
       .then(async res => {
         if (res.data.success) {
           const { data } = res.data

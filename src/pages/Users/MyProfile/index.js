@@ -72,7 +72,7 @@ function Profile() {
     setLoading(true)
 
     try {
-      let res = await doPost(`${config.ApiEndpoint}/user/update`, val)
+      let res = await doPost(`user/update`, val)
       if (res && res.data.success) {
         setLoading(false)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
@@ -452,12 +452,14 @@ function Profile() {
             <CardActions>
               <Grid container item spacing={2} justifyContent="flex-end">
                 <Grid item>
-                  <Button size='large' color="primary" onClick={handleClickSave} variant="contained" type="submit" disabled={!userForm.isValid}>
+                  <Button size="large" color="primary" onClick={handleClickSave} variant="contained" type="submit" disabled={!userForm.isValid}>
                     Lưu
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button size='large' onClick={() => setIsEdit(false)}>Hủy bỏ</Button>
+                  <Button size="large" onClick={() => setIsEdit(false)}>
+                    Hủy bỏ
+                  </Button>
                 </Grid>
               </Grid>
             </CardActions>

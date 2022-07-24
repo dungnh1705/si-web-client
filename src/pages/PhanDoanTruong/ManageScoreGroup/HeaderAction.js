@@ -2,16 +2,17 @@ import React, { useState } from 'react'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import { Fab, Menu, Tooltip, List, ListItem, Collapse, ListItemText } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileExcel, faFileUpload, faFileAlt, faDownload } from '@fortawesome/free-solid-svg-icons'
+import { faFileExcel, faFileUpload, faDownload } from '@fortawesome/free-solid-svg-icons'
 
-import config from 'config'
 import sessionHelper from 'utils/sessionHelper'
 import { SemesterSelected } from './recoil'
-import { ChooseFileDialogAtom, DocumentPreviewDialogAtom } from 'components/Dialog/recoil'
+import { ChooseFileDialogAtom } from 'components/Dialog/recoil'
 
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import { SemesterEnum } from 'app/enums'
+
+const apiEndpoint = process.env.REACT_APP_WEB_API
 
 export default function HeaderAction() {
   const semester = useRecoilValue(SemesterSelected)
@@ -36,7 +37,7 @@ export default function HeaderAction() {
   const handleDownloadExcel = (e, semesterCode) => {
     e.preventDefault()
 
-    window.open(`${config.ApiEndpoint}/file/getGroupScoreCSV?ScholasticId=${sessionHelper().scholasticId}&UserId=${sessionHelper().userId}&Semester=${semesterCode}`, '_parent')
+    window.open(`${apiEndpoint}/file/getGroupScoreCSV?ScholasticId=${sessionHelper().scholasticId}&UserId=${sessionHelper().userId}&Semester=${semesterCode}`, '_parent')
     handleClose()
   }
 

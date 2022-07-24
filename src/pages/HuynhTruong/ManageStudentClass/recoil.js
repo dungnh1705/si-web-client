@@ -22,7 +22,7 @@ export const StudentsQuery = selector({
     const { classId, unionId } = sessionHelper()
 
     if (Number(unionId) !== 1) {
-      var res = await doGet(`${config.ApiEndpoint}/student/getStudentInClass`, { classCode: classId, unionId: unionId })
+      var res = await doGet(`student/getStudentInClass`, { classCode: classId, unionId: unionId })
 
       if (res && res.data.success && res.data.data) {
         let stuRes = _.orderBy(res.data.data, ['status', 'gender', 'stuLastName'], ['asc'])
@@ -57,7 +57,7 @@ export const AssignmentQuery = selector({
   get: async () => {
     const { classId, userId } = sessionHelper()
 
-    var res = await doGet(`${config.ApiEndpoint}/assignment/getAssignmentByClass`, { classId: classId, userId: userId })
+    var res = await doGet(`assignment/getAssignmentByClass`, { classId: classId, userId: userId })
 
     if (res && res.data.success) {
       const totalTeam = res.data.data.union.totalTeam

@@ -8,13 +8,14 @@ import { useTheme } from '@material-ui/core/styles'
 import StyledCheckbox from 'components/UI/StyledCheckbox'
 import ButtonLoading from 'components/UI/ButtonLoading'
 import { StudentStatus } from 'app/enums'
-import config from 'config'
 import { doPost } from 'utils/axios'
 
 import { HolyNameQuery, TemplatesQuery } from 'recoils/selectors'
 import { ScoreDownloadDialogAtom } from './recoil'
 import sessionHelper from 'utils/sessionHelper'
 import { toastState } from 'recoils/atoms'
+
+const apiEndpoint = process.env.REACT_APP_WEB_API
 
 export const ScoreDownloadDialog = () => {
   const theme = useTheme()
@@ -83,13 +84,13 @@ export const ScoreDownloadDialog = () => {
         IsPreview: false
       }
 
-      let res = await doPost(`${config.ApiEndpoint}/download/previewForm`, data)
+      let res = await doPost(`download/previewForm`, data)
       if (res && res.data.success) {
         let { data } = res.data
         setLoading(false)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
 
-        window.open(`${config.ApiEndpoint}/file/get?fileName=${data}`, '_parent')
+        window.open(`${apiEndpoint}/file/get?fileName=${data}`, '_parent')
       }
     } catch (err) {
       setLoading(false)

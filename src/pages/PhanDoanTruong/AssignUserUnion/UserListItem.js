@@ -42,7 +42,7 @@ const UserListItem = ({ assign }) => {
       AssignmentId: [assign.id]
     }
     try {
-      const res = await doPost(`${config.ApiEndpoint}/assignment/updateUnion`, newData)
+      const res = await doPost(`assignment/updateUnion`, newData)
       if (res && res.data.success) {
         setLoading(false)
         setReloadUsers(reload => reload + 1)

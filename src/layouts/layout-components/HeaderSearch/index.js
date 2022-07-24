@@ -90,25 +90,9 @@ const HeaderSearch = () => {
 
   const [state, setState] = useState(false)
 
-  const searchQuotes = value => {
-    // const gqlc = createGqlClient(config.ApiEndpoint)
-    // gqlc
-    //   .query({ variables: { offset: 0, limit: 10, filter: value }, query: QUOTES })
-    //   .then(res => {
-    //     setDummySearchesQuotes(res.data.Quotes.Quotes)
-    //   })
-    //   .catch(error => {})
-  }
+  const searchQuotes = value => {}
 
-  const searchClients = value => {
-    // const gqlc = createGqlClient(config.ApiEndpoint)
-    // gqlc
-    //   .query({ variables: { offset: 0, limit: 10, filter: value }, query: CLIENTS })
-    //   .then(res => {
-    //     setDummySearchesClients(res.data.Clients.Clients)
-    //   })
-    //   .catch(error => {})
-  }
+  const searchClients = value => {}
   const handleRowClick = (e, val) => {
     // setRefNumber(val)
 
@@ -271,7 +255,12 @@ const HeaderSearch = () => {
                     search.__typename === 'Quote' && (
                       <div className={`${i === cursor ? classes.active : ''}`}>
                         <ListItem key={i} button>
-                          <Grid container spacing={1} onClick={e => handleRowClick(e, search.ReferenceNumber)} onMouseEnter={() => setHovered(search)} onMouseLeave={() => setHovered(undefined)}>
+                          <Grid
+                            container
+                            spacing={1}
+                            onClick={e => handleRowClick(e, search.ReferenceNumber)}
+                            onMouseEnter={() => setHovered(search)}
+                            onMouseLeave={() => setHovered(undefined)}>
                             <Grid item sm={8}>
                               {search.ReferenceNumber}
                             </Grid>

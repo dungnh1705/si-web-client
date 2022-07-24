@@ -31,7 +31,7 @@ const StudentTeamItem = ({ student, team, viewAbsentMode }) => {
 
     const newTeam = e.target.value
     try {
-      const res = await doPost(`${config.ApiEndpoint}/student/updateStudentTeam`, { studentId: student.id, classId: sessionHelper().classId, team: newTeam })
+      const res = await doPost(`student/updateStudentTeam`, { studentId: student.id, classId: sessionHelper().classId, team: newTeam })
 
       if (res && res.data.success) {
         setLoading(false)
@@ -61,7 +61,7 @@ const StudentTeamItem = ({ student, team, viewAbsentMode }) => {
     }
 
     try {
-      var res = await doPost(`${config.ApiEndpoint}/student/absent`, val)
+      var res = await doPost(`student/absent`, val)
       if (res && res.data.success) {
         setLoading(false)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })

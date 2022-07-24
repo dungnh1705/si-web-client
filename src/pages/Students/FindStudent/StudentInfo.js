@@ -127,7 +127,7 @@ const StudentInfo = ({ tabValue }) => {
       val = { ...val, [field]: newValue, userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}` }
     }
     try {
-      var res = await doPost(`${config.ApiEndpoint}/student/updateStudent`, val)
+      var res = await doPost(`student/updateStudent`, val)
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         reloadSearch(old => old + 1)

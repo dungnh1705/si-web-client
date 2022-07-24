@@ -1,6 +1,4 @@
-import { atom, selector } from 'recoil'
-
-import config from 'config'
+import { selector } from 'recoil'
 import { doGet } from 'utils/axios'
 
 import sessionHelper from 'utils/sessionHelper'
@@ -10,7 +8,7 @@ export const classSummaryQuery = selector({
   get: async () => {
     const { classId, unionId, scholasticId } = sessionHelper()
 
-    var res = await doGet(`${config.ApiEndpoint}/dashboard/classSummary`, { scholasticId: scholasticId, classId: classId, unionId: unionId })
+    var res = await doGet(`dashboard/classSummary`, { scholasticId: scholasticId, classId: classId, unionId: unionId })
 
     if (res && res.data.data) {
       // console.log(res.data)
@@ -28,7 +26,7 @@ export const groupSummaryQuery = selector({
   get: async () => {
     const { userId, scholasticId } = sessionHelper()
 
-    var res = await doGet(`${config.ApiEndpoint}/dashboard/groupSummary`, { scholasticId: scholasticId, userId: userId })
+    var res = await doGet(`dashboard/groupSummary`, { scholasticId: scholasticId, userId: userId })
 
     if (res && res.data.data) {
       const { data } = res.data

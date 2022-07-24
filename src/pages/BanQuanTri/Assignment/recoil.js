@@ -21,7 +21,7 @@ export const ClassQueryForAssign = selector({
     get(ReloadListAssign)
     const scholasticId = sessionHelper().scholasticId
 
-    const res = await doGet(`${config.ApiEndpoint}/class/getClass`, { scholasticId: scholasticId })
+    const res = await doGet(`class/getClass`, { scholasticId: scholasticId })
 
     if (res && res.data.success) {
       return _.orderBy(res.data.data, ['id'], ['asc'])
@@ -33,7 +33,7 @@ export const UserQueryForAssign = selector({
   key: 'UserQueryForAssign',
   get: async ({ get }) => {
     get(ReloadListAssign)
-    const res = await doGet(`${config.ApiEndpoint}/user/getUserAssign`)
+    const res = await doGet(`user/getUserAssign`)
 
     if (res && res.data.success) {
       return _.orderBy(res.data.data, ['lastName'], ['asc'])

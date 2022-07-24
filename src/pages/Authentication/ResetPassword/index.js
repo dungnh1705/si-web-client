@@ -48,7 +48,7 @@ const ResetPassword = () => {
       setLoadingPage(true)
 
       try {
-        let res = await doGet(`${config.ApiEndpoint}/auth/validateCodeResetPassword`, { code: token })
+        let res = await doGet(`auth/validateCodeResetPassword`, { code: token })
 
         if (!res.data.success) {
           history.push('/errors/error-404')
@@ -88,7 +88,7 @@ const ResetPassword = () => {
     let data = resetForm.values
 
     try {
-      let res = await doPost(`${config.ApiEndpoint}/auth/resetNewPassword`, { uniqueCode: token, password: data.Password })
+      let res = await doPost(`auth/resetNewPassword`, { uniqueCode: token, password: data.Password })
 
       if (res && res.data.success) {
         let { data } = res.data

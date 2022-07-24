@@ -6,7 +6,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import GroupList from './GroupList'
 import sessionHelper from 'utils/sessionHelper'
 
-import config from 'config'
 import { doPost } from 'utils/axios'
 import UserList from './UserList'
 import { toastState, loadingState } from 'recoils/atoms'
@@ -107,7 +106,7 @@ const Assignment = () => {
     setLoading(true)
 
     try {
-      var res = await doPost(`${config.ApiEndpoint}/user/updateAssignment`, userInfo)
+      var res = await doPost(`user/updateAssignment`, userInfo)
 
       if (res && res.data.success) {
         setLoading(false)

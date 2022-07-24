@@ -13,6 +13,8 @@ import { ChooseFileDialogAtom, ScoreDownloadDialogAtom } from 'components/Dialog
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 
+const apiEndpoint = process.env.REACT_APP_WEB_API
+
 export default function HeaderAction() {
   let [anchorEl, setAnchorEl] = useState(null)
   let lstStudent = useRecoilValue(StudentListQuery)
@@ -42,7 +44,9 @@ export default function HeaderAction() {
     e.preventDefault()
 
     window.open(
-      `${config.ApiEndpoint}/file/getScoreCSV?ScholasticId=${sessionHelper().scholasticId}&ClassId=${sessionHelper().classId}&UnionId=${sessionHelper().unionId}&SemesterCode=${semesterCode}`,
+      `${apiEndpoint}/file/getScoreCSV?ScholasticId=${sessionHelper().scholasticId}&ClassId=${sessionHelper().classId}&UnionId=${
+        sessionHelper().unionId
+      }&SemesterCode=${semesterCode}`,
       '_parent'
     )
     handleClose()

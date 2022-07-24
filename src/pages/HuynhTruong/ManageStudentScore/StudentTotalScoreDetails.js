@@ -93,7 +93,7 @@ const StudentTotalScoreDetails = ({ student }) => {
         userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`
       }
       try {
-        const res = await doPost(`${config.ApiEndpoint}/student/updateTotal`, data)
+        const res = await doPost(`student/updateTotal`, data)
 
         if (res && res.data.success) {
           setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
