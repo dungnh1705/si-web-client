@@ -1,0 +1,7 @@
+{
+  "ApplicationName": "TNTT THẠCH ĐÀ",
+  "ApiEndpoint": "http://localhost:51357/api",
+  "PointDivide": "6",
+  "S2PointDivide": "7",
+  "SecretKey": "FC957392-D6F2-4038-9DC7-AF6476645851"
+}

@@ -1,0 +1,67 @@
+export const Sections = [
+  { sectionId: 1, text: 'Thông tin chung' },
+  { sectionId: 2, text: 'Thông tin Huynh Trưởng' },
+  { sectionId: 3, text: 'Thông tin Đoàn sinh' },
+  { sectionId: 4, text: 'Thông tin Lớp' },
+  { sectionId: 5, text: 'Chức năng' },
+  { sectionId: 6, text: 'Báo cáo' }
+]
+
+export const Placeholders = [
+  { id: 1001, value: '{Logo}', text: 'Logo', sectionId: 1 },
+  { id: 1002, value: '{Ngay}', text: 'Ngày', sectionId: 1 },
+  { id: 1003, value: '{Thang}', text: 'Tháng', sectionId: 1 },
+  { id: 1004, value: '{Nam}', text: 'Năm', sectionId: 1 },
+  { id: 1005, value: '{NamBatDau}', text: 'Năm bắt đầu', sectionId: 1 },
+  { id: 1006, value: '{NamKetThuc}', text: 'Năm kết thúc', sectionId: 1 },
+  { id: 1007, value: '{ChuDeNamHoc}', text: 'Chủ đề năm học', sectionId: 1 },
+
+  { id: 2001, value: '{TenThanh}', text: 'Tên Thánh', sectionId: 2 },
+  { id: 2002, value: '{HoVaTen}', text: 'Họ và Tên', sectionId: 2 },
+
+  { id: 3001, value: '{Nganh}', text: 'Ngành', sectionId: 3 },
+  { id: 3002, value: '{PhanDoan}', text: 'Phân đoàn', sectionId: 3 },
+  { id: 3003, value: '{ChiDoan}', text: 'Chi đoàn', sectionId: 3 },
+  { id: 3004, value: '{Doi}', text: 'Đội', sectionId: 3 },
+  { id: 3005, value: '{TenThanhDS}', text: 'Tên Thánh ĐS', sectionId: 3 },
+  { id: 3006, value: '{HoVaTenDS}', text: 'Họ và Tên ĐS', sectionId: 3 },
+  { id: 3019, value: '{NgaySinh}', text: 'Ngày sinh ĐS', sectionId: 3 },
+  { id: 3007, value: '{TenThanhHoVaTenCha}', text: 'TT Họ và Tên Cha', sectionId: 3 },
+  { id: 3008, value: '{TenThanhHoVaTenMe}', text: 'TT Họ và Tên Mẹ', sectionId: 3 },
+  { id: 3009, value: '{DiaChiDS}', text: 'Địa chỉ', sectionId: 3 },
+  { id: 3010, value: '{SDTCha}', text: 'SĐT Cha', sectionId: 3 },
+  { id: 3011, value: '{SDTMe}', text: 'SĐT Mẹ', sectionId: 3 },
+  { id: 3012, value: '{BangDiemHKI}', text: 'Bảng điểm HKI', sectionId: 3 },
+  { id: 3013, value: '{BangDiemHKII}', text: 'Bảng điểm HKII', sectionId: 3 },
+  { id: 3014, value: '{BangDiemCuoiNam}', text: 'Bảng điểm cả năm', sectionId: 3 },
+  { id: 3015, value: '{BangDiemCacNam}', text: 'Bảng điểm các năm', sectionId: 3 },
+  { id: 3019, value: '{HoanTatChuongTrinh}', text: 'Chương trình học hoàn tất', sectionId: 3 },
+  { id: 3016, value: '{TongSoNamHoc}', text: 'Tổng số năm học', sectionId: 3 },
+  { id: 3017, value: '{NamBatDauHoc}', text: 'Năm bắt đầu học', sectionId: 3 },
+  { id: 3018, value: '{NamKetThucHoc}', text: 'Năm kết thúc học', sectionId: 3 },
+
+  { id: 4001, value: '{TenThanhPDT}', text: 'Tên Thánh PĐT', sectionId: 4 },
+  { id: 4002, value: '{HoVaTenPDT}', text: 'Họ và Tên PĐT', sectionId: 4 },
+
+  { id: 5001, value: '{ResetPasswordButton}', text: 'Link lấy lại mật khẩu', sectionId: 5 },
+  { id: 5002, value: '{VerifyUserButton}', text: 'Link kích hoạt tài khoản', sectionId: 5 },
+  { id: 5003, value: '{PageBreak}', text: 'Qua trang mới', sectionId: 5 },
+
+  { id: 6001, value: '{TongKetBQT}', text: 'Tổng kết Cuối năm BQT', sectionId: 6 },
+  { id: 6002, value: '{TongKetHKI-PDT}', text: 'Tổng kết HKI PĐT', sectionId: 6 },
+  { id: 6003, value: '{DSXuatSacHKI}', text: 'Danh sách Xuất sắc HKI PĐT', sectionId: 6 },
+  { id: 6004, value: '{DSGioiHKI}', text: 'Danh sách Giỏi HKI PĐT', sectionId: 6 },
+  { id: 6005, value: '{DSKemHKI}', text: 'Danh sách Kém HKI PĐT', sectionId: 6 },
+  { id: 6006, value: '{TongKetChiTietPDT}', text: 'Tổng kết Cuối năm PĐT', sectionId: 6 },
+  { id: 6007, value: '{DanhSachDSXuatSacPDT}', text: 'Danh sách XS PĐT', sectionId: 6 },
+  { id: 6008, value: '{DanhSachDSGioiPDT}', text: 'Danh sách Giỏi PĐT', sectionId: 6 },
+  { id: 6009, value: '{DanhSachDSKemPDT}', text: 'Danh sách Kém PĐT', sectionId: 6 },
+  { id: 6010, value: '{TongKetHKI-CD}', text: 'Bảng tổng kết HKI Chi đoàn', sectionId: 6 },
+  { id: 6011, value: '{DSXuatSacHKI-CD}', text: 'Danh sách Xuất sắc HKI Chi đoàn', sectionId: 6 },
+  { id: 6012, value: '{DSGioiHKI-CD}', text: 'Danh sách Giỏi HKI Chi đoàn', sectionId: 6 },
+  { id: 6013, value: '{DSKemHKI-CD}', text: 'Danh sách Kém HKI Chi đoàn', sectionId: 6 },
+  { id: 6014, value: '{TongKetCaNam-CD}', text: 'Bảng tổng kết cả năm Chi đoàn', sectionId: 6 },
+  { id: 6015, value: '{DSXuatSacCaNam-CD}', text: 'Danh sách Xuất sắc cả năm Chi đoàn', sectionId: 6 },
+  { id: 6016, value: '{DSGioiCaNam-CD}', text: 'Danh sách Giỏi cả năm Chi đoàn', sectionId: 6 },
+  { id: 6017, value: '{DSKemCaNam-CD}', text: 'Danh sách Kém cả năm Chi đoàn', sectionId: 6 }
+]

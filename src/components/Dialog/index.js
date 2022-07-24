@@ -1,0 +1,7 @@
+export { RolesDialog } from './RolesDialog'
+export { DialerDialog } from './DialerDialog'
+export { AbsentDialog } from './AbsentDialog'
+export { StudentDialog } from './StudentDialog'
+export { ChooseFileDialog } from './ChooseFileDialog'
+export { ScoreDownloadDialog } from './ScoreDownloadDialog'
+export { DocumentPreviewDialog } from './DocumentPreviewDialog'
