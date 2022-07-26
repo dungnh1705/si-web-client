@@ -1,19 +1,17 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { Typography, Select, MenuItem, FormControlLabel } from '@material-ui/core'
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
 
 import StyledRadio from 'components/UI/StyledRadio'
-
-import { ReloadStudentGroup } from './recoil'
 import { StudentDialogAtom } from 'components/Dialog/recoil'
-import { loadingState, toastState } from 'recoils/atoms'
-import { HolyNameQuery, UnionQuery } from 'recoils/selectors'
 
-import { ViewMode } from 'recoils/atoms'
 import { ViewModes, StudentStatus, AbsentMode } from 'app/enums'
+import { loadingState, toastState, ViewMode } from 'recoils/atoms'
+import { HolyNameQuery, UnionQuery } from 'recoils/selectors'
 import sessionHelper from 'utils/sessionHelper'
 import { doPost } from 'utils/axios'
-import config from 'config'
+
+import { ReloadStudentGroup } from './recoil'
 
 const StudentTeamItem = ({ student, unionId, viewAbsentMode, team }) => {
   const lstUnion = useRecoilValue(UnionQuery)

@@ -232,7 +232,7 @@ export const StudentDialog = () => {
         <Typography variant="h6">{children}</Typography>
         {Number(sessionHelper().classId) !== 0 && !isTeamLead && isAssigned ? (
           <Tooltip title="Đánh dấu là đội trưởng">
-            <IconButton size='medium' aria-label="teamlead" className={classes.closeButton} onClick={onClick}>
+            <IconButton size="medium" aria-label="teamlead" className={classes.closeButton} onClick={onClick}>
               <FlagRoundedIcon />
             </IconButton>
           </Tooltip>
@@ -306,7 +306,7 @@ export const StudentDialog = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} sm={6} md={3} lg={2}>
               <TextField
                 fullWidth
                 variant="outlined"
@@ -319,8 +319,20 @@ export const StudentDialog = () => {
             </Grid>
           </Grid>
 
+          <Grid container item spacing={2} className="mt-2">
+            <Grid item xs={12} sm={6}>
+              <FormControl component="fieldset">
+                <FormGroup aria-label="position" row>
+                  <b>
+                    <i>Thông tin Đoàn sinh</i>
+                  </b>
+                </FormGroup>
+              </FormControl>
+            </Grid>
+          </Grid>
+
           <Grid container item xs={12} spacing={2}>
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} sm={6} md={3}>
               {!isEdit && (
                 <TextField
                   value={lstHolyName.find(item => item.id === formData.values['stuHolyId'])?.name}
@@ -336,22 +348,22 @@ export const StudentDialog = () => {
               )}
               {isEdit && <AutocompleteTextField formik={formData} name="stuHolyId" label="Tên Thánh" options={lstHolyName} />}
             </Grid>
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <ShortTextField formik={formData} name="stuFirstName" label="Họ và đệm" maxLength={100} required readOnly={!isEdit} />
             </Grid>
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <ShortTextField formik={formData} name="stuLastName" label="Tên" maxLength={50} required readOnly={!isEdit} />
             </Grid>
           </Grid>
 
           <Grid container item xs={12} spacing={2}>
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <KeyboardDateField formik={formData} name="stuDob" label="Ngày sinh" readOnly={!isEdit} />
             </Grid>
-            <Grid item xs={12} lg={5}>
+            <Grid item xs={12} sm={6} md={6}>
               <ShortTextField formik={formData} name="note" label="Ghi chú" maxLength={250} readOnly={!isEdit} />
             </Grid>
-            <Grid item xs={12} lg={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <FormControl component="fieldset">
                 <FormGroup aria-label="position" row className="p-1">
                   <FormControlLabel
@@ -377,12 +389,33 @@ export const StudentDialog = () => {
             </Grid>
           </Grid>
 
-          <Grid container item spacing={2}>
+          <Grid container item xs={12} spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+              <KeyboardDateField formik={formData} name="studentMoreInfo.stuBaptismDate" label="Ngày rửa tội" readOnly={!isEdit} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <KeyboardDateField formik={formData} name="studentMoreInfo.stuEucharistDate" label="Ngày rước lễ" readOnly={!isEdit} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <KeyboardDateField formik={formData} name="studentMoreInfo.stuConfirmationDate" label="Ngày thêm sức" readOnly={!isEdit} />
+            </Grid>
+          </Grid>
+
+          <Grid container item xs={12} spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <ShortTextField formik={formData} name="studentMoreInfo.stuAddress" label="Địa chỉ" maxLength={250} readOnly={!isEdit} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={formData} name="studentMoreInfo.stuArea" label="Giáo Khu/Họ" maxLength={100} readOnly={!isEdit} />
+            </Grid>
+          </Grid>
+
+          <Grid container item spacing={2} className="mt-2">
             <Grid item xs={12} sm={6} md={6} lg={4}>
               <FormControl component="fieldset">
                 <FormGroup aria-label="position" row>
                   <b>
-                    <i>Thông tin chi tiết</i>
+                    <i>Thông tin Cha Mẹ Đoàn sinh</i>
                   </b>
                 </FormGroup>
               </FormControl>
@@ -390,25 +423,7 @@ export const StudentDialog = () => {
           </Grid>
 
           <Grid container item xs={12} spacing={2}>
-            <Grid item xs={12} lg={4}>
-              <KeyboardDateField formik={formData} name="studentMoreInfo.stuBaptismDate" label="Ngày rửa tội" readOnly={!isEdit} />
-            </Grid>
-            <Grid item xs={12} lg={4}>
-              <KeyboardDateField formik={formData} name="studentMoreInfo.stuEucharistDate" label="Ngày rước lễ" readOnly={!isEdit} />
-            </Grid>
-            <Grid item xs={12} lg={4}>
-              <KeyboardDateField formik={formData} name="studentMoreInfo.stuConfirmationDate" label="Ngày thêm sức" readOnly={!isEdit} />
-            </Grid>
-          </Grid>
-
-          <Grid container item xs={12} spacing={2}>
-            <Grid item xs={12} lg={6}>
-              <ShortTextField formik={formData} name="studentMoreInfo.stuAddress" label="Địa chỉ" maxLength={250} readOnly={!isEdit} />
-            </Grid>
-          </Grid>
-
-          <Grid container item xs={12} spacing={2}>
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} sm={6} md={3}>
               {!isEdit && (
                 <TextField
                   value={lstHolyName.find(item => item.id === get(formData.values, 'studentMoreInfo.stuFatherHolyId'))?.name}
@@ -424,16 +439,16 @@ export const StudentDialog = () => {
               )}
               {isEdit && <AutocompleteTextField formik={formData} name="studentMoreInfo.stuFatherHolyId" label="Tên Thánh" options={lstHolyName} />}
             </Grid>
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <ShortTextField formik={formData} name="studentMoreInfo.stuFatherFullName" label="Họ và tên Cha" maxLength={150} readOnly={!isEdit} />
             </Grid>
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <ShortTextField formik={formData} name="studentMoreInfo.stuFatherPhone" label="SĐT Cha" maxLength={11} readOnly={!isEdit} onClick={handleClickCall} />
             </Grid>
           </Grid>
 
           <Grid container item xs={12} spacing={2}>
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} sm={6} md={3}>
               {!isEdit && (
                 <TextField
                   value={lstHolyName.find(item => item.id === get(formData.values, 'studentMoreInfo.stuMotherHolyId'))?.name}
@@ -449,10 +464,10 @@ export const StudentDialog = () => {
               )}
               {isEdit && <AutocompleteTextField formik={formData} name="studentMoreInfo.stuMotherHolyId" label="Tên Thánh" options={lstHolyName} />}
             </Grid>
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <ShortTextField formik={formData} name="studentMoreInfo.stuMotherFullName" label="Họ và tên Mẹ" maxLength={150} readOnly={!isEdit} />
             </Grid>
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <ShortTextField formik={formData} name="studentMoreInfo.stuMotherPhone" label="SĐT Mẹ" maxLength={11} readOnly={!isEdit} onClick={handleClickCall} />
             </Grid>
           </Grid>

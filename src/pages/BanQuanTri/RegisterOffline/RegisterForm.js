@@ -1,22 +1,24 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
 import { Card, CardContent, Grid, TextField, FormControl, FormControlLabel, FormGroup, MenuItem, CardActions, Button, Divider } from '@material-ui/core'
+
+// 3party
 import Yup from 'utils/Yup'
 import { useFormik } from 'formik'
+import sessionHelper from 'utils/sessionHelper'
 import { doPost } from 'utils/axios'
 
 // External
 import StyledRadio from 'components/UI/StyledRadio'
-import { HolyNameQuery, BranchQuery } from 'recoils/selectors'
-import config from 'config'
-import sessionHelper from 'utils/sessionHelper'
-import { loadingState, toastState } from 'recoils/atoms'
 import { ShortTextField, AutocompleteTextField, KeyboardDateField } from 'components/Controls'
+import { HolyNameQuery, BranchQuery, UnionRegisterQuery } from 'recoils/selectors'
+import { loadingState, toastState } from 'recoils/atoms'
 
 // Internal
 import { ReloadNewStudent, NewStudentSelected, IsEditNewStu } from './recoil'
+import _ from 'lodash'
 
-let initValue = {
+const initValue = {
   stuHolyId: 1,
   stuFatherHolyId: 1,
   stuMotherHolyId: 1,
@@ -25,24 +27,27 @@ let initValue = {
 }
 
 const RegisterForm = () => {
-  let lstHolyName = useRecoilValue(HolyNameQuery)
-  let lstBranch = useRecoilValue(BranchQuery)
-  let [toast, setToast] = useRecoilState(toastState)
-  let setLoading = useSetRecoilState(loadingState)
-  let setReloadStu = useSetRecoilState(ReloadNewStudent)
+  const [branchId, setBranchId] = useState('CC')
+  const [groupId, setGroupId] = useState('CC-CC')
 
-  let [branchId, setBranchId] = useState('CC')
-  let [groupId, setGroupId] = useState('CC-CC')
-  let [newStudent, setNewStudent] = useRecoilState(NewStudentSelected)
-  let [isEdit, setIsEdit] = useRecoilState(IsEditNewStu)
+  const [toast, setToast] = useRecoilState(toastState)
+  const [newStudent, setNewStudent] = useRecoilState(NewStudentSelected)
+  const [isEdit, setIsEdit] = useRecoilState(IsEditNewStu)
+
+  const lstHolyName = useRecoilValue(HolyNameQuery)
+  const lstBranch = useRecoilValue(BranchQuery)
+  const lstUnion = useRecoilValue(UnionRegisterQuery(groupId))
+
+  const setLoading = useSetRecoilState(loadingState)
+  const setReloadStu = useSetRecoilState(ReloadNewStudent)
 
   useEffect(() => {
     if (newStudent && newStudent.studentClass.length > 0) {
-      let stuClass = newStudent.studentClass.find(sl => sl.class.scholasticId == sessionHelper().scholasticId).class
-      let gId = stuClass.groupId
+      const stuClass = newStudent.studentClass.find(sl => Number(sl.class.scholasticId) === Number(sessionHelper().scholasticId)).class
+      const gId = stuClass.groupId
 
       lstBranch.forEach(b => {
-        let bg = b.group.find(gp => gp.groupId === gId)
+        const bg = b.group.find(gp => gp.groupId === gId)
         if (bg) {
           setBranchId(bg.branchId)
           setGroupId(gId)
@@ -76,7 +81,7 @@ const RegisterForm = () => {
   const stuForm = useFormik({
     initialValues: newStudent
       ? { ...newStudent, ...newStudent.studentMoreInfo, stuBranchId: branchId, stuGroupId: groupId }
-      : { ...initValue, stuBranchId: branchId, stuGroupId: groupId },
+      : { ...initValue, stuBranchId: branchId, stuGroupId: groupId, stuUnionId: lstUnion[0]?.unionId ?? '1', stuTeamCode: '1' },
     validationSchema: validationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -170,14 +175,24 @@ const RegisterForm = () => {
       <Card className="card-box mb-4 w-100">
         <div className="card-header">
           <div className="card-header--title">
-            <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Thông tin Đoàn sinh</h4>
+            <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Thêm mới Đoàn sinh</h4>
           </div>
         </div>
         <Divider />
         <CardContent>
           <Grid container spacing={2}>
+            {/* Thông tin về Phân Đoàn */}
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xs={12} sm={6} md={6} lg={4}>
+                <FormControl component="fieldset">
+                  <FormGroup aria-label="position" row>
+                    <b>Thông tin quản lý</b>
+                  </FormGroup>
+                </FormControl>
+              </Grid>
+            </Grid>
+            <Grid container item spacing={2}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <TextField select {...TextField_Props('stuBranchId', 'Ngành')} onChange={handleChangeBranch}>
                   {lstBranch
                     ?.filter(b => b.branchId !== 'NON')
@@ -188,7 +203,7 @@ const RegisterForm = () => {
                     ))}
                 </TextField>
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <TextField select {...TextField_Props('stuGroupId', 'Phân đoàn')}>
                   {lstBranch
                     ?.find(g => g.branchId === stuForm.values['stuBranchId'])
@@ -199,19 +214,51 @@ const RegisterForm = () => {
                     ))}
                 </TextField>
               </Grid>
+              {_.get(stuForm.values, 'stuGroupId') === 'CC-CC' && (
+                <>
+                  <Grid item xs={12} sm={6} md={3} lg={2}>
+                    <TextField select {...TextField_Props('stuUnionId', 'Chi đoàn')}>
+                      {lstUnion?.map(union => (
+                        <MenuItem key={`union-${union.unionId}`} value={union.unionId}>
+                          {union.unionCode}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3} lg={2}>
+                    <TextField select {...TextField_Props('stuTeamCode', 'Đội')}>
+                      {[1, 2, 3, 4, 5, 6].map(team => (
+                        <MenuItem key={`team-${team}`} value={team}>
+                          {team}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                </>
+              )}
+            </Grid>
+
+            <Grid container item spacing={2} className="mt-2">
+              <Grid item xs={12} sm={6} md={6} lg={4}>
+                <FormControl component="fieldset">
+                  <FormGroup aria-label="position" row>
+                    <b>Thông tin Đoàn sinh</b>
+                  </FormGroup>
+                </FormControl>
+              </Grid>
             </Grid>
 
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <AutocompleteTextField formik={stuForm} name="stuHolyId" label="Tên Thánh" options={lstHolyName} />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <ShortTextField formik={stuForm} name="stuFirstName" label="Họ và đệm" required autoCapitalize maxLength={100} />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <ShortTextField formik={stuForm} name="stuLastName" label="Tên" required autoCapitalize maxLength={50} />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <FormControl component="fieldset">
                   <FormGroup aria-label="position" row className="p-1">
                     <FormControlLabel
@@ -234,52 +281,66 @@ const RegisterForm = () => {
             </Grid>
 
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <KeyboardDateField formik={stuForm} name="stuDob" label="Ngày sinh" />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={6}>
+              <Grid item xs={12} sm={6} md={6} lg={4}>
                 <ShortTextField formik={stuForm} name="note" label="Ghi chú" />
               </Grid>
             </Grid>
 
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <KeyboardDateField formik={stuForm} name="stuBaptismDate" label="Ngày rửa tội" />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <KeyboardDateField formik={stuForm} name="stuEucharistDate" label="Ngày rước lễ" />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <KeyboardDateField formik={stuForm} name="stuConfirmationDate" label="Ngày thêm sức" />
               </Grid>
             </Grid>
 
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={12} md={12} lg={9}>
+              <Grid item xs={12} sm={6} md={6} lg={4}>
                 <ShortTextField formik={stuForm} name="stuAddress" label="Địa chỉ" maxLength={250} />
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={3} lg={2}>
+                <ShortTextField formik={stuForm} name="stuArea" label="Giáo Khu/Họ" maxLength={100} />
+              </Grid>
+            </Grid>
+
+            <Grid container item spacing={2} className="mt-2">
+              <Grid item xs={12} sm={6} md={6} lg={4}>
+                <FormControl component="fieldset">
+                  <FormGroup aria-label="position" row>
+                    <b>Thông tin Cha Mẹ Đoàn sinh</b>
+                  </FormGroup>
+                </FormControl>
               </Grid>
             </Grid>
 
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <AutocompleteTextField formik={stuForm} name="stuFatherHolyId" label="Tên Thánh" options={lstHolyName} />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={4}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <ShortTextField formik={stuForm} name="stuFatherFullName" label="Họ và tên Cha" maxLength={150} />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xxs={12} sm={6} md={3} lg={2}>
                 <ShortTextField formik={stuForm} name="stuFatherPhone" label="Số điện thoại" maxLength={11} />
               </Grid>
             </Grid>
 
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <AutocompleteTextField formik={stuForm} name="stuMotherHolyId" label="Tên Thánh" options={lstHolyName} />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={4}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <ShortTextField formik={stuForm} name="stuMotherFullName" label="Họ và tên Mẹ" maxLength={150} />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
+              <Grid item xs={12} sm={6} md={3} lg={2}>
                 <ShortTextField formik={stuForm} name="stuMotherPhone" label="Số điện thoại" maxLength={11} />
               </Grid>
             </Grid>
