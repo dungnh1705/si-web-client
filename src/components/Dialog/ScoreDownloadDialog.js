@@ -125,7 +125,7 @@ export const ScoreDownloadDialog = () => {
                   <Grid container item justifyContent="flex-end">
                     <div className="card-header--actions">
                       <Tooltip arrow title={!handleCollapse(item.team) ? 'Thu lại' : 'Mở rộng'}>
-                        <IconButton color="default">
+                        <IconButton size='medium' color="default">
                           {handleCollapse(item.team) ? <FontAwesomeIcon icon={['fas', 'angle-down']} /> : <FontAwesomeIcon icon={['fas', 'angle-up']} />}
                         </IconButton>
                       </Tooltip>

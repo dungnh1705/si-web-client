@@ -232,7 +232,7 @@ export const StudentDialog = () => {
         <Typography variant="h6">{children}</Typography>
         {Number(sessionHelper().classId) !== 0 && !isTeamLead && isAssigned ? (
           <Tooltip title="Đánh dấu là đội trưởng">
-            <IconButton aria-label="teamlead" className={classes.closeButton} onClick={onClick}>
+            <IconButton size='medium' aria-label="teamlead" className={classes.closeButton} onClick={onClick}>
               <FlagRoundedIcon />
             </IconButton>
           </Tooltip>

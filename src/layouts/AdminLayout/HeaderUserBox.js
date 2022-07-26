@@ -58,7 +58,7 @@ export default function HeaderUserBox() {
 
   return (
     <Fragment>
-      <Button color="inherit" onClick={handleClick} className="text-capitalize px-3 text-left btn-inverse d-flex align-items-center">
+      <Button size='large' color="inherit" onClick={handleClick} className="text-capitalize px-3 text-left btn-inverse d-flex align-items-center">
         <Box>
           <Avatar alt={`${session?.firstName} ${session?.lastName}`} src={session?.croppedAvatarId ? `img/avatar/${session.croppedAvatarId}.png` : ''} className="mr-2">
             {`${session?.firstName?.substring(0, 1)}${session?.lastName?.substring(0, 1)}`}

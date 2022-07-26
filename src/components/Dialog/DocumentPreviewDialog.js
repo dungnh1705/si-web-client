@@ -150,7 +150,7 @@ export const DocumentPreviewDialog = () => {
                   plugins: 'print ',
                   toolbar: 'print',
                   toolbar_sticky: true,
-                  height: 500,
+                  height: 600,
                   skin: 'oxide',
                   content_css: 'default'
                 }}

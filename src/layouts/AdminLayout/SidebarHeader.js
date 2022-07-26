@@ -42,7 +42,7 @@ const SidebarHeader = () => {
             'app-sidebar-header-btn-close': sidebarToggle && !sidebarHover
           })}>
           <Tooltip title="Toggle Sidebar" placement="right">
-            <IconButton color="inherit" onClick={toggleSidebar} size="medium">
+            <IconButton size='medium' color="inherit" onClick={toggleSidebar}>
               {sidebarToggle ? <MenuRoundedIcon /> : <MenuOpenRoundedIcon />}
             </IconButton>
           </Tooltip>

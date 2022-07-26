@@ -18,8 +18,8 @@ const FindStudents = () => {
   return (
     <Fragment>
       <Grid container spacing={2} justifyContent="center">
-        <Grid container item xs={12} lg={3} alignItems="flex-start" justifyContent="flex-start">
-          <Suspense fallback={<SyncLoader color={'#5383ff'} />}>
+        <Grid container item xs={12} lg={3} alignItems="flex-start">
+          <Suspense fallback={<SyncLoader css={{margin: 'auto', padding: 'auto'}} color={'#5383ff'} />}>
             <StudentList />
           </Suspense>
         </Grid>

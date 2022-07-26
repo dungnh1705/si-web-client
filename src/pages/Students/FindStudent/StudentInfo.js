@@ -184,14 +184,14 @@ const StudentInfo = ({ tabValue }) => {
                         {student?.status === StudentStatus.LeaveStudy && <span className="badge badge-warning">Nghỉ luôn</span>}
                         {(student?.status === StudentStatus.Active || student?.status === StudentStatus.InActive) && (
                           <Box>
-                            <Button size="small" variant="outlined" color="primary">
+                            <Button size="large" variant="outlined" color="primary">
                               Thay đổi AVATAR
                             </Button>
                           </Box>
                         )}
                         {editable && (
                           <Box>
-                            <Button size="small" variant="outlined" style={{ color: 'red', borderColor: 'red' }} className="mt-2" onClick={e => handleClickPreview(e, student?.id)}>
+                            <Button size="large" variant="outlined" style={{ color: 'red', borderColor: 'red' }} className="mt-2" onClick={e => handleClickPreview(e, student?.id)}>
                               Xem biểu mẫu
                             </Button>
                           </Box>

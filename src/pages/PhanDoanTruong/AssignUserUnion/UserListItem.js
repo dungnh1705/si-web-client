@@ -72,7 +72,7 @@ const UserListItem = ({ assign }) => {
       {assign?.unionId !== 1 && (
         <td>
           <Tooltip arrow title="Xóa chi đoàn">
-            <IconButton style={{ color: red[400] }} size="small" aria-label="upload picture" component="span" onClick={handleRemoveUnion}>
+            <IconButton style={{ color: red[400] }} size="medium" aria-label="upload picture" component="span" onClick={handleRemoveUnion}>
               <ClearTwoToneIcon />
             </IconButton>
           </Tooltip>
