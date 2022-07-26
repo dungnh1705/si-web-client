@@ -106,7 +106,7 @@ export const ChooseFileDialog = () => {
             <ButtonLoading btnText="Tải lên" loading={loading} handleButtonClick={handleUpload} disabled={!file} />
           </Grid>
           <Grid item sm={6} md={3}>
-            <Button onClick={handleClose} fullWidth variant="outlined">
+            <Button size="large" onClick={handleClose} fullWidth variant="outlined">
               Quay về
             </Button>
           </Grid>

@@ -221,7 +221,7 @@ function Profile() {
             <div className="card-img-wrapper">
               <div className="card-badges">
                 <Tooltip title="Chỉnh sửa">
-                  <IconButton onClick={handlePencilClick} ref={anchorRef} aria-controls={openPencil ? 'menu-list-grow' : undefined} aria-haspopup="true">
+                  <IconButton size='medium' onClick={handlePencilClick} ref={anchorRef} aria-controls={openPencil ? 'menu-list-grow' : undefined} aria-haspopup="true">
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </IconButton>
                 </Tooltip>
@@ -269,7 +269,7 @@ function Profile() {
                   }}
                   badgeContent={
                     <Tooltip title="Cập nhật ảnh đại diện">
-                      <IconButton onClick={() => setOpen(true)}>
+                      <IconButton size='medium' onClick={() => setOpen(true)}>
                         <FontAwesomeIcon icon={faCamera} />
                       </IconButton>
                     </Tooltip>
@@ -457,7 +457,7 @@ function Profile() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button size="large" onClick={() => setIsEdit(false)}>
+                  <Button size="large" onClick={() => setIsEdit(false)} variant='outlined'>
                     Hủy bỏ
                   </Button>
                 </Grid>

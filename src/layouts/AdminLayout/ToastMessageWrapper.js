@@ -52,7 +52,7 @@ const ToastMessageWrapper = props => {
     <Alert
       severity={variant}
       action={[
-        <IconButton key="close" aria-label="Close" color="inherit" className={classes.close} onClick={onClose} size="small">
+        <IconButton key="close" aria-label="Close" color="inherit" className={classes.close} onClick={onClose} size="medium">
           <CloseIcon className={classes.icon} size="small" />
         </IconButton>
       ]}

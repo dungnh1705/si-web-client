@@ -82,12 +82,13 @@ export default function () {
       </Grid>
       <Grid container {...buttonGrid} item spacing={1} alignContent="center" justifyContent="space-between" direction="row">
         <Grid item xs={6}>
-          <Button fullWidth variant="contained" color="primary" disabled={!selectedTemplate} startIcon={<VisibilityRoundedIcon />} onClick={handleReport} style={buttonStyle}>
+          <Button size='large' fullWidth variant="contained" color="primary" disabled={!selectedTemplate} startIcon={<VisibilityRoundedIcon />} onClick={handleReport} style={buttonStyle}>
             Xem trước
           </Button>
         </Grid>
         <Grid item xs={6}>
           <Button
+            size='large'
             fullWidth
             variant="contained"
             color="secondary"

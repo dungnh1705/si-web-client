@@ -26,7 +26,7 @@ const ShowImageModal = ({ imageId, open, handleClose }) => {
           <Grid container item justifyContent="flex-end">
             <div className="card-header--actions">
               <Tooltip title="Đóng">
-                <IconButton onClick={handleClose}>
+                <IconButton size='medium' onClick={handleClose}>
                   <FontAwesomeIcon icon={faTimes} />
                 </IconButton>
               </Tooltip>

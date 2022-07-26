@@ -33,7 +33,7 @@ const HeaderMenu = () => {
   return (
     <Fragment>
       <div className="app-header-menu">
-        <Button size="medium" color="inherit" onClick={handleClick} className="btn-inverse font-size-xs mx-2">
+        <Button size="large" color="inherit" onClick={handleClick} className="btn-inverse font-size-xs mx-2">
           Mega menu
         </Button>
         <Popover
@@ -76,7 +76,7 @@ const HeaderMenu = () => {
                   </ListItem>
                   <Divider className="my-3" />
                   <ListItem className="px-0 pb-0">
-                    <Button to="/DashboardDefault" color="primary" size="small" variant="outlined" className="w-100">
+                    <Button to="/DashboardDefault" color="primary" size="large" variant="outlined" className="w-100">
                       <span className="btn-wrapper--label">Learn more</span>
                     </Button>
                   </ListItem>

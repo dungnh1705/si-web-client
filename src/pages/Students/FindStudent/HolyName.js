@@ -98,10 +98,10 @@ const HolyName = ({ formData, holyname, field, handleSaveHolyName, isEditable, i
           <Grid item xs={2} lg={4}>
             {showAction && (
               <>
-                <IconButton edge="end" color="primary" onClick={handleOk}>
+                <IconButton size='medium' edge="end" color="primary" onClick={handleOk}>
                   <DoneIcon />
                 </IconButton>
-                <IconButton edge="end" onClick={handleCancel}>
+                <IconButton size='medium' edge="end" onClick={handleCancel}>
                   <ClearIcon />
                 </IconButton>
               </>

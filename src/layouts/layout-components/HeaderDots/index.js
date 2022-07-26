@@ -117,7 +117,7 @@ export default function HeaderDots() {
       <div className="d-flex align-items-center popover-header-wrapper">
         <Hidden smDown>
           <Box component="span" pr="2">
-            <IconButton onClick={handleClick1} color="inherit" className="btn-inverse mx-1 d-50">
+            <IconButton size='medium' onClick={handleClick1} color="inherit" className="btn-inverse mx-1 d-50">
               <div className="badge badge-pill badge-warning badge-header">3</div>
               <NotificationsActiveTwoToneIcon />
             </IconButton>
@@ -213,7 +213,7 @@ export default function HeaderDots() {
                             <h4 className="timeline-item--label mb-2 font-weight-bold">Learning round table gathering</h4>
                             <p>First ever iPod launches.</p>
                             <div className="mt-2">
-                              <Button size="small" variant="contained" color="primary">
+                              <Button size="large" variant="contained" color="primary">
                                 Submit Report
                               </Button>
                             </div>
@@ -256,7 +256,7 @@ export default function HeaderDots() {
                       vertical: 'top',
                       horizontal: 'right'
                     }}>
-                    <Button color="primary" variant="contained" className="px-4">
+                    <Button size='large' color="primary" variant="contained" className="px-4">
                       <span className="btn-wrapper--label">Learn more</span>
                       <span className="btn-wrapper--icon"></span>
                     </Button>
@@ -267,7 +267,7 @@ export default function HeaderDots() {
           </Box>
         </Hidden>
         <Box component="span" pr="2">
-          <IconButton onClick={handleClick2} color="inherit" className="btn-inverse mx-1 d-50">
+          <IconButton size='medium' onClick={handleClick2} color="inherit" className="btn-inverse mx-1 d-50">
             <div className="badge badge-pill badge-success badge-header">9</div>
             <PollTwoToneIcon />
           </IconButton>
@@ -321,11 +321,11 @@ export default function HeaderDots() {
               </li>
             </ul>
             <div className="card-footer bg-white p-3 text-center d-block">
-              <Button variant="outlined" size="small" className="mr-2" color="primary">
+              <Button variant="outlined" size="large" className="mr-2" color="primary">
                 <span className="btn-wrapper--icon"></span>
                 <span className="btn-wrapper--label">Tasks</span>
               </Button>
-              <Button variant="outlined" size="small" color="default">
+              <Button variant="outlined" size="large" color="default">
                 <span className="btn-wrapper--icon"></span>
                 <span className="btn-wrapper--label">Logout</span>
               </Button>
@@ -333,7 +333,7 @@ export default function HeaderDots() {
           </Popover>
         </Box>
         <Box component="span" pr="2">
-          <IconButton onClick={handleClick3} color="inherit" className="btn-inverse mx-1 d-50">
+          <IconButton size='medium' onClick={handleClick3} color="inherit" className="btn-inverse mx-1 d-50">
             <Badge
               anchorOrigin={{
                 vertical: 'top',
@@ -359,21 +359,21 @@ export default function HeaderDots() {
             <Box className="overflow-hidden border-0 bg-second p-0 dropdown-mega-menu-sm">
               <div className="px-3 py-3 text-center">
                 <div className="mx-3 mb-2 mt-3 d-inline-block text-center">
-                  <IconButton color="primary" className="p-0 bg-ripe-malin d-inline-block text-center text-white d-50 rounded border-0 mb-2"></IconButton>
+                  <IconButton size='medium' color="primary" className="p-0 bg-ripe-malin d-inline-block text-center text-white d-50 rounded border-0 mb-2"></IconButton>
                   <div className="d-block text-white-50">Tasks</div>
                 </div>
                 <div className="mx-3 mb-2 mt-3 d-inline-block text-center">
-                  <IconButton color="primary" className="p-0 bg-grow-early d-inline-block text-center text-white d-50 rounded border-0 mb-2"></IconButton>
+                  <IconButton size='medium' color="primary" className="p-0 bg-grow-early d-inline-block text-center text-white d-50 rounded border-0 mb-2"></IconButton>
                   <div className="d-block text-white-50">Reports</div>
                 </div>
                 <div className="mx-3 mb-2 mt-3 d-inline-block text-center">
-                  <IconButton color="primary" className="p-0 bg-arielle-smile d-inline-block text-center text-white d-50 rounded border-0 mb-2"></IconButton>
+                  <IconButton size='medium' color="primary" className="p-0 bg-arielle-smile d-inline-block text-center text-white d-50 rounded border-0 mb-2"></IconButton>
                   <div className="d-block text-white-50">Stats</div>
                 </div>
               </div>
               <div className="divider opacity-2 bg-white mb-3"></div>
               <div className="text-center mb-3">
-                <Button onClick={e => e.preventDefault()} variant="contained" size="small" color="primary">
+                <Button onClick={e => e.preventDefault()} variant="contained" size="large" color="primary">
                   View more items
                 </Button>
               </div>

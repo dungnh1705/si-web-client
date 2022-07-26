@@ -215,10 +215,10 @@ const AbsentForm = () => {
       </DialogContent>
       <DialogActions>
         <Grid container item spacing={2} justifyContent="flex-end">
-          <Grid item xs={6} md={2}>
+          <Grid item xs={6} md={3}>
             <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={handleSave} disabled={!formData.isValid} />
           </Grid>
-          <Grid item xs={6} md={2}>
+          <Grid item xs={6} md={3}>
             <Button size="large" onClick={handleCloseForm} variant="outlined" fullWidth>
               Quay về
             </Button>

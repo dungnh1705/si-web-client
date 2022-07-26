@@ -27,7 +27,7 @@ const SidebarUserbox = () => {
         className={clsx('app-sidebar-userbox', {
           'app-sidebar-userbox--collapsed': sidebarToggle && !sidebarHover
         })}>
-        <IconButton aria-controls="userMenu" onClick={openUserMenu} className="app-sidebar-userbox-btn" size="small">
+        <IconButton aria-controls="userMenu" onClick={openUserMenu} className="app-sidebar-userbox-btn" size="medium">
           <MoreVertIcon fontSize="inherit" />
         </IconButton>
         <Menu
@@ -85,10 +85,10 @@ const SidebarUserbox = () => {
               </PerfectScrollbar>
             </div>
             <div className="card-footer d-flex justify-content-between">
-              <Button size="small" variant="outlined" color="secondary">
+              <Button size="large" variant="outlined" color="secondary">
                 Action
               </Button>
-              <Button color="primary" variant="contained" size="small">
+              <Button color="primary" variant="contained" size="large">
                 <span>View details</span>
               </Button>
             </div>

@@ -126,7 +126,7 @@ const EditAvatar = () => {
               </Button>
             </Grid>
             <Grid item>
-              <Button size="large" onClick={handleClose}>
+              <Button size="large" onClick={handleClose} variant='outlined'>
                 Quay lại
               </Button>
             </Grid>

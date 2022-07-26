@@ -70,7 +70,7 @@ function GroupList({ title, total, provided, snapshot, className, children, ...r
         </Typography>
         <div className={classes.headerAction}>
           <Tooltip arrow title={!collapse ? 'Thu lại' : 'Mở rộng'}>
-            <IconButton color="inherit">{collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}</IconButton>
+            <IconButton size='medium' color="inherit">{collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}</IconButton>
           </Tooltip>
         </div>
       </div>

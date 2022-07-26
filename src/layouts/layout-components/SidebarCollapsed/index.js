@@ -74,6 +74,7 @@ const SidebarCollapsed = props => {
                 <li>
                   <Tooltip arrow placement="right" title="Dashboard">
                     <Button
+                      size='large'
                       className="app-sidebar-btn-wrapper"
                       activeClassName="active"
                       component={RouterLink}
@@ -88,7 +89,7 @@ const SidebarCollapsed = props => {
 
                 <li>
                   <Tooltip arrow placement="right" title="Users">
-                    <Button className="app-sidebar-btn-wrapper" activeClassName="active" component={RouterLink} to="/Users" onClick={setForceChecking}>
+                    <Button size='large' className="app-sidebar-btn-wrapper" activeClassName="active" component={RouterLink} to="/Users" onClick={setForceChecking}>
                       <PeopleOutlineOutlinedIcon className="app-sidebar-btn-icon" />
                     </Button>
                   </Tooltip>
@@ -96,7 +97,7 @@ const SidebarCollapsed = props => {
 
                 <li>
                   <Tooltip arrow placement="right" title="Reports">
-                    <Button className="app-sidebar-btn-wrapper" activeClassName="active" component={RouterLink} to="/Reports" onClick={setForceChecking}>
+                    <Button size='large' className="app-sidebar-btn-wrapper" activeClassName="active" component={RouterLink} to="/Reports" onClick={setForceChecking}>
                       <BarChartOutlinedIcon className="app-sidebar-btn-icon" />
                     </Button>
                   </Tooltip>

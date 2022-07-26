@@ -30,7 +30,7 @@ function GenericMoreButton({ assginLeadOfGroup, removeOnClass, ...props }) {
   return (
     <>
       <Tooltip title="More options">
-        <IconButton {...props} onClick={handleMenuOpen} ref={moreRef} size="small" style={{ paddingTop: '4px', paddingRight: '1px' }}>
+        <IconButton {...props} onClick={handleMenuOpen} ref={moreRef} size="medium" style={{ paddingTop: '4px', paddingRight: '1px' }}>
           <MoreIcon />
         </IconButton>
       </Tooltip>
