@@ -192,7 +192,7 @@ const RegisterForm = () => {
               </Grid>
             </Grid>
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <TextField select {...TextField_Props('stuBranchId', 'Ngành')} onChange={handleChangeBranch}>
                   {lstBranch
                     ?.filter(b => b.branchId !== 'NON')
@@ -203,7 +203,7 @@ const RegisterForm = () => {
                     ))}
                 </TextField>
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <TextField select {...TextField_Props('stuGroupId', 'Phân đoàn')}>
                   {lstBranch
                     ?.find(g => g.branchId === stuForm.values['stuBranchId'])
@@ -216,7 +216,7 @@ const RegisterForm = () => {
               </Grid>
               {_.get(stuForm.values, 'stuGroupId') === 'CC-CC' && (
                 <>
-                  <Grid item xs={12} sm={6} md={3} lg={2}>
+                  <Grid item xs={12} sm={6} md={3}>
                     <TextField select {...TextField_Props('stuUnionId', 'Chi đoàn')}>
                       {lstUnion?.map(union => (
                         <MenuItem key={`union-${union.unionId}`} value={union.unionId}>
@@ -225,7 +225,7 @@ const RegisterForm = () => {
                       ))}
                     </TextField>
                   </Grid>
-                  <Grid item xs={12} sm={6} md={3} lg={2}>
+                  <Grid item xs={12} sm={6} md={3}>
                     <TextField select {...TextField_Props('stuTeamCode', 'Đội')}>
                       {[1, 2, 3, 4, 5, 6].map(team => (
                         <MenuItem key={`team-${team}`} value={team}>
@@ -249,16 +249,16 @@ const RegisterForm = () => {
             </Grid>
 
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <AutocompleteTextField formik={stuForm} name="stuHolyId" label="Tên Thánh" options={lstHolyName} />
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <ShortTextField formik={stuForm} name="stuFirstName" label="Họ và đệm" required autoCapitalize maxLength={100} />
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <ShortTextField formik={stuForm} name="stuLastName" label="Tên" required autoCapitalize maxLength={50} />
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <FormControl component="fieldset">
                   <FormGroup aria-label="position" row className="p-1">
                     <FormControlLabel
@@ -281,32 +281,32 @@ const RegisterForm = () => {
             </Grid>
 
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <KeyboardDateField formik={stuForm} name="stuDob" label="Ngày sinh" />
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={4}>
+              <Grid item xs={12} sm={6} md={6}>
                 <ShortTextField formik={stuForm} name="note" label="Ghi chú" />
               </Grid>
             </Grid>
 
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <KeyboardDateField formik={stuForm} name="stuBaptismDate" label="Ngày rửa tội" />
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <KeyboardDateField formik={stuForm} name="stuEucharistDate" label="Ngày rước lễ" />
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <KeyboardDateField formik={stuForm} name="stuConfirmationDate" label="Ngày thêm sức" />
               </Grid>
             </Grid>
 
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={6} md={6} lg={4}>
+              <Grid item xs={12} sm={6} md={6}>
                 <ShortTextField formik={stuForm} name="stuAddress" label="Địa chỉ" maxLength={250} />
               </Grid>
 
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <ShortTextField formik={stuForm} name="stuArea" label="Giáo Khu/Họ" maxLength={100} />
               </Grid>
             </Grid>
@@ -322,25 +322,25 @@ const RegisterForm = () => {
             </Grid>
 
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <AutocompleteTextField formik={stuForm} name="stuFatherHolyId" label="Tên Thánh" options={lstHolyName} />
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <ShortTextField formik={stuForm} name="stuFatherFullName" label="Họ và tên Cha" maxLength={150} />
               </Grid>
-              <Grid item xxs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <ShortTextField formik={stuForm} name="stuFatherPhone" label="Số điện thoại" maxLength={11} />
               </Grid>
             </Grid>
 
             <Grid container item spacing={2}>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <AutocompleteTextField formik={stuForm} name="stuMotherHolyId" label="Tên Thánh" options={lstHolyName} />
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <ShortTextField formik={stuForm} name="stuMotherFullName" label="Họ và tên Mẹ" maxLength={150} />
               </Grid>
-              <Grid item xs={12} sm={6} md={3} lg={2}>
+              <Grid item xs={12} sm={6} md={3}>
                 <ShortTextField formik={stuForm} name="stuMotherPhone" label="Số điện thoại" maxLength={11} />
               </Grid>
             </Grid>
