@@ -285,7 +285,7 @@ const RegisterForm = () => {
                 <KeyboardDateField formik={stuForm} name="stuDob" label="Ngày sinh" />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
-                <ShortTextField formik={stuForm} name="stuBornWhere" label="Sinh tại" />
+                <ShortTextField formik={stuForm} name="stuBornIn" label="Sinh tại" />
               </Grid>
             </Grid>
 
@@ -297,7 +297,7 @@ const RegisterForm = () => {
                 <ShortTextField formik={stuForm} name="stuBaptismBy" label="Do Linh Mục" />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
-                <ShortTextField formik={stuForm} name="stuBornIn" label="Tại" />
+                <ShortTextField formik={stuForm} name="stuBaptismIn" label="Tại" />
               </Grid>
             </Grid>
 
@@ -363,7 +363,6 @@ const RegisterForm = () => {
               <Grid item xs={12} sm={6} md={6}>
                 <ShortTextField formik={stuForm} name="stuAddress" label="Địa chỉ" maxLength={250} />
               </Grid>
-
               <Grid item xs={12} sm={6} md={3}>
                 <ShortTextField formik={stuForm} name="stuArea" label="Giáo Khu/Họ" maxLength={100} />
               </Grid>
@@ -373,7 +372,6 @@ const RegisterForm = () => {
               <Grid item xs={12} sm={6} md={6}>
                 <ShortTextField formik={stuForm} name="stuOldClass" label="Đã học lớp Giáo Lý" maxLength={100} />
               </Grid>
-
               <Grid item xs={12} sm={6} md={3}>
                 <ShortTextField formik={stuForm} name="stuOldClassIn" label="Tại Giáo xứ" maxLength={100} />
               </Grid>

@@ -291,7 +291,7 @@ export const StudentDialog = () => {
             </Grid>
           )}
 
-          <Grid container item xs={12} spacing={2}>
+          <Grid container item spacing={2}>
             <Grid item xs={12}>
               <FormControl component="fieldset">
                 <FormGroup aria-label="position" row>
@@ -331,7 +331,7 @@ export const StudentDialog = () => {
             </Grid>
           </Grid>
 
-          <Grid container item xs={12} spacing={2}>
+          <Grid container item spacing={2}>
             <Grid item xs={12} sm={6} md={3}>
               {!isEdit && (
                 <TextField
@@ -353,15 +353,6 @@ export const StudentDialog = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <ShortTextField formik={formData} name="stuLastName" label="Tên" maxLength={50} required readOnly={!isEdit} />
-            </Grid>
-          </Grid>
-
-          <Grid container item xs={12} spacing={2}>
-            <Grid item xs={12} sm={6} md={3}>
-              <KeyboardDateField formik={formData} name="stuDob" label="Ngày sinh" readOnly={!isEdit} />
-            </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <ShortTextField formik={formData} name="note" label="Ghi chú" maxLength={250} readOnly={!isEdit} />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <FormControl component="fieldset">
@@ -389,24 +380,42 @@ export const StudentDialog = () => {
             </Grid>
           </Grid>
 
-          <Grid container item xs={12} spacing={2}>
+          <Grid container item spacing={2}>
             <Grid item xs={12} sm={6} md={3}>
-              <KeyboardDateField formik={formData} name="studentMoreInfo.stuBaptismDate" label="Ngày rửa tội" readOnly={!isEdit} />
+              <KeyboardDateField formik={formData} name="stuDob" label="Ngày sinh" readOnly={!isEdit} />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-              <KeyboardDateField formik={formData} name="studentMoreInfo.stuEucharistDate" label="Ngày rước lễ" readOnly={!isEdit} />
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <KeyboardDateField formik={formData} name="studentMoreInfo.stuConfirmationDate" label="Ngày thêm sức" readOnly={!isEdit} />
+              <ShortTextField formik={formData} name="studentMoreInfo.stuBornIn" label="Sinh tại" readOnly={!isEdit} />
             </Grid>
           </Grid>
 
-          <Grid container item xs={12} spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <ShortTextField formik={formData} name="studentMoreInfo.stuAddress" label="Địa chỉ" maxLength={250} readOnly={!isEdit} />
+          <Grid container item spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+              <KeyboardDateField formik={formData} name="studentMoreInfo.stuBaptismDate" label="Rửa Tội ngày" readOnly={!isEdit} />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-              <ShortTextField formik={formData} name="studentMoreInfo.stuArea" label="Giáo Khu/Họ" maxLength={100} readOnly={!isEdit} />
+              <ShortTextField formik={formData} name="studentMoreInfo.stuBaptismBy" label="Do Linh Mục" readOnly={!isEdit} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={formData} name="studentMoreInfo.stuBaptismIn" label="Tại" readOnly={!isEdit} />
+            </Grid>
+          </Grid>
+
+          <Grid container item spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+              <KeyboardDateField formik={formData} name="studentMoreInfo.stuEucharistDate" label="Rước lễ Lần đầu ngày" readOnly={!isEdit} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={formData} name="studentMoreInfo.stuEucharistIn" label="Tại" readOnly={!isEdit} />
+            </Grid>
+          </Grid>
+
+          <Grid container item spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+              <KeyboardDateField formik={formData} name="studentMoreInfo.stuConfirmationDate" label="Thêm sức ngày" readOnly={!isEdit} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={formData} name="studentMoreInfo.stuConfirmationIn" label="Tại" readOnly={!isEdit} />
             </Grid>
           </Grid>
 
@@ -414,15 +423,13 @@ export const StudentDialog = () => {
             <Grid item xs={12} sm={6} md={6} lg={4}>
               <FormControl component="fieldset">
                 <FormGroup aria-label="position" row>
-                  <b>
-                    <i>Thông tin Cha Mẹ Đoàn sinh</i>
-                  </b>
+                  <b>Thông tin Cha Mẹ Đoàn sinh</b>
                 </FormGroup>
               </FormControl>
             </Grid>
           </Grid>
 
-          <Grid container item xs={12} spacing={2}>
+          <Grid container item spacing={2}>
             <Grid item xs={12} sm={6} md={3}>
               {!isEdit && (
                 <TextField
@@ -443,11 +450,14 @@ export const StudentDialog = () => {
               <ShortTextField formik={formData} name="studentMoreInfo.stuFatherFullName" label="Họ và tên Cha" maxLength={150} readOnly={!isEdit} />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={formData} name="studentMoreInfo.stuFatherDob" label="Năm sinh" readOnly={!isEdit} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
               <ShortTextField formik={formData} name="studentMoreInfo.stuFatherPhone" label="SĐT Cha" maxLength={11} readOnly={!isEdit} onClick={handleClickCall} />
             </Grid>
           </Grid>
 
-          <Grid container item xs={12} spacing={2}>
+          <Grid container item spacing={2}>
             <Grid item xs={12} sm={6} md={3}>
               {!isEdit && (
                 <TextField
@@ -468,7 +478,25 @@ export const StudentDialog = () => {
               <ShortTextField formik={formData} name="studentMoreInfo.stuMotherFullName" label="Họ và tên Mẹ" maxLength={150} readOnly={!isEdit} />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={formData} name="studentMoreInfo.stuMotherDob" label="Năm sinh" maxLength={150} readOnly={!isEdit} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
               <ShortTextField formik={formData} name="studentMoreInfo.stuMotherPhone" label="SĐT Mẹ" maxLength={11} readOnly={!isEdit} onClick={handleClickCall} />
+            </Grid>
+          </Grid>
+
+          <Grid container item spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <ShortTextField formik={formData} name="studentMoreInfo.stuAddress" label="Địa chỉ" maxLength={250} readOnly={!isEdit} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={formData} name="studentMoreInfo.stuArea" label="Giáo Khu/Họ" maxLength={100} readOnly={!isEdit} />
+            </Grid>
+          </Grid>
+
+          <Grid container item spacing={2}>
+            <Grid item xs={12} sm={6} md={6}>
+              <ShortTextField formik={formData} name="note" label="Lưu ý về Đoàn sinh" readOnly={!isEdit} />
             </Grid>
           </Grid>
         </Grid>

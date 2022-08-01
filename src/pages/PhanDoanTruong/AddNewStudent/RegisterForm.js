@@ -135,62 +135,107 @@ const RegisterForm = () => {
               </FormControl>
             </Grid>
           </Grid>
+
           <Grid container item spacing={2}>
-            <Grid item xs={12} sm={6} md={6} lg={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <KeyboardDateField formik={stuForm} name="stuDob" label="Ngày sinh" />
             </Grid>
-            <Grid item xs={12} sm={6} md={6} lg={6}>
-              <ShortTextField formik={stuForm} name="note" label="Ghi chú" maxLength={250} />
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={stuForm} name="stuBornIn" label="Sinh tại" />
             </Grid>
           </Grid>
+
           <Grid container item spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+              <KeyboardDateField formik={stuForm} name="stuBaptismDate" label="Rửa Tội ngày" />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={stuForm} name="stuBaptismBy" label="Do Linh Mục" />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={stuForm} name="stuBaptismIn" label="Tại" />
+            </Grid>
+          </Grid>
+
+          <Grid container item spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+              <KeyboardDateField formik={stuForm} name="stuEucharistDate" label="Rước lễ Lần đầu ngày" />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={stuForm} name="stuEucharistIn" label="Tại" />
+            </Grid>
+          </Grid>
+
+          <Grid container item spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+              <KeyboardDateField formik={stuForm} name="stuConfirmationDate" label="Thêm sức ngày" />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={stuForm} name="stuConfirmationIn" label="Tại" />
+            </Grid>
+          </Grid>
+
+          <Grid container item spacing={2} className="mt-2">
             <Grid item xs={12} sm={6} md={6} lg={4}>
               <FormControl component="fieldset">
                 <FormGroup aria-label="position" row>
-                  <b>
-                    <i>Thông tin chi tiết</i>
-                  </b>
+                  <b>Thông tin Cha Mẹ Đoàn sinh</b>
                 </FormGroup>
               </FormControl>
             </Grid>
           </Grid>
 
           <Grid container item spacing={2}>
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-              <KeyboardDateField formik={stuForm} name="stuBaptismDate" label="Ngày rửa tội" />
+            <Grid item xs={12} sm={6} md={3}>
+              <AutocompleteTextField formik={stuForm} name="stuFatherHolyId" label="Tên Thánh" options={lstHolyName} />
             </Grid>
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-              <KeyboardDateField formik={stuForm} name="stuEucharistDate" label="Ngày rước lễ" />
-            </Grid>
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-              <KeyboardDateField formik={stuForm} name="stuConfirmationDate" label="Ngày thêm sức" />
-            </Grid>
-          </Grid>
-          <Grid container item spacing={2}>
-            <Grid item xs={12} sm={12} md={12} lg={9}>
-              <ShortTextField formik={stuForm} name="stuAddress" label="Địa chỉ" maxLength={250} />
-            </Grid>
-          </Grid>
-          <Grid container item spacing={2}>
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-              <AutocompleteTextField options={lstHolyName} formik={stuForm} name="stuFatherHolyId" label="Tên Thánh" />
-            </Grid>
-            <Grid item xs={12} sm={6} md={6} lg={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <ShortTextField formik={stuForm} name="stuFatherFullName" label="Họ và tên Cha" maxLength={150} />
             </Grid>
-            <Grid item xs={12} sm={6} md={6} lg={3}>
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={stuForm} name="stuFatherDob" label="Năm sinh" />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
               <ShortTextField formik={stuForm} name="stuFatherPhone" label="Số điện thoại" maxLength={11} />
             </Grid>
           </Grid>
+
           <Grid container item spacing={2}>
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-              <AutocompleteTextField options={lstHolyName} formik={stuForm} name="stuMotherHolyId" label="Tên Thánh" />
+            <Grid item xs={12} sm={6} md={3}>
+              <AutocompleteTextField formik={stuForm} name="stuMotherHolyId" label="Tên Thánh" options={lstHolyName} />
             </Grid>
-            <Grid item xs={12} sm={6} md={6} lg={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <ShortTextField formik={stuForm} name="stuMotherFullName" label="Họ và tên Mẹ" maxLength={150} />
             </Grid>
-            <Grid item xs={12} sm={6} md={6} lg={3}>
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={stuForm} name="stuMotherDob" label="Năm sinh" />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
               <ShortTextField formik={stuForm} name="stuMotherPhone" label="Số điện thoại" maxLength={11} />
+            </Grid>
+          </Grid>
+
+          <Grid container item spacing={2}>
+            <Grid item xs={12} sm={6} md={6}>
+              <ShortTextField formik={stuForm} name="stuAddress" label="Địa chỉ" maxLength={250} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={stuForm} name="stuArea" label="Giáo Khu/Họ" maxLength={100} />
+            </Grid>
+          </Grid>
+
+          <Grid container item spacing={2}>
+            <Grid item xs={12} sm={6} md={6}>
+              <ShortTextField formik={stuForm} name="stuOldClass" label="Đã học lớp Giáo Lý" maxLength={100} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <ShortTextField formik={stuForm} name="stuOldClassIn" label="Tại Giáo xứ" maxLength={100} />
+            </Grid>
+          </Grid>
+
+          <Grid container item spacing={2}>
+            <Grid item xs={12} sm={6} md={6}>
+              <ShortTextField formik={stuForm} name="note" label="Lưu ý về Đoàn sinh" />
             </Grid>
           </Grid>
         </Grid>
