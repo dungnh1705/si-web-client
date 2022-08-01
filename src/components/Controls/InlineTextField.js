@@ -98,10 +98,10 @@ export default function InlineTextField({ label, value, handleChanged, isNumber,
               ),
               endAdornment: isEditable ? (
                 <InputAdornment position="end">
-                  <IconButton edge="end" onClick={handleClickOk} color="primary" disabled={isRequired && !localValue}>
+                  <IconButton size='medium' edge="end" onClick={handleClickOk} color="primary" disabled={isRequired && !localValue}>
                     <DoneIcon />
                   </IconButton>
-                  <IconButton edge="end" onClick={cancelChange}>
+                  <IconButton size='medium' edge="end" onClick={cancelChange}>
                     <ClearIcon />
                   </IconButton>
                 </InputAdornment>

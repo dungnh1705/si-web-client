@@ -185,7 +185,7 @@ export const RolesDialog = () => {
       </DialogContent>
       <DialogActions>
         <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={handleSaveRoles} />
-        <Button size="large" onClick={handleCloseDialog}>
+        <Button size="large" onClick={handleCloseDialog} variant="outlined">
           Quay về
         </Button>
       </DialogActions>

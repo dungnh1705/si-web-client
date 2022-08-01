@@ -1,10 +1,11 @@
-import { selector } from 'recoil'
-import { themeOptionsState, reloadTemplates } from './atoms'
-import config from 'config'
-import { doGet } from 'utils/axios'
+import { selector, selectorFamily } from 'recoil'
 import _ from 'lodash'
+
+import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { Roles } from 'app/enums'
+
+import { themeOptionsState, reloadTemplates } from './atoms'
 
 export const themeOptionsActions = selector({
   key: 'themeOptionsActions',
@@ -20,7 +21,7 @@ export const HolyNameQuery = selector({
     let res = await doGet(`holyname/getall`)
 
     if (res && res.data && res.data.success) return _.orderBy(res.data.data, ['name'], ['asc'])
-    else return null
+    else return []
   }
 })
 
@@ -30,7 +31,7 @@ export const BranchQuery = selector({
     let res = await doGet(`class/getBranch`)
 
     if (res && res.data.success) return _.orderBy(res.data.data, ['branchOrder'], ['asc'])
-    else return null
+    else return []
   }
 })
 
@@ -40,7 +41,7 @@ export const GroupQuery = selector({
     let res = await doGet(`class/getGroup`)
 
     if (res && res.data.success) return _.orderBy(res.data.data, ['groupId'], ['asc'])
-    else return null
+    else return []
   }
 })
 
@@ -55,7 +56,20 @@ export const UnionQuery = selector({
     if (res && res.data.success) {
       return _.orderBy(res.data.data, ['unionCode'], ['asc'])
     }
-    return null
+    return []
+  }
+})
+
+export const UnionRegisterQuery = selectorFamily({
+  key: 'UnionRegisterQuery',
+  get: groupId => async () => {
+    const res = await doGet(`assignment/getUnionByGroupId`, { groupId })
+
+    if (res && res.data.success) {
+      const unionOrdered = _.orderBy(res.data.data, ['unionCode'], ['asc'])
+      return unionOrdered
+    }
+    return []
   }
 })
 

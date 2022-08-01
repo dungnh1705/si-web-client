@@ -106,7 +106,7 @@ function HeaderDrawer() {
                     /> */}
                   </div>
                   <div className="text-center">
-                    <Button size="medium" color="inherit" className="text-uppercase font-size-xs font-weight-bold">
+                    <Button size="large" color="inherit" className="text-uppercase font-size-xs font-weight-bold">
                       Generate report
                     </Button>
                   </div>
@@ -145,7 +145,7 @@ function HeaderDrawer() {
                   </Grid>
                 </Grid>
                 <div className="pb-2 pt-4 text-center">
-                  <Button size="small" variant="outlined" color="secondary">
+                  <Button size="large" variant="outlined" color="secondary">
                     <span className="btn-wrapper--label">View complete report</span>
                     <span className="btn-wrapper--icon"></span>
                   </Button>
@@ -225,7 +225,7 @@ function HeaderDrawer() {
                                 </h4>
                                 <p>Mosaic, the first graphical browser, is introduced to the average consumer.</p>
                                 <div className="mt-3">
-                                  <Button size="small" color="primary">
+                                  <Button size="large" color="primary">
                                     Submit Report
                                   </Button>
                                 </div>
@@ -259,7 +259,7 @@ function HeaderDrawer() {
                                     Files ready
                                   </Badge>
                                   <div>
-                                    <Button size="small" color="primary">
+                                    <Button size="large" color="primary">
                                       <span className="btn-wrapper--icon"></span>
                                       <span className="btn-wrapper--label">Add</span>
                                     </Button>
@@ -269,7 +269,7 @@ function HeaderDrawer() {
                             </ListItem>
                             <ListItem className="d-flex justify-content-between align-items-center align-content-center pl-1">
                               <Tooltip arrow title="There are 653 new comments available!" placement="top">
-                                <Button size="small" color="primary">
+                                <Button size="large" color="primary">
                                   <span className="btn-wrapper--icon"></span>
                                   <span className="btn-wrapper--label ml-1">653</span>
                                 </Button>

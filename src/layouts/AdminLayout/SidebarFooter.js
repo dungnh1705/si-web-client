@@ -9,14 +9,14 @@ export default function SidebarFooter() {
         <ul className="app-sidebar-footer">
           <li>
             <Tooltip arrow title="RQT">
-              <IconButton href="/ApplicationsProjects">
+              <IconButton size='medium' href="/ApplicationsProjects">
                 <Activity />
               </IconButton>
             </Tooltip>
           </li>
           <li>
             <Tooltip arrow title="Zoho">
-              <IconButton href="/DashboardHelpdesk" className="mx-1">
+              <IconButton size='medium' href="/DashboardHelpdesk" className="mx-1">
                 <Bell />
               </IconButton>
             </Tooltip>

@@ -28,7 +28,7 @@ const StudentAbsent = ({ month }) => {
           <Grid container item xs={10} justifyContent="flex-end">
             <div className="card-header--actions">
               <Tooltip arrow title={!collapse ? 'Thu lại' : 'Mở rộng'}>
-                <IconButton color="primary">{collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}</IconButton>
+                <IconButton size='medium' color="primary">{collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}</IconButton>
               </Tooltip>
             </div>
           </Grid>

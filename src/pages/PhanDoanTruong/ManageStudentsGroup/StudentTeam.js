@@ -37,7 +37,7 @@ const StudentTeam = ({ item, unionId }) => {
             <Grid container item xs={3} justifyContent="flex-end">
               <div className="card-header--actions">
                 <Tooltip arrow title={!collapse ? 'Thu lại' : 'Mở rộng'}>
-                  <IconButton color="primary">{collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}</IconButton>
+                  <IconButton size='medium' color="primary">{collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}</IconButton>
                 </Tooltip>
               </div>
             </Grid>

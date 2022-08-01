@@ -39,7 +39,7 @@ const SidebarMenuListItem = props => {
   if (children) {
     return (
       <ListItem {...rest} className={clsx('app-sidebar-item', className)} disableGutters>
-        <Button color="primary" className={clsx('app-sidebar-button', { active: open })} onClick={handleToggle} style={style}>
+        <Button size='large' color="primary" className={clsx('app-sidebar-button', { active: open })} onClick={handleToggle} style={style}>
           {Icon && <Icon className="app-sidebar-icon" />}
           <span>{title}</span>
           {open ? (
@@ -55,6 +55,7 @@ const SidebarMenuListItem = props => {
     return (
       <ListItem {...rest} className={clsx('app-sidebar-item', className)} disableGutters>
         <Button
+          size='large'
           activeClassName="active-item"
           color="primary"
           disableRipple

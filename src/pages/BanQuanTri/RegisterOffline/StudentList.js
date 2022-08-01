@@ -30,8 +30,8 @@ const StudentList = () => {
   return (
     <>
       {lstNewStudent?.map((item, i) => (
-        <Grid item xs={12} lg={6}>
-          <Card className="card-box mb-1 w-100" key={`new-stu-${i}`}>
+        <Grid item xs={12} lg={6} key={`new-stu-${i}`}>
+          <Card className="card-box mb-1 w-100">
             <div className="card-header d-flex pb-1 pt-1" onClick={handleCollapse} style={{ cursor: 'pointer' }}>
               <div className="card-header--title">
                 <h4 className="font-size-lg mb-0 py-1 font-weight-bold">
@@ -40,7 +40,9 @@ const StudentList = () => {
               </div>
               <div className="card-header--actions">
                 <Tooltip arrow title={!collapse ? 'Thu lại' : 'Mở rộng'}>
-                  <IconButton color="primary">{collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}</IconButton>
+                  <IconButton size="medium" color="primary">
+                    {collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                  </IconButton>
                 </Tooltip>
               </div>
             </div>

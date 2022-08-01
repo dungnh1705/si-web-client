@@ -167,7 +167,7 @@ const UserRolesForm = () => {
         </Grid>
         <Grid item xs={12}>
           <Grid item justifyContent="flex-end" container>
-            <Button color="primary" variant="contained" type="submit" onClick={handleClickSave} disabled={userFormMode !== 'Edit'}>
+            <Button size='large' color="primary" variant="contained" type="submit" onClick={handleClickSave} disabled={userFormMode !== 'Edit'}>
               Lưu
             </Button>
           </Grid>

@@ -31,7 +31,7 @@ const HeaderUserBox = () => {
 
   return (
     <Fragment>
-      <Button color="inherit" onClick={handleClick} className="text-capitalize px-3 text-left btn-inverse d-flex align-items-center">
+      <Button size='medium' color="inherit" onClick={handleClick} className="text-capitalize px-3 text-left btn-inverse d-flex align-items-center">
         <Box>
           <Badge
             isActive={true}
@@ -41,8 +41,9 @@ const HeaderUserBox = () => {
               horizontal: 'right'
             }}
             variant="dot"
+            className="p-0 m-0"
             child={
-              <Avatar sizes="44" alt={`${session?.firstName} ${session?.lastName}`} src={session?.croppedAvatarId ? `img/avatar/${session.croppedAvatarId}.png` : ''}>
+              <Avatar className="p-0 m-0" sizes="44" alt={`${session?.firstName} ${session?.lastName}`} src={session?.croppedAvatarId ? `img/avatar/${session.croppedAvatarId}.png` : ''}>
                 {`${session?.firstName?.substring(0, 1)}${session?.lastName?.substring(0, 1)}`}
               </Avatar>
             }

@@ -1,6 +1,5 @@
 import { atom, selector } from 'recoil'
 import _ from 'lodash'
-import config from 'config'
 import slugify from 'slugify'
 
 import { doGet } from 'utils/axios'

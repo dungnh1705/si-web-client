@@ -17,10 +17,10 @@ export const DialerDialog = () => {
   }
 
   return (
-    <Dialog open={phoneCallDialog} onClose={handleClose} maxWidth="lg">
+    <Dialog open={phoneCallDialog} onClose={handleClose}>
       <DialogTitle>Gọi điện thoại</DialogTitle>
       <Divider />
-      <DialogContent>
+      <DialogContent style={{ minWidth: '300px' }}>
         <div style={{ padding: '30px', textAlign: 'center' }}>
           <Typography>Thực hiện gọi SĐT</Typography>
           <br />

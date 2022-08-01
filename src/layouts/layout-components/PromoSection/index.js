@@ -21,10 +21,11 @@ export default function PromoSection() {
         <div className="promo-section-buttons-wrapper">
           <div className="promo-section-buttons">
             <Tooltip arrow title="Stay up to date" placement="left">
-              <Button onClick={openPopover} className="bg-neutral-first text-first p-0 d-50 d-flex align-items-center justify-content-center"></Button>
+              <Button size='large' onClick={openPopover} className="bg-neutral-first text-first p-0 d-50 d-flex align-items-center justify-content-center"></Button>
             </Tooltip>
             <Tooltip arrow title="View documentation" placement="left">
               <Button
+                size='large'
                 className="bg-neutral-danger text-danger my-2 p-0 d-50 d-flex align-items-center justify-content-center"
                 href="https://docs.uifort.com/carolina-react-admin-dashboard-pro-docs"
                 rel="noopener"
@@ -32,6 +33,7 @@ export default function PromoSection() {
             </Tooltip>
             <Tooltip arrow title="View product details" placement="left">
               <Button
+                size='large'
                 className="bg-neutral-success text-success p-0 d-50 d-flex align-items-center justify-content-center"
                 href="https://themes.material-ui.com/themes/carolina-react-admin-dashboard-pro"
                 rel="noopener"
@@ -57,32 +59,33 @@ export default function PromoSection() {
           <div className="px-5 font-size-lg pb-3 text-center pt-1 font-weight-bold">Subscribe to stay up to date with our latest releases and updates!</div>
           <div className="text-center">
             <Tooltip arrow title="Facebook">
-              <Button className="m-2 d-40 p-0 rounded-sm text-facebook" variant="outlined" href="https:&#x2F;&#x2F;www.facebook.com&#x2F;UiFort" rel="noopener nofollow" target="_blank">
+              <Button size='large' className="m-2 d-40 p-0 rounded-sm text-facebook" variant="outlined" href="https:&#x2F;&#x2F;www.facebook.com&#x2F;UiFort" rel="noopener nofollow" target="_blank">
                 <span className="btn-wrapper--icon"></span>
               </Button>
             </Tooltip>
             <Tooltip arrow title="Twitter">
-              <Button className="m-2 d-40 p-0 rounded-sm text-twitter" variant="outlined" href="https:&#x2F;&#x2F;twitter.com&#x2F;uifort1" rel="noopener nofollow" target="_blank">
+              <Button size='large' className="m-2 d-40 p-0 rounded-sm text-twitter" variant="outlined" href="https:&#x2F;&#x2F;twitter.com&#x2F;uifort1" rel="noopener nofollow" target="_blank">
                 <span className="btn-wrapper--icon"></span>
               </Button>
             </Tooltip>
             <Tooltip arrow title="Instagram">
-              <Button className="m-2 d-40 p-0 rounded-sm text-instagram" variant="outlined" href="https:&#x2F;&#x2F;www.instagram.com&#x2F;uifort1" rel="noopener nofollow" target="_blank">
+              <Button size='large' className="m-2 d-40 p-0 rounded-sm text-instagram" variant="outlined" href="https:&#x2F;&#x2F;www.instagram.com&#x2F;uifort1" rel="noopener nofollow" target="_blank">
                 <span className="btn-wrapper--icon"></span>
               </Button>
             </Tooltip>
             <Tooltip arrow title="Discord">
-              <Button className="m-2 d-40 p-0 rounded-sm text-first" variant="outlined" href="https:&#x2F;&#x2F;discord.gg&#x2F;mddFBQX" rel="noopener nofollow" target="_blank">
+              <Button size='large' className="m-2 d-40 p-0 rounded-sm text-first" variant="outlined" href="https:&#x2F;&#x2F;discord.gg&#x2F;mddFBQX" rel="noopener nofollow" target="_blank">
                 <span className="btn-wrapper--icon"></span>
               </Button>
             </Tooltip>
             <Tooltip arrow title="Dribbble">
-              <Button className="m-2 d-40 p-0 rounded-sm text-dribbble" variant="outlined" href="https:&#x2F;&#x2F;dribbble.com&#x2F;UiFort" rel="noopener nofollow" target="_blank">
+              <Button size='large' className="m-2 d-40 p-0 rounded-sm text-dribbble" variant="outlined" href="https:&#x2F;&#x2F;dribbble.com&#x2F;UiFort" rel="noopener nofollow" target="_blank">
                 <span className="btn-wrapper--icon"></span>
               </Button>
             </Tooltip>
             <Tooltip arrow title="Github">
               <Button
+                size='large'
                 className="m-2 d-40 p-0 rounded-sm text-github border-github"
                 variant="outlined"
                 color="default"
@@ -96,6 +99,7 @@ export default function PromoSection() {
           <div className="divider my-3" />
           <div className="text-center">
             <Button
+              size='large'
               variant="contained"
               className="px-4"
               color="primary"

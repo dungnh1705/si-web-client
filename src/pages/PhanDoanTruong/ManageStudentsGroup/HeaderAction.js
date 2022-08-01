@@ -1,76 +1,89 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { TextField, Popper, Tooltip, Fab, Grow, Paper, ClickAwayListener } from '@material-ui/core'
+import React, { useState } from 'react'
+import { List, ListItem, Tooltip, Fab, Menu } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFileExcel, faDownload } from '@fortawesome/free-solid-svg-icons'
 import { useSetRecoilState } from 'recoil'
 
-import { SearchGroupStudent } from './recoil'
-import { PageTitle } from 'layouts/layout-components'
+import sessionHelper from 'utils/sessionHelper'
+import { doPost } from 'utils/axios'
+import { toastState } from 'recoils/atoms'
+
+const apiEndpoint = process.env.REACT_APP_WEB_API
+const templateId = process.env.REACT_APP_START_YEAR_DOC_ID
 
 export default function HeaderAction() {
-  const [searchText, setSearchText] = useState()
-  let setSearchKey = useSetRecoilState(SearchGroupStudent)
-  let [openSearch, setOpenSearch] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
 
-  const anchorRef = useRef(null)
-  const prevSearchOpen = useRef(openSearch)
+  const setToast = useSetRecoilState(toastState)
 
-  useEffect(() => {
-    if (prevSearchOpen.current === true && openSearch === false) {
-      anchorRef.current.focus()
-    }
-    prevSearchOpen.current = openSearch
-  }, [openSearch])
-
-  const handleChangeSearchKey = e => {
-    setSearchText(e.target.value)
+  const handleOpen = event => {
+    setAnchorEl(event.currentTarget)
   }
 
-  const handleBlur = () => {
-    setOpenSearch(false)
-    setSearchKey(searchText)
-  }
-
-  const handleKeyUp = e => {
+  const handleDownload = async e => {
     e.preventDefault()
+    handleClose()
 
-    if (e.key === 'Enter' || e.keyCode === 13) {
-      setOpenSearch(false)
-      setSearchKey(searchText)
+    try {
+      const data = {
+        StudentId: [],
+        ClassId: null,
+        ScholasticId: sessionHelper().scholasticId,
+        UserId: sessionHelper().userId,
+        TemplateId: templateId,
+        IsPreview: false
+      }
+
+      const res = await doPost(`download/previewForm`, data)
+      if (res && res.data.success) {
+        const { data } = res.data
+        window.open(`${apiEndpoint}/file/get?fileName=${data}`, '_parent')
+      }
+    } catch (err) {
+      setToast({ open: true, message: err.message, type: 'error' })
     }
   }
 
-  const handleClickSearch = () => {
-    setOpenSearch(prevOpen => !prevOpen)
+  const handleClose = () => {
+    setAnchorEl(null)
   }
 
   return (
     <>
-      {/* <Tooltip title="Tìm kiếm Đoàn sinh">
-        <Fab component="div" size="small" color="primary" onClick={handleClickSearch} ref={anchorRef}>
-          <FontAwesomeIcon icon={['fas', 'search']} />
+      <Tooltip title="Tải xuống">
+        <Fab component="div" size="small" color="primary" onClick={handleOpen}>
+          <FontAwesomeIcon icon={faDownload} />
         </Fab>
       </Tooltip>
-
-      <Popper open={openSearch} anchorEl={anchorRef.current} role={undefined} transition placement="left">
-        {({ TransitionProps }) => (
-          <Grow {...TransitionProps}>
-            <ClickAwayListener onClickAway={handleBlur}>
-              <TextField
-                fullWidth
-                margin="dense"
-                variant="outlined"
-                onChange={handleChangeSearchKey}
-                onBlur={handleBlur}
-                onKeyUp={handleKeyUp}
-                value={searchText}
-                placeholder="Nhập tên Đoàn sinh"
-                style={{ backgroundColor: 'white' }}
-              />
-            </ClickAwayListener>
-          </Grow>
-        )}
-      </Popper> */}
-      <PageTitle titleHeading="Danh sách phân đoàn" titleDescription="" />
+      <Menu
+        anchorEl={anchorEl}
+        keepMounted
+        getContentAnchorEl={null}
+        open={Boolean(anchorEl)}
+        anchorOrigin={{
+          vertical: 'center',
+          horizontal: 'center'
+        }}
+        transformOrigin={{
+          vertical: 'center',
+          horizontal: 'center'
+        }}
+        onClose={handleClose}>
+        <div className="dropdown-menu-right dropdown-menu-lg overflow-hidden p-0">
+          <List className="text-left bg-transparent d-flex align-items-center flex-column pt-0">
+            <ListItem key="action-download-PDF" button onClick={handleDownload}>
+              <div className="grid-menu grid-menu-1col w-100">
+                <div>
+                  <div className="d-flex justify-content-left">
+                    <FontAwesomeIcon icon={faFileExcel} size="lg" className="mr-3" />
+                    <div className="d-flex align-items-center">Tải danh sách Đoàn sinh</div>
+                  </div>
+                </div>
+              </div>
+            </ListItem>
+          </List>
+        </div>
+      </Menu>
     </>
   )
 }

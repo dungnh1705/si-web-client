@@ -10,6 +10,7 @@ import { ViewMode } from 'recoils/atoms'
 
 import { StudentsGroupQuery } from './recoil'
 import StudentGroup from './StudentGroup'
+import HeaderAction from './HeaderAction'
 
 const ManageStudentsGroup = () => {
   const lstStudent = useRecoilValue(StudentsGroupQuery)
@@ -23,8 +24,8 @@ const ManageStudentsGroup = () => {
     return (
       <Grid container spacing={1}>
         {lstStudent && (
-          <Grid container item spacing={1}>
-            <Grid item xs={12} lg={9}>
+          <Grid container spacing={1}>
+            <Grid item xs={10} sm={9}>
               <ButtonGroup variant="contained" aria-label="contained primary button group">
                 <Button color={mode === ViewModes.DiemDanh ? 'primary' : 'default'} onClick={() => setMode(ViewModes.DiemDanh)}>
                   Điểm danh
@@ -36,6 +37,10 @@ const ManageStudentsGroup = () => {
                   Danh sách nghỉ
                 </Button>
               </ButtonGroup>
+            </Grid>
+
+            <Grid container item xs={2} sm={3} justifyContent="flex-end">
+              <HeaderAction />
             </Grid>
           </Grid>
         )}
