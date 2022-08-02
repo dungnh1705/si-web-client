@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from 'react'
+import React, { useState } from 'react'
 import { Grid, Card, Tooltip, IconButton, Divider, ButtonGroup, Button } from '@material-ui/core'
 import _ from 'lodash'
 import { useRecoilValue } from 'recoil'
@@ -13,8 +13,9 @@ import { ViewModes, AbsentMode } from 'app/enums'
 import StudentTeamItem from './StudentTeamItem'
 
 const StudentTeam = ({ item, unionId }) => {
-  const [collapse, setCollapse] = useState(true)
   const viewMode = useRecoilValue(ViewMode)
+
+  const [collapse, setCollapse] = useState(true)
   const [viewAbsentMode, setViewAbsentMode] = useState(AbsentMode.Mass)
 
   const handleCollapse = () => {
@@ -22,7 +23,7 @@ const StudentTeam = ({ item, unionId }) => {
   }
 
   return (
-    <Suspense>
+    <>
       {item?.students?.length > 0 && (
         <Card className="card-box mb-1 w-100">
           <div className="card-header d-flex pb-1 pt-1" onClick={handleCollapse} style={{ cursor: 'pointer' }}>
@@ -37,7 +38,9 @@ const StudentTeam = ({ item, unionId }) => {
             <Grid container item xs={3} justifyContent="flex-end">
               <div className="card-header--actions">
                 <Tooltip arrow title={!collapse ? 'Thu lại' : 'Mở rộng'}>
-                  <IconButton size='medium' color="primary">{collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}</IconButton>
+                  <IconButton size="medium" color="primary">
+                    {collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                  </IconButton>
                 </Tooltip>
               </div>
             </Grid>
@@ -49,6 +52,7 @@ const StudentTeam = ({ item, unionId }) => {
                 <thead>
                   <tr>
                     {viewMode === ViewModes.XepChiDoan && <th rowSpan="2">CĐ</th>}
+                    <th rowSpan="2">STT</th>
                     <th rowSpan="2">Tên Thánh, Họ và Tên</th>
                     {viewMode === ViewModes.DiemDanh && (
                       <th colSpan="2" rowSpan={item.team !== 0 && viewMode === ViewModes.DiemDanh ? 1 : 2} className="td-center">
@@ -76,8 +80,8 @@ const StudentTeam = ({ item, unionId }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {_.orderBy(item.students).map((stu, index) => (
-                    <StudentTeamItem key={`stu-team-item-${stu.id}`} student={stu} unionId={unionId} viewAbsentMode={viewAbsentMode} team={item.team} />
+                  {_.orderBy(item.students, ['stuGender', 'stuLastName'], ['asc']).map((stu, index) => (
+                    <StudentTeamItem key={`stu-team-item-${stu.id}`} student={stu} unionId={unionId} viewAbsentMode={viewAbsentMode} team={item.team} index={index + 1} />
                   ))}
                 </tbody>
               </table>
@@ -85,7 +89,7 @@ const StudentTeam = ({ item, unionId }) => {
           )}
         </Card>
       )}
-    </Suspense>
+    </>
   )
 }
 

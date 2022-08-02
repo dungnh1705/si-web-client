@@ -34,7 +34,9 @@ const StudentTeam = ({ item }) => {
         <Grid container item xs={4} justifyContent="flex-end">
           <div className="card-header--actions">
             <Tooltip arrow title={!collapse ? 'Thu lại' : 'Mở rộng'}>
-              <IconButton size='medium' color="primary">{collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}</IconButton>
+              <IconButton size="medium" color="primary">
+                {collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+              </IconButton>
             </Tooltip>
           </div>
         </Grid>
@@ -45,6 +47,7 @@ const StudentTeam = ({ item }) => {
           <thead>
             <tr>
               {viewMode === ViewModes.XepDoi && <th rowSpan="2">Đội</th>}
+              <th rowSpan="2">STT</th>
               <th rowSpan="2">Tên Thánh, Họ và Tên</th>
               <th colSpan="2" rowSpan={item.team !== 0 && viewMode === ViewModes.DiemDanh ? 1 : 2} className="td-center">
                 {item.team !== 0 && viewMode === ViewModes.DiemDanh && (
@@ -70,7 +73,7 @@ const StudentTeam = ({ item }) => {
           </thead>
           <tbody>
             {_.orderBy(item?.students).map((stu, index) => (
-              <StudentTeamItem key={`stu-class-${stu.id}-${index}`} student={stu} team={item.team} viewAbsentMode={viewAbsentMode} />
+              <StudentTeamItem key={`stu-class-${stu.id}-${index}`} student={stu} team={item.team} viewAbsentMode={viewAbsentMode} index={index + 1} />
             ))}
           </tbody>
         </table>

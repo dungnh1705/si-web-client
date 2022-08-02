@@ -37,13 +37,20 @@ const StudentGroup = ({ item }) => {
         if (item.team !== 0) item.students = item.students.filter(stu => stu.status !== StudentStatus.Active)
         else item.students = []
       })
+    } else {
+      lstStudentInTeam.forEach(item => {
+        if (item.team !== 0) item.students = _.filter(item.students, { status: StudentStatus.Active })
+      })
     }
+
     return lstStudentInTeam
   }
 
   const handleCollapse = () => {
     setCollapse(!collapse)
   }
+
+  // console.log(lstStudentInTeam)
 
   return (
     <>
@@ -61,7 +68,9 @@ const StudentGroup = ({ item }) => {
             <Grid container item xs={4} justifyContent="flex-end">
               <div className="card-header--actions">
                 <Tooltip arrow title={!collapse ? 'Thu lại' : 'Mở rộng'}>
-                  <IconButton size='medium' color="primary">{collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}</IconButton>
+                  <IconButton size="medium" color="primary">
+                    {collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                  </IconButton>
                 </Tooltip>
               </div>
             </Grid>

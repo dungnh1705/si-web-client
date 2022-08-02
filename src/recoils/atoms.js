@@ -93,3 +93,8 @@ export const ViewMode = atom({
   key: 'viewMode',
   default: ViewModes.DiemDanh
 })
+
+export const PageYOffset = atom({
+  key: 'pageYOffset',
+  default: 0
+})
