@@ -1,5 +1,5 @@
 import { Card, Grid, Tooltip, IconButton, Divider, Table } from '@material-ui/core'
-import React, { Suspense, useState } from 'react'
+import React, { useState } from 'react'
 import _ from 'lodash'
 import { useRecoilValue } from 'recoil'
 
@@ -7,7 +7,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import StudentUnionItem from './StudentUnionItem'
 import { SemesterSelected } from './recoil'
-import { SemesterEnum } from 'app/enums'
+import { SemesterEnum, StudentStatus } from 'app/enums'
 
 import { v4 as uuidv4 } from 'uuid'
 
@@ -67,7 +67,9 @@ const StudentUnionTeam = ({ item }) => {
             <Grid container item xs={4} justifyContent="flex-end">
               <div className="card-header--actions">
                 <Tooltip arrow title={!collapse ? 'Thu lại' : 'Mở rộng'}>
-                  <IconButton size='medium' color="primary">{collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}</IconButton>
+                  <IconButton size="medium" color="primary">
+                    {collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                  </IconButton>
                 </Tooltip>
               </div>
             </Grid>
@@ -121,7 +123,7 @@ const StudentUnionTeam = ({ item }) => {
                 </tr>
               </thead>
               <tbody>
-                {_.orderBy(item.students, ['stuGender', 'stuLastName'], ['asc']).map(stu => (
+                {_.orderBy(_.filter(item.students, { status: StudentStatus.Active }), ['stuGender', 'stuLastName'], ['asc']).map(stu => (
                   <StudentUnionItem key={`stu-score-item-${uuidv4()}`} student={stu} />
                 ))}
               </tbody>
