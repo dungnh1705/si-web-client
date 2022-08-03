@@ -6,6 +6,8 @@ import _ from 'lodash'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
+import { StudentStatus } from 'app/enums'
+
 import StudentTeamItem from './StudentTeamItem'
 
 const StudentTeam = ({ team }) => {
@@ -25,7 +27,9 @@ const StudentTeam = ({ team }) => {
           <Grid container item xs={4} justifyContent="flex-end">
             <div className="card-header--actions">
               <Tooltip arrow title={!collapse ? 'Thu lại' : 'Mở rộng'}>
-                <IconButton size='medium' color="primary">{collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}</IconButton>
+                <IconButton size="medium" color="primary">
+                  {collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                </IconButton>
               </Tooltip>
             </div>
           </Grid>
@@ -40,8 +44,8 @@ const StudentTeam = ({ team }) => {
               </tr>
             </thead>
             <tbody>
-              {_.orderBy(team?.students, ['stuLastName'], ['asc']).map((stu, index) => (
-                <StudentTeamItem key={`score-${index + 98}`} student={stu} id={index} />
+              {_.orderBy(_.filter(team?.students, { status: StudentStatus.Active }), ['stuGender', 'stuLastName'], ['asc']).map((stu, index) => (
+                <StudentTeamItem key={`score-${stu.id}`} student={stu} id={index} />
               ))}
             </tbody>
           </table>
