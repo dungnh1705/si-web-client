@@ -54,8 +54,3 @@ export const WorkingSemester = atom({
   key: 'workingSemester',
   default: SemesterEnum.semesterOne
 })
-
-export const PageYOffset = atom({
-  key: 'pageYOffset',
-  default: 0
-})

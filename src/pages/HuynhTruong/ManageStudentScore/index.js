@@ -2,7 +2,9 @@ import React, { Suspense, useEffect } from 'react'
 import { Grid, Typography, ButtonGroup, Button, Hidden } from '@material-ui/core'
 import { useRecoilState, useRecoilValue } from 'recoil'
 
-import { PageYOffset, StudentListQuery, WorkingSemester } from './recoil'
+import { PageYOffset } from 'recoils/atoms'
+
+import { StudentListQuery, WorkingSemester } from './recoil'
 import HeaderAction from './HeaderAction'
 import StudentTeam from './StudentTeam'
 

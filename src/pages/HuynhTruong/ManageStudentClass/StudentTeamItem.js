@@ -3,18 +3,18 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { Typography, Badge, Select, MenuItem, FormControlLabel } from '@material-ui/core'
 
 import StyledRadio from 'components/UI/StyledRadio'
+import { StudentDialogAtom } from 'components/Dialog/recoil'
 
-import { ReloadStudentClass, AssignmentQuery } from './recoil'
+import { ViewModes, StudentStatus, AbsentMode } from 'app/enums'
 import { HolyNameQuery } from 'recoils/selectors'
-import config from 'config'
 import { doPost } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { toastState, loadingState } from 'recoils/atoms'
 import { ViewMode } from 'recoils/atoms'
-import { ViewModes, StudentStatus, AbsentMode } from 'app/enums'
-import { StudentDialogAtom } from 'components/Dialog/recoil'
 
-const StudentTeamItem = ({ student, team, viewAbsentMode }) => {
+import { ReloadStudentClass, AssignmentQuery } from './recoil'
+
+const StudentTeamItem = ({ student, team, viewAbsentMode, index }) => {
   const lstHolyName = useRecoilValue(HolyNameQuery)
   const lstTeam = useRecoilValue(AssignmentQuery)
   const viewMode = useRecoilValue(ViewMode)
@@ -110,6 +110,7 @@ const StudentTeamItem = ({ student, team, viewAbsentMode }) => {
           </Select>
         </td>
       )}
+      <td>{index}</td>
       <td style={{ cursor: 'pointer' }} onClick={handleRowClick}>
         {(student.status === StudentStatus.ChangeChurch || student.status === StudentStatus.LeaveStudy) && (
           <Badge

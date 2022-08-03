@@ -3,7 +3,6 @@ import { Grid, MenuItem, TextField, FormControl, InputLabel, Select } from '@mat
 import { useFormik } from 'formik'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 
-import config from 'config'
 import { doPost } from 'utils/axios'
 import _ from 'lodash'
 
@@ -13,9 +12,9 @@ import Yup from 'utils/Yup'
 import sessionHelper from 'utils/sessionHelper'
 import StringUtils from 'utils/StringUtils'
 import ScoreUtils from 'utils/ScoreUtils'
-import { toastState } from 'recoils/atoms'
+import { PageYOffset, toastState } from 'recoils/atoms'
 
-import { PageYOffset, ReloadStudentList, WorkingSemester } from './recoil'
+import { ReloadStudentList, WorkingSemester } from './recoil'
 
 const initialValues = { oldTest: '', fifteenTest: '', lessonTest: '', semesterTest: '', average: '', morality: 'Tốt', comment: '', isActive: true }
 

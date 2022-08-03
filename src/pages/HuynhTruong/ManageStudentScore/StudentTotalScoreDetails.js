@@ -7,12 +7,10 @@ import { useRecoilState, useSetRecoilState } from 'recoil'
 import _ from 'lodash'
 
 import { Morality } from 'app/enums'
-
-import config from 'config'
 import { doPost } from 'utils/axios'
-import { ReloadStudentList, PageYOffset } from './recoil'
+import { ReloadStudentList } from './recoil'
 
-import { toastState } from 'recoils/atoms'
+import { toastState, PageYOffset } from 'recoils/atoms'
 
 import sessionHelper from 'utils/sessionHelper'
 import ScoreUtils from 'utils/ScoreUtils'

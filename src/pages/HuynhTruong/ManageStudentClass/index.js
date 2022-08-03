@@ -46,12 +46,12 @@ const ManageStudentsClass = () => {
 
           {haveStudentNoTeam &&
             lstNoTeam?.map((item, index) => (
-              <Grid item xs={12} lg={3} key={`class-team-${index + 123}`}>
+              <Grid item xs={12} lg={4} key={`class-team-${index + 123}`}>
                 <StudentTeam item={item} />
               </Grid>
             ))}
 
-          <Grid item xs={12} lg={haveStudentNoTeam ? 9 : 12} container direction="row" spacing={1}>
+          <Grid item xs={12} lg={haveStudentNoTeam ? 8 : 12} container direction="row" spacing={1}>
             {lstInClass?.map((item, index) => (
               <Grid item xs={12} lg={haveStudentNoTeam ? 12 : 6} key={`class-teams-${index + item.team}`}>
                 <StudentTeam item={item} />
