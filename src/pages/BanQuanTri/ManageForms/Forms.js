@@ -27,7 +27,7 @@ const Forms = () => {
   return (
     <>
       <Grid item xs={12}>
-        <div className="card card-box d-block mb-4 pb-3">
+        <div className="card d-block mb-4 pb-3">
           <div className="card-header pb-2 pt-2">
             <div className="card-header--title">
               <h4 className="font-size-lg mb-0 py-2 font-weight-bold">BIỂU MẪU</h4>
@@ -42,7 +42,7 @@ const Forms = () => {
         </div>
       </Grid>
       <Grid item xs={12}>
-        <div className="card card-box d-block mb-4 pb-3">
+        <div className="card d-block mb-4 pb-3">
           <div className="card-header d-flex pb-2 pt-2">
             <div className="card-header--title">
               <h4 className="font-size-lg mb-0 py-2 font-weight-bold">BÁO CÁO</h4>
@@ -58,7 +58,7 @@ const Forms = () => {
         </div>
       </Grid>
       <Grid item xs={12}>
-        <div className="card card-box d-block mb-4 pb-3">
+        <div className="card d-block mb-4 pb-3">
           <div className="card-header d-flex pb-2 pt-2">
             <div className="card-header--title">
               <h4 className="font-size-lg mb-0 py-2 font-weight-bold">EMAIL TỰ ĐỘNG</h4>
