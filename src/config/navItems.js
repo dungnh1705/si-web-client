@@ -146,13 +146,30 @@ const functions = [
   }
 ]
 
+// Từ danh sách functions
+// Kiểm tra danh sách Roles của User login
+// If User có role được config trong function thì kiếm tra thêm nếu function đó là dành cho Huynh Trưởng mà User login không có thông tin Class (chứng tỏ user login là PDT) thì sẽ không hiện function đó
+// ngoài các function có Role thì cũng lấy các functions không có role
+
+// Trường hợp user login không có roles trong function thì kiểm tra function của Phân Đoàn Trưởng nếu có role Học Tập thì hiện chức năng của Phân Đoàn Trưởng
+
 export default [
   {
     label: 'Danh sách chức năng',
     content: sessionHelper().isFirstLogin
       ? []
-      : functions.filter(e => {
-          return (sessionHelper().roles?.includes(e.role) ? (e.role === Roles.HuynhTruong ? (sessionHelper().classId ? true : false) : true) : false) || !e.role
+      : functions.filter(func => {
+          return (
+            (sessionHelper().roles?.includes(func.role)
+              ? func.role === Roles.HuynhTruong
+                ? sessionHelper().classId
+                  ? true
+                  : false
+                : true
+              : func.role === Roles.PhanDoanTruong && sessionHelper().roles?.includes(Roles.HocTap)
+              ? true
+              : false) || !func.role
+          )
         })
   }
 ]

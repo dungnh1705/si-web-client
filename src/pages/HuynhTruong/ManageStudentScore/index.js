@@ -15,6 +15,7 @@ import { Semester } from 'app/enums'
 const ManageStudentScore = () => {
   const lstStudent = useRecoilValue(StudentListQuery)
   const positionY = useRecoilValue(PageYOffset)
+
   const [workingSemester, setWorkingSemester] = useRecoilState(WorkingSemester)
 
   useEffect(() => {
@@ -24,13 +25,13 @@ const ManageStudentScore = () => {
   const body = () => {
     return (
       <Grid container spacing={2}>
-        {!lstStudent && (
+        {lstStudent.length === 0 && (
           <Grid item xs={12}>
             <Typography variant="h4">Bạn chưa được phân Chi đoàn hoặc chưa có Đoàn sinh trong Chi đoàn.</Typography>
           </Grid>
         )}
 
-        {lstStudent && (
+        {lstStudent.length > 0 && (
           <>
             <Grid item xs={12} sm={9}>
               <ButtonGroup variant="contained" aria-label="contained primary button group">

@@ -37,7 +37,8 @@ export const Roles = {
   KyLuat: 64,
   PhongTrao: 128,
   BanQuanTri: 256,
-  Admin: 2
+  Admin: 2,
+  HocTap: 512
 }
 
 export const Functions = {

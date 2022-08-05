@@ -37,6 +37,9 @@ export default {
       case Roles.DuTruong:
         res = 'Dự trưởng'
         break
+      case Roles.HocTap:
+        res = 'Học tập'
+        break
       default:
         res = ''
         break

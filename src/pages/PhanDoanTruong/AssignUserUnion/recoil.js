@@ -1,8 +1,7 @@
 import { atom, selector } from 'recoil'
 import _ from 'lodash'
-import config from 'config'
-import sessionHelper from 'utils/sessionHelper'
 
+import sessionHelper from 'utils/sessionHelper'
 import { doGet } from 'utils/axios'
 
 export const ReloadUserInGroup = atom({
@@ -22,8 +21,9 @@ export const UserInGroupQuery = selector({
 
     const scholasticId = sessionHelper().scholasticId
     const userId = sessionHelper().userId
+    const classId = sessionHelper().classId
 
-    const res = await doGet(`user/getUserInGroup`, { scholasticId: scholasticId, userId: userId })
+    const res = await doGet(`user/getUserInGroup`, { scholasticId, userId, classId })
 
     if (res && res.data.success) {
       const result = _.chain(res.data.data)

@@ -14,6 +14,7 @@ import RegisterOffline from 'pages/BanQuanTri/RegisterOffline'
 import AddNewStudent from 'pages/PhanDoanTruong/AddNewStudent'
 import ManageScoreGroup from 'pages/PhanDoanTruong/ManageScoreGroup'
 import { default as StudentGroup } from 'pages/PhanDoanTruong/ManageStudentsGroup'
+import AssignUserUnion from 'pages/PhanDoanTruong/AssignUserUnion'
 //HT
 import ManageStudentScore from 'pages/HuynhTruong/ManageStudentScore'
 import { default as StudentAbsent } from 'pages/Students/Absent'
@@ -144,12 +145,11 @@ export default [
       {
         path: '/PDT/AssignUserUnion',
         exact: true,
-        component: lazy(() => import('pages/PhanDoanTruong/AssignUserUnion'))
-      },
-      {
-        path: '/PDT/AssignUserUnion',
-        exact: true,
-        component: lazy(() => import('pages/PhanDoanTruong/AssignUserUnion'))
+        component: () => (
+          <Suspense fallback={<PageSkeleton />}>
+            <AssignUserUnion />
+          </Suspense>
+        )
       },
       {
         path: '/PDT/GroupAbsent',

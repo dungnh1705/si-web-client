@@ -82,12 +82,13 @@ const StudentGroup = ({ item }) => {
                 <thead>
                   <tr>
                     {viewMode === ViewModes.XepChiDoan && <th>CĐ</th>}
+                    <th>STT</th>
                     <th>Tên Thánh, Họ và Tên</th>
                   </tr>
                 </thead>
                 <tbody>
                   {_.orderBy(item.students).map((stu, index) => (
-                    <StudentTeamItem key={`stu-team-no-union-${stu.id}`} student={stu} unionId={item.unionId} />
+                    <StudentTeamItem key={`stu-team-no-union-${stu.id}`} student={stu} unionId={item.unionId} index={index + 1} />
                   ))}
                 </tbody>
               </table>

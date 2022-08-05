@@ -37,7 +37,12 @@ export default function HeaderAction() {
   const handleDownloadExcel = (e, semesterCode) => {
     e.preventDefault()
 
-    window.open(`${apiEndpoint}/file/getGroupScoreCSV?ScholasticId=${sessionHelper().scholasticId}&UserId=${sessionHelper().userId}&Semester=${semesterCode}`, '_parent')
+    window.open(
+      `${apiEndpoint}/file/getGroupScoreCSV?ScholasticId=${sessionHelper().scholasticId}&UserId=${sessionHelper().userId}&Semester=${semesterCode}&ClassId=${
+        sessionHelper().classId
+      }`,
+      '_parent'
+    )
     handleClose()
   }
 
