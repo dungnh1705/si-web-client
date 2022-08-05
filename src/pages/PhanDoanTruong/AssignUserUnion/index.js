@@ -2,15 +2,18 @@ import React, { Suspense, useState } from 'react'
 import { Grid, Card, TextField, InputAdornment, MenuItem, Tooltip, Fab, Typography } from '@material-ui/core'
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
 
-import UserList from './UserList'
-import config from 'config'
+// External
 import { doPost } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
-import ModalSkeleton from 'components/Loading/modal-skeleton'
 
+import ModalSkeleton from 'components/Loading/modal-skeleton'
 import { RolesDialog } from 'components/Dialog'
+
 import { UnionQuery } from 'recoils/selectors'
 import { toastState, loadingState } from 'recoils/atoms'
+
+// Internal
+import UserList from './UserList'
 import { UserInGroupQuery, AssignmentIdSelected, ReloadUserInGroup } from './recoil'
 
 // icons
@@ -19,11 +22,14 @@ import AddTwoToneIcon from '@material-ui/icons/AddTwoTone'
 const AssignUserUnion = () => {
   const lstAssignment = useRecoilValue(UserInGroupQuery)
   const lstUnion = useRecoilValue(UnionQuery)
+
   const [assignIds, setAssignIds] = useRecoilState(AssignmentIdSelected)
-  const setLoading = useSetRecoilState(loadingState)
-  const [union, setUnion] = useState('')
   const [toast, setToast] = useRecoilState(toastState)
+
+  const setLoading = useSetRecoilState(loadingState)
   const setReloadUsers = useSetRecoilState(ReloadUserInGroup)
+
+  const [union, setUnion] = useState('')
 
   const handleDisabled = () => {
     return !(assignIds.length > 0 && union !== '')
@@ -110,7 +116,7 @@ const AssignUserUnion = () => {
     )
   }
 
-  console.log(lstAssignment)
+  // console.log(lstAssignment)
 
   return (
     <Suspense fallback={<>Đang tải Danh sách Huynh trưởng ...</>}>

@@ -165,6 +165,10 @@ export const RolesDialog = () => {
                     label="Ngành trưởng"
                   />
                   <FormControlLabel
+                    control={<StyledCheckbox checked={formRoles.values.includes(Roles.HocTap)} onChange={handleCheckRole} value={Roles.HocTap} />}
+                    label="Học tập"
+                  />
+                  <FormControlLabel
                     control={<StyledCheckbox checked={formRoles.values.includes(Roles.KyLuat)} onChange={handleCheckRole} value={Roles.KyLuat} />}
                     label="Kỷ luật"
                   />

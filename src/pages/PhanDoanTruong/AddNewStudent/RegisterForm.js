@@ -3,15 +3,14 @@ import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
 import { Card, CardContent, Grid, FormControl, FormControlLabel, FormGroup, CardActions, Button, Divider } from '@material-ui/core'
 
 import { useFormik } from 'formik'
-import config from 'config'
 import { doPost } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import Yup from 'utils/Yup'
-import StyledRadio from 'components/UI/StyledRadio'
 import { RegisterMode } from 'app/enums'
 
 import { HolyNameQuery } from 'recoils/selectors'
 import { loadingState, toastState } from 'recoils/atoms'
+import StyledRadio from 'components/UI/StyledRadio'
 import ShortTextField from 'components/Controls/ShortTextField'
 import AutocompleteTextField from 'components/Controls/AutocompleteTextField'
 import KeyboardDateField from 'components/Controls/KeyboardDateField'
@@ -76,7 +75,8 @@ const RegisterForm = () => {
         RegisterMode: RegisterMode.Offline,
         IsFromLeadOfGroup: true,
         UserId: sessionHelper().userId,
-        ScholasticId: sessionHelper().scholasticId
+        ScholasticId: sessionHelper().scholasticId,
+        ClassId: sessionHelper().classId
       })
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })

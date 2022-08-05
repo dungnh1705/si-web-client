@@ -73,14 +73,14 @@ export const LoadStudentAbsent = selector({
 export const LoadListStudent = selector({
   key: 'LoadListStudent',
   get: async ({ get }) => {
-    const { classId, userId, scholasticId, unionId } = sessionHelper()
+    const { classId, userId, scholasticId, unionId, roles } = sessionHelper()
     const lstHolyName = get(HolyNameQuery)
 
     try {
       var res =
-        Number(classId) !== 0
-          ? await doGet(`student/getStudentInClass`, { classCode: classId, unionId: unionId })
-          : await doGet(`student/getStudentInGroup`, { scholasticId: scholasticId, userId: userId })
+        Number(classId) !== 0 && !roles.includes(Roles.HocTap)
+          ? await doGet(`student/getStudentInClass`, { classCode: classId, unionId })
+          : await doGet(`student/getStudentInGroup`, { scholasticId, userId, classId })
 
       if (res && res.data.success) {
         let newList = _.orderBy(

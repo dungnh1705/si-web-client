@@ -19,10 +19,11 @@ export const StudentsGroupQuery = selector({
 
     const userId = sessionHelper().userId
     const scholasticId = sessionHelper().scholasticId
+    const classId = sessionHelper().classId
 
     const lstUnion = get(UnionQuery)
 
-    var res = await doGet(`student/getStudentInGroup`, { scholasticId: scholasticId, userId: userId })
+    var res = await doGet(`student/getStudentInGroup`, { scholasticId, userId, classId })
 
     if (res && res.data.success) {
       // const distinctUnion = [...new Set(res.result.map(x => x.studentClass.find(sc => sc.classId === x.classId).unionId))]
