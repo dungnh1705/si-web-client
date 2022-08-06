@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
-import { Card, CardContent, Grid, FormControl, FormControlLabel, FormGroup, CardActions, Button, Divider } from '@material-ui/core'
+import { Card, CardContent, Grid, FormControl, FormControlLabel, FormGroup, CardActions, Button, Divider, TextField, MenuItem } from '@material-ui/core'
 
 import { useFormik } from 'formik'
 import { doPost } from 'utils/axios'
@@ -8,7 +8,7 @@ import sessionHelper from 'utils/sessionHelper'
 import Yup from 'utils/Yup'
 import { RegisterMode } from 'app/enums'
 
-import { HolyNameQuery } from 'recoils/selectors'
+import { HolyNameQuery, UnionRegisterQuery } from 'recoils/selectors'
 import { loadingState, toastState } from 'recoils/atoms'
 import StyledRadio from 'components/UI/StyledRadio'
 import ShortTextField from 'components/Controls/ShortTextField'
@@ -27,6 +27,8 @@ const initValue = {
 
 const RegisterForm = () => {
   const lstHolyName = useRecoilValue(HolyNameQuery)
+  const lstUnion = useRecoilValue(UnionRegisterQuery(sessionHelper().groupId))
+
   const [toast, setToast] = useRecoilState(toastState)
 
   const setLoading = useSetRecoilState(loadingState)
@@ -94,16 +96,76 @@ const RegisterForm = () => {
     stuForm.resetForm({ values: { ...initValue } })
   }
 
+  const TextField_Props = (name, label, maxLength) => {
+    const { values, errors, touched, handleBlur, handleChange } = stuForm
+    return {
+      name,
+      label,
+      fullWidth: true,
+      variant: 'outlined',
+      error: errors[name] && touched[name],
+      helperText: errors[name] && touched[name] && errors[name],
+      InputLabelProps: { shrink: true },
+      value: values[name] ?? '',
+      onBlur: handleBlur,
+      onChange: handleChange,
+      inputProps: {
+        maxLength: maxLength
+      }
+    }
+  }
+
   return (
     <Card className="card-box mb-4 w-100">
       <div className="card-header">
         <div className="card-header--title">
-          <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Thông tin Đoàn sinh mới</h4>
+          <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Thêm Đoàn sinh mới</h4>
         </div>
       </div>
       <Divider />
       <CardContent>
         <Grid container spacing={2}>
+          <Grid container item spacing={2} className="mt-2">
+            <Grid item xs={12} sm={6} md={6} lg={4}>
+              <FormControl component="fieldset">
+                <FormGroup aria-label="position" row>
+                  <b>Thông tin quản lý</b>
+                </FormGroup>
+              </FormControl>
+            </Grid>
+          </Grid>
+
+          <Grid container item spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+              <TextField select {...TextField_Props('stuUnionId', 'Chi đoàn')}>
+                {lstUnion?.map(union => (
+                  <MenuItem key={`union-${union.unionId}`} value={union.unionId}>
+                    {union.unionCode}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <TextField select {...TextField_Props('stuTeamCode', 'Đội')}>
+                {[1, 2, 3, 4, 5, 6].map(team => (
+                  <MenuItem key={`team-${team}`} value={team}>
+                    {team}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+          </Grid>
+
+          <Grid container item spacing={2} className="mt-2">
+            <Grid item xs={12} sm={6} md={6} lg={4}>
+              <FormControl component="fieldset">
+                <FormGroup aria-label="position" row>
+                  <b>Thông tin Đoàn sinh</b>
+                </FormGroup>
+              </FormControl>
+            </Grid>
+          </Grid>
+
           <Grid container item spacing={2}>
             <Grid item xs={12} sm={6} md={6} lg={3}>
               <AutocompleteTextField options={lstHolyName} formik={stuForm} name="stuHolyId" label="Tên Thánh" />
