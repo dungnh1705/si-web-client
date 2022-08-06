@@ -98,3 +98,8 @@ export const PageYOffset = atom({
   key: 'pageYOffset',
   default: 0
 })
+
+export const reloadListUnion = atom({
+  key: 'reloadListUnion',
+  default: 0
+})

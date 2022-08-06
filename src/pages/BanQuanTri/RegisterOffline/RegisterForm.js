@@ -3,6 +3,7 @@ import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
 import { Card, CardContent, Grid, TextField, FormControl, FormControlLabel, FormGroup, MenuItem, CardActions, Button, Divider } from '@material-ui/core'
 
 // 3party
+import { get } from 'lodash'
 import Yup from 'utils/Yup'
 import { useFormik } from 'formik'
 import sessionHelper from 'utils/sessionHelper'
@@ -16,7 +17,6 @@ import { loadingState, toastState } from 'recoils/atoms'
 
 // Internal
 import { ReloadNewStudent, NewStudentSelected, IsEditNewStu } from './recoil'
-import _ from 'lodash'
 
 const initValue = {
   stuHolyId: 1,
@@ -81,7 +81,7 @@ const RegisterForm = () => {
   const stuForm = useFormik({
     initialValues: newStudent
       ? { ...newStudent, ...newStudent.studentMoreInfo, stuBranchId: branchId, stuGroupId: groupId }
-      : { ...initValue, stuBranchId: branchId, stuGroupId: groupId, stuUnionId: lstUnion[0]?.unionId ?? '1', stuTeamCode: '1' },
+      : { ...initValue, stuBranchId: branchId, stuGroupId: groupId },
     validationSchema: validationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -143,7 +143,7 @@ const RegisterForm = () => {
         if (res && res.data.success) {
           setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
           setReloadStu(reload => reload + 1)
-          stuForm.resetForm({ values: { ...initValue, stuBranchId: branchId, stuGroupId: groupId } })
+          stuForm.resetForm({ values: { ...initValue, stuBranchId: branchId, stuGroupId: groupId, stuUnionId: formData.stuUnionId, stuTeamCode: formData.stuTeamCode } })
         }
       } catch (err) {
         setToast({ ...toast, open: true, message: err.message, type: 'error' })
@@ -169,6 +169,13 @@ const RegisterForm = () => {
     setBranchId('CC')
     setGroupId('CC-CC')
   }
+
+  useEffect(() => {
+    if (get(stuForm.values, 'stuGroupId') !== 'CC-CC') {
+      stuForm.setFieldValue('stuUnionId', undefined)
+      stuForm.setFieldValue('stuTeamCode', undefined)
+    }
+  }, [get(stuForm.values, 'stuGroupId')])
 
   return (
     <Suspense fallback={<>Đang tải...</>}>
@@ -214,7 +221,7 @@ const RegisterForm = () => {
                     ))}
                 </TextField>
               </Grid>
-              {_.get(stuForm.values, 'stuGroupId') === 'CC-CC' && (
+              {get(stuForm.values, 'stuGroupId') === 'CC-CC' && (
                 <>
                   <Grid item xs={12} sm={6} md={3}>
                     <TextField select {...TextField_Props('stuUnionId', 'Chi đoàn')}>
@@ -227,9 +234,9 @@ const RegisterForm = () => {
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
                     <TextField select {...TextField_Props('stuTeamCode', 'Đội')}>
-                      {[1, 2, 3, 4, 5, 6].map(team => (
-                        <MenuItem key={`team-${team}`} value={team}>
-                          {team}
+                      {Array.from(Array(lstUnion.find(u => Number(u.unionId) === Number(get(stuForm.values, 'stuUnionId')))?.totalTeam).keys()).map(team => (
+                        <MenuItem key={`team-${team}`} value={team + 1}>
+                          {team + 1}
                         </MenuItem>
                       ))}
                     </TextField>

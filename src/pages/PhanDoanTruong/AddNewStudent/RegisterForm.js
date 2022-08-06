@@ -2,6 +2,8 @@ import React from 'react'
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
 import { Card, CardContent, Grid, FormControl, FormControlLabel, FormGroup, CardActions, Button, Divider, TextField, MenuItem } from '@material-ui/core'
 
+import { get } from 'lodash'
+
 import { useFormik } from 'formik'
 import { doPost } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
@@ -83,7 +85,7 @@ const RegisterForm = () => {
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         setReloadStudent(old => old + 1)
-        stuForm.resetForm({ values: { ...initValue } })
+        stuForm.resetForm({ values: { ...initValue, stuUnionId: formData.stuUnionId, stuTeamCode: formData.stuTeamCode } })
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })
@@ -147,9 +149,9 @@ const RegisterForm = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <TextField select {...TextField_Props('stuTeamCode', 'Đội')}>
-                {[1, 2, 3, 4, 5, 6].map(team => (
-                  <MenuItem key={`team-${team}`} value={team}>
-                    {team}
+                {Array.from(Array(lstUnion.find(u => Number(u.unionId) === Number(get(stuForm.values, 'stuUnionId')))?.totalTeam).keys()).map(team => (
+                  <MenuItem key={`team-${team}`} value={team + 1}>
+                    {team + 1}
                   </MenuItem>
                 ))}
               </TextField>
