@@ -62,13 +62,13 @@ const AbsentInfo = ({ info, absentMode }) => {
     {
       name: 'Không phép',
       data: result?.map(e => {
-        return _.size(e.item.filter(a => a.absentMode == absentMode && !a.hasPermission))
+        return _.size(e.item.filter(a => Number(a.absentMode) === absentMode && !a.hasPermission))
       })
     },
     {
       name: 'Có phép',
       data: result?.map(e => {
-        return _.size(e.item.filter(a => a.absentMode == absentMode && a.hasPermission))
+        return _.size(e.item.filter(a => Number(a.absentMode) === absentMode && a.hasPermission))
       })
     }
   ]
@@ -76,14 +76,16 @@ const AbsentInfo = ({ info, absentMode }) => {
   useEffect(() => {
     function fetchData() {
       let data = []
-      for (let absent of info?.absents) {
-        const [year, month] = absent.dateAbsent.match(/\d+/g)
+      if (info?.absents) {
+        for (const absent of info?.absents) {
+          const [year, month] = absent.dateAbsent.match(/\d+/g)
 
-        if (!data.find(re => re.monthYear === `${month}/${year}`)) data.push({ monthYear: `${month}/${year}`, item: [] })
+          if (!data.find(re => re.monthYear === `${month}/${year}`)) data.push({ monthYear: `${month}/${year}`, item: [] })
 
-        data.forEach(re => {
-          if (re.monthYear === `${month}/${year}`) re.item.push(absent)
-        })
+          data.forEach(re => {
+            if (re.monthYear === `${month}/${year}`) re.item.push(absent)
+          })
+        }
       }
 
       setResult(data)
@@ -92,14 +94,14 @@ const AbsentInfo = ({ info, absentMode }) => {
     fetchData()
   }, [info])
 
-  const massNoPermission = accounting.toFixed((_.size(info?.absents.filter(a => a.absentMode == absentMode && !a.hasPermission)) / _.size(info?.absents)) * 100, 1)
-  const massPermission = accounting.toFixed((_.size(info?.absents.filter(a => a.absentMode == absentMode && a.hasPermission)) / _.size(info?.absents)) * 100, 1)
+  const massNoPermission = accounting.toFixed((_.size(info?.absents?.filter(a => Number(a.absentMode) === absentMode && !a.hasPermission)) / _.size(info?.absents)) * 100, 1)
+  const massPermission = accounting.toFixed((_.size(info?.absents?.filter(a => Number(a.absentMode) === absentMode && a.hasPermission)) / _.size(info?.absents)) * 100, 1)
 
   return (
     <Card className="card-box mb-4">
       <div className="card-header">
         <div className="card-header--title">
-          <h4 className="font-size-lg mb-0 py-2 font-weight-bold">{absentMode == AbsentMode.Mass ? 'Nghỉ lễ' : 'Nghỉ học'}</h4>
+          <h4 className="font-size-lg mb-0 py-2 font-weight-bold">{Number(absentMode) === AbsentMode.Mass ? 'Nghỉ lễ' : 'Nghỉ học'}</h4>
         </div>
         <div className="card-header--actions">
           <Box>
