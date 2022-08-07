@@ -13,15 +13,17 @@ import { SemesterEnum } from 'app/enums'
 import { ChooseFileDialogAtom } from './recoil'
 
 export const ChooseFileDialog = () => {
-  const [loading, setLoading] = useState(false)
   const [dialog, setDialog] = useRecoilState(ChooseFileDialogAtom)
-  const [file, setFile] = useState(undefined)
   const [toast, setToast] = useRecoilState(toastState)
-  const [semester, setSemester] = useState(301)
+
   const setReloadScoreClass = useSetRecoilState(ReloadStudentList)
   const setReloadScoreGroup = useSetRecoilState(ReloadGroupScore)
 
-  let { openChooseFileDialog, pageCall } = dialog
+  const [loading, setLoading] = useState(false)
+  const [file, setFile] = useState(undefined)
+  const [semester, setSemester] = useState(301)
+
+  const { openChooseFileDialog, pageCall } = dialog
 
   const handleClose = () => {
     if (!loading) {
@@ -77,6 +79,9 @@ export const ChooseFileDialog = () => {
               </Button>
               <Button color={semester === SemesterEnum.semesterTwo ? 'primary' : 'default'} onClick={() => setSemester(SemesterEnum.semesterTwo)}>
                 Học kỳ II
+              </Button>
+              <Button color={semester === SemesterEnum.total ? 'primary' : 'default'} onClick={() => setSemester(SemesterEnum.total)}>
+                Cả năm
               </Button>
             </ButtonGroup>
           </Grid>
