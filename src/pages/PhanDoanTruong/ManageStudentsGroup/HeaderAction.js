@@ -27,7 +27,7 @@ export default function HeaderAction() {
     try {
       const data = {
         StudentId: [],
-        ClassId: null,
+        ClassId: sessionHelper().classId,
         ScholasticId: sessionHelper().scholasticId,
         UserId: sessionHelper().userId,
         TemplateId: templateId,

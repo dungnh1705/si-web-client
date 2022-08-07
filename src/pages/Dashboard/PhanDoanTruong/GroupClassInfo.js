@@ -46,10 +46,10 @@ export default function GroupInfo({ info }) {
 
       <Slider {...settings} style={{ padding: '10px' }}>
         {info?.summaryInfo?.map(item => (
-          <CardContent className="p-1" key={`Group-Info-${item.unionId}`}>
+          <CardContent className="p-1" key={`Group-Info-${item.unionCode}`}>
             <Grid container spacing={3} className="mt-1" justifyContent="center">
               <Grid container item xs={12} justifyContent="center">
-                <Typography variant="h4">Chi đoàn {item.unionId}</Typography>
+                <Typography variant="h4">Chi đoàn {item.unionCode}</Typography>
               </Grid>
 
               <Grid container item xs={12}>

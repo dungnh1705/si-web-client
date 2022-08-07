@@ -148,6 +148,10 @@ const UserRolesForm = () => {
                       label="Ngành trưởng"
                     />
                     <FormControlLabel
+                      control={<StyledCheckbox checked={formData.values.includes(Roles.HocTap)} onChange={handleCheckRole} value={Roles.HocTap} />}
+                      label="Học tập"
+                    />
+                    <FormControlLabel
                       control={<StyledCheckbox checked={formData.values.includes(Roles.KyLuat)} onChange={handleCheckRole} value={Roles.KyLuat} />}
                       label="Kỷ luật"
                     />

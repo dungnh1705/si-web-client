@@ -96,7 +96,8 @@ export const StudentStatus = {
   InActive: 0,
   Active: 1,
   LeaveStudy: 2,
-  ChangeChurch: 3
+  ChangeChurch: 3,
+  Deleted: 4
 }
 
 export const TemplateType = {

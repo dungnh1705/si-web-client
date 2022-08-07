@@ -5,7 +5,7 @@ import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { Roles } from 'app/enums'
 
-import { themeOptionsState, reloadTemplates } from './atoms'
+import { themeOptionsState, reloadTemplates, reloadListUnion } from './atoms'
 
 export const themeOptionsActions = selector({
   key: 'themeOptionsActions',
@@ -62,15 +62,18 @@ export const UnionQuery = selector({
 
 export const UnionRegisterQuery = selectorFamily({
   key: 'UnionRegisterQuery',
-  get: groupId => async () => {
-    const res = await doGet(`assignment/getUnionByGroupId`, { groupId })
+  get:
+    groupId =>
+    async ({ get }) => {
+      get(reloadListUnion)
+      const res = await doGet(`assignment/getUnionByGroupId`, { groupId })
 
-    if (res && res.data.success) {
-      const unionOrdered = _.orderBy(res.data.data, ['unionCode'], ['asc'])
-      return unionOrdered
+      if (res && res.data.success) {
+        const unionOrdered = _.orderBy(res.data.data, ['unionCode'], ['asc'])
+        return unionOrdered
+      }
+      return []
     }
-    return []
-  }
 })
 
 export const TemplatesQuery = selector({

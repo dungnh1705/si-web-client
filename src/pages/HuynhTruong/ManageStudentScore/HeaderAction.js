@@ -101,13 +101,16 @@ export default function HeaderAction() {
                 </div>
               </div>
             </ListItem>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            <Collapse in={open} timeout="auto" unmountOnExit style={{ width: '100%' }}>
               <List disablePadding>
-                <ListItem button onClick={e => handleDownloadExcel(e, 1)}>
+                <ListItem button onClick={e => handleDownloadExcel(e, 1)} style={{ textAlign: 'center' }}>
                   <ListItemText primary="Học kỳ I" />
                 </ListItem>
-                <ListItem button onClick={e => handleDownloadExcel(e, 2)}>
+                <ListItem button onClick={e => handleDownloadExcel(e, 2)} style={{ textAlign: 'center' }}>
                   <ListItemText primary="Học kỳ II" />
+                </ListItem>
+                <ListItem button onClick={e => handleDownloadExcel(e, 0)} style={{ textAlign: 'center' }}>
+                  <ListItemText primary="Cả năm" />
                 </ListItem>
               </List>
             </Collapse>

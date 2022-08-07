@@ -34,7 +34,7 @@ const StudentGroup = ({ item }) => {
   const filterAbsent = () => {
     if (viewMode === ViewModes.DanhSachNghi) {
       lstStudentInTeam.forEach(item => {
-        if (item.team !== 0) item.students = item.students.filter(stu => stu.status !== StudentStatus.Active)
+        if (item.team !== 0) item.students = item.students.filter(stu => stu.status === StudentStatus.ChangeChurch || stu.status === StudentStatus.LeaveStudy)
         else item.students = []
       })
     } else {
@@ -61,7 +61,8 @@ const StudentGroup = ({ item }) => {
               {item.unionId === 1 && <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Đoàn sinh mới - {item?.students?.length}</h4>}
               {item.unionId !== 1 && (
                 <h4 className="font-size-lg mb-0 py-1 font-weight-bold">
-                  Chi đoàn: {item.unionCode} - {item?.students?.length} / {item?.students?.filter(i => i.status !== StudentStatus.Active)?.length}
+                  Chi đoàn: {item.unionCode} - {item?.students?.length} /{' '}
+                  {item?.students?.filter(i => i.status === StudentStatus.ChangeChurch || i.status === StudentStatus.LeaveStudy)?.length}
                 </h4>
               )}
             </div>
