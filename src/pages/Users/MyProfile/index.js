@@ -25,46 +25,46 @@ import {
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt, faCamera, faIdBadge } from '@fortawesome/free-solid-svg-icons'
-
 import Autocomplete from '@material-ui/lab/Autocomplete'
+import { KeyboardDatePicker } from '@material-ui/pickers'
+
 import Yup from 'utils/Yup'
 import parse from 'autosuggest-highlight/parse'
 import match from 'autosuggest-highlight/match'
 import { useFormik } from 'formik'
 import moment from 'moment'
 import StringUtils from 'utils/StringUtils'
-
-import { KeyboardDatePicker } from '@material-ui/pickers'
 import StyledRadio from 'components/UI/StyledRadio'
+import ModalSkeleton from 'components/Loading/modal-skeleton'
 
-import config from 'config'
-import { history } from 'App'
-import sessionHelper, { setLocalStoreData } from 'utils/sessionHelper'
+import sessionHelper, { setLocalStoreData, deleteLoginData } from 'utils/sessionHelper'
 import { doPost } from 'utils/axios'
 
 import { HolyNameQuery } from 'recoils/selectors'
 import { toastState, loadingState } from 'recoils/atoms'
-import { UserQuery, ShowChangePassword, ReloadUser, OpenEditAvatar } from './recoil'
 
+import { UserQuery, ShowChangePassword, ReloadUser, OpenEditAvatar } from './recoil'
 import ChangePasswordDialog from './ChangePasswordDialog'
 import EditAvatar from './EditAvatar'
 import ShowImageModal from './ShowImageModal'
-import ModalSkeleton from 'components/Loading/modal-skeleton'
 
 import coverPhoto from 'assets/images/Background.jpg'
 
 function Profile() {
-  let userInfo = useRecoilValue(UserQuery)
+  const userInfo = useRecoilValue(UserQuery)
   const lstHolyName = useRecoilValue(HolyNameQuery)
+
   const setLoading = useSetRecoilState(loadingState)
+  const setOpen = useSetRecoilState(OpenEditAvatar)
+  const setReload = useSetRecoilState(ReloadUser)
+
   const [toast, setToast] = useRecoilState(toastState)
-  let [showChangePass, setShowChangePass] = useRecoilState(ShowChangePassword)
-  let setOpen = useSetRecoilState(OpenEditAvatar)
-  let setReload = useSetRecoilState(ReloadUser)
-  let [isEdit, setIsEdit] = useState(false)
-  let [openPencil, setOpenPencil] = useState(false)
-  let [openAvatar, setOpenAvatar] = useState(false)
-  let [openPreview, setOpenReview] = useState(false)
+  const [showChangePass, setShowChangePass] = useRecoilState(ShowChangePassword)
+
+  const [isEdit, setIsEdit] = useState(false)
+  const [openPencil, setOpenPencil] = useState(false)
+  const [openAvatar, setOpenAvatar] = useState(false)
+  const [openPreview, setOpenReview] = useState(false)
 
   const handleClickSave = async e => {
     e.preventDefault()
@@ -72,7 +72,7 @@ function Profile() {
     setLoading(true)
 
     try {
-      let res = await doPost(`user/update`, val)
+      const res = await doPost(`user/update`, val)
       if (res && res.data.success) {
         setLoading(false)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
@@ -81,8 +81,8 @@ function Profile() {
         updateLocalState()
 
         if (sessionHelper().isFirstLogin) {
-          setLocalStoreData('isFirstLogin', false)
-          history.push('/Dashboard')
+          deleteLoginData()
+          window.location.href = '/Login'
         }
       }
     } catch (err) {
@@ -221,7 +221,7 @@ function Profile() {
             <div className="card-img-wrapper">
               <div className="card-badges">
                 <Tooltip title="Chỉnh sửa">
-                  <IconButton size='medium' onClick={handlePencilClick} ref={anchorRef} aria-controls={openPencil ? 'menu-list-grow' : undefined} aria-haspopup="true">
+                  <IconButton size="medium" onClick={handlePencilClick} ref={anchorRef} aria-controls={openPencil ? 'menu-list-grow' : undefined} aria-haspopup="true">
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </IconButton>
                 </Tooltip>
@@ -269,7 +269,7 @@ function Profile() {
                   }}
                   badgeContent={
                     <Tooltip title="Cập nhật ảnh đại diện">
-                      <IconButton size='medium' onClick={() => setOpen(true)}>
+                      <IconButton size="medium" onClick={() => setOpen(true)}>
                         <FontAwesomeIcon icon={faCamera} />
                       </IconButton>
                     </Tooltip>
@@ -457,7 +457,7 @@ function Profile() {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button size="large" onClick={() => setIsEdit(false)} variant='outlined'>
+                  <Button size="large" onClick={() => setIsEdit(false)} variant="outlined">
                     Hủy bỏ
                   </Button>
                 </Grid>

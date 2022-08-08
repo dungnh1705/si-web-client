@@ -6,8 +6,8 @@ import { history } from 'App'
 
 import { toastState } from 'recoils/atoms'
 import { doGet } from 'utils/axios'
-import config from 'config'
 import SuspenseLoading from 'components/SuspenseLoading'
+import { saveLoginData } from 'utils/sessionHelper'
 
 const VerifyNewUser = () => {
   const { email } = useParams()
@@ -18,16 +18,20 @@ const VerifyNewUser = () => {
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true)
-
       try {
-        let res = await doGet(`auth/verifyUser`, { Email: email })
+        const res = await doGet(`auth/verifyUser`, { Email: email })
 
-        if (res) {
-          setToast({ ...toast, open: true, message: res.data.message, title: res.data.success ? 'Success!' : 'Error', type: res.data.success ? 'success' : 'error' })
+        if (res && res.data.success) {
+          const { data } = res.data
+          saveLoginData(data)
+
+          window.location.href = '/MyProfile'
+        } else {
+          setToast({ ...toast, open: true, message: res.data.message, title: 'Error', type: 'error' })
+          setIsLoading(false)
         }
       } catch (err) {
         setToast({ ...toast, open: true, message: err.message, title: 'Error', type: 'error' })
-      } finally {
         setIsLoading(false)
       }
     }

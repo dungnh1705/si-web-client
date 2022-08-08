@@ -1,20 +1,6 @@
 import React, { useState } from 'react'
 import { useSetRecoilState } from 'recoil'
-import {
-  Grid,
-  Container,
-  Input,
-  InputLabel,
-  InputAdornment,
-  FormControlLabel,
-  Checkbox,
-  Card,
-  CardContent,
-  FormControl,
-  FormHelperText,
-  Hidden,
-  TextField
-} from '@material-ui/core'
+import { Grid, Container, InputAdornment, FormControlLabel, Checkbox, Card, CardContent, FormControl, FormHelperText, Hidden, TextField } from '@material-ui/core'
 
 import MailOutlineTwoToneIcon from '@material-ui/icons/MailOutlineTwoTone'
 import LockTwoToneIcon from '@material-ui/icons/LockTwoTone'
@@ -23,7 +9,6 @@ import projectLogo from 'assets/images/app-logo.png'
 import { useFormik } from 'formik'
 import Yup from 'utils/Yup'
 
-import config from 'config'
 import { OpenForgotPasswordFormState, OpenRegisterFormState } from './recoil'
 import { doPost } from 'utils/axios'
 import { saveLoginData, checkSession } from 'utils/sessionHelper'

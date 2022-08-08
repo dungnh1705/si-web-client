@@ -159,13 +159,14 @@ export const StudentDialog = () => {
     e.preventDefault()
     setLoading(true)
 
-    let data = {
+    const data = {
       userId: sessionHelper().userId,
       userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`,
       studentId: formData.values['id'],
       oldValue: formData.values['status'],
       newValue: formData.values['newValue'],
-      note: formData.values['reason']
+      note: formData.values['reason'],
+      scholasticId: sessionHelper().scholasticId
     }
 
     try {
