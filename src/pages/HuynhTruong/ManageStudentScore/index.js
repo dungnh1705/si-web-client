@@ -25,13 +25,13 @@ const ManageStudentScore = () => {
   const body = () => {
     return (
       <Grid container spacing={2}>
-        {lstStudent.length === 0 && (
+        {(!lstStudent || lstStudent?.length === 0) && (
           <Grid item xs={12}>
             <Typography variant="h4">Bạn chưa được phân Chi đoàn hoặc chưa có Đoàn sinh trong Chi đoàn.</Typography>
           </Grid>
         )}
 
-        {lstStudent.length > 0 && (
+        {lstStudent?.length > 0 && (
           <>
             <Grid item xs={12} sm={9}>
               <ButtonGroup variant="contained" aria-label="contained primary button group">
