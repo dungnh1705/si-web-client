@@ -1,6 +1,5 @@
 import { atom, selector } from 'recoil'
 import _ from 'lodash'
-import config from 'config'
 import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { UnionQuery } from 'recoils/selectors'

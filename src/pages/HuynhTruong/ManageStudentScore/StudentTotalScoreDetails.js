@@ -103,15 +103,6 @@ const StudentTotalScoreDetails = ({ student }) => {
     }
   }
 
-  // const isDisabledSaveButton = () => {
-  //   return (
-  //     !formData.isValid ||
-  //     student?.semesterOne.length === 0 ||
-  //     student?.semesterTwo.length === 0 ||
-  //     !(student?.total.length === 0 ? formData.values['isActive'] : student?.total[0]?.isActive)
-  //   )
-  // }
-
   return (
     <>
       <Grid item xs={3}>
@@ -210,11 +201,6 @@ const StudentTotalScoreDetails = ({ student }) => {
       <Grid item xs={9}>
         <TextField {...TextField_Props('comment', `Nhận xét`, 250)} type="text" onBlur={saveTotalScore} />
       </Grid>
-      {/* <Grid container item xs={12} justify="flex-end">
-        <Button variant="contained" color="primary" onClick={saveTotalScore} disabled={isDisabledSaveButton()}>
-          Lưu và khóa
-        </Button>
-      </Grid> */}
     </>
   )
 }

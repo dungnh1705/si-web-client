@@ -1,6 +1,5 @@
 import { atom, selector } from 'recoil'
 import _ from 'lodash'
-import config from 'config'
 import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { SemesterEnum } from 'app/enums'
@@ -20,19 +19,19 @@ export const StudentListQuery = selector({
       var res = await doGet(`student/getStudentInClass`, { classCode: classId, unionId: unionId })
 
       if (res && res.data.success && res.data.data) {
-        const distinctTeam = [...new Set(res.data.data.map(x => x.studentClass.find(sc => sc.classId == classId).team))]
+        const distinctTeam = [...new Set(res.data.data.map(x => x.studentClass.find(sc => Number(sc.classId) === Number(classId)).team))]
         const lstStudent = []
 
         for (const t of distinctTeam) {
           if (t !== 0) lstStudent.push({ team: t, students: [] })
         }
         for (const stu of res.data.data) {
-          stu.semesterOne = stu.semesterOne?.filter(sr => sr.scholasticId == scholasticId)
-          stu.semesterTwo = stu.semesterTwo?.filter(sr => sr.scholasticId == scholasticId)
-          stu.total = stu.total?.filter(sr => sr.scholasticId == scholasticId)
+          stu.semesterOne = stu.semesterOne?.filter(sr => Number(sr.scholasticId) === Number(scholasticId))
+          stu.semesterTwo = stu.semesterTwo?.filter(sr => Number(sr.scholasticId) === Number(scholasticId))
+          stu.total = stu.total?.filter(sr => Number(sr.scholasticId) === Number(scholasticId))
 
           lstStudent.forEach(t => {
-            if (t.team === stu.studentClass.find(sc => sc.classId == classId).team) {
+            if (t.team === stu.studentClass.find(sc => Number(sc.classId) === Number(classId)).team) {
               t.students.push(stu)
             }
           })
