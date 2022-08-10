@@ -6,13 +6,13 @@ import StyledCheckbox from 'components/UI/StyledCheckbox'
 import red from '@material-ui/core/colors/red'
 import ClearTwoToneIcon from '@material-ui/icons/ClearTwoTone'
 import sessionHelper from 'utils/sessionHelper'
-import config from 'config'
 import { doPost } from 'utils/axios'
 
 import { HolyNameQuery } from 'recoils/selectors'
-import { ReloadUserInGroup, AssignmentIdSelected } from './recoil'
 import { toastState, loadingState } from 'recoils/atoms'
 import { RolesDialogAtom } from 'components/Dialog/recoil'
+
+import { ReloadUserInGroup, AssignmentIdSelected } from './recoil'
 
 const UserListItem = ({ assign }) => {
   const lstHolyName = useRecoilValue(HolyNameQuery)

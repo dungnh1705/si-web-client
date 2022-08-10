@@ -14,3 +14,19 @@
 .app-content--inner {
   padding: 2rem 1rem 2rem;
 }
+
+.td--active {
+  cursor: pointer;
+}
+
+.td--active:hover {
+  color: var(--primary);
+}
+
+.tr--active {
+  cursor: pointer;
+}
+
+.tr--active:hover td {
+  color: var(--primary);
+}

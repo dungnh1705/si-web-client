@@ -94,6 +94,11 @@ const StudentUnionTeam = ({ item }) => {
                   <th rowSpan="3" align="center">
                     Nhận xét đánh giá
                   </th>
+                  {semester === SemesterEnum.total && (
+                    <th rowSpan="3" align="center">
+                      Lên lớp
+                    </th>
+                  )}
                 </tr>
                 <tr>
                   {semester !== SemesterEnum.total &&

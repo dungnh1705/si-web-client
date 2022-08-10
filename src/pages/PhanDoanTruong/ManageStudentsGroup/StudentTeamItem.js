@@ -101,7 +101,7 @@ const StudentTeamItem = ({ student, unionId, viewAbsentMode, team, index }) => {
         </td>
       )}
       <td>{index}</td>
-      <td style={{ cursor: 'pointer' }} onClick={handleClickRow}>
+      <td onClick={handleClickRow} className="td--active">
         <Typography>
           {lstHolyname.find(h => h.id === student.stuHolyId).name}
           <br />
