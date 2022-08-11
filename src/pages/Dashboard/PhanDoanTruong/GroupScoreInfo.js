@@ -57,7 +57,7 @@ export default function GroupScoreInfo({ info }) {
                     : _.size(i.scoreTotal.filter(so => so.ranking == e))
                 )
 
-                const percent = accounting.toFixed(total / totalGroupStudent, 2) * 100
+                const percent = accounting.toFixed(total / totalGroupStudent * 100, 1)
 
                 return (
                   <div className="mb-4">
