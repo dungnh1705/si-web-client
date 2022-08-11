@@ -93,7 +93,7 @@ export default function GroupClassScoreItem({ union }) {
                 ? _.size(union?.semesterTwo.filter(so => so.ranking == item))
                 : _.size(union?.scoreTotal.filter(so => so.ranking == item))
 
-            const percent = accounting.toFixed(total / union.totalStudent, 2) * 100
+            const percent = accounting.toFixed(total / union.totalStudent * 100, 1)
 
             return (
               <div className="mb-4">
