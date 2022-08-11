@@ -71,8 +71,8 @@ export default function GroupAbsent({ info }) {
 
   const totalAbsentMass = _.sumBy(info?.summaryInfo, i => _.size(i.absents.filter(ab => ab.absentMode === AbsentMode.Mass)))
   const totalAbsentClass = _.sumBy(info?.summaryInfo, i => _.size(i.absents.filter(ab => ab.absentMode === AbsentMode.Class)))
-  const massPercent = accounting.toFixed((totalAbsentMass / (totalAbsentMass + totalAbsentClass)) * 100, 2)
-  const classPercent = accounting.toFixed((totalAbsentClass / (totalAbsentMass + totalAbsentClass)) * 100, 2)
+  const massPercent = accounting.toFixed((totalAbsentMass / (totalAbsentMass + totalAbsentClass)) * 100, 1)
+  const classPercent = accounting.toFixed((totalAbsentClass / (totalAbsentMass + totalAbsentClass)) * 100, 1)
 
   return (
     <Grid container spacing={4}>
