@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, TextField, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
-import accounting from 'accounting'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+// import accounting from 'accounting'
+import _ from 'lodash'
 import { useFormik } from 'formik'
 import Yup from 'utils/Yup'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import _ from 'lodash'
 
 import { Morality } from 'app/enums'
-import { doPost } from 'utils/axios'
-import { ReloadStudentList } from './recoil'
-
 import { toastState, PageYOffset } from 'recoils/atoms'
-
+import { doPost } from 'utils/axios'
+import NumberFormatCustom from 'utils/NumberFormatCustom'
 import sessionHelper from 'utils/sessionHelper'
 import ScoreUtils from 'utils/ScoreUtils'
 import StringUtils from 'utils/StringUtils'
+
+import { ReloadStudentList } from './recoil'
 
 const initValue = { morality: 'Tốt', isActive: true }
 
@@ -66,36 +66,41 @@ const StudentTotalScoreDetails = ({ student }) => {
     setOldVal(newFormData)
   }, [student])
 
-  const calculateAvgTotal = () => {
-    return accounting.toFixed(((student?.semesterOne[0]?.average ?? 0) + (student?.semesterTwo[0]?.average ?? 0) * 2) / 3, 1)
-  }
-  const calculateRating = () => {
-    const avg = Number(calculateAvgTotal())
-    return ScoreUtils.calculateRating(avg)
-  }
+  // const calculateAvgTotal = () => {
+  //   return accounting.toFixed(((student?.semesterOne[0]?.average ?? 0) + (student?.semesterTwo[0]?.average ?? 0) * 2) / 3, 1)
+  // }
+
+  // const calculateRating = () => {
+  //   const avg = Number(calculateAvgTotal())
+  //   return ScoreUtils.calculateRating(avg)
+  // }
 
   const saveTotalScore = async e => {
     e.preventDefault()
     setPageYOffset(window.pageYOffset)
 
     if (!_.isEqual(StringUtils.toString(oldVal), StringUtils.toString(formData.values))) {
-      let data = {
+      const avgTotal = ScoreUtils.calculateAvgTotal(oldVal, formData.values)
+
+      const data = {
         ...formData.values,
         // classId: student.classId,
         // studentId: student.id,
         // scholasticId: sessionHelper().scholasticId,
         avgSemesterOne: student?.semesterOne[0]?.average,
         avgSemesterTwo: student?.semesterTwo[0]?.average,
-        avgTotal: calculateAvgTotal(),
-        ranking: calculateRating(),
+        avgTotal: avgTotal,
+        ranking: ScoreUtils.calculateRating(avgTotal),
         userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`
       }
       try {
         const res = await doPost(`student/updateTotal`, data)
 
         if (res && res.data.success) {
+          setOldVal(data)
           setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
           setReloadStudent(old => old + 1)
+          formData.resetForm({ values: data })
         }
       } catch (err) {
         setToast({ ...toast, open: true, message: err.message, type: 'error' })
@@ -137,32 +142,21 @@ const StudentTotalScoreDetails = ({ student }) => {
       </Grid>
       <Grid item xs={3}>
         <TextField
-          fullWidth
-          label="TB Cả năm"
+          {...TextField_Props('avgTotal', 'TB Cả Năm', 3)}
           type="text"
-          InputLabelProps={{
-            shrink: true
-          }}
-          variant="outlined"
           InputProps={{
-            readOnly: true
+            inputComponent: NumberFormatCustom
           }}
-          value={calculateAvgTotal()}
+          onBlur={saveTotalScore}
         />
       </Grid>
       <Grid item xs={3}>
         <TextField
-          fullWidth
-          label="Xếp loại"
+          {...TextField_Props('ranking', 'Xếp loại')}
           type="text"
-          InputLabelProps={{
-            shrink: true
-          }}
-          variant="outlined"
           InputProps={{
             readOnly: true
           }}
-          value={calculateRating()}
         />
       </Grid>
       <Grid item xs={3}>
