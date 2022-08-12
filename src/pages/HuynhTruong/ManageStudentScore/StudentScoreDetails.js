@@ -23,7 +23,9 @@ const StudentScoreDetails = ({ student }) => {
   const setPageYOffset = useSetRecoilState(PageYOffset)
 
   const [toast, setToast] = useRecoilState(toastState)
+
   const workingSemester = useRecoilValue(WorkingSemester)
+
   const [oldValue, setOldValue] = useState()
 
   const validationSchema = Yup.object({
@@ -117,7 +119,6 @@ const StudentScoreDetails = ({ student }) => {
                 })
 
           if (res && res.data.success) {
-            // console.log({ ...data })
             setOldValue(data)
             setReloadStudent(reload => reload + 1)
             setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
@@ -129,10 +130,6 @@ const StudentScoreDetails = ({ student }) => {
       }
     }
   }
-
-  // const isDisabledButton = () => {
-  //   return !formData.isValid || !formData.values['isActive'] || (workingSemester === 302 ? !student.semesterOne[0]?.average : false)
-  // }
 
   return (
     <>
@@ -233,9 +230,6 @@ const StudentScoreDetails = ({ student }) => {
       <Grid item xs={12}>
         <TextField {...TextField_Props('comment', `Nhận xét`, 250)} type="text" onBlur={saveScores} />
       </Grid>
-      {/* <Grid container item xs={12} justify="flex-end">
-        <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={saveScores} disabled={isDisabledButton()} />
-      </Grid> */}
     </>
   )
 }

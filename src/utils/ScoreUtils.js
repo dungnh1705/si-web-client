@@ -24,5 +24,11 @@ export default {
           1
         )
       : newVal.average ?? 0
+  },
+
+  calculateAvgTotal(oldVal, newVal) {
+    return newVal && Number(newVal.avgTotal) === Number(oldVal.avgTotal)
+      ? accounting.toFixed((Number(newVal.avgSemesterOne ?? 0) + Number(newVal.avgSemesterTwo ?? 0) * 2) / 3, 1)
+      : newVal.avgTotal ?? 0
   }
 }
