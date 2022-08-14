@@ -31,7 +31,7 @@ export default function GroupClassScoreInfo({ info }) {
               <div className="p-2">
                 <Grid container spacing={2}>
                   <Grid container item xs={12} justifyContent="center">
-                    <Typography variant="h4">Chi đoàn {item.unionId}</Typography>
+                    <Typography variant="h4">Chi đoàn {item.unionCode}</Typography>
                   </Grid>
                   <GroupClassScoreItem union={item} />
                 </Grid>
