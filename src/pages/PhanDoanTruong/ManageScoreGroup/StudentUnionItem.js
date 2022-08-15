@@ -82,7 +82,7 @@ const StudentUnionItem = ({ student }) => {
           className="tr--active"
           onClick={handleRowClick}
           style={{
-            backgroundColor: student.semesterOne[0]?.average <= 3.5 ? red[200] : 'inherit'
+            backgroundColor: student.semesterOne[0]?.average < 3.5 ? red[200] : 'inherit'
           }}>
           <td>
             {lstHolyname?.find(h => h.id === student.stuHolyId).name} {student.stuFirstName} {student.stuLastName}
@@ -110,7 +110,7 @@ const StudentUnionItem = ({ student }) => {
           className="tr--active"
           onClick={handleRowClick}
           style={{
-            backgroundColor: student.semesterTwo[0]?.average <= 3.5 ? red[100] : 'inherit'
+            backgroundColor: student.semesterTwo[0]?.average < 3.5 ? red[100] : 'inherit'
           }}>
           <td>
             {lstHolyname?.find(h => h.id === student.stuHolyId).name} {student.stuFirstName} {student.stuLastName}
@@ -136,7 +136,7 @@ const StudentUnionItem = ({ student }) => {
       {semester === SemesterEnum.total && (
         <tr
           style={{
-            backgroundColor: student.total[0]?.avgTotal <= 3.5 ? red[100] : 'inherit'
+            backgroundColor: student.total[0]?.avgTotal < 3.5 ? red[100] : 'inherit'
           }}>
           <td onClick={handleRowClick} className="td--active">
             {lstHolyname?.find(h => h.id === student.stuHolyId).name} {student.stuFirstName} {student.stuLastName}
