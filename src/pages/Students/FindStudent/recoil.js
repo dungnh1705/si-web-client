@@ -1,6 +1,5 @@
 import { atom, selector } from 'recoil'
 import _ from 'lodash'
-import config from 'config'
 import { doGet } from 'utils/axios'
 
 export const SearchKeyword = atom({
@@ -25,7 +24,9 @@ export const StudentSearchList = selector({
         if (res.data.data) return _.orderBy(res.data.data, ['stuLastName', 'stuFirstName'], ['asc'])
         else return null
       }
-    } catch (err) {}
+    } catch (err) {
+      return null
+    }
   }
 })
 

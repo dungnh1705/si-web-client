@@ -6,6 +6,8 @@ import Badge from 'components/UI/Badge'
 
 import { HolyNameQuery } from 'recoils/selectors'
 import { useRecoilValue } from 'recoil'
+import { orderBy } from 'lodash'
+
 import { ShowStudent } from './recoil'
 
 const StudentScore = ({ tabValue }) => {
@@ -41,7 +43,7 @@ const StudentScore = ({ tabValue }) => {
   if (tabValue === 1 && student) {
     return (
       <Slider {...settings}>
-        {student?.studentClass?.map((cl, index) => {
+        {orderBy(student?.studentClass, ['classId'], ['desc'])?.map((cl, index) => {
           const schoolYear = cl.class?.scholastic
           const leader = cl?.class?.leader
           return (
@@ -109,105 +111,111 @@ const StudentScore = ({ tabValue }) => {
                     </div>
                   </Grid>
                 </Grid>
-                {student?.semesterOne
-                  ?.filter(s => s.scholasticId === cl.class?.scholasticId)
-                  .map(sOne => {
-                    return (
-                      <Grid container spacing={3} key={135}>
-                        <Grid item xs={12} lg={1}>
-                          <Typography>HKI:</Typography>
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('oldTest', 'Miệng', sOne.oldTest)} />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('fifteenTest', `15'`, sOne.fifteenTest)} />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('lessonTest', '1 Tiết', sOne.lessonTest)} />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('semesterTest', 'HK', sOne.semesterTest)} />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('average', 'TB', sOne.average)} />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={2}>
-                          <TextField {...TextField_Props('ranking', 'Xếp loại', sOne.ranking)} />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('morality', 'Hạnh kiểm', sOne.morality)} />
-                        </Grid>
-                        <Grid item xs={12} lg={3}>
-                          <TextField {...TextField_Props('comment', 'Nhận xét', sOne.comment)} />
-                        </Grid>
+                {orderBy(
+                  student?.semesterOne?.filter(s => s.scholasticId === cl.class?.scholasticId),
+                  ['scholasticId'],
+                  ['desc']
+                ).map(sOne => {
+                  return (
+                    <Grid container spacing={3} key={135}>
+                      <Grid item xs={12} lg={1}>
+                        <Typography>HKI:</Typography>
                       </Grid>
-                    )
-                  })}
-                {student?.semesterTwo
-                  ?.filter(s => s.scholasticId === cl.class?.scholasticId)
-                  .map(sTwo => {
-                    return (
-                      <Grid container spacing={3} key={579}>
-                        <Grid item xs={12} lg={1}>
-                          <Typography>HKII:</Typography>
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('oldTest', 'Miệng', sTwo.oldTest)} type="text" />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('fifteenTest', `15'`, sTwo.fifteenTest)} type="text" />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('lessonTest', '1 Tiết', sTwo.lessonTest)} type="text" />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('semesterTest', 'HK', sTwo.semesterTest)} type="text" />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('average', 'TB', sTwo.average)} type="text" />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={2}>
-                          <TextField {...TextField_Props('ranking', 'Xếp loại', sTwo.ranking)} type="text" />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('morality', 'Hạnh kiểm', sTwo.morality)} type="text" />
-                        </Grid>
-                        <Grid item xs={12} lg={3}>
-                          <TextField {...TextField_Props('comment', 'Nhận xét', sTwo.comment)} type="text" />
-                        </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('oldTest', 'Miệng', sOne.oldTest)} />
                       </Grid>
-                    )
-                  })}
-                {student?.total
-                  ?.filter(s => s.scholasticId === cl.class?.scholasticId)
-                  .map(tt => {
-                    return (
-                      <Grid container spacing={3} key={913}>
-                        <Grid item xs={12} lg={1}>
-                          <Typography>Cả năm:</Typography>
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('avgSemesterOne', 'TB HKI', tt.avgSemesterOne)} type="text" />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('avgSemesterTwo', 'TB HKII', tt.avgSemesterTwo)} type="text" />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('avgTotal', 'TB Cả năm', tt.avgTotal)} type="text" />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={2}>
-                          <TextField {...TextField_Props('ranking', 'Xếp loại', tt.ranking)} type="text" />
-                        </Grid>
-                        <Grid item xs={6} md={4} lg={1}>
-                          <TextField {...TextField_Props('morality', 'Hạnh kiểm', tt.morality)} type="text" />
-                        </Grid>
-                        <Grid item xs={12} lg={5}>
-                          <TextField {...TextField_Props('comment', 'Nhận xét', tt.comment)} type="text" />
-                        </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('fifteenTest', `15'`, sOne.fifteenTest)} />
                       </Grid>
-                    )
-                  })}
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('lessonTest', '1 Tiết', sOne.lessonTest)} />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('semesterTest', 'HK', sOne.semesterTest)} />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('average', 'TB', sOne.average)} />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={2}>
+                        <TextField {...TextField_Props('ranking', 'Xếp loại', sOne.ranking)} />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('morality', 'Hạnh kiểm', sOne.morality)} />
+                      </Grid>
+                      <Grid item xs={12} lg={3}>
+                        <TextField {...TextField_Props('comment', 'Nhận xét', sOne.comment)} />
+                      </Grid>
+                    </Grid>
+                  )
+                })}
+                {orderBy(
+                  student?.semesterTwo?.filter(s => s.scholasticId === cl.class?.scholasticId),
+                  ['scholasticId'],
+                  ['desc']
+                ).map(sTwo => {
+                  return (
+                    <Grid container spacing={3} key={579}>
+                      <Grid item xs={12} lg={1}>
+                        <Typography>HKII:</Typography>
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('oldTest', 'Miệng', sTwo.oldTest)} type="text" />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('fifteenTest', `15'`, sTwo.fifteenTest)} type="text" />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('lessonTest', '1 Tiết', sTwo.lessonTest)} type="text" />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('semesterTest', 'HK', sTwo.semesterTest)} type="text" />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('average', 'TB', sTwo.average)} type="text" />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={2}>
+                        <TextField {...TextField_Props('ranking', 'Xếp loại', sTwo.ranking)} type="text" />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('morality', 'Hạnh kiểm', sTwo.morality)} type="text" />
+                      </Grid>
+                      <Grid item xs={12} lg={3}>
+                        <TextField {...TextField_Props('comment', 'Nhận xét', sTwo.comment)} type="text" />
+                      </Grid>
+                    </Grid>
+                  )
+                })}
+                {orderBy(
+                  student?.total?.filter(s => s.scholasticId === cl.class?.scholasticId),
+                  ['scholasticId'],
+                  ['desc']
+                ).map(tt => {
+                  return (
+                    <Grid container spacing={3} key={913}>
+                      <Grid item xs={12} lg={1}>
+                        <Typography>Cả năm:</Typography>
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('avgSemesterOne', 'TB HKI', tt.avgSemesterOne)} type="text" />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('avgSemesterTwo', 'TB HKII', tt.avgSemesterTwo)} type="text" />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('avgTotal', 'TB Cả năm', tt.avgTotal)} type="text" />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={2}>
+                        <TextField {...TextField_Props('ranking', 'Xếp loại', tt.ranking)} type="text" />
+                      </Grid>
+                      <Grid item xs={6} md={4} lg={1}>
+                        <TextField {...TextField_Props('morality', 'Hạnh kiểm', tt.morality)} type="text" />
+                      </Grid>
+                      <Grid item xs={12} lg={5}>
+                        <TextField {...TextField_Props('comment', 'Nhận xét', tt.comment)} type="text" />
+                      </Grid>
+                    </Grid>
+                  )
+                })}
               </CardContent>
             </div>
           )
