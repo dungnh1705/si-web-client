@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Grid, Card, Tooltip, IconButton, Divider, ButtonGroup, Button } from '@material-ui/core'
-import _ from 'lodash'
 import { useRecoilValue } from 'recoil'
 
 //Icons
@@ -72,9 +71,10 @@ const StudentTeam = ({ item }) => {
             </tr>
           </thead>
           <tbody>
-            {_.orderBy(item?.students).map((stu, index) => (
-              <StudentTeamItem key={`stu-class-${stu.id}-${index}`} student={stu} team={item.team} viewAbsentMode={viewAbsentMode} index={index + 1} />
-            ))}
+            {item.students.length > 0 &&
+              [...item.students]
+                .sort((a, b) => b.isTeamLead - a.isTeamLead || a.stuGender - b.stuGender || a.stuLastName.localeCompare(b.stuLastName))
+                .map((stu, index) => <StudentTeamItem key={`stu-class-${stu.id}-${index}`} student={stu} team={item.team} viewAbsentMode={viewAbsentMode} index={index + 1} />)}
           </tbody>
         </table>
       </div>

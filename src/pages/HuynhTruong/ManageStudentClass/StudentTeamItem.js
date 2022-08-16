@@ -93,7 +93,7 @@ const StudentTeamItem = ({ student, team, viewAbsentMode, index }) => {
   }
 
   return (
-    <tr className="align-items-center">
+    <tr className="align-items-center tr--active">
       {viewMode === ViewModes.XepDoi && (
         <td>
           <Select labelId="demo-simple-select-label" id="demo-simple-select" value={team} onChange={handleChange} disabled={checkDisabled(student.status)}>

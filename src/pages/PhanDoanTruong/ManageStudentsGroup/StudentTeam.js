@@ -80,9 +80,11 @@ const StudentTeam = ({ item, unionId }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {_.orderBy(item.students, ['stuGender', 'stuLastName'], ['asc']).map((stu, index) => (
-                    <StudentTeamItem key={`stu-team-item-${stu.id}`} student={stu} unionId={unionId} viewAbsentMode={viewAbsentMode} team={item.team} index={index + 1} />
-                  ))}
+                  {item.students
+                    .sort((a, b) => a.stuGender - b.stuGender || a.stuLastName.localeCompare(b.stuLastName))
+                    .map((stu, index) => (
+                      <StudentTeamItem key={`stu-team-item-${stu.id}`} student={stu} unionId={unionId} viewAbsentMode={viewAbsentMode} team={item.team} index={index + 1} />
+                    ))}
                 </tbody>
               </table>
             </div>

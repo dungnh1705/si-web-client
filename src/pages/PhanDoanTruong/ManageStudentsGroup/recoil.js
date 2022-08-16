@@ -1,10 +1,10 @@
 import { atom, selector } from 'recoil'
 import _ from 'lodash'
+// import slugify from 'slugify'
+
+import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { UnionQuery } from 'recoils/selectors'
-import slugify from 'slugify'
-import { doGet } from 'utils/axios'
-import config from 'config'
 
 export const ReloadStudentGroup = atom({
   key: 'reloadStudentGroup',
@@ -15,7 +15,7 @@ export const StudentsGroupQuery = selector({
   key: 'studentsGroupQuery',
   get: async ({ get }) => {
     get(ReloadStudentGroup)
-    const searchKey = get(SearchGroupStudent)
+    // const searchKey = get(SearchGroupStudent)
 
     const userId = sessionHelper().userId
     const scholasticId = sessionHelper().scholasticId
@@ -34,12 +34,12 @@ export const StudentsGroupQuery = selector({
         lstStudent.push({ unionId: t.unionId, unionCode: t.unionCode, students: [] })
       }
       if (res.data.data) {
-        let stuRes = _.orderBy(res.data.data, ['status', 'gender', 'stuLastName'], ['asc'])
+        const stuRes = res.data.data
 
-        if (searchKey) {
-          let keys = slugify(searchKey, { lower: true })
-          stuRes = stuRes.filter(stu => slugify(`${stu.stuFirstName}-${stu.stuLastName}`, { lower: true }).includes(keys))
-        }
+        // if (searchKey) {
+        //   let keys = slugify(searchKey, { lower: true })
+        //   stuRes = stuRes.filter(stu => slugify(`${stu.stuFirstName}-${stu.stuLastName}`, { lower: true }).includes(keys))
+        // }
 
         // Đưa từng Đoàn sinh vô chi đoàn
         for (const stu of stuRes) {
