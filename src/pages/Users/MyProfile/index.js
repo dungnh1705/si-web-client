@@ -24,7 +24,7 @@ import {
 } from '@material-ui/core'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencilAlt, faCamera, faIdBadge } from '@fortawesome/free-solid-svg-icons'
+import { faUnlockAlt, faCamera, faIdBadge } from '@fortawesome/free-solid-svg-icons'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { KeyboardDatePicker } from '@material-ui/pickers'
 
@@ -61,8 +61,6 @@ function Profile() {
   const [toast, setToast] = useRecoilState(toastState)
   const [showChangePass, setShowChangePass] = useRecoilState(ShowChangePassword)
 
-  const [isEdit, setIsEdit] = useState(false)
-  const [openPencil, setOpenPencil] = useState(false)
   const [openAvatar, setOpenAvatar] = useState(false)
   const [openPreview, setOpenReview] = useState(false)
 
@@ -77,7 +75,6 @@ function Profile() {
         setLoading(false)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         setReload(reload => reload + 1)
-        setIsEdit(false)
         updateLocalState()
 
         if (sessionHelper().isFirstLogin) {
@@ -168,50 +165,23 @@ function Profile() {
     }
   }
 
-  const handlePencilClick = () => {
-    setOpenPencil(prevOpen => !prevOpen)
-  }
-
   const handleAvatarClick = () => {
     setOpenAvatar(prevAvatar => !prevAvatar)
   }
 
-  const handlePencilClose = event => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return
-    }
-    setOpenPencil(false)
-  }
-
   const handleAvatarClose = event => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return
-    }
     setOpenAvatar(false)
   }
 
-  const handleListKeyDown = event => {
-    if (event.key === 'Tab') {
-      event.preventDefault()
-      setOpenPencil(false)
-    }
-  }
-  const anchorRef = useRef(null)
   const anchorAvRef = useRef(null)
-  const prevPencilOpen = useRef(openPencil)
   const prevAvatarOpen = useRef(openAvatar)
 
   useEffect(() => {
-    if (prevPencilOpen.current === true && openPencil === false) {
-      anchorRef.current.focus()
-    }
-    prevPencilOpen.current = openPencil
-
     if (prevAvatarOpen.current === true && openAvatar === false) {
       anchorAvRef.current.focus()
     }
     prevAvatarOpen.current = openAvatar
-  }, [openPencil, openAvatar])
+  }, [openAvatar])
 
   return (
     <Suspense fallback={<>Đang tải thông tin cá nhân ...</>}>
@@ -220,37 +190,11 @@ function Profile() {
           <Card className="mb-2 w-100">
             <div className="card-img-wrapper">
               <div className="card-badges">
-                <Tooltip title="Chỉnh sửa">
-                  <IconButton size="medium" onClick={handlePencilClick} ref={anchorRef} aria-controls={openPencil ? 'menu-list-grow' : undefined} aria-haspopup="true">
-                    <FontAwesomeIcon icon={faPencilAlt} />
+                <Tooltip title="Đổi mật khẩu">
+                  <IconButton size="medium" onClick={openResetPasswordDialog}>
+                    <FontAwesomeIcon icon={faUnlockAlt} />
                   </IconButton>
                 </Tooltip>
-                <Popper style={{ marginRight: '10px' }} open={openPencil} anchorEl={anchorRef.current} role={undefined} transition placement="left-start">
-                  {({ TransitionProps }) => (
-                    <Grow {...TransitionProps}>
-                      <Paper>
-                        <ClickAwayListener onClickAway={handlePencilClose}>
-                          <MenuList autoFocusItem={openPencil} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                            <MenuItem
-                              onClick={e => {
-                                setIsEdit(true)
-                                handlePencilClose(e)
-                              }}>
-                              Chỉnh sửa thông tin cá nhân
-                            </MenuItem>
-                            <MenuItem
-                              onClick={e => {
-                                openResetPasswordDialog()
-                                handlePencilClose(e)
-                              }}>
-                              Thay đổi mật khẩu
-                            </MenuItem>
-                          </MenuList>
-                        </ClickAwayListener>
-                      </Paper>
-                    </Grow>
-                  )}
-                </Popper>
               </div>
               {/* <div className="card-badges card-badges-bottom">
                 <Button size="small" startIcon={<FontAwesomeIcon icon={['fas', 'camera']} />}>
@@ -290,7 +234,7 @@ function Profile() {
                   <Grow {...TransitionProps}>
                     <Paper>
                       <ClickAwayListener onClickAway={handleAvatarClose}>
-                        <MenuList autoFocusItem={openAvatar} id="menu-avatar-list" onKeyDown={handleListKeyDown}>
+                        <MenuList autoFocusItem={openAvatar} id="menu-avatar-list">
                           <MenuItem
                             onClick={e => {
                               setOpenReview(true)
@@ -333,7 +277,7 @@ function Profile() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={3} justifyContent="center" hidden={!isEdit}>
+      <Grid container spacing={3} justifyContent="center">
         <Grid item xs={12} lg={8}>
           <Card className="card-box mb-4 w-100">
             <div className="card-header">
@@ -454,11 +398,6 @@ function Profile() {
                 <Grid item>
                   <Button size="large" color="primary" onClick={handleClickSave} variant="contained" type="submit" disabled={!userForm.isValid}>
                     Lưu
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button size="large" onClick={() => setIsEdit(false)} variant="outlined">
-                    Hủy bỏ
                   </Button>
                 </Grid>
               </Grid>
