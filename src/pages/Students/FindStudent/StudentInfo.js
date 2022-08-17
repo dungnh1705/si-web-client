@@ -182,6 +182,7 @@ const StudentInfo = ({ tabValue }) => {
                       <div className="w-100" style={{ textAlign: 'center', marginTop: '10px' }}>
                         {student?.status === StudentStatus.ChangeChurch && <span className="badge badge-danger">Chuyển xứ</span>}
                         {student?.status === StudentStatus.LeaveStudy && <span className="badge badge-warning">Nghỉ luôn</span>}
+                        {student?.status === StudentStatus.Deleted && <span className="badge badge-dark">Đã xoá</span>}
                         {(student?.status === StudentStatus.Active || student?.status === StudentStatus.InActive) && (
                           <Box>
                             <Button size="large" variant="outlined" color="primary">
