@@ -22,6 +22,7 @@ export default function HeaderAction() {
 
   const handleDownload = async e => {
     e.preventDefault()
+
     handleClose()
 
     try {
@@ -42,6 +43,18 @@ export default function HeaderAction() {
     } catch (err) {
       setToast({ open: true, message: err.message, type: 'error' })
     }
+  }
+
+  const handleDownloadStudentInfo = async e => {
+    handleClose()
+
+    e.preventDefault()
+
+    window.open(
+      `${apiEndpoint}/file/getGroupStudentInfoCSV?ScholasticId=${sessionHelper().scholasticId}&UserId=${sessionHelper().userId}&ClassId=${sessionHelper().classId}`,
+      '_parent'
+    )
+    handleClose()
   }
 
   const handleClose = () => {
@@ -77,6 +90,17 @@ export default function HeaderAction() {
                   <div className="d-flex justify-content-left">
                     <FontAwesomeIcon icon={faFileExcel} size="lg" className="mr-3" />
                     <div className="d-flex align-items-center">Tải danh sách Đoàn sinh</div>
+                  </div>
+                </div>
+              </div>
+            </ListItem>
+
+            <ListItem key="action-download-PDF" button onClick={handleDownloadStudentInfo}>
+              <div className="grid-menu grid-menu-1col w-100">
+                <div>
+                  <div className="d-flex justify-content-left">
+                    <FontAwesomeIcon icon={faFileExcel} size="lg" className="mr-3" />
+                    <div className="d-flex align-items-center">Tải danh sách Thông tin Đoàn sinh</div>
                   </div>
                 </div>
               </div>
