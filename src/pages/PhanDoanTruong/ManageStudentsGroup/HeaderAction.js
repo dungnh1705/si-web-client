@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { List, ListItem, Tooltip, Fab, Menu } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileExcel, faDownload } from '@fortawesome/free-solid-svg-icons'
-import { useSetRecoilState } from 'recoil'
+import { useSetRecoilState, useRecoilState } from 'recoil'
 
 import sessionHelper from 'utils/sessionHelper'
 import { doPost } from 'utils/axios'
 import { toastState } from 'recoils/atoms'
+import { ChooseFileInfoDialogAtom } from 'components/Dialog/recoil'
 
 const apiEndpoint = process.env.REACT_APP_WEB_API
 const templateId = process.env.REACT_APP_START_YEAR_DOC_ID
@@ -15,6 +16,8 @@ export default function HeaderAction() {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const setToast = useSetRecoilState(toastState)
+
+  const [dialog, setDialog] = useRecoilState(ChooseFileInfoDialogAtom)
 
   const handleOpen = event => {
     setAnchorEl(event.currentTarget)
@@ -46,14 +49,17 @@ export default function HeaderAction() {
   }
 
   const handleDownloadStudentInfo = async e => {
-    handleClose()
-
     e.preventDefault()
 
     window.open(
       `${apiEndpoint}/file/getGroupStudentInfoCSV?ScholasticId=${sessionHelper().scholasticId}&UserId=${sessionHelper().userId}&ClassId=${sessionHelper().classId}`,
       '_parent'
     )
+    handleClose()
+  }
+
+  const handleUploadStudentInfoFile = () => {
+    setDialog({ ...dialog, openChooseFileDialog: true, pageCall: 'PDT-StudentGroup' })
     handleClose()
   }
 
@@ -100,7 +106,18 @@ export default function HeaderAction() {
                 <div>
                   <div className="d-flex justify-content-left">
                     <FontAwesomeIcon icon={faFileExcel} size="lg" className="mr-3" />
-                    <div className="d-flex align-items-center">Tải danh sách Thông tin Đoàn sinh</div>
+                    <div className="d-flex align-items-center">Tải DS TT Đoàn sinh</div>
+                  </div>
+                </div>
+              </div>
+            </ListItem>
+
+            <ListItem key="action-download-PDF" button onClick={handleUploadStudentInfoFile}>
+              <div className="grid-menu grid-menu-1col w-100">
+                <div>
+                  <div className="d-flex justify-content-left">
+                    <FontAwesomeIcon icon={faFileExcel} size="lg" className="mr-3" />
+                    <div className="d-flex align-items-center">Nhập DS TT Đoàn sinh</div>
                   </div>
                 </div>
               </div>

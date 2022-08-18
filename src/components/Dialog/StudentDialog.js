@@ -47,18 +47,22 @@ import ModalSkeleton from 'components/Loading/modal-skeleton'
 export const StudentDialog = () => {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
-  const [studentDialog, setStudentDialog] = useRecoilState(StudentDialogAtom)
-  const [phoneDialog, setPhoneDialog] = useRecoilState(PhoneCallDialogAtom)
-  const [isEdit, setIsEdit] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [toast, setToast] = useRecoilState(toastState)
+
   const lstHolyName = useRecoilValue(HolyNameQuery)
+
   const setReloadClass = useSetRecoilState(ReloadStudentClass)
   const setReloadGroup = useSetRecoilState(ReloadStudentGroup)
+
+  const [studentDialog, setStudentDialog] = useRecoilState(StudentDialogAtom)
+  const [phoneDialog, setPhoneDialog] = useRecoilState(PhoneCallDialogAtom)
+  const [toast, setToast] = useRecoilState(toastState)
+
+  const [isEdit, setIsEdit] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [changeStatus, setChangeStatus] = useState(false)
+  const [isTeamLead, setIsTeamLead] = useState(false)
 
   const { stuDialog, pageCall, student } = studentDialog
-  const [isTeamLead, setIsTeamLead] = useState(false)
 
   useEffect(() => {
     setIsTeamLead(student?.studentClass?.find(sl => sl.classId === Number(sessionHelper().classId))?.isTeamLead)

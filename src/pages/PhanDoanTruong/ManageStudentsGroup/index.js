@@ -3,8 +3,7 @@ import { useRecoilValue, useRecoilState } from 'recoil'
 import { Grid, Typography, ButtonGroup, Button } from '@material-ui/core'
 import _ from 'lodash'
 
-import { AbsentDialog, StudentDialog, DialerDialog } from 'components/Dialog'
-import ModalSkeleton from 'components/Loading/modal-skeleton'
+import { AbsentDialog, StudentDialog, DialerDialog, ChooseInfoFileDialog } from 'components/Dialog'
 import { ViewModes } from 'app/enums'
 import { ViewMode, PageYOffset } from 'recoils/atoms'
 
@@ -80,11 +79,13 @@ const ManageStudentsGroup = () => {
   return (
     <Suspense fallback={<>Đang tải Danh sách Đoàn sinh ...</>}>
       {body()}
-      <Suspense fallback={<ModalSkeleton />}>
+
+      <>
         <StudentDialog />
         <AbsentDialog />
         <DialerDialog />
-      </Suspense>
+        <ChooseInfoFileDialog />
+      </>
     </Suspense>
   )
 }

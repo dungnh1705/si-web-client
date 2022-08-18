@@ -54,6 +54,14 @@ export const ChooseFileDialogAtom = atom({
   }
 })
 
+export const ChooseFileInfoDialogAtom = atom({
+  key: 'chooseFileInfoDialogAtom',
+  default: {
+    openChooseFileDialog: false,
+    pageCall: undefined
+  }
+})
+
 export const DocumentPreviewDialogAtom = atom({
   key: 'documentPreviewDialogAtom',
   default: {
