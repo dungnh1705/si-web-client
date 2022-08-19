@@ -40,13 +40,15 @@ export const ChooseInfoFileDialog = () => {
       fromData.append('file', file[0])
       fromData.append('ScholasticId', sessionHelper().scholasticId)
       fromData.append('UserFullName', `${sessionHelper().firstName} ${sessionHelper().lastName}`)
+      fromData.append('UserId', sessionHelper().userId)
+      fromData.append('ClassId', sessionHelper().classId)
 
-      var res = await doPost(`file/uploadStudentInfoFile`, fromData)
+      var res = pageCall === 'PDT-StudentGroup' ? await doPost(`file/uploadStudentInfoFile`, fromData) : await doPost(`file/addStudentFromFile`, fromData)
       if (res && res.data.success) {
         handleClose()
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         if (pageCall === 'HT-StudentClass') setReloadStudentClass(reload => reload + 1)
-        if (pageCall === 'PDT-StudentGroup') setReloadStudentGroup(reload => reload + 1)
+        if (pageCall === 'PDT-StudentGroup' || pageCall === 'PDT-AddStudentGroup') setReloadStudentGroup(reload => reload + 1)
       } else {
         setToast({ ...toast, open: true, message: res.data.message, type: 'error' })
       }
