@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Grid, Card, Tooltip, IconButton } from '@material-ui/core'
-import _ from 'lodash'
+import { filter } from 'lodash'
 
 //Icons
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
@@ -44,9 +44,11 @@ const StudentTeam = ({ team }) => {
               </tr>
             </thead>
             <tbody>
-              {_.orderBy(_.filter(team?.students, { status: StudentStatus.Active }), ['stuGender', 'stuLastName'], ['asc']).map((stu, index) => (
-                <StudentTeamItem key={`score-${stu.id}`} student={stu} id={index} />
-              ))}
+              {filter(team?.students, { status: StudentStatus.Active })
+                .sort((a, b) => a.stuGender - b.stuGender || a.stuLastName.localeCompare(b.stuLastName))
+                .map((stu, index) => (
+                  <StudentTeamItem key={`score-${stu.id}`} student={stu} id={index} />
+                ))}
             </tbody>
           </table>
         </div>

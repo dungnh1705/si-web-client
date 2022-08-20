@@ -75,14 +75,15 @@ const Login = () => {
           const { data } = res.data
           saveLoginData(data)
 
-          const dataSaved = checkSaveLocalData()
-          if (dataSaved) {
-            if (data.isFirstLogin) {
-              window.location.href = '/MyProfile'
-            } else {
-              window.location.href = '/Dashboard'
+          checkSaveLocalData().then(result => {
+            if (result) {
+              if (data.isFirstLogin) {
+                window.location.href = '/MyProfile'
+              } else {
+                window.location.href = '/Dashboard'
+              }
             }
-          }
+          })
         } else {
           signInForm.setFieldError('Password', res.data.message)
           setLoading(false)
@@ -103,7 +104,7 @@ const Login = () => {
     setOpenRegisterForm(true)
   }
 
-  const checkSaveLocalData = () => {
+  const checkSaveLocalData = async () => {
     return setTimeout(() => {
       if (checkSession()) {
         return true

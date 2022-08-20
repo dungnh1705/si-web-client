@@ -2,20 +2,14 @@ import React, { useState } from 'react'
 import { List, ListItem, Tooltip, Fab, Menu } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileExcel, faDownload } from '@fortawesome/free-solid-svg-icons'
-import { useSetRecoilState, useRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 
-import sessionHelper from 'utils/sessionHelper'
-import { doPost } from 'utils/axios'
-import { toastState } from 'recoils/atoms'
 import { ChooseFileInfoDialogAtom } from 'components/Dialog/recoil'
 
 const apiEndpoint = process.env.REACT_APP_WEB_API
-const templateId = process.env.REACT_APP_START_YEAR_DOC_ID
 
 export default function HeaderAction() {
   const [anchorEl, setAnchorEl] = useState(null)
-
-  const setToast = useSetRecoilState(toastState)
 
   const [dialog, setDialog] = useRecoilState(ChooseFileInfoDialogAtom)
 
@@ -23,43 +17,15 @@ export default function HeaderAction() {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleDownload = async e => {
-    e.preventDefault()
-
-    handleClose()
-
-    try {
-      const data = {
-        StudentId: [],
-        ClassId: sessionHelper().classId,
-        ScholasticId: sessionHelper().scholasticId,
-        UserId: sessionHelper().userId,
-        TemplateId: templateId,
-        IsPreview: false
-      }
-
-      const res = await doPost(`download/previewForm`, data)
-      if (res && res.data.success) {
-        const { data } = res.data
-        window.open(`${apiEndpoint}/file/get?fileName=${data}`, '_parent')
-      }
-    } catch (err) {
-      setToast({ open: true, message: err.message, type: 'error' })
-    }
-  }
-
   const handleDownloadStudentInfo = async e => {
     e.preventDefault()
 
-    window.open(
-      `${apiEndpoint}/file/getGroupStudentInfoCSV?ScholasticId=${sessionHelper().scholasticId}&UserId=${sessionHelper().userId}&ClassId=${sessionHelper().classId}`,
-      '_parent'
-    )
+    window.open(`${apiEndpoint}/file/getRegisterFile`, '_parent')
     handleClose()
   }
 
   const handleUploadStudentInfoFile = () => {
-    setDialog({ ...dialog, openChooseFileDialog: true, pageCall: 'PDT-StudentGroup' })
+    setDialog({ ...dialog, openChooseFileDialog: true, pageCall: 'PDT-AddStudentGroup' })
     handleClose()
   }
 
@@ -90,23 +56,12 @@ export default function HeaderAction() {
         onClose={handleClose}>
         <div className="dropdown-menu-right dropdown-menu-lg overflow-hidden p-0">
           <List className="text-left bg-transparent d-flex align-items-center flex-column pt-0">
-            <ListItem key="action-download-PDF" button onClick={handleDownload}>
-              <div className="grid-menu grid-menu-1col w-100">
-                <div>
-                  <div className="d-flex justify-content-left">
-                    <FontAwesomeIcon icon={faFileExcel} size="lg" className="mr-3" />
-                    <div className="d-flex align-items-center">Tải danh sách Đoàn sinh</div>
-                  </div>
-                </div>
-              </div>
-            </ListItem>
-
             <ListItem key="action-download-PDF" button onClick={handleDownloadStudentInfo}>
               <div className="grid-menu grid-menu-1col w-100">
                 <div>
                   <div className="d-flex justify-content-left">
                     <FontAwesomeIcon icon={faFileExcel} size="lg" className="mr-3" />
-                    <div className="d-flex align-items-center">Tải DS TT Đoàn sinh</div>
+                    <div className="d-flex align-items-center">Tải file nhập Đoàn sinh</div>
                   </div>
                 </div>
               </div>
@@ -117,7 +72,7 @@ export default function HeaderAction() {
                 <div>
                   <div className="d-flex justify-content-left">
                     <FontAwesomeIcon icon={faFileExcel} size="lg" className="mr-3" />
-                    <div className="d-flex align-items-center">Nhập DS TT Đoàn sinh</div>
+                    <div className="d-flex align-items-center">Thêm Đoàn sinh từ file</div>
                   </div>
                 </div>
               </div>

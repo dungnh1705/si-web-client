@@ -17,7 +17,7 @@ const ManageStudentsClass = () => {
 
   const lstNoTeam = lstStudent?.filter(i => i.team === 0)
   const lstInClass = lstStudent?.filter(i => i.team !== 0)
-  const haveStudentNoTeam = _.size(lstNoTeam ? lstNoTeam[0].students : []) > 0
+  const haveStudentNoTeam = _.size(lstNoTeam && lstNoTeam.length > 0 ? lstNoTeam[0].students : []) > 0
 
   const body = () => {
     return (
@@ -52,11 +52,12 @@ const ManageStudentsClass = () => {
             ))}
 
           <Grid item xs={12} lg={haveStudentNoTeam ? 8 : 12} container direction="row" spacing={1}>
-            {lstInClass?.map((item, index) => (
-              <Grid item xs={12} lg={haveStudentNoTeam ? 12 : 6} key={`class-teams-${index + item.team}`}>
-                <StudentTeam item={item} />
-              </Grid>
-            ))}
+            {lstInClass?.length > 0 &&
+              lstInClass.map((item, index) => (
+                <Grid item xs={12} lg={haveStudentNoTeam ? 12 : 6} key={`class-teams-${index + item.team}`}>
+                  <StudentTeam item={item} />
+                </Grid>
+              ))}
           </Grid>
         </Grid>
       </>

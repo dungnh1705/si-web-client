@@ -1,6 +1,6 @@
 import { Card, Grid, Tooltip, IconButton, Divider, Table } from '@material-ui/core'
 import React, { useState } from 'react'
-import _ from 'lodash'
+import { filter } from 'lodash'
 import { useRecoilValue } from 'recoil'
 
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
@@ -128,9 +128,11 @@ const StudentUnionTeam = ({ item }) => {
                 </tr>
               </thead>
               <tbody>
-                {_.orderBy(_.filter(item.students, { status: StudentStatus.Active }), ['stuGender', 'stuLastName'], ['asc']).map(stu => (
-                  <StudentUnionItem key={`stu-score-item-${uuidv4()}`} student={stu} />
-                ))}
+                {filter(item.students, { status: StudentStatus.Active })
+                  .sort((a, b) => a.stuGender - b.stuGender || a.stuLastName.localeCompare(b.stuLastName))
+                  .map(stu => (
+                    <StudentUnionItem key={`stu-score-item-${uuidv4()}`} student={stu} />
+                  ))}
               </tbody>
             </Table>
           </div>

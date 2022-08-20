@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
 import { Grid, Avatar, InputAdornment, FormControl, Box, FormGroup, FormControlLabel, Radio, CardContent, Button, TextField } from '@material-ui/core'
 import Yup from 'utils/Yup'
@@ -12,7 +12,7 @@ import {
   faHandHoldingWater,
   faPrayingHands,
   faHands,
-  faQrcode,
+  faBarcode,
   faUserTie,
   faHome,
   faStickyNote,
@@ -21,36 +21,39 @@ import {
   faFemale
 } from '@fortawesome/free-solid-svg-icons'
 import { KeyboardDatePicker } from '@material-ui/pickers'
+
 import { StudentStatus, Roles, TemplateType } from 'app/enums'
 import InlineTextField from 'components/Controls/InlineTextField'
-
-import { toastState } from 'recoils/atoms'
-import config from 'config'
-import { doPost } from 'utils/axios'
-import { ShowStudent, ReloadStuSearch } from './recoil'
-import { HolyNameQuery } from 'recoils/selectors'
 import { PhoneCallDialogAtom, DocumentPreviewDialogAtom } from 'components/Dialog/recoil'
+
+import { HolyNameQuery } from 'recoils/selectors'
+import { toastState } from 'recoils/atoms'
+import { doPost } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
+
 import HolyName from './HolyName'
+import { ShowStudent, ReloadStuSearch } from './recoil'
 
 const StudentInfo = ({ tabValue }) => {
-  let student = useRecoilValue(ShowStudent)
-  let lstHolyName = useRecoilValue(HolyNameQuery)
-  let setPhoneDialog = useSetRecoilState(PhoneCallDialogAtom)
-  let setPreviewDialog = useSetRecoilState(DocumentPreviewDialogAtom)
+  const student = useRecoilValue(ShowStudent)
+  const lstHolyName = useRecoilValue(HolyNameQuery)
+
+  const setPhoneDialog = useSetRecoilState(PhoneCallDialogAtom)
+  const setPreviewDialog = useSetRecoilState(DocumentPreviewDialogAtom)
+  const reloadSearch = useSetRecoilState(ReloadStuSearch)
+
   const [toast, setToast] = useRecoilState(toastState)
-  let [editable, setEditable] = useState(false)
-  let reloadSearch = useSetRecoilState(ReloadStuSearch)
+  const [editable, setEditable] = useState(false)
 
   useEffect(() => {
     if (student) {
-      let classInfo = student.studentClass.find(sl => sl.class.scholasticId === Number(sessionHelper().scholasticId))?.class
-      let currentStudentClass = student.studentClass.find(s => s.classId === classInfo.id)
-      let isEditable =
+      const classInfo = student.studentClass.find(sl => sl.class.scholasticId === Number(sessionHelper().scholasticId))?.class
+      const currentStudentClass = student.studentClass.find(s => s.classId === classInfo?.id)
+      const isEditable =
         sessionHelper().roles.includes(Roles.Admin) ||
         sessionHelper().roles.includes(Roles.BanQuanTri) ||
-        (sessionHelper().roles.includes(Roles.PhanDoanTruong) && Number(sessionHelper().userId) === classInfo.leaderId) ||
-        (currentStudentClass.classId === Number(sessionHelper().classId) && currentStudentClass.unionId === Number(sessionHelper().unionId))
+        (sessionHelper().roles.includes(Roles.PhanDoanTruong) && Number(sessionHelper().userId) === classInfo?.leaderId) ||
+        (currentStudentClass?.classId === Number(sessionHelper().classId) && currentStudentClass?.unionId === Number(sessionHelper().unionId))
 
       setEditable(isEditable)
     }
@@ -182,6 +185,7 @@ const StudentInfo = ({ tabValue }) => {
                       <div className="w-100" style={{ textAlign: 'center', marginTop: '10px' }}>
                         {student?.status === StudentStatus.ChangeChurch && <span className="badge badge-danger">Chuyển xứ</span>}
                         {student?.status === StudentStatus.LeaveStudy && <span className="badge badge-warning">Nghỉ luôn</span>}
+                        {student?.status === StudentStatus.Deleted && <span className="badge badge-dark">Đã xoá</span>}
                         {(student?.status === StudentStatus.Active || student?.status === StudentStatus.InActive) && (
                           <Box>
                             <Button size="large" variant="outlined" color="primary">
@@ -211,7 +215,7 @@ const StudentInfo = ({ tabValue }) => {
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
-                              <FontAwesomeIcon icon={faQrcode} />
+                              <FontAwesomeIcon icon={faBarcode} />
                             </InputAdornment>
                           ),
                           readOnly: true

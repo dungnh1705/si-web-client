@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Grid, Card, Tooltip, IconButton, Divider, ButtonGroup, Button } from '@material-ui/core'
-import _ from 'lodash'
 import { useRecoilValue } from 'recoil'
 
 //Icons
@@ -47,7 +46,9 @@ const StudentTeam = ({ item }) => {
           <thead>
             <tr>
               {viewMode === ViewModes.XepDoi && <th rowSpan="2">Đội</th>}
-              <th rowSpan="2">STT</th>
+              <th rowSpan="2" className="td-center">
+                STT
+              </th>
               <th rowSpan="2">Tên Thánh, Họ và Tên</th>
               <th colSpan="2" rowSpan={item.team !== 0 && viewMode === ViewModes.DiemDanh ? 1 : 2} className="td-center">
                 {item.team !== 0 && viewMode === ViewModes.DiemDanh && (
@@ -72,9 +73,10 @@ const StudentTeam = ({ item }) => {
             </tr>
           </thead>
           <tbody>
-            {_.orderBy(item?.students).map((stu, index) => (
-              <StudentTeamItem key={`stu-class-${stu.id}-${index}`} student={stu} team={item.team} viewAbsentMode={viewAbsentMode} index={index + 1} />
-            ))}
+            {item.students.length > 0 &&
+              [...item.students]
+                .sort((a, b) => a.status - b.status || b.isTeamLead - a.isTeamLead || a.stuGender - b.stuGender || a.stuLastName.localeCompare(b.stuLastName))
+                .map((stu, index) => <StudentTeamItem key={`stu-class-${stu.id}-${index}`} student={stu} team={item.team} viewAbsentMode={viewAbsentMode} index={index + 1} />)}
           </tbody>
         </table>
       </div>

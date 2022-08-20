@@ -1,9 +1,9 @@
 import { atom, selector } from 'recoil'
-import _ from 'lodash'
-import config from 'config'
+import _, { lt } from 'lodash'
+
+import { AbsentMode } from 'app/enums'
 import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
-import { AbsentMode } from 'app/enums'
 
 export const ReloadStudentClass = atom({
   key: 'ReloadStudentClass',
@@ -25,21 +25,23 @@ export const StudentsQuery = selector({
       var res = await doGet(`student/getStudentInClass`, { classCode: classId, unionId: unionId })
 
       if (res && res.data.success && res.data.data) {
-        let stuRes = _.orderBy(res.data.data, ['status', 'gender', 'stuLastName'], ['asc'])
+        const stuRes = res.data.data
 
-        const distinctTeam = [...new Set(stuRes?.map(x => x.studentClass.find(sc => sc.classId == classId)?.team))]
-        const lstStudent = [{ team: 0, students: [] }]
+        const distinctTeam = [...new Set(stuRes?.map(x => x.studentClass.find(sc => Number(sc.classId) === Number(classId))?.team))]
+        const lstStudent = []
 
         for (const t of distinctTeam) {
+          if (t === 0) lstStudent.push({ team: 0, students: [] })
           if (t !== 0) lstStudent.push({ team: t, students: [] })
         }
+
         for (const stu of stuRes) {
           lstStudent.forEach(t => {
-            if (t.team === stu.studentClass.find(sc => sc.classId == classId).team) {
-              if (stu.studentClass.find(sc => sc.classId == classId).isTeamLead) {
-                t.students.unshift(stu)
+            if (t.team === stu.studentClass.find(sc => Number(sc.classId) === Number(classId)).team) {
+              if (stu.studentClass.find(sc => Number(sc.classId) === Number(classId)).isTeamLead) {
+                t.students.push({ ...stu, isTeamLead: true })
               } else {
-                t.students.push(stu)
+                t.students.push({ ...stu, isTeamLead: false })
               }
             }
           })
