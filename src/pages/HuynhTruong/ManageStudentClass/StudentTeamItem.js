@@ -114,9 +114,9 @@ const StudentTeamItem = ({ student, team, viewAbsentMode, index }) => {
           </Select>
         </td>
       )}
-      <td>{index}</td>
+      <td className="td-center">{index}</td>
       <td onClick={handleRowClick} className="td-student">
-        <span className="td-student__team-leader"></span>
+        {student?.studentClass?.find(sl => sl.classId === Number(sessionHelper().classId))?.isTeamLead && <span className="td-student__team-leader" />}
         <Typography>
           {lstHolyName.find(h => h.id === student.stuHolyId).name}
           <br />
