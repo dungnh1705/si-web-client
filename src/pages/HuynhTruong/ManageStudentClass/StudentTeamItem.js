@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { Typography, Badge, Select, MenuItem, FormControlLabel } from '@material-ui/core'
+import { Typography, Select, MenuItem, FormControlLabel } from '@material-ui/core'
 
 import StyledRadio from 'components/UI/StyledRadio'
 import { StudentDialogAtom } from 'components/Dialog/recoil'
@@ -77,23 +77,27 @@ const StudentTeamItem = ({ student, team, viewAbsentMode, index }) => {
   }
 
   const handleRowClick = () => {
-    if (student.status !== StudentStatus.ChangeChurch && student.status !== StudentStatus.LeaveStudy)
-      setStudentDialog({ ...studentDialog, stuDialog: true, pageCall: 'HT-Student', student: student })
+    setStudentDialog({ ...studentDialog, stuDialog: true, pageCall: 'HT-Student', student: student })
   }
 
-  const badgeProps = {
-    color: 'error',
-    children: (
-      <Typography>
-        {lstHolyName.find(h => h.id === student.stuHolyId).name}
-        <br />
-        {student.stuFirstName} {student.stuLastName}
-      </Typography>
-    )
+  const findClassName = student => {
+    if (student.status === StudentStatus.ChangeChurch) {
+      return 'tr-student__change-church'
+    }
+
+    if (student.status === StudentStatus.LeaveStudy) {
+      return 'tr-student__absent'
+    }
+
+    if (student.isNewStudent) {
+      return 'tr-student__new-student'
+    }
+
+    return ''
   }
 
   return (
-    <tr className="align-items-center tr--active">
+    <tr className={`align-items-center tr--active tr-student ${findClassName(student)}`}>
       {viewMode === ViewModes.XepDoi && (
         <td>
           <Select labelId="demo-simple-select-label" id="demo-simple-select" value={team} onChange={handleChange} disabled={checkDisabled(student.status)}>
@@ -111,24 +115,13 @@ const StudentTeamItem = ({ student, team, viewAbsentMode, index }) => {
         </td>
       )}
       <td>{index}</td>
-      <td style={{ cursor: 'pointer' }} onClick={handleRowClick}>
-        {(student.status === StudentStatus.ChangeChurch || student.status === StudentStatus.LeaveStudy) && (
-          <Badge
-            badgeContent={student.status === StudentStatus.ChangeChurch ? 'Chuyển xứ' : 'Nghỉ luôn'}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right'
-            }}
-            {...badgeProps}
-          />
-        )}
-        {student.status !== StudentStatus.ChangeChurch && student.status !== StudentStatus.LeaveStudy && (
-          <Typography>
-            {lstHolyName.find(h => h.id === student.stuHolyId).name}
-            <br />
-            {student.stuFirstName} {student.stuLastName}
-          </Typography>
-        )}
+      <td onClick={handleRowClick} className="td-student">
+        <span className="td-student__team-leader"></span>
+        <Typography>
+          {lstHolyName.find(h => h.id === student.stuHolyId).name}
+          <br />
+          {student.stuFirstName} {student.stuLastName}
+        </Typography>
       </td>
       <td className="td-center">
         {team !== 0 && viewMode === ViewModes.DiemDanh && viewAbsentMode === AbsentMode.Mass && (
