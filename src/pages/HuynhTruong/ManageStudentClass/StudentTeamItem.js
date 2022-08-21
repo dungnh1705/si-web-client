@@ -97,7 +97,7 @@ const StudentTeamItem = ({ student, team, viewAbsentMode, index }) => {
   }
 
   return (
-    <tr className={`align-items-center tr--active tr-student ${findClassName(student)}`}>
+    <tr className={`align-items-center tr__active tr-student ${findClassName(student)}`}>
       {viewMode === ViewModes.XepDoi && (
         <td>
           <Select labelId="demo-simple-select-label" id="demo-simple-select" value={team} onChange={handleChange} disabled={checkDisabled(student.status)}>

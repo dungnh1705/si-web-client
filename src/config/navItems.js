@@ -81,6 +81,12 @@ const functions = [
         to: '/PDT/StudentGroup'
       },
       {
+        label: 'Xếp Chi đoàn',
+        icon: PeopleAltTwoToneIcon,
+        description: 'Chuyển Chi đoàn cho Đoàn sinh trong Phân Đoàn',
+        to: '/PDT/ChangeStudentUnion'
+      },
+      {
         label: 'Điểm Phân đoàn',
         icon: StarTwoToneIcon,
         description: 'Danh sách điểm Phân đoàn',
