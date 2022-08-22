@@ -193,7 +193,7 @@ const StudentInfo = ({ tabValue }) => {
                             </Button>
                           </Box>
                         )}
-                        {(editable && student?.status === StudentStatus.Active ) && (
+                        {(editable && student?.status === StudentStatus.Active )&& (
                           <Box>
                             <Button size="large" variant="outlined" style={{ color: 'red', borderColor: 'red' }} className="mt-2" onClick={e => handleClickPreview(e, student?.id)}>
                               Xem biểu mẫu
