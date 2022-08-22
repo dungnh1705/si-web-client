@@ -5,7 +5,7 @@ import { Card, Grid } from '@material-ui/core'
 const CardSkeleton = () => {
   return (
     <Grid container spacing={2} style={{ marginTop: '20px' }}>
-      <Grid item xs={12} sm={12} lg={6}>
+      <Grid item xs={12}>
         <Card className="card-box mb-2 w-100">
           <div className="card-header d-flex pb-2 pt-2">
             <div className="card-header--title">

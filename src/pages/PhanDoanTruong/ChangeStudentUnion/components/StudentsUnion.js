@@ -10,7 +10,7 @@ import { StudentStatus } from 'app/enums'
 import StudentsUnionTeam from './StudentsUnionTeam'
 import StudentsUnionTeamItem from './StudentsUnionTeamItem'
 
-const StudentsUnion = ({ union }) => {
+const StudentsUnion = ({ union, isDestination = false }) => {
   const [collapse, setCollapse] = useState(true)
 
   const distinctTeam = [...new Set(union.students.map(stu => stu.studentClass.find(sc => sc.classId === stu.classId && sc.unionId === union.unionId)?.team))]
@@ -20,12 +20,13 @@ const StudentsUnion = ({ union }) => {
     studentsInTeam.push({ team: t, students: [] })
   }
 
-  for (const stu of union.students)
+  for (const stu of union.students) {
     studentsInTeam.forEach(item => {
       if (item.team === stu.studentClass.find(sc => sc.classId === stu.classId && sc.unionId === union.unionId)?.team) {
         item.students.push(stu)
       }
     })
+  }
 
   const filterAbsent = () => {
     studentsInTeam.forEach(item => {
@@ -80,7 +81,7 @@ const StudentsUnion = ({ union }) => {
       {union.unionId !== 1 && (
         <CardContent hidden={collapse}>
           {[...filterAbsent()].map((team, index) => (
-            <StudentsUnionTeam key={`union-${union.unionId}-team-${index}`} team={team} unionId={union.unionId} />
+            <StudentsUnionTeam key={`union-${union.unionId}-team-${index}`} team={team} unionId={union.unionId} isDestination={isDestination} />
           ))}
         </CardContent>
       )}

@@ -35,9 +35,6 @@ const ManageStudentsGroup = () => {
                 <Button color={mode === ViewModes.DiemDanh ? 'primary' : 'default'} onClick={() => setMode(ViewModes.DiemDanh)}>
                   Điểm danh
                 </Button>
-                <Button color={mode === ViewModes.XepChiDoan ? 'primary' : 'default'} onClick={() => setMode(ViewModes.XepChiDoan)}>
-                  Xếp Chi đoàn
-                </Button>
                 <Button color={mode === ViewModes.DanhSachNghi ? 'primary' : 'default'} onClick={() => setMode(ViewModes.DanhSachNghi)}>
                   Danh sách nghỉ
                 </Button>

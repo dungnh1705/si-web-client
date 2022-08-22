@@ -9,19 +9,23 @@ import Destination from './components/Destination'
 
 const ChangeStudentUnion = () => {
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={2}>
       <Grid container item spacing={2} xs={12} md={5}>
-        <Suspense children={<CardSkeleton />}>
+        <Suspense fallback={<CardSkeleton />}>
           <Students />
         </Suspense>
       </Grid>
 
-      <Grid container item spacing={3} xs={12} md={2}>
-        <Transition />
+      <Grid container item spacing={2} xs={12} md={2} justifyContent="center">
+        <Suspense fallback={<>Tải danh sách Chi đoàn ...</>}>
+          <Transition />
+        </Suspense>
       </Grid>
 
-      <Grid container item spacing={3} xs={12} md={5}>
-        <Destination />
+      <Grid container item spacing={2} xs={12} md={5}>
+        <Suspense fallback={<CardSkeleton />}>
+          <Destination />
+        </Suspense>
       </Grid>
     </Grid>
   )

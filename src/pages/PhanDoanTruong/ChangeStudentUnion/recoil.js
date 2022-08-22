@@ -11,6 +11,16 @@ export const ReloadStudents = atom({
   default: 0
 })
 
+export const NewUnionIdSelected = atom({
+  key: 'newUnionIdSelected',
+  default: undefined
+})
+
+export const StudentSelected = atom({
+  key: 'studentSelected',
+  default: []
+})
+
 export const StudentsQuery = selector({
   key: 'studentsQuery',
   get: async ({ get }) => {

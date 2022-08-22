@@ -1,13 +1,39 @@
 import React, { useState } from 'react'
 import { Card, Grid, Tooltip, IconButton, Divider } from '@material-ui/core'
-
+import { useRecoilState } from 'recoil'
+import { union } from 'lodash'
 //Icons
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import StudentsUnionTeamItem from './StudentsUnionTeamItem'
 
-const StudentsUnionTeam = ({ team }) => {
+import StyledCheckbox from 'components/UI/StyledCheckbox'
+
+import StudentsUnionTeamItem from './StudentsUnionTeamItem'
+import { StudentSelected } from '../recoil'
+
+const StudentsUnionTeam = ({ team, isDestination }) => {
   const [collapse, setCollapse] = useState(true)
+
+  const [studentIds, setStudentIds] = useRecoilState(StudentSelected)
+
+  const handleCheckAll = e => {
+    const lstId = team?.students.map(s => s.id)
+
+    if (e.target.checked) {
+      const res = union(studentIds, lstId)
+      setStudentIds(res)
+    } else {
+      setStudentIds(studentIds.filter(i => !lstId.includes(i)))
+    }
+  }
+
+  const handleChecked = () => {
+    const teamStudentIds = team?.students.map(s => s.id)
+    const checked = studentIds.filter(id => teamStudentIds.includes(id))
+
+    if (checked.length === teamStudentIds.length) return true
+    return false
+  }
 
   return (
     <Card className="card-box mb-1 w-100">
@@ -35,7 +61,11 @@ const StudentsUnionTeam = ({ team }) => {
         <table className="table table-hover text-nowrap mb-0">
           <thead>
             <tr>
-              <th></th>
+              {!isDestination && (
+                <th>
+                  <StyledCheckbox checked={handleChecked()} onChange={handleCheckAll} />
+                </th>
+              )}
               <th>STT</th>
               <th>Tên Thánh, Họ và Tên</th>
             </tr>
@@ -45,7 +75,7 @@ const StudentsUnionTeam = ({ team }) => {
             {team?.students
               .sort((a, b) => a.stuGender - b.stuGender || a.stuLastName.localeCompare(b.stuLastName))
               .map((stu, index) => (
-                <StudentsUnionTeamItem key={`stu-team-item-${stu.id}`} student={stu} index={index + 1} />
+                <StudentsUnionTeamItem key={`stu-team-item-${stu.id}`} student={stu} index={index + 1} isDestination={isDestination} />
               ))}
           </tbody>
         </table>

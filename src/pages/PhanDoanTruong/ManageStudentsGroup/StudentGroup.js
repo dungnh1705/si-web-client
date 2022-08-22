@@ -15,7 +15,9 @@ import StudentTeamItem from './StudentTeamItem'
 
 const StudentGroup = ({ item }) => {
   const [collapse, setCollapse] = useState(true)
+
   const viewMode = useRecoilValue(ViewMode)
+
   const distinctTeam = [...new Set(item.students.map(x => x.studentClass.find(sc => sc.classId === x.classId && sc.unionId === item.unionId)?.team))]
   const lstStudentInTeam = [{ team: 0, students: [] }]
 
@@ -82,8 +84,7 @@ const StudentGroup = ({ item }) => {
               <table className="table table-hover text-nowrap mb-0">
                 <thead>
                   <tr>
-                    {viewMode === ViewModes.XepChiDoan && <th>CĐ</th>}
-                    <th>STT</th>
+                    <th className="td-center">STT</th>
                     <th>Tên Thánh, Họ và Tên</th>
                   </tr>
                 </thead>

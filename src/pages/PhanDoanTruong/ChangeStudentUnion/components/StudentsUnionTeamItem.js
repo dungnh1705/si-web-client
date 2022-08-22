@@ -1,25 +1,33 @@
 import React from 'react'
 import { Typography } from '@material-ui/core'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import StyledCheckbox from 'components/UI/StyledCheckbox'
 
 import { HolyNameQuery } from 'recoils/selectors'
+import { StudentSelected } from '../recoil'
 
-const StudentsUnionTeamItem = ({ student, index }) => {
+const StudentsUnionTeamItem = ({ student, index, isDestination }) => {
   const lstHolyname = useRecoilValue(HolyNameQuery)
+  const [studentSelected, setStudentSelected] = useRecoilState(StudentSelected)
 
-  const handleClickStudent = () => {
-    handleClickCheckbox()
+  const handleClickStudent = (e, stuId) => {
+    e.preventDefault()
+
+    if (studentSelected.some(v => v === student.id)) {
+      setStudentSelected(studentSelected.filter(id => id !== stuId))
+    } else {
+      setStudentSelected([...studentSelected, stuId])
+    }
   }
 
-  const handleClickCheckbox = () => {}
-
   return (
-    <tr className="align-items-center tr__active" onClick={handleClickStudent}>
-      <td>
-        <StyledCheckbox onClick={handleClickCheckbox} value={student.id} />
-      </td>
+    <tr className="align-items-center tr__active" onClick={e => handleClickStudent(e, student.id)}>
+      {!isDestination && (
+        <td>
+          <StyledCheckbox checked={studentSelected.some(v => v === student.id)} />
+        </td>
+      )}
       <td>{index}</td>
       <td>
         <Typography>
