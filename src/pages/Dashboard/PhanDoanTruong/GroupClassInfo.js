@@ -53,14 +53,18 @@ export default function GroupInfo({ info }) {
               </Grid>
 
               <Grid container item xs={12}>
-                Huynh trưởng phụ trách:
-                {item.assignments?.map(ass => (
-                  <Grid item xs={4} key={ass.id} className="text-center">
-                    <Typography variant="h5">
-                      {StringUtils.holyNameLookup(lstHolyname, ass.user.holyNameId)} {ass.user.firstName} {ass.user.lastName}
-                    </Typography>
-                  </Grid>
-                ))}
+                <Grid xs={12}>
+                  Huynh trưởng phụ trách:
+                </Grid>
+                <Grid container xs={12} justifyContent="center" className='mt-1 mb-2'>
+                  {item.assignments?.map(ass => (
+                      <Grid item xs={12} lg={6} key={ass.id} className="text-center mt-1">
+                        <Typography variant="h5">
+                          {StringUtils.holyNameLookup(lstHolyname, ass.user.holyNameId)} {ass.user.firstName} {ass.user.lastName}
+                        </Typography>
+                      </Grid>
+                  ))}
+                </Grid>
               </Grid>
 
               <Grid item xs={4}>
