@@ -5,8 +5,8 @@ import { Dialog, DialogTitle, DialogContent, Typography, Button, DialogActions, 
 import { PhoneCallDialogAtom } from './recoil'
 
 export const DialerDialog = () => {
-  let [phoneDialog, setPhoneDialog] = useRecoilState(PhoneCallDialogAtom)
-  let { phoneCallDialog, phoneNo } = phoneDialog
+  const [phoneDialog, setPhoneDialog] = useRecoilState(PhoneCallDialogAtom)
+  const { phoneCallDialog, phoneNo } = phoneDialog
 
   const handleClose = () => {
     setPhoneDialog({ ...phoneDialog, phoneCallDialog: false, phoneNo: undefined })

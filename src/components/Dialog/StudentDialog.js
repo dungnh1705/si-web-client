@@ -21,6 +21,7 @@ import {
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import FlagRoundedIcon from '@material-ui/icons/FlagRounded'
+import ExitToApp from '@material-ui/icons/ExitToApp'
 
 // 3Party
 import Yup from 'utils/Yup'
@@ -39,10 +40,11 @@ import ButtonLoading from 'components/UI/ButtonLoading'
 import { ShortTextField, AutocompleteTextField, KeyboardDateField } from 'components/Controls'
 
 // Internal
-import { StudentDialogAtom, PhoneCallDialogAtom } from './recoil'
+import { StudentDialogAtom, PhoneCallDialogAtom, ChangeGroupModalAtom } from './recoil'
 import { ReloadStudentClass } from 'pages/HuynhTruong/ManageStudentClass/recoil'
 import { ReloadStudentGroup } from 'pages/PhanDoanTruong/ManageStudentsGroup/recoil'
 import ModalSkeleton from 'components/Loading/modal-skeleton'
+import { ChangeGroupModal } from './ChangeGroupModal'
 
 export const StudentDialog = () => {
   const theme = useTheme()
@@ -56,6 +58,7 @@ export const StudentDialog = () => {
   const [studentDialog, setStudentDialog] = useRecoilState(StudentDialogAtom)
   const [phoneDialog, setPhoneDialog] = useRecoilState(PhoneCallDialogAtom)
   const [toast, setToast] = useRecoilState(toastState)
+  const [chagenGroupModal, setChangeGroupModal] = useRecoilState(ChangeGroupModalAtom)
 
   const [isEdit, setIsEdit] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -196,8 +199,20 @@ export const StudentDialog = () => {
     closeButton: {
       position: 'absolute',
       right: theme.spacing(1),
-      top: theme.spacing(1),
+      top: theme.spacing(0),
       color: theme.palette.grey[500]
+    },
+    changeGroup: {
+      position: 'absolute',
+      left: '33%',
+      [theme.breakpoints.only('sm')]: {
+        left: '18%'
+      },
+      [theme.breakpoints.up('md')]: {
+        left: '15%'
+      },
+      top: theme.spacing(0),
+      color: theme.palette.grey[700]
     }
   })
 
@@ -234,6 +249,12 @@ export const StudentDialog = () => {
     return (
       <DialogTitle disableTypography className={classes.root} {...other}>
         <Typography variant="h6">{children}</Typography>
+        <Tooltip title="Chuyển Phân đoàn">
+          <IconButton size="medium" aria-label="ChangeGroup" className={classes.changeGroup} onClick={handleClickChangeGroup}>
+            <ExitToApp />
+          </IconButton>
+        </Tooltip>
+
         {Number(sessionHelper().classId) !== 0 && !isTeamLead && isAssigned ? (
           <Tooltip title="Đánh dấu là đội trưởng">
             <IconButton size="medium" aria-label="teamlead" className={classes.closeButton} onClick={onClick}>
@@ -244,6 +265,10 @@ export const StudentDialog = () => {
       </DialogTitle>
     )
   })
+
+  const handleClickChangeGroup = () => {
+    setChangeGroupModal({ ...chagenGroupModal, openDialog: true, student: student })
+  }
 
   return loading ? (
     <ModalSkeleton loading={true} />

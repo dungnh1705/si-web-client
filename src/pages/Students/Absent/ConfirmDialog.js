@@ -6,7 +6,6 @@ import { faCalendarAlt, faUser } from '@fortawesome/free-solid-svg-icons'
 
 // External
 import ButtonLoading from 'components/UI/ButtonLoading'
-import config from 'config'
 import { doPost } from 'utils/axios'
 import { toastState } from 'recoils/atoms'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
