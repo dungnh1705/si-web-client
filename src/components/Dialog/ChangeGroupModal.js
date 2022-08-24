@@ -1,26 +1,39 @@
-import React from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import React, { useState } from 'react'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { Dialog, DialogTitle, DialogContent, Typography, Button, DialogActions, Divider, Grid, TextField, MenuItem } from '@material-ui/core'
 
 import Yup from 'utils/Yup'
 import { useFormik } from 'formik'
+import ButtonLoading from 'components/UI/ButtonLoading'
+
+import { doPost } from 'utils/axios'
+import StringUtils from 'utils/StringUtils'
+import sessionHelper from 'utils/sessionHelper'
+
 import { HolyNameQuery, BranchQuery } from 'recoils/selectors'
+import { toastState } from 'recoils/atoms'
+import { ReloadStudentGroup } from 'pages/PhanDoanTruong/ManageStudentsGroup/recoil'
 
 import { ChangeGroupModalAtom } from './recoil'
-import StringUtils from 'utils/StringUtils'
 
 export const ChangeGroupModal = () => {
   const lstHolyName = useRecoilValue(HolyNameQuery)
   const lstBranch = useRecoilValue(BranchQuery)
 
+  const setReloadGroup = useSetRecoilState(ReloadStudentGroup)
+
   const [dialog, setDialog] = useRecoilState(ChangeGroupModalAtom)
-  const { openDialog, student } = dialog
+  const [toast, setToast] = useRecoilState(toastState)
+
+  const [loading, setLoading] = useState(false)
+  const { openDialog, student, closeParent } = dialog
 
   const currentGroupId = student?.studentClass[0]?.class?.groupId
 
   const validationSchema = Yup.object({
     studentId: Yup.string().required('Không để trống'),
-    newGroupId: Yup.string().required('Không để trống')
+    newGroupId: Yup.string().required('Không để trống'),
+    note: Yup.string().required('Không để trống')
   })
 
   const changeForm = useFormik({
@@ -47,8 +60,8 @@ export const ChangeGroupModal = () => {
     }
   }
 
-  const handleClose = () => {
-    setDialog({ ...dialog, openDialog: false, student: undefined })
+  const handleClose = (close = false) => {
+    setDialog({ ...dialog, openDialog: false, student: undefined, closeParent: close })
   }
 
   const onChangeBranch = e => {
@@ -56,11 +69,35 @@ export const ChangeGroupModal = () => {
     changeForm.setFieldValue('stuBranchId', e.target.value)
 
     const tmp = lstBranch.find(g => g.branchId === e.target.value).group
-    changeForm.setFieldValue('newGroupId', tmp.filter(t => t.groupId !== currentGroupId)[0].groupId)
+    const filter = tmp.filter(t => t.groupId !== currentGroupId)
+
+    changeForm.setFieldValue('newGroupId', filter.length > 0 ? filter[0].groupId : undefined)
   }
 
-  const handleChangeGroup = () => {
-    console.log(changeForm.values)
+  const handleChangeGroup = async () => {
+    setLoading(true)
+    const { scholasticId, userId, classId } = sessionHelper()
+
+    const data = {
+      ...changeForm.values,
+      scholasticId,
+      userId,
+      currentGroupId,
+      classId
+    }
+
+    try {
+      let res = await doPost(`student/changeStudentGroup`, data)
+      if (res && res.data.success) {
+        setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
+        handleClose(true)
+        setReloadGroup(old => old + 1)
+      }
+    } catch (err) {
+      setToast({ ...toast, open: true, message: err.message, type: 'error' })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -99,10 +136,13 @@ export const ChangeGroupModal = () => {
                   ))}
               </TextField>
             </Grid>
+            <Grid item xs={12}>
+              <TextField {...TextField_Props('note', 'Lý do')} />
+            </Grid>
           </Grid>
           <br />
           <Typography variant="h6" color="error">
-            SAU KHI CHUYỂN THÔNG TIN ĐOÀN SINH SẼ KHÔNG CÒN TRONG PHÂN ĐOÀN NỮA!
+            SAU KHI CHUYỂN THÔNG TIN ĐOÀN SINH SẼ KHÔNG CÒN TRONG PHÂN ĐOÀN!
           </Typography>
           <Typography variant="h6" color="error">
             BẠN CÓ CHẮC CHẮN CHƯA?
@@ -112,9 +152,7 @@ export const ChangeGroupModal = () => {
       <DialogActions>
         <Grid container item spacing={2} justifyContent="flex-end">
           <Grid item xs={6}>
-            <Button size="large" onClick={handleChangeGroup} color="primary" variant="contained" fullWidth disabled={!changeForm.isValid}>
-              Chuyển
-            </Button>
+            <ButtonLoading btnText="Chuyển" loading={loading} handleButtonClick={handleChangeGroup} disabled={!changeForm.isValid} />
           </Grid>
           <Grid item xs={6}>
             <Button size="large" onClick={handleClose} variant="outlined" fullWidth>

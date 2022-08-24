@@ -44,7 +44,6 @@ import { StudentDialogAtom, PhoneCallDialogAtom, ChangeGroupModalAtom } from './
 import { ReloadStudentClass } from 'pages/HuynhTruong/ManageStudentClass/recoil'
 import { ReloadStudentGroup } from 'pages/PhanDoanTruong/ManageStudentsGroup/recoil'
 import ModalSkeleton from 'components/Loading/modal-skeleton'
-import { ChangeGroupModal } from './ChangeGroupModal'
 
 export const StudentDialog = () => {
   const theme = useTheme()
@@ -240,7 +239,7 @@ export const StudentDialog = () => {
   }
 
   const DialogTitleCustom = withStyles(styles)(props => {
-    const { children, classes, onClick, ...other } = props
+    const { children, classes, ...other } = props
 
     // let isTeamLead = student?.studentClass?.find((sl) => sl.classId === Number(localStorage.classId))?.isTeamLead
     // Kiểm tra Đoàn sinh đã được phân đội chưa
@@ -257,7 +256,7 @@ export const StudentDialog = () => {
 
         {Number(sessionHelper().classId) !== 0 && !isTeamLead && isAssigned ? (
           <Tooltip title="Đánh dấu là đội trưởng">
-            <IconButton size="medium" aria-label="teamlead" className={classes.closeButton} onClick={onClick}>
+            <IconButton size="medium" aria-label="teamlead" className={classes.closeButton} onClick={handleAssignTeamLead}>
               <FlagRoundedIcon />
             </IconButton>
           </Tooltip>
@@ -267,14 +266,20 @@ export const StudentDialog = () => {
   })
 
   const handleClickChangeGroup = () => {
-    setChangeGroupModal({ ...chagenGroupModal, openDialog: true, student: student })
+    setChangeGroupModal({ ...chagenGroupModal, openDialog: true, student: student, closeParent: false })
   }
+
+  useEffect(() => {
+    if (chagenGroupModal.closeParent === true) {
+      handleClose()
+    }
+  }, [chagenGroupModal.closeParent])
 
   return loading ? (
     <ModalSkeleton loading={true} />
   ) : (
     <Dialog open={stuDialog} onClose={handleClose} aria-labelledby="responsive-dialog-title" fullScreen={fullScreen} maxWidth="lg">
-      <DialogTitleCustom onClick={handleAssignTeamLead}>Thông tin Đoàn sinh</DialogTitleCustom>
+      <DialogTitleCustom>Thông tin Đoàn sinh</DialogTitleCustom>
       <Divider />
       <DialogContent>
         {isTeamLead && (

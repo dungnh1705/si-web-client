@@ -67,7 +67,7 @@ export default function HeaderAction() {
               </div>
             </ListItem>
 
-            <ListItem key="action-download-PDF" button onClick={handleUploadStudentInfoFile}>
+            <ListItem key="action-upload-PDF" button onClick={handleUploadStudentInfoFile}>
               <div className="grid-menu grid-menu-1col w-100">
                 <div>
                   <div className="d-flex justify-content-left">

@@ -76,6 +76,7 @@ export const ChangeGroupModalAtom = atom({
   key: 'changeGroupModalAtom',
   default: {
     openDialog: false,
-    student: undefined
+    student: undefined,
+    closeParent: false
   }
 })
