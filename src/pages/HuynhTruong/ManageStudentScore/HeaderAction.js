@@ -85,7 +85,7 @@ export default function HeaderAction() {
                 <div>
                   <div className="d-flex justify-content-left">
                     <FontAwesomeIcon icon={faFilePdf} size="lg" className="mr-3" />
-                    <div className="d-flex align-items-center">Tải phiếu báo điểm</div>
+                    <div className="d-flex align-items-center">Tải biểu mẫu</div>
                   </div>
                 </div>
               </div>
