@@ -248,11 +248,13 @@ export const StudentDialog = () => {
     return (
       <DialogTitle disableTypography className={classes.root} {...other}>
         <Typography variant="h6">{children}</Typography>
-        <Tooltip title="Chuyển Phân đoàn">
-          <IconButton size="medium" aria-label="ChangeGroup" className={classes.changeGroup} onClick={handleClickChangeGroup}>
-            <ExitToApp />
-          </IconButton>
-        </Tooltip>
+        {pageCall === 'PDT-Student' && (
+          <Tooltip title="Chuyển Phân đoàn">
+            <IconButton size="medium" aria-label="ChangeGroup" className={classes.changeGroup} onClick={handleClickChangeGroup}>
+              <ExitToApp />
+            </IconButton>
+          </Tooltip>
+        )}
 
         {Number(sessionHelper().classId) !== 0 && !isTeamLead && isAssigned ? (
           <Tooltip title="Đánh dấu là đội trưởng">
