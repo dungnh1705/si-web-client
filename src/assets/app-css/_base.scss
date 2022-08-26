@@ -28,11 +28,11 @@
   color: var(--primary);
 }
 
-.tr--active {
+.tr__active {
   cursor: pointer;
 }
 
-.tr--active:hover td {
+.tr__active:hover td {
   color: var(--primary);
 }
 
@@ -108,4 +108,8 @@
   border-left: 15px solid currentColor;
   border-right: 15px solid currentColor;
   border-bottom: 15px solid transparent;
+}
+
+.header__active {
+  cursor: pointer;
 }

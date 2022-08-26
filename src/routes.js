@@ -15,6 +15,7 @@ import AddNewStudent from 'pages/PhanDoanTruong/AddNewStudent'
 import ManageScoreGroup from 'pages/PhanDoanTruong/ManageScoreGroup'
 import { default as StudentGroup } from 'pages/PhanDoanTruong/ManageStudentsGroup'
 import AssignUserUnion from 'pages/PhanDoanTruong/AssignUserUnion'
+import ChangeStudentUnion from 'pages/PhanDoanTruong/ChangeStudentUnion'
 //HT
 import ManageStudentScore from 'pages/HuynhTruong/ManageStudentScore'
 import { default as StudentAbsent } from 'pages/Students/Absent'
@@ -166,6 +167,15 @@ export default [
         component: () => (
           <Suspense fallback={<PageSkeleton />}>
             <AddNewStudent />
+          </Suspense>
+        )
+      },
+      {
+        path: '/PDT/ChangeStudentUnion',
+        exact: true,
+        component: () => (
+          <Suspense fallback={<PageSkeleton />}>
+            <ChangeStudentUnion />
           </Suspense>
         )
       },

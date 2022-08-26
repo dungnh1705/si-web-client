@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Grid, Card, Tooltip, IconButton, Divider, ButtonGroup, Button } from '@material-ui/core'
-import _ from 'lodash'
 import { useRecoilValue } from 'recoil'
 
 //Icons
@@ -51,33 +50,31 @@ const StudentTeam = ({ item, unionId }) => {
               <table className="table table-hover text-nowrap mb-0">
                 <thead>
                   <tr>
-                    {viewMode === ViewModes.XepChiDoan && <th rowSpan="2">CĐ</th>}
-                    <th rowSpan="2">STT</th>
+                    <th rowSpan="2" className="td-center">
+                      STT
+                    </th>
                     <th rowSpan="2">Tên Thánh, Họ và Tên</th>
-                    {viewMode === ViewModes.DiemDanh && (
-                      <th colSpan="2" rowSpan={item.team !== 0 && viewMode === ViewModes.DiemDanh ? 1 : 2} className="td-center">
-                        {item.team !== 0 && viewMode === ViewModes.DiemDanh && (
-                          <ButtonGroup variant="contained" aria-label="contained primary button group">
-                            <Button color={viewAbsentMode === AbsentMode.Mass ? 'secondary' : 'default'} onClick={() => setViewAbsentMode(AbsentMode.Mass)}>
-                              Lễ
-                            </Button>
-                            <Button color={viewAbsentMode === AbsentMode.Class ? 'secondary' : 'default'} onClick={() => setViewAbsentMode(AbsentMode.Class)}>
-                              Học
-                            </Button>
-                          </ButtonGroup>
-                        )}
+                    {viewMode === ViewModes.DiemDanh && item.team !== 0 && (
+                      <th colSpan="2" rowSpan={viewMode === ViewModes.DiemDanh ? 1 : 2} className="td-center">
+                        <ButtonGroup variant="contained" aria-label="contained primary button group">
+                          <Button color={viewAbsentMode === AbsentMode.Mass ? 'secondary' : 'default'} onClick={() => setViewAbsentMode(AbsentMode.Mass)}>
+                            Lễ
+                          </Button>
+                          <Button color={viewAbsentMode === AbsentMode.Class ? 'secondary' : 'default'} onClick={() => setViewAbsentMode(AbsentMode.Class)}>
+                            Học
+                          </Button>
+                        </ButtonGroup>
                       </th>
                     )}
                     {viewMode === ViewModes.DanhSachNghi && <th rowSpan="2">Trạng thái</th>}
                   </tr>
-                  <tr>
-                    {item.team !== 0 && viewMode === ViewModes.DiemDanh && (
-                      <>
-                        <th className="td-center">P</th>
-                        <th className="td-center">KP</th>
-                      </>
-                    )}
-                  </tr>
+
+                  {item.team !== 0 && viewMode === ViewModes.DiemDanh && (
+                    <tr>
+                      <th className="td-center">P</th>
+                      <th className="td-center">KP</th>
+                    </tr>
+                  )}
                 </thead>
                 <tbody>
                   {item.students

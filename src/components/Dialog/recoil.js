@@ -71,3 +71,12 @@ export const DocumentPreviewDialogAtom = atom({
     templateType: undefined
   }
 })
+
+export const ChangeGroupModalAtom = atom({
+  key: 'changeGroupModalAtom',
+  default: {
+    openDialog: false,
+    student: undefined,
+    closeParent: false
+  }
+})

@@ -21,6 +21,7 @@ import {
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import FlagRoundedIcon from '@material-ui/icons/FlagRounded'
+import ExitToApp from '@material-ui/icons/ExitToApp'
 
 // 3Party
 import Yup from 'utils/Yup'
@@ -39,7 +40,7 @@ import ButtonLoading from 'components/UI/ButtonLoading'
 import { ShortTextField, AutocompleteTextField, KeyboardDateField } from 'components/Controls'
 
 // Internal
-import { StudentDialogAtom, PhoneCallDialogAtom } from './recoil'
+import { StudentDialogAtom, PhoneCallDialogAtom, ChangeGroupModalAtom } from './recoil'
 import { ReloadStudentClass } from 'pages/HuynhTruong/ManageStudentClass/recoil'
 import { ReloadStudentGroup } from 'pages/PhanDoanTruong/ManageStudentsGroup/recoil'
 import ModalSkeleton from 'components/Loading/modal-skeleton'
@@ -56,6 +57,7 @@ export const StudentDialog = () => {
   const [studentDialog, setStudentDialog] = useRecoilState(StudentDialogAtom)
   const [phoneDialog, setPhoneDialog] = useRecoilState(PhoneCallDialogAtom)
   const [toast, setToast] = useRecoilState(toastState)
+  const [chagenGroupModal, setChangeGroupModal] = useRecoilState(ChangeGroupModalAtom)
 
   const [isEdit, setIsEdit] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -196,8 +198,20 @@ export const StudentDialog = () => {
     closeButton: {
       position: 'absolute',
       right: theme.spacing(1),
-      top: theme.spacing(1),
+      top: theme.spacing(0),
       color: theme.palette.grey[500]
+    },
+    changeGroup: {
+      position: 'absolute',
+      left: '33%',
+      [theme.breakpoints.only('sm')]: {
+        left: '18%'
+      },
+      [theme.breakpoints.up('md')]: {
+        left: '15%'
+      },
+      top: theme.spacing(0),
+      color: theme.palette.grey[700]
     }
   })
 
@@ -225,7 +239,7 @@ export const StudentDialog = () => {
   }
 
   const DialogTitleCustom = withStyles(styles)(props => {
-    const { children, classes, onClick, ...other } = props
+    const { children, classes, ...other } = props
 
     // let isTeamLead = student?.studentClass?.find((sl) => sl.classId === Number(localStorage.classId))?.isTeamLead
     // Kiểm tra Đoàn sinh đã được phân đội chưa
@@ -234,9 +248,17 @@ export const StudentDialog = () => {
     return (
       <DialogTitle disableTypography className={classes.root} {...other}>
         <Typography variant="h6">{children}</Typography>
+        {pageCall === 'PDT-Student' && (
+          <Tooltip title="Chuyển Phân đoàn">
+            <IconButton size="medium" aria-label="ChangeGroup" className={classes.changeGroup} onClick={handleClickChangeGroup}>
+              <ExitToApp />
+            </IconButton>
+          </Tooltip>
+        )}
+
         {Number(sessionHelper().classId) !== 0 && !isTeamLead && isAssigned ? (
           <Tooltip title="Đánh dấu là đội trưởng">
-            <IconButton size="medium" aria-label="teamlead" className={classes.closeButton} onClick={onClick}>
+            <IconButton size="medium" aria-label="teamlead" className={classes.closeButton} onClick={handleAssignTeamLead}>
               <FlagRoundedIcon />
             </IconButton>
           </Tooltip>
@@ -245,11 +267,21 @@ export const StudentDialog = () => {
     )
   })
 
+  const handleClickChangeGroup = () => {
+    setChangeGroupModal({ ...chagenGroupModal, openDialog: true, student: student, closeParent: false })
+  }
+
+  useEffect(() => {
+    if (chagenGroupModal.closeParent === true) {
+      handleClose()
+    }
+  }, [chagenGroupModal.closeParent])
+
   return loading ? (
     <ModalSkeleton loading={true} />
   ) : (
     <Dialog open={stuDialog} onClose={handleClose} aria-labelledby="responsive-dialog-title" fullScreen={fullScreen} maxWidth="lg">
-      <DialogTitleCustom onClick={handleAssignTeamLead}>Thông tin Đoàn sinh</DialogTitleCustom>
+      <DialogTitleCustom>Thông tin Đoàn sinh</DialogTitleCustom>
       <Divider />
       <DialogContent>
         {isTeamLead && (

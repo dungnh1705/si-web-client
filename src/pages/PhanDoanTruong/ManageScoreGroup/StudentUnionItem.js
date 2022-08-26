@@ -79,7 +79,7 @@ const StudentUnionItem = ({ student }) => {
     <>
       {semester === SemesterEnum.semesterOne && (
         <tr
-          className="tr--active"
+          className="tr__active"
           onClick={handleRowClick}
           style={{
             backgroundColor: student.semesterOne[0]?.average < 3.5 ? red[200] : 'inherit'
@@ -107,7 +107,7 @@ const StudentUnionItem = ({ student }) => {
       )}
       {semester === SemesterEnum.semesterTwo && (
         <tr
-          className="tr--active"
+          className="tr__active"
           onClick={handleRowClick}
           style={{
             backgroundColor: student.semesterTwo[0]?.average < 3.5 ? red[100] : 'inherit'

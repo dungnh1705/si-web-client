@@ -119,10 +119,10 @@ const StudentScoreDetails = ({ student }) => {
                 })
 
           if (res && res.data.success) {
-            setOldValue(data)
             setReloadStudent(reload => reload + 1)
             setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
             formData.resetForm({ values: data })
+            setOldValue(data)
           }
         } catch (err) {
           setToast({ ...toast, open: true, message: err.message, type: 'error' })

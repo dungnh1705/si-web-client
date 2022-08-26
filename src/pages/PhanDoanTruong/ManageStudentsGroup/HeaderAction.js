@@ -90,7 +90,7 @@ export default function HeaderAction() {
         onClose={handleClose}>
         <div className="dropdown-menu-right dropdown-menu-lg overflow-hidden p-0">
           <List className="text-left bg-transparent d-flex align-items-center flex-column pt-0">
-            <ListItem key="action-download-PDF" button onClick={handleDownload}>
+            <ListItem key="download-PDF" button onClick={handleDownload}>
               <div className="grid-menu grid-menu-1col w-100">
                 <div>
                   <div className="d-flex justify-content-left">
@@ -112,7 +112,7 @@ export default function HeaderAction() {
               </div>
             </ListItem>
 
-            <ListItem key="action-download-PDF" button onClick={handleUploadStudentInfoFile}>
+            <ListItem key="action-upload-PDF" button onClick={handleUploadStudentInfoFile}>
               <div className="grid-menu grid-menu-1col w-100">
                 <div>
                   <div className="d-flex justify-content-left">

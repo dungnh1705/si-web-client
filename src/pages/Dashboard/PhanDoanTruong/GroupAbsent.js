@@ -50,7 +50,7 @@ export default function GroupAbsent({ info }) {
       position: 'right'
     },
     labels: info?.summaryInfo.map(item => {
-      return `Chi đoàn ${item.unionId}`
+      return `Chi đoàn ${item.unionCode}`
     })
   }
 
