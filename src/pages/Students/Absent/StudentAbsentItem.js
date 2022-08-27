@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { makeStyles } from '@material-ui/core/styles';
 import _ from 'lodash'
 
 // External
@@ -11,7 +12,28 @@ import sessionHelper from 'utils/sessionHelper'
 // Internal
 import { ShowConfirmDialog, AbsentSelected } from './recoil'
 
+const mystyle = makeStyles({
+  pinCell: {
+    position: 'sticky',
+    left: 0,
+    backgroundColor: 'white',
+    zIndex: 1,
+    
+    '&::after': {
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      bottom: 0,
+      width: '2.5px',
+      zIndex: 2,
+      content: "\"\"",
+      backgroundColor: '#E5E6F5'
+    }
+  }
+})
+
 const StudentAbsentItem = ({ month, mode }) => {
+  const useStyle = mystyle();
   const lstHolyName = useRecoilValue(HolyNameQuery)
   const [open, setOpen] = useRecoilState(ShowConfirmDialog)
   const setAbsent = useSetRecoilState(AbsentSelected)
@@ -50,7 +72,7 @@ const StudentAbsentItem = ({ month, mode }) => {
     <>
       {lstStudent?.map(stu => (
         <tr key={`stu-absent-${stu.id}`}>
-          <td>
+          <td className={useStyle.pinCell}>
             {lstHolyName?.find(h => h.id === stu?.absents[0].student.stuHolyId)?.name} {stu?.absents[0].student.stuFirstName} {stu?.absents[0].student.stuLastName}
           </td>
           <td style={{ textAlign: 'center' }}>

@@ -1,5 +1,5 @@
 import React, { useState, Suspense } from 'react'
-import { Card, IconButton, CardContent, Grid, Tooltip, Button, ButtonGroup, Divider } from '@material-ui/core'
+import { Card, IconButton, CardContent, Grid, Tooltip, Button, ButtonGroup, Divider, makeStyles } from '@material-ui/core'
 import moment from 'moment'
 import _ from 'lodash'
 
@@ -9,7 +9,27 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import StudentAbsentItem from './StudentAbsentItem'
 import { AbsentMode } from 'app/enums'
 
+const useStyle = makeStyles({
+  pinCell: {
+    position: 'sticky',
+    left: 0,
+    zIndex: 1,
+    
+    '&::after': {
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      bottom: 0,
+      width: '2.5px',
+      zIndex: 2,
+      content: "\"\"",
+      backgroundColor: '#E5E6F5'
+    }
+  }
+})
+
 const StudentAbsent = ({ month }) => {
+  const classStyle = useStyle()
   const [collapse, setCollapse] = useState(true)
   let [abMode, setAbMode] = useState(1)
 
@@ -49,7 +69,7 @@ const StudentAbsent = ({ month }) => {
             <table className="table table-hover text-nowrap mb-0">
               <thead>
                 <tr>
-                  <th rowSpan="2">Tên Thánh, Họ và Tên</th>
+                  <th rowSpan="2" className={classStyle.pinCell}>Tên Thánh, Họ và Tên</th>
                   <th colSpan="2" style={{ textAlign: 'center' }}>
                     Tổng
                   </th>
