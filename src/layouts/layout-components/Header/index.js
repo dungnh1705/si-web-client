@@ -12,7 +12,7 @@ import HeaderLogo from '../../layout-components/HeaderLogo'
 // import HeaderDots from '../../layout-components/HeaderDots'
 // import HeaderDrawer from '../../layout-components/HeaderDrawer'
 import HeaderUserBox from '../HeaderUserbox'
-// import HeaderSearch from '../../layout-components/HeaderSearch'
+import HeaderSearch from '../../layout-components/HeaderSearch'
 // import HeaderMenu from '../../layout-components/HeaderMenu'
 
 import MenuOpenRoundedIcon from '@material-ui/icons/MenuOpenRounded'
@@ -74,12 +74,12 @@ const Header = props => {
                   </Tooltip>
                 </Box>
               )}
-              {/* <HeaderSearch /> */}
               {/* <HeaderMenu /> */}
             </Box>
           </Hidden>
           <Box className="d-flex align-items-center">
             {/* <HeaderDots /> */}
+            <HeaderSearch />
             <HeaderUserBox />
             {/* <HeaderDrawer /> */}
             <Box className="toggle-sidebar-btn-mobile">

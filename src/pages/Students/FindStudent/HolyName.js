@@ -37,7 +37,7 @@ const HolyName = ({ formData, holyname, field, handleSaveHolyName, isEditable, i
       {isEditable && (
         <>
           <ClickAwayListener onClickAway={handleCancel}>
-            <Grid item xs={10} lg={4}>
+            <Grid item xs={showAction ? 10 : 12} lg={4}>
               <Autocomplete
                 disableClearable
                 // value={lstHolyName[lstHolyName.findIndex((item) => item.id === (isMoreInfo ? formData.values[`studentMoreInfo.${field}`] : formData.values[field]))] || lstHolyName[0]}
@@ -95,18 +95,17 @@ const HolyName = ({ formData, holyname, field, handleSaveHolyName, isEditable, i
               />
             </Grid>
           </ClickAwayListener>
-          <Grid item xs={2} lg={4}>
-            {showAction && (
-              <>
-                <IconButton size='medium' edge="end" color="primary" onClick={handleOk}>
-                  <DoneIcon />
-                </IconButton>
-                <IconButton size='medium' edge="end" onClick={handleCancel}>
-                  <ClearIcon />
-                </IconButton>
-              </>
-            )}
-          </Grid>
+
+          {showAction && (
+            <Grid item xs={2} lg={4}>
+              <IconButton size="medium" edge="end" color="primary" onClick={handleOk}>
+                <DoneIcon />
+              </IconButton>
+              <IconButton size="medium" edge="end" onClick={handleCancel}>
+                <ClearIcon />
+              </IconButton>
+            </Grid>
+          )}
         </>
       )}
       {!isEditable && (

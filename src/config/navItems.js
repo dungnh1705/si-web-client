@@ -18,7 +18,7 @@ import sessionHelper from 'utils/sessionHelper'
 
 const functions = [
   { label: 'Thông tin chung', icon: DashboardTwoToneIcon, to: '/Dashboard' },
-  { label: 'Tìm kiếm Đoàn sinh', icon: SearchTwoToneIcon, to: '/FindStudent' },
+  // { label: 'Tìm kiếm Đoàn sinh', icon: SearchTwoToneIcon, to: '/FindStudent' },
   { label: 'Xem báo cáo', icon: PollTwoToneIcon, to: '/Report' },
   {
     role: Roles.BanQuanTri,

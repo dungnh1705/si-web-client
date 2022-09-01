@@ -8,7 +8,7 @@ import { HolyNameQuery } from 'recoils/selectors'
 import { useRecoilValue } from 'recoil'
 import { orderBy } from 'lodash'
 
-import { ShowStudent } from './recoil'
+import { GetStudentDetails } from './recoil'
 
 const StudentScore = ({ tabValue }) => {
   const settings = {
@@ -19,8 +19,8 @@ const StudentScore = ({ tabValue }) => {
     slidesToScroll: 1
   }
 
-  const student = useRecoilValue(ShowStudent)
-  let lstHolyName = useRecoilValue(HolyNameQuery)
+  const student = useRecoilValue(GetStudentDetails)
+  const lstHolyName = useRecoilValue(HolyNameQuery)
 
   const TextField_Props = (name, label, val) => {
     return {
