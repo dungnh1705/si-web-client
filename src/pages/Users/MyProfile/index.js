@@ -40,7 +40,7 @@ import ModalSkeleton from 'components/Loading/modal-skeleton'
 import sessionHelper, { setLocalStoreData, deleteLoginData } from 'utils/sessionHelper'
 import { doPost } from 'utils/axios'
 
-import { HolyNameQuery } from 'recoils/selectors'
+import { HolyNameQuery, UserAvatarQuery } from 'recoils/selectors'
 import { toastState, loadingState } from 'recoils/atoms'
 
 import { UserQuery, ShowChangePassword, ReloadUser, OpenEditAvatar } from './recoil'
@@ -53,6 +53,7 @@ import coverPhoto from 'assets/images/Background.jpg'
 function Profile() {
   const userInfo = useRecoilValue(UserQuery)
   const lstHolyName = useRecoilValue(HolyNameQuery)
+  const avatarUrl = useRecoilValue(UserAvatarQuery)
 
   const setLoading = useSetRecoilState(loadingState)
   const setOpen = useSetRecoilState(OpenEditAvatar)
@@ -222,7 +223,7 @@ function Profile() {
                     ref={anchorAvRef}
                     className="avatar-icon rounded-circle border-white border-3 d-120"
                     alt={`${userInfo.firstName} ${userInfo.lastName}`}
-                    src={sessionHelper().croppedAvatarId ? `img/avatar/${sessionHelper().croppedAvatarId}.png` : ''}
+                    src={avatarUrl}
                     onClick={handleAvatarClick}
                     style={{ fontSize: '3.25rem', cursor: 'pointer' }}>
                     {`${userInfo.firstName?.substring(0, 1)}${userInfo.lastName?.substring(0, 1)}`}

@@ -2,22 +2,24 @@ import React, { useState } from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { Modal, Divider, CardContent, CardActions, Grid, Button, Typography } from '@material-ui/core'
 import CardOnModal from 'components/CardOnModal'
-import { OpenEditAvatar } from './recoil'
 import Avatar from 'react-avatar-edit'
 import { loadingState, toastState } from 'recoils/atoms'
 
 import sessionHelper, { setLocalStoreData } from 'utils/sessionHelper'
-import config from 'config'
 import { doPost, doUpload } from 'utils/axios'
+
+import { OpenEditAvatar } from './recoil'
 
 const EditAvatar = () => {
   let [open, setOpen] = useRecoilState(OpenEditAvatar)
+  let [toast, setToast] = useRecoilState(toastState)
+
+  let setLoading = useSetRecoilState(loadingState)
+
   let [preview, setPreview] = useState(null)
   let [base64, setBase64] = useState(null)
   let [src, setSrc] = useState(null)
-  let setLoading = useSetRecoilState(loadingState)
   let [isLargeFile, setIsLargeFile] = useState(false)
-  let [toast, setToast] = useRecoilState(toastState)
 
   const handleClickSave = async e => {
     e.preventDefault()
@@ -126,7 +128,7 @@ const EditAvatar = () => {
               </Button>
             </Grid>
             <Grid item>
-              <Button size="large" onClick={handleClose} variant='outlined'>
+              <Button size="large" onClick={handleClose} variant="outlined">
                 Quay lại
               </Button>
             </Grid>

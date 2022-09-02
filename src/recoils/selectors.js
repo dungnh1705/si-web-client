@@ -1,11 +1,14 @@
 import { selector, selectorFamily } from 'recoil'
 import _ from 'lodash'
 
+import { Roles } from 'app/enums'
 import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
-import { Roles } from 'app/enums'
+import FileUtils from 'utils/FileUtils'
 
-import { themeOptionsState, reloadTemplates, reloadListUnion } from './atoms'
+import { storageState } from 'recoils/firebase'
+
+import { themeOptionsState, reloadTemplates, reloadListUnion, reloadUserAvatar } from './atoms'
 
 export const themeOptionsActions = selector({
   key: 'themeOptionsActions',
@@ -97,5 +100,21 @@ export const TemplatesQuery = selector({
       return _.orderBy(result, ['name'], ['asc'])
     }
     return []
+  }
+})
+
+export const UserAvatarQuery = selector({
+  key: 'GetUserAvatar',
+  get: async ({ get }) => {
+    get(reloadUserAvatar)
+
+    const storage = get(storageState)
+    console.log(storage)
+    const { userId, croppedAvatarId } = sessionHelper()
+
+    const avatarFiles = await FileUtils.getFiles(storage, `avatars/${userId}`)
+    const userAvatar = avatarFiles.find(img => img.fileName === `${croppedAvatarId}.png`)
+
+    return userAvatar ? userAvatar.url : ''
   }
 })

@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil'
+
 import sessionHelper from 'utils/sessionHelper'
-import config from 'config'
 import { doGet } from 'utils/axios'
 
 export const ReloadUser = atom({
