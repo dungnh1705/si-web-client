@@ -130,3 +130,12 @@
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
+
+@media (max-width: 480px) {
+  .badge__small {
+    white-space: break-spaces;
+    line-height: 1;
+    width: 50px;
+    text-align: center;
+  }
+}

@@ -305,11 +305,11 @@ const HeaderSearch = () => {
                         </Grid>
                         <Grid item xs={2}>
                           <span className="pl-2">
-                            {item.status === StudentStatus.ChangeChurch && <span className="badge badge-danger">Chuyển xứ</span>}
-                            {item.status === StudentStatus.LeaveStudy && <span className="badge badge-warning">Nghỉ luôn</span>}
-                            {item.status === StudentStatus.Active && <span className="badge badge-success">Đang học</span>}
-                            {item.status === StudentStatus.Deleted && <span className="badge badge-dark">Đã xóa</span>}
-                            {item.status === StudentStatus.InActive && <span className="badge badge-dark">Chưa học</span>}
+                            {item.status === StudentStatus.ChangeChurch && <span className="badge badge-danger badge__small">Chuyển xứ</span>}
+                            {item.status === StudentStatus.LeaveStudy && <span className="badge badge-warning badge__small">Nghỉ luôn</span>}
+                            {item.status === StudentStatus.Active && <span className="badge badge-success badge__small">Đang học</span>}
+                            {item.status === StudentStatus.Deleted && <span className="badge badge-dark badge__small">Đã xóa</span>}
+                            {item.status === StudentStatus.InActive && <span className="badge badge-dark badge__small">Chưa học</span>}
                           </span>
                         </Grid>
                       </Grid>
