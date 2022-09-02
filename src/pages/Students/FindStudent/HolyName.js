@@ -37,7 +37,7 @@ const HolyName = ({ formData, holyname, field, handleSaveHolyName, isEditable, i
       {isEditable && (
         <>
           <ClickAwayListener onClickAway={handleCancel}>
-            <Grid item xs={showAction ? 10 : 12} lg={4}>
+            <Grid item xs={showAction ? 10 : 12} sm={6} lg={4}>
               <Autocomplete
                 disableClearable
                 // value={lstHolyName[lstHolyName.findIndex((item) => item.id === (isMoreInfo ? formData.values[`studentMoreInfo.${field}`] : formData.values[field]))] || lstHolyName[0]}
@@ -109,7 +109,7 @@ const HolyName = ({ formData, holyname, field, handleSaveHolyName, isEditable, i
         </>
       )}
       {!isEditable && (
-        <Grid item xs={12} lg={4}>
+        <Grid item xs={12} sm={6} lg={4}>
           <TextField
             value={holyname?.name}
             label="Tên Thánh"

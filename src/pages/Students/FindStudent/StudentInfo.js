@@ -205,8 +205,8 @@ const StudentInfo = ({ tabValue }) => {
                   </div>
                 </Grid>
                 <Grid container spacing={2} item xs={12} lg={10}>
-                  <Grid container item spacing={1}>
-                    <Grid item xs={12} lg={4}>
+                  <Grid container item spacing={2}>
+                    <Grid item xs={12} sm={6} lg={4}>
                       <TextField
                         fullWidth
                         variant="outlined"
@@ -231,8 +231,8 @@ const StudentInfo = ({ tabValue }) => {
                       isEditable={editable}
                     />
                   </Grid>
-                  <Grid container item spacing={1}>
-                    <Grid item xs={12} lg={8}>
+                  <Grid container item spacing={2}>
+                    <Grid item xs={12} sm={6} lg={8}>
                       <InlineTextField
                         label="Họ và Đệm"
                         field="stuFirstName"
@@ -243,7 +243,7 @@ const StudentInfo = ({ tabValue }) => {
                         isEditable={editable}
                       />
                     </Grid>
-                    <Grid item xs={12} lg={4}>
+                    <Grid item xs={12} sm={6} lg={4}>
                       <InlineTextField
                         label="Tên"
                         field="stuLastName"
@@ -255,11 +255,11 @@ const StudentInfo = ({ tabValue }) => {
                       />
                     </Grid>
                   </Grid>
-                  <Grid container item spacing={1}>
-                    <Grid item xs={12} lg={4}>
+                  <Grid container item spacing={2}>
+                    <Grid item xs={12} sm={6} lg={4}>
                       <KeyboardDatePicker {...DatePicker_Props('stuDob', 'Sinh nhật', faBirthdayCake)} onChange={date => handleDateChange('stuDob', date)} />
                     </Grid>
-                    <Grid item xs={12} lg={4}>
+                    <Grid item xs={12} sm={6} lg={4}>
                       <FormControl component="fieldset">
                         <FormGroup aria-label="position" row className="p-1">
                           <FormControlLabel
@@ -281,22 +281,22 @@ const StudentInfo = ({ tabValue }) => {
                       </FormControl>
                     </Grid>
                   </Grid>
-                  <Grid container item spacing={1}>
-                    <Grid item xs={12} lg={4}>
+                  <Grid container item spacing={2}>
+                    <Grid item xs={12} sm={6} lg={4}>
                       <KeyboardDatePicker
                         {...DatePicker_Props('studentMoreInfo.stuBaptismDate', 'Ngày rửa tội', faHandHoldingWater)}
                         value={stuForm.values['studentMoreInfo']?.stuBaptismDate ?? null}
                         onChange={date => handleDateChange('stuBaptismDate', date, true)}
                       />
                     </Grid>
-                    <Grid item xs={12} lg={4}>
+                    <Grid item xs={12} sm={6} lg={4}>
                       <KeyboardDatePicker
                         {...DatePicker_Props('studentMoreInfo.stuEucharistDate', 'Ngày rước lễ', faPrayingHands)}
                         value={stuForm.values['studentMoreInfo']?.stuEucharistDate ?? null}
                         onChange={date => handleDateChange('stuEucharistDate', date, true)}
                       />
                     </Grid>
-                    <Grid item xs={12} lg={4}>
+                    <Grid item xs={12} sm={6} lg={4}>
                       <KeyboardDatePicker
                         {...DatePicker_Props('studentMoreInfo.stuConfirmationDate', 'Ngày Thêm sức', faHands)}
                         value={stuForm.values['studentMoreInfo']?.stuConfirmationDate ?? null}
@@ -304,7 +304,7 @@ const StudentInfo = ({ tabValue }) => {
                       />
                     </Grid>
                   </Grid>
-                  <Grid container item spacing={1}>
+                  <Grid container item spacing={2}>
                     <Grid item xs={12} lg={8}>
                       <InlineTextField
                         label="Ghi chú"
@@ -316,7 +316,7 @@ const StudentInfo = ({ tabValue }) => {
                       />
                     </Grid>
                   </Grid>
-                  <Grid container item spacing={1}>
+                  <Grid container item spacing={2}>
                     <Grid item xs={12} lg={8}>
                       <InlineTextField
                         label="Địa chỉ"
@@ -329,7 +329,7 @@ const StudentInfo = ({ tabValue }) => {
                       />
                     </Grid>
                   </Grid>
-                  <Grid container item spacing={1}>
+                  <Grid container item spacing={2}>
                     <HolyName
                       formData={stuForm}
                       holyname={lstHolyName[lstHolyName.findIndex(item => item.id === stuForm.values['studentMoreInfo']?.stuFatherHolyId)] || lstHolyName[0]}
@@ -339,8 +339,8 @@ const StudentInfo = ({ tabValue }) => {
                       isEditable={editable}
                     />
                   </Grid>
-                  <Grid container item spacing={1}>
-                    <Grid item xs={12} lg={8}>
+                  <Grid container item spacing={2}>
+                    <Grid item xs={12} sm={6} lg={8}>
                       <InlineTextField
                         label="Họ tên Cha"
                         field="stuFatherFullName"
@@ -351,7 +351,7 @@ const StudentInfo = ({ tabValue }) => {
                         isMoreInfo={true}
                       />
                     </Grid>
-                    <Grid item xs={12} lg={4}>
+                    <Grid item xs={12} sm={6} lg={4}>
                       <InlineTextField
                         label="SĐT"
                         field="stuFatherPhone"
@@ -364,7 +364,7 @@ const StudentInfo = ({ tabValue }) => {
                       />
                     </Grid>
                   </Grid>
-                  <Grid container item spacing={1}>
+                  <Grid container item spacing={2}>
                     <HolyName
                       formData={stuForm}
                       holyname={lstHolyName[lstHolyName.findIndex(item => item.id === stuForm.values['studentMoreInfo']?.stuMotherHolyId)] || lstHolyName[0]}
@@ -374,8 +374,8 @@ const StudentInfo = ({ tabValue }) => {
                       isEditable={editable}
                     />
                   </Grid>
-                  <Grid container item spacing={1}>
-                    <Grid item xs={12} lg={8}>
+                  <Grid container item spacing={2}>
+                    <Grid item xs={12} sm={6} lg={8}>
                       <InlineTextField
                         label="Họ tên Mẹ"
                         field="stuMotherFullName"
@@ -386,7 +386,7 @@ const StudentInfo = ({ tabValue }) => {
                         isMoreInfo={true}
                       />
                     </Grid>
-                    <Grid item xs={12} lg={4}>
+                    <Grid item xs={12} sm={6} lg={4}>
                       <InlineTextField
                         label="SĐT"
                         field="stuMotherPhone"
