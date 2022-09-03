@@ -1,60 +1,58 @@
 import React, { useState } from 'react'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { Modal, Divider, CardContent, CardActions, Grid, Button, Typography } from '@material-ui/core'
 import CardOnModal from 'components/CardOnModal'
 import Avatar from 'react-avatar-edit'
-import { loadingState, toastState } from 'recoils/atoms'
+import { loadingState, toastState, reloadUserAvatar } from 'recoils/atoms'
 
 import sessionHelper, { setLocalStoreData } from 'utils/sessionHelper'
-import { doPost, doUpload } from 'utils/axios'
+import { doPost } from 'utils/axios'
+import { storageState } from 'recoils/firebase'
+import FileUtils from 'utils/FileUtils'
 
 import { OpenEditAvatar } from './recoil'
+import { v4 as uuidv4 } from 'uuid'
 
 const EditAvatar = () => {
-  let [open, setOpen] = useRecoilState(OpenEditAvatar)
-  let [toast, setToast] = useRecoilState(toastState)
+  const firebaseStorage = useRecoilValue(storageState)
 
-  let setLoading = useSetRecoilState(loadingState)
+  const [open, setOpen] = useRecoilState(OpenEditAvatar)
+  const [toast, setToast] = useRecoilState(toastState)
 
-  let [preview, setPreview] = useState(null)
-  let [base64, setBase64] = useState(null)
-  let [src, setSrc] = useState(null)
-  let [isLargeFile, setIsLargeFile] = useState(false)
+  const setLoading = useSetRecoilState(loadingState)
+  const setReloadUserAvatar = useSetRecoilState(reloadUserAvatar)
+
+  const [preview, setPreview] = useState(null)
+  const [base64, setBase64] = useState(null)
+  const [src, setSrc] = useState(null)
+  const [isLargeFile, setIsLargeFile] = useState(false)
 
   const handleClickSave = async e => {
     e.preventDefault()
 
     setLoading(true)
     try {
-      let fromData = new FormData()
-      fromData.append('file', src)
+      const avatarId = uuidv4()
+      const croppedAvatarId = uuidv4()
 
-      let imageRes = await doUpload(`image/uploadAvatarFile`, fromData)
-      if (imageRes && imageRes.data.success) {
-        let avatarId = imageRes.data.data
+      const resUpdate = await doPost(`user/updateAvatar`, { id: sessionHelper().userId, croppedAvatarId: croppedAvatarId, avatarId: avatarId })
+      if (resUpdate && resUpdate.data.success) {
+        setLocalStoreData('croppedAvatarId', croppedAvatarId)
+        setLocalStoreData('avatarId', avatarId)
 
-        let res = await doPost(`image/upload`, { fileName: src.name, image: preview })
-        if (res && res.data.success) {
-          let { croppedAvatarId } = res.data.data
+        // upload images to firebase storage
+        await FileUtils.putFile(preview, firebaseStorage, `avatars/${sessionHelper().userId}`, `${croppedAvatarId}.png`, true)
+        await FileUtils.putFile(src, firebaseStorage, `avatars/${sessionHelper().userId}`, `${avatarId}.png`)
 
-          try {
-            let resUpdate = await doPost(`user/updateAvatar`, { id: sessionHelper().userId, croppedAvatarId: croppedAvatarId, avatarId: avatarId })
-            if (resUpdate && resUpdate.data.success) {
-              setLocalStoreData('croppedAvatarId', croppedAvatarId)
-              setLocalStoreData('avatarId', avatarId)
-              setToast({ ...toast, open: true, message: resUpdate.data.message, type: 'success' })
-              setOpen(false)
-            }
-          } catch (err) {
-            setToast({ ...toast, open: true, message: err.message, type: 'error' })
-          }
-        }
+        setToast({ ...toast, open: true, message: resUpdate.data.message, type: 'success' })
+        setOpen(false)
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })
     } finally {
       setLoading(false)
       setIsLargeFile(false)
+      setReloadUserAvatar(old => old + 1)
     }
   }
 

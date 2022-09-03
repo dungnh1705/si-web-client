@@ -13,5 +13,17 @@ export default {
       }
     })
     return await Promise.all(promises)
+  },
+
+  putFile: async (file, storage, refPath, fileName, isBase64 = false) => {
+    if (isBase64) {
+      return await storage.ref(refPath).child(fileName).putString(file, 'data_url')
+    }
+
+    const metadata = {
+      contentType: file.type
+    }
+
+    return await storage.ref(refPath).child(fileName).put(file, metadata)
   }
 }

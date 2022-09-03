@@ -109,7 +109,7 @@ export const UserAvatarQuery = selector({
     get(reloadUserAvatar)
 
     const storage = get(storageState)
-    console.log(storage)
+
     const { userId, croppedAvatarId } = sessionHelper()
 
     const avatarFiles = await FileUtils.getFiles(storage, `avatars/${userId}`)
