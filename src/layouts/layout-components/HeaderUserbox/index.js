@@ -45,7 +45,7 @@ const HeaderUserBox = () => {
             variant="dot"
             className="p-0 m-0"
             child={
-              <Avatar className="p-0 m-0" sizes="44" alt={`${session?.firstName} ${session?.lastName}`} src={userAvatar}>
+              <Avatar className="p-0 m-0" sizes="44" alt={`${session?.firstName} ${session?.lastName}`} src={userAvatar.avatarUrl}>
                 {`${session?.firstName?.substring(0, 1)}${session?.lastName?.substring(0, 1)}`}
               </Avatar>
             }
@@ -80,7 +80,7 @@ const HeaderUserBox = () => {
         <div className="dropdown-menu-right dropdown-menu-lg overflow-hidden p-0">
           <List className="text-left bg-transparent d-flex align-items-center flex-column pt-0">
             <Box>
-              <Avatar src={userAvatar}>{`${session?.firstName?.substring(0, 1)}${session?.lastName?.substring(0, 1)}`}</Avatar>
+              <Avatar src={userAvatar.avatarUrl}>{`${session?.firstName?.substring(0, 1)}${session?.lastName?.substring(0, 1)}`}</Avatar>
             </Box>
             <div>
               <div className="font-weight-bold text-center pt-2 line-height-1">

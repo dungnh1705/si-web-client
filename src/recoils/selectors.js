@@ -110,11 +110,16 @@ export const UserAvatarQuery = selector({
 
     const storage = get(storageState)
 
-    const { userId, croppedAvatarId } = sessionHelper()
+    const { userId, croppedAvatarId, avatarId } = sessionHelper()
 
     const avatarFiles = await FileUtils.getFiles(storage, `avatars/${userId}`)
-    const userAvatar = avatarFiles.find(img => img.fileName === `${croppedAvatarId}.png`)
 
-    return userAvatar ? userAvatar.url : ''
+    const userAvatar = avatarFiles.find(img => img.fileName === `${croppedAvatarId}.png`)
+    const previewAvatar = avatarFiles.find(img => img.fileName === `${avatarId}.png`)
+
+    return {
+      avatarUrl: userAvatar ? userAvatar.url : null,
+      previewUrl: previewAvatar ? previewAvatar.url : null
+    }
   }
 })

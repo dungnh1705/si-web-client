@@ -20,7 +20,8 @@ import {
   Paper,
   ClickAwayListener,
   MenuList,
-  MenuItem
+  MenuItem,
+  Hidden
 } from '@material-ui/core'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -35,7 +36,6 @@ import { useFormik } from 'formik'
 import moment from 'moment'
 import StringUtils from 'utils/StringUtils'
 import StyledRadio from 'components/UI/StyledRadio'
-import ModalSkeleton from 'components/Loading/modal-skeleton'
 
 import sessionHelper, { setLocalStoreData, deleteLoginData } from 'utils/sessionHelper'
 import { doPost } from 'utils/axios'
@@ -43,7 +43,7 @@ import { doPost } from 'utils/axios'
 import { HolyNameQuery, UserAvatarQuery } from 'recoils/selectors'
 import { toastState, loadingState } from 'recoils/atoms'
 
-import { UserQuery, ShowChangePassword, ReloadUser, OpenEditAvatar } from './recoil'
+import { UserQuery, ShowChangePassword, ReloadUser, OpenEditAvatar, EditCoverImage, CoverImageQuery } from './recoil'
 import ChangePasswordDialog from './ChangePasswordDialog'
 import EditAvatar from './EditAvatar'
 import ShowImageModal from './ShowImageModal'
@@ -53,11 +53,13 @@ import coverPhoto from 'assets/images/Background.jpg'
 function Profile() {
   const userInfo = useRecoilValue(UserQuery)
   const lstHolyName = useRecoilValue(HolyNameQuery)
-  const avatarUrl = useRecoilValue(UserAvatarQuery)
+  const avatar = useRecoilValue(UserAvatarQuery)
+  const cover = useRecoilValue(CoverImageQuery)
 
   const setLoading = useSetRecoilState(loadingState)
   const setOpen = useSetRecoilState(OpenEditAvatar)
   const setReload = useSetRecoilState(ReloadUser)
+  const setEditCover = useSetRecoilState(EditCoverImage)
 
   const [toast, setToast] = useRecoilState(toastState)
   const [showChangePass, setShowChangePass] = useRecoilState(ShowChangePassword)
@@ -184,6 +186,11 @@ function Profile() {
     prevAvatarOpen.current = openAvatar
   }, [openAvatar])
 
+  const handleEditCoverClick = () => {
+    setEditCover(true)
+    setOpen(true)
+  }
+
   return (
     <Suspense fallback={<>Đang tải thông tin cá nhân ...</>}>
       <Grid container spacing={3} justifyContent="center" className="mt-3">
@@ -197,12 +204,20 @@ function Profile() {
                   </IconButton>
                 </Tooltip>
               </div>
-              {/* <div className="card-badges card-badges-bottom">
-                <Button size="small" startIcon={<FontAwesomeIcon icon={['fas', 'camera']} />}>
-                  Chỉnh sửa ảnh bìa
-                </Button>
-              </div> */}
-              <img alt="" className="card-img-top" src={coverPhoto} height="350" />
+              <div className="card-badges card-badges-bottom">
+                <Hidden smDown>
+                  <Button size="medium" style={{ backgroundColor: 'rgb(246 249 253)' }} onClick={handleEditCoverClick} startIcon={<FontAwesomeIcon icon={faCamera} />}>
+                    Chỉnh sửa ảnh bìa
+                  </Button>
+                </Hidden>
+
+                <Hidden mdUp>
+                  <Button size="medium" onClick={handleEditCoverClick} style={{ backgroundColor: 'rgb(246 249 253)' }}>
+                    <FontAwesomeIcon icon={faCamera} />
+                  </Button>
+                </Hidden>
+              </div>
+              <img alt="" className="card-img-top" src={cover ?? coverPhoto} width="851px" height="315px" />
             </div>
             <div className="card-body text-center card-body-avatar">
               <div className="avatar-icon-wrapper mt--5">
@@ -214,7 +229,13 @@ function Profile() {
                   }}
                   badgeContent={
                     <Tooltip title="Cập nhật ảnh đại diện">
-                      <IconButton size="medium" onClick={() => setOpen(true)}>
+                      <IconButton
+                        size="medium"
+                        onClick={() => {
+                          setEditCover(false)
+                          setOpen(true)
+                        }}
+                        style={{ backgroundColor: 'rgb(232 235 239)' }}>
                         <FontAwesomeIcon icon={faCamera} />
                       </IconButton>
                     </Tooltip>
@@ -223,7 +244,7 @@ function Profile() {
                     ref={anchorAvRef}
                     className="avatar-icon rounded-circle border-white border-3 d-120"
                     alt={`${userInfo.firstName} ${userInfo.lastName}`}
-                    src={avatarUrl}
+                    src={avatar.avatarUrl ?? ''}
                     onClick={handleAvatarClick}
                     style={{ fontSize: '3.25rem', cursor: 'pointer' }}>
                     {`${userInfo.firstName?.substring(0, 1)}${userInfo.lastName?.substring(0, 1)}`}
@@ -252,6 +273,7 @@ function Profile() {
                           </MenuItem>
                           <MenuItem
                             onClick={e => {
+                              setEditCover(false)
                               setOpen(true)
                               handleAvatarClose(e)
                             }}>
@@ -406,10 +428,11 @@ function Profile() {
           </Card>
         </Grid>
       </Grid>
-      <Suspense fallback={<ModalSkeleton loading />}>
+
+      <Suspense fallback={<>Đang tải thông tin . . .</>}>
         <ChangePasswordDialog />
         <EditAvatar />
-        <ShowImageModal imageId={sessionHelper().avatarId} open={openPreview} handleClose={() => setOpenReview(!openPreview)} />
+        <ShowImageModal open={openPreview} handleClose={() => setOpenReview(!openPreview)} />
       </Suspense>
     </Suspense>
   )
