@@ -194,12 +194,12 @@ function Profile() {
   return (
     <Suspense fallback={<>Đang tải thông tin cá nhân ...</>}>
       <Grid container spacing={3} justifyContent="center" className="mt-3">
-        <Grid item xs={12} lg={10}>
+        <Grid item xs={12} lg={8}>
           <Card className="mb-2 w-100">
             <div className="card-img-wrapper">
               <div className="card-badges">
                 <Tooltip title="Đổi mật khẩu">
-                  <IconButton size="medium" onClick={openResetPasswordDialog}>
+                  <IconButton size="small" onClick={openResetPasswordDialog} style={{ backgroundColor: 'rgb(232, 235, 239)', padding: '10px' }}>
                     <FontAwesomeIcon icon={faUnlockAlt} />
                   </IconButton>
                 </Tooltip>
@@ -217,7 +217,7 @@ function Profile() {
                   </Button>
                 </Hidden>
               </div>
-              <img alt="" className="card-img-top" src={cover ?? coverPhoto} width="851px" height="315px" />
+              <img alt="" className="card-img-top cover-img" src={cover ?? coverPhoto} width="851px" height="315px" />
             </div>
             <div className="card-body text-center card-body-avatar">
               <div className="avatar-icon-wrapper mt--5">

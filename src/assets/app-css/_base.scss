@@ -1,3 +1,7 @@
+:root {
+  --background-color: #333
+}
+
 .td-center {
   text-align: center;
   vertical-align: middle;
@@ -142,4 +146,10 @@
 
 #menu-avatar-list li {
   padding: 10px 30px;
+}
+
+.cover-img {
+  object-fit: contain;
+  width: 100%;
+  height: auto;
 }
