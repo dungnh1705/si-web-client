@@ -194,7 +194,7 @@ function Profile() {
   return (
     <Suspense fallback={<>Đang tải thông tin cá nhân ...</>}>
       <Grid container spacing={3} justifyContent="center" className="mt-3">
-        <Grid item xs={12} lg={8}>
+        <Grid item xs={12} lg={10}>
           <Card className="mb-2 w-100">
             <div className="card-img-wrapper">
               <div className="card-badges">

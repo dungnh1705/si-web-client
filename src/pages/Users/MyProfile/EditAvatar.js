@@ -51,9 +51,7 @@ const EditAvatar = () => {
           setToast({ ...toast, open: true, message: resUpdate.data.message, type: 'success' })
           setReloadUserAvatar(old => old + 1)
         }
-      }
-
-      if (isEditCover) {
+      } else {
         const coverId = uuidv4()
 
         const resUpdate = await doPost(`user/updateCoverImage`, { id: sessionHelper().userId, coverId })
@@ -61,10 +59,13 @@ const EditAvatar = () => {
           setLocalStoreData('coverId', coverId)
 
           // upload images to firebase storage
+          console.log(3.1)
           await FileUtils.putFile(src, firebaseStorage, `avatars/${sessionHelper().userId}`, `${coverId}.png`)
 
           setToast({ ...toast, open: true, message: resUpdate.data.message, type: 'success' })
           setReloadCover(old => old + 1)
+        } else {
+          setToast({ ...toast, open: true, message: resUpdate.data.message, type: 'error' })
         }
       }
     } catch (err) {
@@ -72,7 +73,7 @@ const EditAvatar = () => {
     } finally {
       setLoading(false)
       setIsLargeFile(false)
-      setOpen(false)
+      handleClose()
     }
   }
 
@@ -100,6 +101,11 @@ const EditAvatar = () => {
   const handleClose = () => {
     setOpen(false)
     setIsLargeFile(false)
+    setSrc(null)
+
+    if (isEditCover) {
+      setFile(null)
+    }
   }
 
   const onFileSelect = e => {
