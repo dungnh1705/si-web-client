@@ -65,7 +65,9 @@ export const Placeholders = [
   { id: 5002, value: '{VerifyUserButton}', text: 'Link kích hoạt tài khoản', sectionId: 5 },
   { id: 5003, value: '{PageBreak}', text: 'Qua trang mới', sectionId: 5 },
 
-  { id: 6001, value: '{TongKetBQT}', text: 'Tổng kết Cuối năm BQT', sectionId: 6 },
+  { id: 6001, value: '{BQT-TongKetCaNam}', text: 'BQT-Tổng kết Cuối năm', sectionId: 6 },
+  { id: 6018, value: '{BQT-BaoCaoDauNam}', text: 'BQT-Báo cáo đầu năm', sectionId: 6 },
+  { id: 6019, value: '{BQT-BaoCaoHKI}', text: 'BQT-Báo cáo HKI', sectionId: 6 },
   { id: 6002, value: '{TongKetHKI-PDT}', text: 'Tổng kết HKI PĐT', sectionId: 6 },
   { id: 6003, value: '{DSXuatSacHKI}', text: 'Danh sách Xuất sắc HKI PĐT', sectionId: 6 },
   { id: 6004, value: '{DSGioiHKI}', text: 'Danh sách Giỏi HKI PĐT', sectionId: 6 },
