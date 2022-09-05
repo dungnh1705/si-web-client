@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil'
-import _, { lt } from 'lodash'
+import _ from 'lodash'
 
 import { AbsentMode } from 'app/enums'
 import { doGet } from 'utils/axios'

@@ -6,7 +6,6 @@ import _ from 'lodash'
 import { ViewMode } from 'recoils/atoms'
 import { ViewModes } from 'app/enums'
 import { AbsentDialog, DialerDialog, StudentDialog } from 'components/Dialog'
-import ModalSkeleton from 'components/Loading/modal-skeleton'
 
 import { StudentsQuery } from './recoil'
 import StudentTeam from './StudentTeam'
@@ -67,7 +66,7 @@ const ManageStudentsClass = () => {
   return (
     <Suspense fallback={<>Đang tải danh sách Đoàn sinh ...</>}>
       {body()}
-      <Suspense fallback={<ModalSkeleton />}>
+      <Suspense fallback={<>Tải dữ liệu...</>}>
         <DialerDialog />
         <AbsentDialog />
         <StudentDialog />
