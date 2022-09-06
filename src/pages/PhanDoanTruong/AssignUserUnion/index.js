@@ -31,6 +31,8 @@ const AssignUserUnion = () => {
 
   const [union, setUnion] = useState('')
 
+  const responGrid = lstAssignment[0].unionId === 1 ? [{xs: 12, sm: 6}, {xs: 12}] : [{xs: 12}, {xs:12, sm: 6, lg: 3}]; 
+
   const handleDisabled = () => {
     return !(assignIds.length > 0 && union !== '')
   }
@@ -104,12 +106,23 @@ const AssignUserUnion = () => {
         )}
 
         <Grid container spacing={2}>
-          <Grid container item xs={12} direction="row" spacing={1}>
-            {lstAssignment?.map((item, index) => (
-              <Grid item xs={12} sm={12} md={12} lg={3} key={`ass-u-${item.unionId + 1}-${index}`}>
-                <UserList item={item} />
+          {lstAssignment[0].unionId === 1 && (
+            <Grid container item xs={12} sm={6} direction="row" spacing={1}>
+              <Grid item xs={12}>
+                <UserList item={lstAssignment[0]} />
               </Grid>
-            ))}
+            </Grid>
+          )}
+          <Grid container item {...responGrid[0]} direction="row" spacing={1}>
+            {lstAssignment?.map((item, index) => {
+              if(item.unionId !== 1){
+                return (
+                  <Grid item {...responGrid[1]} key={`ass-u-${item.unionId + 1}-${index}`}>
+                    <UserList item={item} />
+                  </Grid>
+                )
+              }
+            })}
           </Grid>
         </Grid>
       </>
