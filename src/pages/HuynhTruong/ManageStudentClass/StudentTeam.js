@@ -47,7 +47,9 @@ const StudentTeam = ({ item }) => {
             <tr>
               {viewMode === ViewModes.XepDoi && (
                 <>
-                  <th rowSpan="2">Đội</th>
+                  <th rowSpan="2" className="td-center">
+                    Đội
+                  </th>
                   <th rowSpan="2" className="td-center">
                     STT
                   </th>
