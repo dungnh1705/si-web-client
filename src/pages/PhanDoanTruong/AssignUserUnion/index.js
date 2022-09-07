@@ -20,7 +20,7 @@ import { UserInGroupQuery, AssignmentIdSelected, ReloadUserInGroup } from './rec
 import AddTwoToneIcon from '@material-ui/icons/AddTwoTone'
 
 const AssignUserUnion = () => {
-  const lstAssignment = null
+  const lstAssignment = useRecoilValue(UserInGroupQuery);
   const lstUnion = useRecoilValue(UnionQuery)
 
   const [assignIds, setAssignIds] = useRecoilState(AssignmentIdSelected)
