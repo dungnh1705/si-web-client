@@ -85,7 +85,7 @@ export default function GroupClassScoreItem({ union }) {
           </ButtonGroup>
         </Grid>
         <div className="p-5 mb-4 rounded bg-secondary">
-          {Ranking.map(item => {
+          {Ranking.map((item, index) => {
             const total =
               view === 1
                 ? _.size(union?.semesterOne.filter(so => so.ranking == item))
@@ -93,10 +93,10 @@ export default function GroupClassScoreItem({ union }) {
                 ? _.size(union?.semesterTwo.filter(so => so.ranking == item))
                 : _.size(union?.scoreTotal.filter(so => so.ranking == item))
 
-            const percent = accounting.toFixed(total / union.totalStudent * 100, 1)
+            const percent = Number(accounting.toFixed((total / union.totalStudent) * 100, 1))
 
             return (
-              <div className="mb-4">
+              <div className="mb-4" key={`union-score-${view}-${index}`}>
                 <div className="line-height-1">
                   <span className="font-size-lg font-weight-bold pr-3">{total}</span>
                   <span className="text-muted">{item}</span>
