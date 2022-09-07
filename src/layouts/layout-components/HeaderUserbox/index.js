@@ -6,13 +6,15 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 
 import { history } from 'App'
 import Badge from 'components/UI/Badge'
-import sessionHelper, { deleteLoginData, getMaxRole, checkSession } from 'utils/sessionHelper'
-import { HolyNameQuery } from 'recoils/selectors'
+import sessionHelper, { deleteLoginData, getMaxRole } from 'utils/sessionHelper'
+import { HolyNameQuery, UserAvatarQuery } from 'recoils/selectors'
 
 const HeaderUserBox = () => {
   const [anchorEl, setAnchorEl] = useState(null)
   const session = sessionHelper()
+
   const lstHolyName = useRecoilValue(HolyNameQuery)
+  const userAvatar = useRecoilValue(UserAvatarQuery)
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -31,7 +33,7 @@ const HeaderUserBox = () => {
 
   return (
     <Fragment>
-      <Button size='medium' color="inherit" onClick={handleClick} className="text-capitalize px-3 text-left btn-inverse d-flex align-items-center">
+      <Button size="medium" color="inherit" onClick={handleClick} className="text-capitalize px-3 text-left btn-inverse d-flex align-items-center">
         <Box>
           <Badge
             isActive={true}
@@ -43,7 +45,7 @@ const HeaderUserBox = () => {
             variant="dot"
             className="p-0 m-0"
             child={
-              <Avatar className="p-0 m-0" sizes="44" alt={`${session?.firstName} ${session?.lastName}`} src={session?.croppedAvatarId ? `img/avatar/${session.croppedAvatarId}.png` : ''}>
+              <Avatar className="p-0 m-0" sizes="44" alt={`${session?.firstName} ${session?.lastName}`} src={userAvatar.avatarUrl}>
                 {`${session?.firstName?.substring(0, 1)}${session?.lastName?.substring(0, 1)}`}
               </Avatar>
             }
@@ -78,10 +80,7 @@ const HeaderUserBox = () => {
         <div className="dropdown-menu-right dropdown-menu-lg overflow-hidden p-0">
           <List className="text-left bg-transparent d-flex align-items-center flex-column pt-0">
             <Box>
-              <Avatar src={session?.croppedAvatarId ? `img/avatar/${session.croppedAvatarId}.png` : ''}>{`${session?.firstName?.substring(0, 1)}${session?.lastName?.substring(
-                0,
-                1
-              )}`}</Avatar>
+              <Avatar src={userAvatar.avatarUrl}>{`${session?.firstName?.substring(0, 1)}${session?.lastName?.substring(0, 1)}`}</Avatar>
             </Box>
             <div>
               <div className="font-weight-bold text-center pt-2 line-height-1">

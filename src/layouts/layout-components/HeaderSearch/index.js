@@ -1,29 +1,27 @@
-import React, { Fragment, useRef, useState, useEffect } from 'react'
-import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
-import { Grid, Fab, Container, InputAdornment, Drawer, IconButton, TextField, Divider, Typography, List, ListItem } from '@material-ui/core'
-import clsx from 'clsx'
-import SearchIcon from '@material-ui/icons/Search'
-import CallMadeIcon from '@material-ui/icons/CallMade'
-import CloseTwoToneIcon from '@material-ui/icons/CloseTwoTone'
-import Icon from '@material-ui/core/Icon'
-import KeyboardEventHandler from 'react-keyboard-event-handler'
-// import { createGqlClient } from 'utils/gqlUtil'
-import config from 'config'
-// import { QUOTES } from 'gql/query/Quote'
-// import { CLIENTS } from 'gql/query/Client'
-import { themeOptionsState } from 'recoils/atoms'
-import { history } from 'App'
-
+import React, { useRef, useState, useEffect } from 'react'
+import { useRecoilValue } from 'recoil'
+import { Grid, Fab, Container, InputAdornment, Drawer, IconButton, TextField, Divider, Typography, List, ListItem, Button, Hidden } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-// import { MappingQuoteStatus } from '../../../pages/Admin/Quote/utils/QuoteStatusEnum'
+import clsx from 'clsx'
+import moment from 'moment'
 
-// import { ReferenceNumber, ReloadQuote } from 'pages/Admin/Quote/recoil'
+import SearchIcon from '@material-ui/icons/Search'
+// import CallMadeIcon from '@material-ui/icons/CallMade'
+import CloseTwoToneIcon from '@material-ui/icons/CloseTwoTone'
+
+import KeyboardEventHandler from 'react-keyboard-event-handler'
+
+import { history } from 'App'
+import { themeOptionsState } from 'recoils/atoms'
+import { doGet } from 'utils/axios'
+import { StudentStatus } from 'app/enums'
 
 const useStyles = makeStyles(theme => ({
   active: {
     backgroundColor: '#d3d3d33b'
   }
 }))
+
 const useKeyPress = targetKey => {
   const [keyPressed, setKeyPressed] = useState(false)
 
@@ -53,23 +51,21 @@ const useKeyPress = targetKey => {
 
 const HeaderSearch = () => {
   const classes = useStyles()
-  const { sidebarToggle, layoutStyle } = useRecoilValue(themeOptionsState)
+  const { layoutStyle } = useRecoilValue(themeOptionsState)
   const searchRef = useRef(null)
 
-  const [dummySearchesQuotes, setDummySearchesQuotes] = useState([])
-  const [dummySearchesClients, setDummySearchesClients] = useState([])
+  const [dummySearchesStudents, setDummySearchesStudents] = useState([])
+  const [dummySearchResult, setDummySearchResult] = useState([])
+  const [searching, setSearching] = useState(0)
+  const [cursor, setCursor] = useState(0)
+  const [hovered, setHovered] = useState(undefined)
 
   const downPress = useKeyPress('ArrowDown')
   const upPress = useKeyPress('ArrowUp')
   const enterPress = useKeyPress('Enter')
-  const [cursor, setCursor] = useState(0)
-  const [hovered, setHovered] = useState(undefined)
-
-  const [dummySearchResult, setDummySearchResult] = useState([])
 
   // const setRefNumber = useSetRecoilState(ReferenceNumber)
   // const [reloadQuote, setReloadQuote] = useRecoilState(ReloadQuote)
-  const [searching, setSearching] = useState(0)
 
   const handleSearchChange = event => {
     setSearchValue(event.target.value)
@@ -87,26 +83,23 @@ const HeaderSearch = () => {
 
   const [openSearchResults, setOpenSearchResults] = useState(false)
   const [searchValue, setSearchValue] = useState('')
-
   const [state, setState] = useState(false)
 
-  const searchQuotes = value => {}
-
-  const searchClients = value => {}
-  const handleRowClick = (e, val) => {
-    // setRefNumber(val)
-
-    e.preventDefault()
-
-    history.push(`/Quote/${val}`)
-    setState(false)
+  const searchStudents = async value => {
+    doGet('student/quickSearch', { keyword: value })
+      .then(res => {
+        if (res && res.data.success) {
+          setDummySearchesStudents(res.data.data)
+        }
+      })
+      .catch(err => console.log(err))
   }
 
-  const handleRowClientClick = (e, val) => {
+  const handleRowClick = (e, val) => {
+    // setRefNumber(val)
     e.preventDefault()
 
-    history.push(`${val}`)
-
+    history.push(`/FindStudent/${val}`)
     setState(false)
   }
 
@@ -130,40 +123,30 @@ const HeaderSearch = () => {
 
   useEffect(() => {
     if (dummySearchResult.length && enterPress && state) {
-      if (dummySearchResult[cursor].__typename === 'Quote') {
-        let val = dummySearchResult[cursor].ReferenceNumber
-        // setRefNumber(val)
-        history.push(`/Quote/${val}`)
-      } else {
-        let code = dummySearchResult[cursor].Code
-        let val = `/Client/${code}`
-        history.push(`${val}`)
-      }
+      const val = dummySearchResult[cursor].id
+      // setRefNumber(val)
+      history.push(`/FindStudent/${val}`)
+
       setState(false)
     }
   }, [cursor, enterPress])
 
-  useEffect(() => {
-    if (dummySearchResult.length) {
-      if (dummySearchResult[cursor].__typename === 'Quote') {
-        setSearchValue(dummySearchResult[cursor].ReferenceNumber)
-      } else {
-        setSearchValue(dummySearchResult[cursor].Name)
-      }
-    }
-  }, [upPress, downPress, hovered])
+  // useEffect(() => {
+  //   if (dummySearchResult.length) {
+  //     setSearchValue(dummySearchResult[cursor].stuCode)
+  //   }
+  // }, [upPress, downPress, hovered])
 
   useEffect(() => {
     if (searching > 0) {
-      searchQuotes(searchValue)
-      searchClients(searchValue)
+      searchStudents(searchValue)
     }
   }, [searching])
 
   useEffect(() => {
     setCursor(0)
-    setDummySearchResult([...dummySearchesQuotes, ...dummySearchesClients])
-  }, [dummySearchesQuotes, dummySearchesClients])
+    setDummySearchResult([...dummySearchesStudents])
+  }, [dummySearchesStudents])
 
   return (
     <>
@@ -174,9 +157,25 @@ const HeaderSearch = () => {
       )}
 
       {layoutStyle === 1 && (
-        <IconButton size="medium" onClick={() => setState(true)} color="inherit" className="btn-inverse font-size-xs">
-          <SearchIcon />
-        </IconButton>
+        <>
+          <Hidden mdUp>
+            <IconButton size="medium" onClick={() => setState(true)} color="inherit" className="btn-inverse font-size-xs">
+              <SearchIcon />
+            </IconButton>
+          </Hidden>
+          <Hidden smDown>
+            <Button
+              variant="outlined"
+              size="medium"
+              color="inherit"
+              className="btn-inverse font-size-xs"
+              startIcon={<SearchIcon size="medium" />}
+              endIcon={<span className="header-search">ctrl+k</span>}
+              onClick={() => setState(true)}>
+              Tìm kiếm...
+            </Button>
+          </Hidden>
+        </>
       )}
 
       <Drawer anchor="top" open={state} onClose={e => setState(false)}>
@@ -191,8 +190,8 @@ const HeaderSearch = () => {
                     value={searchValue}
                     onChange={handleSearchChange}
                     inputProps={{ 'aria-label': 'search' }}
-                    label="Search"
-                    placeholder="Search Quote Number or Insured Name here..."
+                    label="Tìm kiếm Đoàn sinh"
+                    placeholder="Nhập thông tin Đoàn sinh..."
                     variant="outlined"
                     autoFocus
                     InputProps={{
@@ -226,7 +225,7 @@ const HeaderSearch = () => {
             <div>
               <div className="font-weight-bold font-size-xl">
                 <Typography variant="h2" color="primary">
-                  No search results
+                  Chưa có kết quả tìm kiếm
                 </Typography>
               </div>
             </div>
@@ -236,80 +235,92 @@ const HeaderSearch = () => {
               'search-results-hidden': !openSearchResults
             })}>
             <div className="text-black py-4">
-              <h3 className="font-size-xl mb-2 font-weight-bold">Search results</h3>
+              <h3 className="font-size-xl mb-2 font-weight-bold">Kết quả</h3>
               <Divider />
             </div>
             {dummySearchResult.length === 0 && (
               <div>
                 <div className="font-weight-bold font-size-xl">
                   <Typography variant="h4" color="primary">
-                    Not found any quote number/insured name
+                    Không tìm thấy Đoàn sinh phù hợp
                   </Typography>
                 </div>
               </div>
             )}
             <Grid container item spacing={1} xs={12}>
               <List className="w-100">
-                {dummySearchResult.map(
-                  (search, i) =>
-                    search.__typename === 'Quote' && (
-                      <div className={`${i === cursor ? classes.active : ''}`}>
-                        <ListItem key={i} button>
-                          <Grid
-                            container
-                            spacing={1}
-                            onClick={e => handleRowClick(e, search.ReferenceNumber)}
-                            onMouseEnter={() => setHovered(search)}
-                            onMouseLeave={() => setHovered(undefined)}>
-                            <Grid item sm={8}>
-                              {search.ReferenceNumber}
-                            </Grid>
-                            <Grid item sm={3}>
-                              {/* {MappingQuoteStatus(search)} */}
-                            </Grid>
-                          </Grid>
-                          <Grid container spacing={1} sm={1} item>
-                            <a href={`/Quote/${search.ReferenceNumber}`} target="_blank">
-                              <CallMadeIcon color="primary" />
-                            </a>
-                          </Grid>
-                        </ListItem>
-                      </div>
-                    )
+                {dummySearchResult.length > 0 && (
+                  <Grid container spacing={2} justifyContent="center" alignContent="center" alignItems="center">
+                    <Grid item xs={6}>
+                      <b>
+                        Tên Thánh,
+                        <Hidden mdUp>
+                          <br />
+                        </Hidden>
+                        <Hidden smDown> </Hidden>
+                        Họ và Tên
+                        <br />
+                        Ngày sinh
+                      </b>
+                    </Grid>
+                    <Grid item xs={2}>
+                      <b>Phân đoàn </b>
+                    </Grid>
+                    <Grid item xs={2} style={{ textAlign: 'center' }}>
+                      <b>Chi đoàn </b>
+                    </Grid>
+                    <Grid item xs={2}>
+                      <b>Tình trạng </b>
+                    </Grid>
+                  </Grid>
                 )}
-              </List>
-            </Grid>
-            <br />
-            <br />
-            <Grid container item spacing={1} xs={12}>
-              <List className="w-100">
-                {dummySearchResult.map(
-                  (search, i) =>
-                    search.__typename === 'Client' && (
-                      <div className={`${i === cursor ? classes.active : ''}`}>
-                        <ListItem key={i} button>
-                          <Grid
-                            container
-                            spacing={1}
-                            onClick={e => handleRowClientClick(e, `/Client/${search.Code}`)}
-                            onMouseEnter={() => setHovered(search)}
-                            onMouseLeave={() => setHovered(undefined)}>
-                            <Grid item sm={8}>
-                              {search.Name}
-                            </Grid>
-                            <Grid item sm={3}>
-                              {search.Broker?.Email}
-                            </Grid>
-                          </Grid>
-                          <Grid container spacing={1} sm={1} item>
-                            <a href={`/Client/${search.Code}`} target="_blank">
-                              <CallMadeIcon color="primary" />
-                            </a>
-                          </Grid>
-                        </ListItem>
-                      </div>
-                    )
-                )}
+                <br />
+                {dummySearchResult.map((item, i) => (
+                  <div className={`${i === cursor ? classes.active : ''}`} key={item.stuCode}>
+                    <ListItem button className="padding__remove">
+                      <Grid
+                        justifyContent="center"
+                        alignContent="center"
+                        alignItems="center"
+                        container
+                        spacing={1}
+                        onClick={e => handleRowClick(e, item.id)}
+                        onMouseEnter={() => setHovered(item)}
+                        onMouseLeave={() => setHovered(undefined)}>
+                        <Grid item xs={6}>
+                          {item.stuHolyname}
+                          <Hidden mdUp>
+                            <br />
+                          </Hidden>
+                          <Hidden smDown> </Hidden>
+                          {item.stuFirstName} {item.stuLastName}
+                          <br />
+                          {item.stuDob ? moment(item.stuDob).format('DD-MM-YYYY') : 'Chưa nhập'}
+                        </Grid>
+                        <Grid item xs={3}>
+                          {item.groupName}
+                        </Grid>
+                        <Grid item xs={1}>
+                          {item.unionCode}
+                        </Grid>
+                        <Grid item xs={2}>
+                          <span className="pl-2">
+                            {item.status === StudentStatus.ChangeChurch && <span className="badge badge-danger badge__small">Chuyển xứ</span>}
+                            {item.status === StudentStatus.LeaveStudy && <span className="badge badge-warning badge__small">Nghỉ luôn</span>}
+                            {item.status === StudentStatus.Active && <span className="badge badge-success badge__small">Đang học</span>}
+                            {item.status === StudentStatus.Deleted && <span className="badge badge-dark badge__small">Đã xóa</span>}
+                            {item.status === StudentStatus.InActive && <span className="badge badge-dark badge__small">Chưa học</span>}
+                          </span>
+                        </Grid>
+                      </Grid>
+                      {/* <Grid container spacing={1} xs={1} item>
+                        <a href={`/Quote/${item.ReferenceNumber}`} target="_blank">
+                          <CallMadeIcon color="primary" />
+                        </a>
+                      </Grid> */}
+                    </ListItem>
+                  </div>
+                ))}
               </List>
             </Grid>
           </div>
@@ -317,7 +328,7 @@ const HeaderSearch = () => {
       </Drawer>
       <KeyboardEventHandler
         handleFocusableElements={true}
-        handleKeys={['ctrl+s']}
+        handleKeys={['ctrl+k']}
         onKeyEvent={(key, e) => {
           e.preventDefault()
           setState(!state)

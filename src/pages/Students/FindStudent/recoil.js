@@ -7,6 +7,11 @@ export const SearchKeyword = atom({
   default: ''
 })
 
+export const SearchStudentId = atom({
+  key: 'SearchStudentId',
+  default: undefined
+})
+
 export const ReloadStuSearch = atom({
   key: 'ReloadStuSearch',
   default: 0
@@ -18,7 +23,7 @@ export const StudentSearchList = selector({
     get(ReloadStuSearch)
     const searchKey = get(SearchKeyword)
     try {
-      var res = await doGet(`student/findStudent`, { keywords: searchKey })
+      const res = await doGet(`student/findStudent`, { keywords: searchKey })
 
       if (res && res.data.success) {
         if (res.data.data) return _.orderBy(res.data.data, ['stuLastName', 'stuFirstName'], ['asc'])
@@ -27,6 +32,25 @@ export const StudentSearchList = selector({
     } catch (err) {
       return null
     }
+  }
+})
+
+export const GetStudentDetails = selector({
+  key: 'GetStudentDetails',
+  get: async ({ get }) => {
+    const studentId = get(SearchStudentId)
+    if (studentId) {
+      try {
+        const res = await doGet('student/getStudentDetails', { studentId })
+
+        if (res && res.data.success) {
+          return res.data.data
+        }
+      } catch (err) {
+        return null
+      }
+    }
+    return null
   }
 })
 

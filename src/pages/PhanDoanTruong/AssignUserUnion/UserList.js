@@ -26,14 +26,16 @@ const UserList = ({ item }) => {
             {item.unionId === 1 && <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Chưa phân chi đoàn - {item?.assigns?.length}</h4>}
             {item.unionId !== 1 && (
               <h4 className="font-size-lg mb-0 py-1 font-weight-bold">
-                Chi đoàn: {lstUnion?.find(u => u.unionId == item.unionId)?.unionCode} - {item?.assigns?.length}
+                Chi đoàn: {lstUnion?.find(u => u.unionId === item.unionId)?.unionCode} - {item?.assigns?.length}
               </h4>
             )}
           </div>
           <Grid container item xs={4} justifyContent="flex-end">
             <div className="card-header--actions">
               <Tooltip arrow title={!collapse ? 'Thu lại' : 'Mở rộng'}>
-                <IconButton size='medium' color="primary">{collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}</IconButton>
+                <IconButton size="medium" color="primary">
+                  {collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                </IconButton>
               </Tooltip>
             </div>
           </Grid>

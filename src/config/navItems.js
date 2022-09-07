@@ -18,7 +18,7 @@ import sessionHelper from 'utils/sessionHelper'
 
 const functions = [
   { label: 'Thông tin chung', icon: DashboardTwoToneIcon, to: '/Dashboard' },
-  { label: 'Tìm kiếm Đoàn sinh', icon: SearchTwoToneIcon, to: '/FindStudent' },
+  // { label: 'Tìm kiếm Đoàn sinh', icon: SearchTwoToneIcon, to: '/FindStudent' },
   { label: 'Xem báo cáo', icon: PollTwoToneIcon, to: '/Report' },
   {
     role: Roles.BanQuanTri,
@@ -93,7 +93,7 @@ const functions = [
         to: '/PDT/StudentGroupScore'
       },
       {
-        label: 'Danh sách nghỉ',
+        label: 'Điểm danh Phân đoàn',
         icon: CheckTwoToneIcon,
         description: 'Điểm danh Đoàn sinh vắng',
         to: '/PDT/GroupAbsent'
@@ -118,7 +118,7 @@ const functions = [
         to: '/HT/StudentScore'
       },
       {
-        label: 'Danh sách nghỉ',
+        label: 'Điểm danh Chi đoàn',
         icon: CheckTwoToneIcon,
         description: 'Điểm danh Đoàn sinh vắng',
         to: '/HT/ClassAbsent'

@@ -8,6 +8,10 @@ import { CombinedLayout } from 'layouts/layout-blueprints'
 
 //components
 import PageSkeleton from 'components/Loading/page-skeleton'
+import CardSkeleton from 'components/Loading/card-skeleton'
+
+import FindStudents from 'pages/Students/FindStudent'
+import MyProfile from 'pages/Users/MyProfile'
 // BQT
 import RegisterOffline from 'pages/BanQuanTri/RegisterOffline'
 // PDT
@@ -82,12 +86,20 @@ export default [
       {
         path: '/MyProfile',
         exact: true,
-        component: lazy(() => import('pages/Users/MyProfile'))
+        component: () => (
+          <Suspense fallback={<CardSkeleton />}>
+            <MyProfile />
+          </Suspense>
+        )
       },
       {
-        path: '/FindStudent',
+        path: '/FindStudent/:stuId',
         exact: true,
-        component: lazy(() => import('pages/Students/FindStudent'))
+        component: () => (
+          <Suspense fallback={<CardSkeleton />}>
+            <FindStudents />
+          </Suspense>
+        )
       },
       {
         path: '/Report',

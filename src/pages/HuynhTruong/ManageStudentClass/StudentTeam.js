@@ -45,10 +45,16 @@ const StudentTeam = ({ item }) => {
         <table className="table table-hover text-nowrap mb-0">
           <thead>
             <tr>
-              {viewMode === ViewModes.XepDoi && <th rowSpan="2">Đội</th>}
-              <th rowSpan="2" className="td-center">
-                STT
-              </th>
+              {viewMode === ViewModes.XepDoi && (
+                <>
+                  <th rowSpan="2" className="td-center">
+                    Đội
+                  </th>
+                  <th rowSpan="2" className="td-center">
+                    STT
+                  </th>
+                </>
+              )}
               <th rowSpan="2">Tên Thánh, Họ và Tên</th>
               <th colSpan="2" rowSpan={item.team !== 0 && viewMode === ViewModes.DiemDanh ? 1 : 2} className="td-center">
                 {item.team !== 0 && viewMode === ViewModes.DiemDanh && (

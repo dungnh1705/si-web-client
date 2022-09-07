@@ -32,7 +32,7 @@
   }
 
   &.text-center {
-    & > .avatar-icon-wrapper {
+    & > .avatar-icon-wrapper {     
       left: 50%;
       margin-left: -60px;
 
@@ -40,7 +40,7 @@
         margin: 0;
       }
 
-      &--sm {
+      &--sm {      
         margin-left: -30px;
       }
     }

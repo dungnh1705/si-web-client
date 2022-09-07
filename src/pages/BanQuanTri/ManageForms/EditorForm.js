@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, CardContent, CardActions, Button, Grid, TextField, MenuItem, FormControl, FormControlLabel, FormGroup } from '@material-ui/core'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { Editor } from '@tinymce/tinymce-react'
 
 import CardOnModal from 'components/CardOnModal'
 import StyledCheckbox from 'components/UI/StyledCheckbox'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import ButtonLoading from 'components/UI/ButtonLoading'
 
 import { useFormik } from 'formik'
 import Yup from 'utils/Yup'
-import ButtonLoading from 'components/UI/ButtonLoading'
 
-import { Editor } from '@tinymce/tinymce-react'
-
-import config from 'config'
+import { TemplateType, Roles } from 'app/enums'
 import { doPost } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
-import { TemplateType, Roles } from 'app/enums'
-import { toastState, reloadTemplates } from 'recoils/atoms'
-import { OpenEditorForm } from './recoil'
 import { Placeholders, Sections } from 'utils/Placeholders'
+import { toastState, reloadTemplates } from 'recoils/atoms'
+
+import { OpenEditorForm } from './recoil'
 
 const initValue = { templateType: 0, name: '', content: '', subject: null, roleTemplate: 256 }
 const type = [
@@ -296,7 +295,7 @@ const EditorForm = () => {
               <ButtonLoading btnText="Lưu" loading={loading} handleButtonClick={handleSaveForm} disabled={loading || checkSaveButton()} />
             </Grid>
             <Grid item>
-              <Button size="large" variant='outlined' fullWidth onClick={handleClose} disabled={loading}>
+              <Button size="large" variant="outlined" fullWidth onClick={handleClose} disabled={loading}>
                 Quay về
               </Button>
             </Grid>
