@@ -48,7 +48,7 @@ export default function GroupScoreInfo({ info }) {
           </Grid>
           <Grid item xs={12}>
             <div className="p-2">
-              {Ranking.map(e => {
+              {Ranking.map((e, index) => {
                 const total = _.sumBy(info?.summaryInfo, i =>
                   view === 1
                     ? _.size(i.semesterOne.filter(so => so.ranking == e))
@@ -57,10 +57,10 @@ export default function GroupScoreInfo({ info }) {
                     : _.size(i.scoreTotal.filter(so => so.ranking == e))
                 )
 
-                const percent = accounting.toFixed(total / totalGroupStudent * 100, 1)
+                const percent = Number(accounting.toFixed((total / totalGroupStudent) * 100, 1))
 
                 return (
-                  <div className="mb-4">
+                  <div className="mb-4" key={`group-score-${view}-${index}`}>
                     <div className="line-height-1">
                       <span className="font-size-lg font-weight-bold pr-3">{total}</span>
                       <span className="text-muted">{e}</span>

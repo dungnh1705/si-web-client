@@ -3,11 +3,6 @@ import { Card, CardContent, Grid, Typography } from '@material-ui/core'
 import Chart from 'react-apexcharts'
 import Slider from 'react-slick'
 
-// icons
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
-
-// import { history } from 'App'
 import _ from 'lodash'
 import { AbsentMode } from 'app/enums'
 
@@ -73,7 +68,7 @@ export default function GroupClassAbsent({ info }) {
       </div>
 
       <Slider {...settings} style={{ padding: '10px' }}>
-        {info?.summaryInfo?.map(item => {
+        {info?.summaryInfo?.map((item, index) => {
           const chartData = [
             {
               name: 'Không phép',
@@ -92,7 +87,7 @@ export default function GroupClassAbsent({ info }) {
           ]
 
           return (
-            <CardContent className="p-3">
+            <CardContent className="p-3" key={`union-absent-${index}`}>
               <Grid container item xs={12} justifyContent="center">
                 <Typography variant="h4">Chi đoàn {item.unionCode}</Typography>
               </Grid>
