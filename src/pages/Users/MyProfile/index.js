@@ -43,7 +43,7 @@ import { doPost } from 'utils/axios'
 import { HolyNameQuery, UserAvatarQuery } from 'recoils/selectors'
 import { toastState, loadingState } from 'recoils/atoms'
 
-import { UserQuery, ShowChangePassword, ReloadUser, OpenEditAvatar, EditCoverImage, CoverImageQuery } from './recoil'
+import { UserQuery, ReloadUser, OpenEditAvatar, EditCoverImage, CoverImageQuery } from './recoil'
 import ChangePasswordDialog from './ChangePasswordDialog'
 import EditAvatar from './EditAvatar'
 import ShowImageModal from './ShowImageModal'
@@ -62,7 +62,6 @@ function Profile() {
   const setEditCover = useSetRecoilState(EditCoverImage)
 
   const [toast, setToast] = useRecoilState(toastState)
-  const [showChangePass, setShowChangePass] = useRecoilState(ShowChangePassword)
 
   const [openAvatar, setOpenAvatar] = useState(false)
   const [openPreview, setOpenReview] = useState(false)
@@ -152,10 +151,6 @@ function Profile() {
     }
   }
 
-  const openResetPasswordDialog = () => {
-    setShowChangePass(!showChangePass)
-  }
-
   const handleChangeInput = (val, name) => {
     userForm.setFieldValue(name, StringUtils.capitalize(val))
   }
@@ -197,13 +192,6 @@ function Profile() {
         <Grid item xs={12} lg={8}>
           <Card className="mb-2 w-100">
             <div className="card-img-wrapper">
-              <div className="card-badges">
-                <Tooltip title="Đổi mật khẩu">
-                  <IconButton size="small" onClick={openResetPasswordDialog} style={{ backgroundColor: 'rgb(232, 235, 239)', padding: '10px' }}>
-                    <FontAwesomeIcon icon={faUnlockAlt} />
-                  </IconButton>
-                </Tooltip>
-              </div>
               <div className="card-badges card-badges-bottom">
                 <Hidden smDown>
                   <Button size="medium" style={{ backgroundColor: 'rgb(246 249 253)' }} onClick={handleEditCoverClick} startIcon={<FontAwesomeIcon icon={faCamera} />}>

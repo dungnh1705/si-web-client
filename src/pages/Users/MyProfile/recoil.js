@@ -11,11 +11,6 @@ export const ReloadUser = atom({
   default: 1
 })
 
-export const ShowChangePassword = atom({
-  key: 'ShowChangePassword',
-  default: false
-})
-
 export const OpenEditAvatar = atom({ key: 'OpenEditAvatar', default: false })
 
 export const ReloadCoverImage = atom({

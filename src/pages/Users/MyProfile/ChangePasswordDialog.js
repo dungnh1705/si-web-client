@@ -9,9 +9,7 @@ import Yup from 'utils/Yup'
 import { doPost } from 'utils/axios'
 import config from 'config'
 import sessionHelper from 'utils/sessionHelper'
-import { toastState, loadingState } from 'recoils/atoms'
-
-import { ShowChangePassword } from './recoil'
+import { toastState, loadingState, ShowChangePassword } from 'recoils/atoms'
 
 const ChangePasswordDialog = () => {
   const theme = useTheme()
