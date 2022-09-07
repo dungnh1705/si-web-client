@@ -31,7 +31,7 @@ const AssignUserUnion = () => {
 
   const [union, setUnion] = useState('')
 
-  const responGrid = lstAssignment[0]?.unionId === 1 ? [{xs: 12, sm: 6}, {xs: 12}] : [{xs: 12}, {xs:12, sm: 6, lg: 3}]; 
+  const responGrid = lstAssignment[0]?.unionId === 1 ? [{xs: 12, sm: 6, lg: 8}, {xs: 12}] : [{xs: 12}, {xs:12, sm: 6, lg: 4}]; 
 
   const handleDisabled = () => {
     return !(assignIds.length > 0 && union !== '')
@@ -107,7 +107,7 @@ const AssignUserUnion = () => {
 
         <Grid container spacing={2}>
           {lstAssignment[0]?.unionId === 1 && (
-            <Grid container item xs={12} sm={6} direction="row" spacing={1}>
+            <Grid container item xs={12} sm={6} lg={4} direction="row" spacing={1}>
               <Grid item xs={12}>
                 <UserList item={lstAssignment[0]} />
               </Grid>
