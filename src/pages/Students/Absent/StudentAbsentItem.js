@@ -12,12 +12,21 @@ import sessionHelper from 'utils/sessionHelper'
 // Internal
 import { ShowConfirmDialog, AbsentSelected } from './recoil'
 
-const mystyle = makeStyles({
+const mystyle = makeStyles((theme) => ({
   pinCell: {
     position: 'sticky',
     left: 0,
     backgroundColor: 'white',
     zIndex: 1,
+    [theme.breakpoints.down('md')]: {
+      minWidth: '400px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      minWidth: '300px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '150px',
+    },
     
     '&::after': {
       position: 'absolute',
@@ -30,7 +39,7 @@ const mystyle = makeStyles({
       backgroundColor: '#E5E6F5'
     }
   }
-})
+}))
 
 const StudentAbsentItem = ({ month, mode }) => {
   const useStyle = mystyle();

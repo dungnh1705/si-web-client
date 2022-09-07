@@ -97,7 +97,7 @@ const StudentUnionTeam = ({ item }) => {
           </div>
           <Divider />
           <div className="table-responsive" hidden={collapse}>
-            <Table stickyHeader aria-label="sticky table" className="table table-hover text-nowrap mb-0">
+            <Table stickyHeader aria-label="sticky table" className="table table-hover mb-0">
               <thead>
                 <tr>
                   <th rowSpan="3" align="left" className={styleClass.pinCell}>

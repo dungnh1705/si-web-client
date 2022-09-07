@@ -13,12 +13,21 @@ import { doPost } from 'utils/axios'
 
 import { SemesterSelected } from './recoil'
 
-const useStyle = makeStyles({
+const useStyle = makeStyles((theme) => ({
   pinCell: {
     position: 'sticky',
     left: 0,
     backgroundColor: 'white',
     zIndex: 1,
+    [theme.breakpoints.down('md')]: {
+      minWidth: '400px'
+    },
+    [theme.breakpoints.down('sm')]: {
+      minWidth: '300px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      minWidth: '150px'
+    },
     
     '&::after': {
       position: 'absolute',
@@ -31,7 +40,7 @@ const useStyle = makeStyles({
       backgroundColor: '#E5E6F5'
     }
   }
-})
+}))
 
 const StudentUnionItem = ({ student }) => {
   const lstHolyname = useRecoilValue(HolyNameQuery)

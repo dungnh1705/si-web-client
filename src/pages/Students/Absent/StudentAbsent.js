@@ -66,7 +66,7 @@ const StudentAbsent = ({ month }) => {
             </ButtonGroup>
           </div>
           <div className="table-responsive" hidden={collapse}>
-            <table className="table table-hover text-nowrap mb-0">
+            <table className="table table-hover mb-0">
               <thead>
                 <tr>
                   <th rowSpan="2" className={classStyle.pinCell}>Tên Thánh, Họ và Tên</th>
