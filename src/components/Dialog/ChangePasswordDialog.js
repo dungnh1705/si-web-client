@@ -9,11 +9,9 @@ import Yup from 'utils/Yup'
 import { doPost } from 'utils/axios'
 import config from 'config'
 import sessionHelper from 'utils/sessionHelper'
-import { toastState, loadingState } from 'recoils/atoms'
+import { toastState, loadingState, ShowChangePassword } from 'recoils/atoms'
 
-import { ShowChangePassword } from './recoil'
-
-const ChangePasswordDialog = () => {
+export const ChangePasswordDialog = () => {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
   const setLoading = useSetRecoilState(loadingState)
@@ -123,5 +121,3 @@ const ChangePasswordDialog = () => {
     </Dialog>
   )
 }
-
-export default ChangePasswordDialog

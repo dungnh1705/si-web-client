@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from 'react'
-import { useRecoilValue } from 'recoil'
+import React, { Fragment, useState, Suspense } from 'react'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import { Avatar, Box, Menu, Button, List, ListItem, Divider } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
@@ -8,6 +8,9 @@ import { history } from 'App'
 import Badge from 'components/UI/Badge'
 import sessionHelper, { deleteLoginData, getMaxRole } from 'utils/sessionHelper'
 import { HolyNameQuery, UserAvatarQuery } from 'recoils/selectors'
+import { ShowChangePassword } from 'recoils/atoms'
+
+import { ChangePasswordDialog } from 'components/Dialog'
 
 const HeaderUserBox = () => {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -15,6 +18,7 @@ const HeaderUserBox = () => {
 
   const lstHolyName = useRecoilValue(HolyNameQuery)
   const userAvatar = useRecoilValue(UserAvatarQuery)
+  const [openChangePass, setOpenChangePass] = useRecoilState(ShowChangePassword)
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -29,6 +33,11 @@ const HeaderUserBox = () => {
     deleteLoginData()
 
     history.push('/Login')
+  }
+
+  const onToggle = () => {
+    setOpenChangePass(!openChangePass)
+    setAnchorEl(null)
   }
 
   return (
@@ -90,6 +99,15 @@ const HeaderUserBox = () => {
               <div className="text-black-50 text-center">{session?.classInfo}</div>
             </div>
             <Divider className="w-100 mt-2" />
+            <ListItem button>
+              <div className="grid-menu grid-menu-1col w-100">
+                <div>
+                  <div className="d-flex justify-content-center" onClick={onToggle}>
+                    <div className="d-flex align-items-center">Đổi mật khẩu</div>
+                  </div>
+                </div>
+              </div>
+            </ListItem>
             <ListItem
               button
               onClick={() => {
@@ -116,6 +134,7 @@ const HeaderUserBox = () => {
           </List>
         </div>
       </Menu>
+      <ChangePasswordDialog />
     </Fragment>
   )
 }

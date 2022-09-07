@@ -108,3 +108,8 @@ export const reloadUserAvatar = atom({
   key: 'reloadUserAvatar',
   default: 0
 })
+
+export const ShowChangePassword = atom({
+  key: 'ShowChangePassword',
+  default: false
+})
