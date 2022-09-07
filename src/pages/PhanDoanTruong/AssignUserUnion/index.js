@@ -106,13 +106,13 @@ const AssignUserUnion = () => {
         ))}
 
         <Grid container spacing={2}>
-          {(lstAssignment && lstAssignment[0]?.unionId === 1) && (
+          {(lstAssignment && (lstAssignment[0]?.unionId === 1) && (
             <Grid container item xs={12} sm={6} lg={4} direction="row" spacing={1}>
               <Grid item xs={12}>
                 <UserList item={lstAssignment[0]} />
               </Grid>
             </Grid>
-          )}
+          ))}
           <Grid container item {...responGrid[0]} direction="row" spacing={1}>
             {lstAssignment && (lstAssignment?.map((item, index) => {
               if(item.unionId !== 1){
