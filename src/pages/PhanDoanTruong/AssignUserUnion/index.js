@@ -31,6 +31,10 @@ const AssignUserUnion = () => {
 
   const [union, setUnion] = useState('')
 
+  const gridHaveNoUnion = [{xs: 12, md: 6, lg: 8}, {xs: 12, md: 12, lg: 6}]
+  const gridHaveUnion = [{xs: 12}, {xs: 12, md: 6, lg: 4}]
+  const responGrid = lstAssignment ? ( lstAssignment[0]?.unionId === 1 ? gridHaveNoUnion : gridHaveUnion) : []; 
+
   const handleDisabled = () => {
     return !(assignIds.length > 0 && union !== '')
   }
@@ -60,7 +64,7 @@ const AssignUserUnion = () => {
   const body = () => {
     return (
       <>
-        {lstAssignment.length > 0 && (
+        {lstAssignment && (lstAssignment.length > 0 && (
           <>
             <Grid container spacing={2} justifyContent="flex-start" alignItems="center">
               <Grid item xs={6} md={2} lg={1}>
@@ -93,23 +97,35 @@ const AssignUserUnion = () => {
               </Grid>
             </Grid>
           </>
-        )}
+        ))}
 
-        {lstAssignment.length === 0 && (
+        {lstAssignment && (lstAssignment.length === 0 && (
           <Grid container item spacing={3}>
             <Grid item xs={12}>
               <Typography variant="h4">Chưa có Huynh trưởng/Dự trưởng trong Phân đoàn.</Typography>
             </Grid>
           </Grid>
-        )}
+        ))}
 
         <Grid container spacing={2}>
-          <Grid container item xs={12} direction="row" spacing={1}>
-            {lstAssignment?.map((item, index) => (
-              <Grid item xs={12} sm={12} md={12} lg={3} key={`ass-u-${item.unionId + 1}-${index}`}>
-                <UserList item={item} />
+          {(lstAssignment && (lstAssignment[0]?.unionId === 1) && (
+            <Grid container item xs={12} md={6} lg={4} direction="row" spacing={1}>
+              <Grid item xs={12}>
+                <UserList item={lstAssignment[0]} />
               </Grid>
-            ))}
+            </Grid>
+          ))}
+          
+          <Grid container item {...responGrid[0]} direction="row" spacing={1}>
+            {lstAssignment && (lstAssignment?.map((item, index) => {
+              if(item.unionId !== 1){
+                return (
+                  <Grid {...responGrid[1]} item key={`ass-u-${item.unionId + 1}-${index}`}>
+                    <UserList item={item} />
+                  </Grid>
+                )
+              }
+            }))}
           </Grid>
         </Grid>
       </>
