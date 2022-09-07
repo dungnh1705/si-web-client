@@ -10,7 +10,7 @@ import sessionHelper, { deleteLoginData, getMaxRole } from 'utils/sessionHelper'
 import { HolyNameQuery, UserAvatarQuery } from 'recoils/selectors'
 import { ShowChangePassword } from 'recoils/atoms'
 
-import ChangePasswordDialog from 'pages/Users/MyProfile/ChangePasswordDialog'
+import { ChangePasswordDialog } from 'components/Dialog'
 
 const HeaderUserBox = () => {
   const [anchorEl, setAnchorEl] = useState(null)

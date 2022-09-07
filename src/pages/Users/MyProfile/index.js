@@ -44,7 +44,6 @@ import { HolyNameQuery, UserAvatarQuery } from 'recoils/selectors'
 import { toastState, loadingState } from 'recoils/atoms'
 
 import { UserQuery, ReloadUser, OpenEditAvatar, EditCoverImage, CoverImageQuery } from './recoil'
-import ChangePasswordDialog from './ChangePasswordDialog'
 import EditAvatar from './EditAvatar'
 import ShowImageModal from './ShowImageModal'
 
@@ -418,7 +417,6 @@ function Profile() {
       </Grid>
 
       <Suspense fallback={<>Đang tải thông tin . . .</>}>
-        <ChangePasswordDialog />
         <EditAvatar />
         <ShowImageModal open={openPreview} handleClose={() => setOpenReview(!openPreview)} />
       </Suspense>

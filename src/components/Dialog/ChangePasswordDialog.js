@@ -11,7 +11,7 @@ import config from 'config'
 import sessionHelper from 'utils/sessionHelper'
 import { toastState, loadingState, ShowChangePassword } from 'recoils/atoms'
 
-const ChangePasswordDialog = () => {
+export const ChangePasswordDialog = () => {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
   const setLoading = useSetRecoilState(loadingState)
@@ -121,5 +121,3 @@ const ChangePasswordDialog = () => {
     </Dialog>
   )
 }
-
-export default ChangePasswordDialog
