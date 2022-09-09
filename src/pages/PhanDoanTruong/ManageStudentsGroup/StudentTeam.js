@@ -50,9 +50,11 @@ const StudentTeam = ({ item, unionId }) => {
               <table className="table table-hover text-nowrap mb-0">
                 <thead>
                   <tr>
-                    <th rowSpan="2" className="td-center">
-                      STT
-                    </th>
+                    {viewMode !== ViewModes.DiemDanh && (
+                      <th rowSpan="2" className="td-center">
+                        STT
+                      </th>
+                    )}
                     <th rowSpan="2">Tên Thánh, Họ và Tên</th>
                     {viewMode === ViewModes.DiemDanh && item.team !== 0 && (
                       <th colSpan="2" rowSpan={viewMode === ViewModes.DiemDanh ? 1 : 2} className="td-center">

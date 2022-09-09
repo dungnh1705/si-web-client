@@ -77,7 +77,7 @@ const StudentTeamItem = ({ student, unionId, viewAbsentMode, team, index }) => {
 
   return (
     <tr className={`align-items-center tr__active tr-student ${findClassName(student)}`}>
-      <td className="td-center">{index}</td>
+      {viewMode !== ViewModes.DiemDanh && <td className="td-center">{index}</td>}
       <td onClick={handleClickRow} className="td--active">
         <Typography>
           {lstHolyname.find(h => h.id === student.stuHolyId).name}
