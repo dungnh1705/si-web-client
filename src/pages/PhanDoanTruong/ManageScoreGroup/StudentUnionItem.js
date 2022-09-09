@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
 import red from '@material-ui/core/colors/red'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, Hidden } from '@material-ui/core'
 
 import { DocumentPreviewDialogAtom } from 'components/Dialog/recoil'
 import StyledCheckbox from 'components/UI/StyledCheckbox'
@@ -13,22 +13,13 @@ import { doPost } from 'utils/axios'
 
 import { SemesterSelected } from './recoil'
 
-const useStyle = makeStyles((theme) => ({
+const useStyle = makeStyles({
   pinCell: {
     position: 'sticky',
     left: 0,
     backgroundColor: 'white',
     zIndex: 1,
-    [theme.breakpoints.down('md')]: {
-      minWidth: '400px'
-    },
-    [theme.breakpoints.down('sm')]: {
-      minWidth: '300px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      minWidth: '150px'
-    },
-    
+
     '&::after': {
       position: 'absolute',
       right: 0,
@@ -40,7 +31,7 @@ const useStyle = makeStyles((theme) => ({
       backgroundColor: '#E5E6F5'
     }
   }
-}))
+})
 
 const StudentUnionItem = ({ student }) => {
   const lstHolyname = useRecoilValue(HolyNameQuery)
@@ -117,7 +108,7 @@ const StudentUnionItem = ({ student }) => {
             backgroundColor: student.semesterOne[0]?.average < 3.5 ? red[200] : 'inherit'
           }}>
           <td className={classStyle.pinCell}>
-            {lstHolyname?.find(h => h.id === student.stuHolyId).name} {student.stuFirstName} {student.stuLastName}
+            {lstHolyname?.find(h => h.id === student.stuHolyId).name} <Hidden mdUp><br/></Hidden> {student.stuFirstName} {student.stuLastName}
           </td>
           <td>{student.semesterOne[0]?.oldTest ?? ''}</td>
           <td>{student.semesterOne[0]?.fifteenTest ?? ''}</td>

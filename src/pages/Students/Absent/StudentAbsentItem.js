@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Hidden } from '@material-ui/core';
 import _ from 'lodash'
 
 // External
@@ -12,21 +12,12 @@ import sessionHelper from 'utils/sessionHelper'
 // Internal
 import { ShowConfirmDialog, AbsentSelected } from './recoil'
 
-const mystyle = makeStyles((theme) => ({
+const mystyle = makeStyles({
   pinCell: {
     position: 'sticky',
     left: 0,
     backgroundColor: 'white',
     zIndex: 1,
-    [theme.breakpoints.down('md')]: {
-      minWidth: '400px',
-    },
-    [theme.breakpoints.down('sm')]: {
-      minWidth: '300px',
-    },
-    [theme.breakpoints.down('xs')]: {
-      minWidth: '150px',
-    },
     
     '&::after': {
       position: 'absolute',
@@ -39,7 +30,7 @@ const mystyle = makeStyles((theme) => ({
       backgroundColor: '#E5E6F5'
     }
   }
-}))
+})
 
 const StudentAbsentItem = ({ month, mode }) => {
   const useStyle = mystyle();
@@ -82,7 +73,7 @@ const StudentAbsentItem = ({ month, mode }) => {
       {lstStudent?.map(stu => (
         <tr key={`stu-absent-${stu.id}`}>
           <td className={useStyle.pinCell}>
-            {lstHolyName?.find(h => h.id === stu?.absents[0].student.stuHolyId)?.name} {stu?.absents[0].student.stuFirstName} {stu?.absents[0].student.stuLastName}
+            {lstHolyName?.find(h => h.id === stu?.absents[0].student.stuHolyId)?.name} <Hidden mdUp><br/></Hidden> {stu?.absents[0].student.stuFirstName} {stu?.absents[0].student.stuLastName}
           </td>
           <td style={{ textAlign: 'center' }}>
             <b>{stu?.absents?.filter(ab => ab.hasPermission)?.length}</b>
