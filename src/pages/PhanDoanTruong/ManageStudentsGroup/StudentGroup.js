@@ -84,7 +84,8 @@ const StudentGroup = ({ item }) => {
               <table className="table table-hover text-nowrap mb-0">
                 <thead>
                   <tr>
-                    <th className="td-center">STT</th>
+                    {viewMode !== ViewModes.DiemDanh && <th className="td-center">STT</th>}
+
                     <th>Tên Thánh, Họ và Tên</th>
                   </tr>
                 </thead>

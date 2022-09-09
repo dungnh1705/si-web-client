@@ -56,7 +56,7 @@ export const Placeholders = [
   { id: 3033, value: '{SDTDoanSinh}', text: 'SĐT Đoàn sinh', sectionId: 3 },
   { id: 3034, value: '{HoanTatPhanDoan}', text: 'Hoàn tất học Phân đoàn', sectionId: 3 },
   { id: 3035, value: '{HoanTatNamBatDau}', text: 'HT năm bắt đầu', sectionId: 3 },
-  { id: 3036, value: '{HoanTatNamBatDau}', text: 'HT năm kết thúc', sectionId: 3 },
+  { id: 3036, value: '{HoanTatNamKetThuc}', text: 'HT năm kết thúc', sectionId: 3 },
 
   { id: 4001, value: '{TenThanhPDT}', text: 'Tên Thánh PĐT', sectionId: 4 },
   { id: 4002, value: '{HoVaTenPDT}', text: 'Họ và Tên PĐT', sectionId: 4 },
