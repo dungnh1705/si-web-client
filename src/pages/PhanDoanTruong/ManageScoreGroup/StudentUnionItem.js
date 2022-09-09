@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
 import red from '@material-ui/core/colors/red'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, Hidden } from '@material-ui/core'
 
 import { DocumentPreviewDialogAtom } from 'components/Dialog/recoil'
 import StyledCheckbox from 'components/UI/StyledCheckbox'
@@ -19,7 +19,7 @@ const useStyle = makeStyles({
     left: 0,
     backgroundColor: 'white',
     zIndex: 1,
-    
+
     '&::after': {
       position: 'absolute',
       right: 0,
@@ -108,7 +108,7 @@ const StudentUnionItem = ({ student }) => {
             backgroundColor: student.semesterOne[0]?.average < 3.5 ? red[200] : 'inherit'
           }}>
           <td className={classStyle.pinCell}>
-            {lstHolyname?.find(h => h.id === student.stuHolyId).name} {student.stuFirstName} {student.stuLastName}
+            {lstHolyname?.find(h => h.id === student.stuHolyId).name} <Hidden mdUp><br/></Hidden> {student.stuFirstName} {student.stuLastName}
           </td>
           <td>{student.semesterOne[0]?.oldTest ?? ''}</td>
           <td>{student.semesterOne[0]?.fifteenTest ?? ''}</td>
