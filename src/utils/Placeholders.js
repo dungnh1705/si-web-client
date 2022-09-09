@@ -54,6 +54,9 @@ export const Placeholders = [
   { id: 3031, value: '{NamSinhMe}', text: 'Năm sinh Mẹ', sectionId: 3 },
   { id: 3032, value: '{GiaoKhu}', text: 'Giáo Khu', sectionId: 3 },
   { id: 3033, value: '{SDTDoanSinh}', text: 'SĐT Đoàn sinh', sectionId: 3 },
+  { id: 3034, value: '{HoanTatPhanDoan}', text: 'Hoàn tất học Phân đoàn', sectionId: 3 },
+  { id: 3035, value: '{HoanTatNamBatDau}', text: 'HT năm bắt đầu', sectionId: 3 },
+  { id: 3036, value: '{HoanTatNamBatDau}', text: 'HT năm kết thúc', sectionId: 3 },
 
   { id: 4001, value: '{TenThanhPDT}', text: 'Tên Thánh PĐT', sectionId: 4 },
   { id: 4002, value: '{HoVaTenPDT}', text: 'Họ và Tên PĐT', sectionId: 4 },
@@ -62,7 +65,9 @@ export const Placeholders = [
   { id: 5002, value: '{VerifyUserButton}', text: 'Link kích hoạt tài khoản', sectionId: 5 },
   { id: 5003, value: '{PageBreak}', text: 'Qua trang mới', sectionId: 5 },
 
-  { id: 6001, value: '{TongKetBQT}', text: 'Tổng kết Cuối năm BQT', sectionId: 6 },
+  { id: 6001, value: '{BQT-TongKetCaNam}', text: 'BQT-Tổng kết Cuối năm', sectionId: 6 },
+  { id: 6018, value: '{BQT-BaoCaoDauNam}', text: 'BQT-Báo cáo đầu năm', sectionId: 6 },
+  { id: 6019, value: '{BQT-BaoCaoHKI}', text: 'BQT-Báo cáo HKI', sectionId: 6 },
   { id: 6002, value: '{TongKetHKI-PDT}', text: 'Tổng kết HKI PĐT', sectionId: 6 },
   { id: 6003, value: '{DSXuatSacHKI}', text: 'Danh sách Xuất sắc HKI PĐT', sectionId: 6 },
   { id: 6004, value: '{DSGioiHKI}', text: 'Danh sách Giỏi HKI PĐT', sectionId: 6 },

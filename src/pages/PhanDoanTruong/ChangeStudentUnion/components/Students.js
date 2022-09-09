@@ -13,11 +13,14 @@ const Students = () => {
 
   return (
     <>
-      {filter?.map((union, index) => (
-        <Grid item xs={12} key={`${union}-${index}`}>
-          <StudentsUnion union={union} />
-        </Grid>
-      ))}
+      {filter?.map(
+        (union, index) =>
+          union.students?.length > 0 && (
+            <Grid item xs={12} key={`${union}-${index}`}>
+              <StudentsUnion union={union} />
+            </Grid>
+          )
+      )}
     </>
   )
 }

@@ -86,7 +86,7 @@ export const doPut = (action, data) => {
 }
 
 export const doUpload = (action, data) => {
-  return axios.post(action, data, {
+  return axios.post(`${apiEndpoint}\\${action}`, data, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }

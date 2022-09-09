@@ -60,7 +60,7 @@ const StudentGroup = ({ item }) => {
         <Card className="card-box mb-1 w-100">
           <div className="card-header d-flex pb-1 pt-1" onClick={handleCollapse} style={{ cursor: 'pointer' }}>
             <div className="card-header--title">
-              {item.unionId === 1 && <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Đoàn sinh mới - {item?.students?.length}</h4>}
+              {item.unionId === 1 && <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Chưa phân Chi đoàn - {item?.students?.length}</h4>}
               {item.unionId !== 1 && (
                 <h4 className="font-size-lg mb-0 py-1 font-weight-bold">
                   Chi đoàn: {item.unionCode} - {item?.students?.length} /{' '}

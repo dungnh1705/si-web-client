@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Box, LinearProgress, Card, IconButton, Divider, Typography } from '@material-ui/core'
+import { Grid, Card, Typography } from '@material-ui/core'
 
 // constance
 import Slider from 'react-slick'
@@ -28,7 +28,7 @@ export default function GroupClassScoreInfo({ info }) {
 
           <Slider {...settings} style={{ padding: '10px' }}>
             {info?.summaryInfo?.map(item => (
-              <div className="p-2">
+              <div className="p-2" key={`union-score-info-${item.unionId}`}>
                 <Grid container spacing={2}>
                   <Grid container item xs={12} justifyContent="center">
                     <Typography variant="h4">Chi đoàn {item.unionCode}</Typography>

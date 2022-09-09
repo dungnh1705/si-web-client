@@ -11,38 +11,15 @@ import { HolyNameQuery } from 'recoils/selectors'
 import sessionHelper from 'utils/sessionHelper'
 import { doPost } from 'utils/axios'
 
-// import { ReloadStudentGroup } from './recoil'
-
 const StudentTeamItem = ({ student, unionId, viewAbsentMode, team, index }) => {
-  // const lstUnion = useRecoilValue(UnionQuery)
   const lstHolyname = useRecoilValue(HolyNameQuery)
   const viewMode = useRecoilValue(ViewMode)
 
   const [toast, setToast] = useRecoilState(toastState)
   const [studentDialog, setStudentDialog] = useRecoilState(StudentDialogAtom)
 
-  // const setReloadStudent = useSetRecoilState(ReloadStudentGroup)
   const setLoading = useSetRecoilState(loadingState)
   const setPageYOffset = useSetRecoilState(PageYOffset)
-
-  // const handleChange = async e => {
-  //   e.preventDefault()
-  //   setLoading(true)
-
-  //   const newUnion = e.target.value
-
-  //   try {
-  //     const res = await doPost(`student/updateStudentUnion`, { studentId: student.id, classId: student.classId, unionId: newUnion })
-  //     if (res && res.data.success) {
-  //       setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
-  //       setReloadStudent(reload => reload + 1)
-  //     }
-  //   } catch (err) {
-  //     setToast({ ...toast, open: true, message: err.message, type: 'error' })
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
 
   const handleClickRow = () => {
     setPageYOffset(window.pageYOffset)
@@ -82,8 +59,24 @@ const StudentTeamItem = ({ student, unionId, viewAbsentMode, team, index }) => {
   //   return status === StudentStatus.ChangeChurch || status === StudentStatus.LeaveStudy
   // }
 
+  const findClassName = student => {
+    if (student.status === StudentStatus.ChangeChurch) {
+      return 'tr-student__change-church'
+    }
+
+    if (student.status === StudentStatus.LeaveStudy) {
+      return 'tr-student__absent'
+    }
+
+    if (student.isNewStudent) {
+      return 'tr-student__new-student'
+    }
+
+    return ''
+  }
+
   return (
-    <tr className="align-items-center">
+    <tr className={`align-items-center tr__active tr-student ${findClassName(student)}`}>
       <td className="td-center">{index}</td>
       <td onClick={handleClickRow} className="td--active">
         <Typography>

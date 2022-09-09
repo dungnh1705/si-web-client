@@ -99,22 +99,24 @@ const StudentTeamItem = ({ student, team, viewAbsentMode, index }) => {
   return (
     <tr className={`align-items-center tr__active tr-student ${findClassName(student)}`}>
       {viewMode === ViewModes.XepDoi && (
-        <td>
-          <Select labelId="demo-simple-select-label" id="demo-simple-select" value={team} onChange={handleChange} disabled={checkDisabled(student.status)}>
-            <MenuItem value="0" key="team-disabled" disabled>
-              N/A
-            </MenuItem>
-            {lstTeam?.map(i => {
-              return (
-                <MenuItem value={i} key={`teams-class-${i}`}>
-                  {i}
-                </MenuItem>
-              )
-            })}
-          </Select>
-        </td>
+        <>
+          <td className="td-center">
+            <Select labelId="demo-simple-select-label" id="demo-simple-select" value={team} onChange={handleChange} disabled={checkDisabled(student.status)}>
+              <MenuItem value="0" key="team-disabled" disabled>
+                N/A
+              </MenuItem>
+              {lstTeam?.map(i => {
+                return (
+                  <MenuItem value={i} key={`teams-class-${i}`}>
+                    {i}
+                  </MenuItem>
+                )
+              })}
+            </Select>
+          </td>
+          <td className="td-center">{index}</td>
+        </>
       )}
-      <td className="td-center">{index}</td>
       <td onClick={handleRowClick} className="td-student">
         {student?.studentClass?.find(sl => sl.classId === Number(sessionHelper().classId))?.isTeamLead && <span className="td-student__team-leader" />}
         <Typography>

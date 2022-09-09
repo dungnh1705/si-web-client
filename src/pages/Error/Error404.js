@@ -9,11 +9,11 @@ const Error404 = () => {
     <>
       <div className="app-wrapper bg-white">
         <div className="app-main">
-          <Button component={RouterLink} to="/login" size="large" color="secondary" variant="contained" className="text-white btn-go-back">
+          <Button component={RouterLink} to="/Dashboard" size="large" color="secondary" variant="contained" className="text-white btn-go-back">
             <span className="btn-wrapper--icon">
               <ArrowBackIcon />
             </span>
-            <span className="btn-wrapper--label">Quay về trang Đăng nhập</span>
+            <span className="btn-wrapper--label">Quay về trang chính</span>
           </Button>
           <div className="app-content p-0">
             <div className="app-inner-content-layout--main">

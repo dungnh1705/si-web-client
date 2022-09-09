@@ -7,13 +7,10 @@ import { useFormik } from 'formik'
 import Yup from 'utils/Yup'
 
 import { doPost } from 'utils/axios'
-import config from 'config'
 import sessionHelper from 'utils/sessionHelper'
-import { toastState, loadingState } from 'recoils/atoms'
+import { toastState, loadingState, ShowChangePassword } from 'recoils/atoms'
 
-import { ShowChangePassword } from './recoil'
-
-const ChangePasswordDialog = () => {
+export const ChangePasswordDialog = () => {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
   const setLoading = useSetRecoilState(loadingState)
@@ -70,18 +67,23 @@ const ChangePasswordDialog = () => {
 
   const handleChangePass = async e => {
     e.preventDefault()
+
     setLoading(true)
-    let oldPassword = formData.values['CurrentPassword']
-    let newPassword = formData.values['NewPassword']
+    const oldPassword = formData.values['CurrentPassword']
+    const newPassword = formData.values['NewPassword']
+
     try {
-      let res = await doPost(`user/resetPassword`, { userId: sessionHelper().userId, oldPassword: oldPassword, newPassword: newPassword })
+      const res = await doPost(`user/resetPassword`, { userId: sessionHelper().userId, oldPassword, newPassword })
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         handleCloseDialog()
-        setLoading(false)
+      } else {
+        setToast({ ...toast, open: true, message: res.data.message, type: 'error' })
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -116,12 +118,10 @@ const ChangePasswordDialog = () => {
         <Button size="large" onClick={handleChangePass} color="primary" variant="contained" disabled={!formData.isValid}>
           Lưu
         </Button>
-        <Button size="large" onClick={handleCloseDialog} variant='outlined'>
+        <Button size="large" onClick={handleCloseDialog} variant="outlined">
           Quay về
         </Button>
       </DialogActions>
     </Dialog>
   )
 }
-
-export default ChangePasswordDialog

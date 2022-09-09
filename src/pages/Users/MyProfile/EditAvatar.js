@@ -1,51 +1,72 @@
 import React, { useState } from 'react'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { Modal, Divider, CardContent, CardActions, Grid, Button, Typography } from '@material-ui/core'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { Modal, Divider, CardContent, CardActions, Grid, Button, Typography, TextField, InputAdornment } from '@material-ui/core'
 import CardOnModal from 'components/CardOnModal'
-import { OpenEditAvatar } from './recoil'
 import Avatar from 'react-avatar-edit'
-import { loadingState, toastState } from 'recoils/atoms'
+import { loadingState, toastState, reloadUserAvatar } from 'recoils/atoms'
 
 import sessionHelper, { setLocalStoreData } from 'utils/sessionHelper'
-import config from 'config'
-import { doPost, doUpload } from 'utils/axios'
+import { doPost } from 'utils/axios'
+import { storageState } from 'recoils/firebase'
+import FileUtils from 'utils/FileUtils'
+
+import { EditCoverImage, OpenEditAvatar, ReloadCoverImage } from './recoil'
+import { v4 as uuidv4 } from 'uuid'
 
 const EditAvatar = () => {
-  let [open, setOpen] = useRecoilState(OpenEditAvatar)
-  let [preview, setPreview] = useState(null)
-  let [base64, setBase64] = useState(null)
-  let [src, setSrc] = useState(null)
-  let setLoading = useSetRecoilState(loadingState)
-  let [isLargeFile, setIsLargeFile] = useState(false)
-  let [toast, setToast] = useRecoilState(toastState)
+  const firebaseStorage = useRecoilValue(storageState)
+  const isEditCover = useRecoilValue(EditCoverImage)
+
+  const [open, setOpen] = useRecoilState(OpenEditAvatar)
+  const [toast, setToast] = useRecoilState(toastState)
+
+  const setLoading = useSetRecoilState(loadingState)
+  const setReloadUserAvatar = useSetRecoilState(reloadUserAvatar)
+  const setReloadCover = useSetRecoilState(ReloadCoverImage)
+
+  const [preview, setPreview] = useState(null)
+  const [base64, setBase64] = useState(null)
+  const [src, setSrc] = useState(null)
+  const [file, setFile] = useState(null)
+  const [isLargeFile, setIsLargeFile] = useState(false)
 
   const handleClickSave = async e => {
     e.preventDefault()
 
     setLoading(true)
     try {
-      let fromData = new FormData()
-      fromData.append('file', src)
+      if (!isEditCover) {
+        const avatarId = uuidv4()
+        const croppedAvatarId = uuidv4()
 
-      let imageRes = await doUpload(`image/uploadAvatarFile`, fromData)
-      if (imageRes && imageRes.data.success) {
-        let avatarId = imageRes.data.data
+        const resUpdate = await doPost(`user/updateAvatar`, { id: sessionHelper().userId, croppedAvatarId: croppedAvatarId, avatarId: avatarId })
+        if (resUpdate && resUpdate.data.success) {
+          setLocalStoreData('croppedAvatarId', croppedAvatarId)
+          setLocalStoreData('avatarId', avatarId)
 
-        let res = await doPost(`image/upload`, { fileName: src.name, image: preview })
-        if (res && res.data.success) {
-          let { croppedAvatarId } = res.data.data
+          // upload images to firebase storage
+          await FileUtils.putFile(preview, firebaseStorage, `avatars/${sessionHelper().userId}`, `${croppedAvatarId}.png`, true)
+          await FileUtils.putFile(src, firebaseStorage, `avatars/${sessionHelper().userId}`, `${avatarId}.png`)
 
-          try {
-            let resUpdate = await doPost(`user/updateAvatar`, { id: sessionHelper().userId, croppedAvatarId: croppedAvatarId, avatarId: avatarId })
-            if (resUpdate && resUpdate.data.success) {
-              setLocalStoreData('croppedAvatarId', croppedAvatarId)
-              setLocalStoreData('avatarId', avatarId)
-              setToast({ ...toast, open: true, message: resUpdate.data.message, type: 'success' })
-              setOpen(false)
-            }
-          } catch (err) {
-            setToast({ ...toast, open: true, message: err.message, type: 'error' })
-          }
+          setToast({ ...toast, open: true, message: resUpdate.data.message, type: 'success' })
+          setReloadUserAvatar(old => old + 1)
+        } else {
+          setToast({ ...toast, open: true, message: resUpdate.data.message, type: 'error' })
+        }
+      } else {
+        const coverId = uuidv4()
+
+        const resUpdate = await doPost(`user/updateCoverImage`, { id: sessionHelper().userId, coverId })
+        if (resUpdate && resUpdate.data.success) {
+          setLocalStoreData('coverId', coverId)
+
+          // upload images to firebase storage
+          await FileUtils.putFile(src, firebaseStorage, `avatars/${sessionHelper().userId}`, `${coverId}.png`)
+
+          setToast({ ...toast, open: true, message: resUpdate.data.message, type: 'success' })
+          setReloadCover(old => old + 1)
+        } else {
+          setToast({ ...toast, open: true, message: resUpdate.data.message, type: 'error' })
         }
       }
     } catch (err) {
@@ -53,6 +74,7 @@ const EditAvatar = () => {
     } finally {
       setLoading(false)
       setIsLargeFile(false)
+      handleClose()
     }
   }
 
@@ -80,6 +102,16 @@ const EditAvatar = () => {
   const handleClose = () => {
     setOpen(false)
     setIsLargeFile(false)
+    setSrc(null)
+
+    if (isEditCover) {
+      setFile(null)
+    }
+  }
+
+  const onFileSelect = e => {
+    setFile(URL.createObjectURL(e.target.files[0]))
+    setSrc(e.target.files[0])
   }
 
   return (
@@ -87,24 +119,48 @@ const EditAvatar = () => {
       <CardOnModal>
         <div className="card-header">
           <div className="card-header--title">
-            <h4 className="font-size-lg mb-0 py-2 font-weight-bold">Cập nhật ảnh đại diện</h4>
+            <h4 className="font-size-lg mb-0 py-2 font-weight-bold">{isEditCover ? 'Cập nhật ảnh bìa' : 'Cập nhật ảnh đại diện'}</h4>
           </div>
         </div>
         <Divider />
         <CardContent>
           <Grid spacing={3} container justifyContent="center" alignItems="center">
             <Grid item xs={12}>
-              <Avatar
-                label="Chọn ảnh trong máy của bạn"
-                width={'100%'}
-                height={300}
-                onCrop={onCrop}
-                onClose={onClose}
-                src={base64}
-                onFileLoad={onFileLoad}
-                onBeforeFileLoad={onBeforeFileLoad}
-                borderStyle={{ border: '2px solid rgb(151, 151, 151)', borderRadius: '8px', textAlign: 'center', width: '100%', height: '300px' }}
-              />
+              {!isEditCover && (
+                <Avatar
+                  label="Chọn ảnh trong máy của bạn"
+                  width={'100%'}
+                  height={300}
+                  onCrop={onCrop}
+                  onClose={onClose}
+                  src={base64}
+                  onFileLoad={onFileLoad}
+                  onBeforeFileLoad={onBeforeFileLoad}
+                  borderStyle={{ border: '2px solid rgb(151, 151, 151)', borderRadius: '8px', textAlign: 'center', width: '100%', height: '300px' }}
+                />
+              )}
+              {isEditCover && (
+                <>
+                  <TextField
+                    style={{ position: 'relative' }}
+                    value={src ? src.name : ''}
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      readOnly: true,
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Button size="large" variant="contained" component="label" fullWidth>
+                            Tìm
+                            <TextField type="file" onChange={onFileSelect} inputProps={{ accept: '.png,.jpg', hidden: true }} />
+                          </Button>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                  {file && <img src={file} alt="preview" width="100%" height="50%" className="mt-4" />}
+                </>
+              )}
             </Grid>
           </Grid>
           <Grid container spacing={3}>
@@ -121,12 +177,12 @@ const EditAvatar = () => {
         <CardActions>
           <Grid container spacing={3} justifyContent="flex-end">
             <Grid item>
-              <Button size="large" color="primary" onClick={handleClickSave} variant="contained" type="submit" disabled={preview == null}>
+              <Button size="large" color="primary" onClick={handleClickSave} variant="contained" type="submit" disabled={isEditCover ? src == null : preview == null}>
                 Lưu
               </Button>
             </Grid>
             <Grid item>
-              <Button size="large" onClick={handleClose} variant='outlined'>
+              <Button size="large" onClick={handleClose} variant="outlined">
                 Quay lại
               </Button>
             </Grid>

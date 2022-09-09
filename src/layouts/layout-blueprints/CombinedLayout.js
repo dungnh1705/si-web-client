@@ -3,6 +3,7 @@ import React, { Fragment, Suspense } from 'react'
 // import { sessionState, themeOptionsState } from 'recoils/atoms'
 import { renderRoutes } from 'react-router-config'
 import { LeftSidebar, CollapsedSidebar, MinimalLayout, PresentationLayout } from 'layouts/layout-blueprints'
+import { LinearProgress } from '@material-ui/core'
 
 // import { authState } from 'recoils/selectors'
 import { history } from 'App'
@@ -21,7 +22,7 @@ const CombinedLayout = props => {
 
   // if (layoutStyle === 1)
   return (
-    <Suspense fallback={<>Đang tải trang....</>}>
+    <Suspense fallback={<LinearProgress />}>
       <LeftSidebar>{renderRoutes(route.routes)}</LeftSidebar>
       <Loading />
       <Toast />

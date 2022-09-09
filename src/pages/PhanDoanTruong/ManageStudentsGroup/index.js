@@ -63,11 +63,14 @@ const ManageStudentsGroup = () => {
           ))}
 
         <Grid container item xs={12} lg={haveStudentNoUnion ? 8 : 12} direction="row" spacing={1}>
-          {lstInGroup?.map(item => (
-            <Grid item xs={12} lg={haveStudentNoUnion ? 12 : 6} key={`group-class-union-${item.unionId}`}>
-              <StudentGroup item={item} />
-            </Grid>
-          ))}
+          {lstInGroup?.map(
+            item =>
+              item.students.length > 0 && (
+                <Grid item xs={12} lg={haveStudentNoUnion ? 12 : 6} key={`group-class-union-${item.unionId}`}>
+                  <StudentGroup item={item} />
+                </Grid>
+              )
+          )}
         </Grid>
       </Grid>
     )

@@ -1,4 +1,4 @@
-import { Card, Grid, Tooltip, IconButton, Divider, Table } from '@material-ui/core'
+import { Card, Grid, Tooltip, IconButton, Divider, Table, makeStyles } from '@material-ui/core'
 import React, { useState } from 'react'
 import { filter } from 'lodash'
 import { useRecoilValue } from 'recoil'
@@ -47,9 +47,30 @@ const columnsTotal = [
   { id: 4, label: 'Xếp loại', align: 'center' }
 ]
 
+const useStyle = makeStyles({
+  pinCell: {
+    position: 'sticky',
+    left: 0,
+    zIndex: 1,
+    
+    '&::after': {
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      bottom: 0,
+      width: '2.5px',
+      zIndex: 2,
+      content: "\"\"",
+      backgroundColor: '#E5E6F5'
+    }
+  }
+})
+
 const StudentUnionTeam = ({ item }) => {
   let [collapse, setCollapse] = useState(true)
   let semester = useRecoilValue(SemesterSelected)
+
+  let styleClass = useStyle()
 
   return (
     <>
@@ -76,10 +97,10 @@ const StudentUnionTeam = ({ item }) => {
           </div>
           <Divider />
           <div className="table-responsive" hidden={collapse}>
-            <Table stickyHeader aria-label="sticky table" className="table table-hover text-nowrap mb-0">
+            <Table stickyHeader aria-label="sticky table" className="table text-nowrap table-hover mb-0">
               <thead>
                 <tr>
-                  <th rowSpan="3" align="left">
+                  <th rowSpan="3" align="left" className={styleClass.pinCell}>
                     Tên Thánh, Họ và Tên
                   </th>
                   <th colSpan={semester !== SemesterEnum.total ? 6 : 4} style={{ textAlign: 'center' }}>

@@ -27,6 +27,7 @@
     "clsx": "^1.1.1",
     "copy-webpack-plugin": "^6.0.3",
     "date-fns": "^2.16.1",
+    "firebase": "8.8.0",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "jsonwebtoken": "^8.5.1",
