@@ -29,6 +29,7 @@ const SelectionGroup = () => {
 
   return (
     <Grid container spacing={2}>
+      <Grid item xs={12} />
       <Grid item xs={12} sm={5} md={2}>
         <InputLabel id="label">Chọn Phân đoàn</InputLabel>
         <Select labelId="label" id="select" variant="outlined" fullWidth onChange={handleMenuChange} value={val}>
@@ -50,6 +51,8 @@ const SelectionGroup = () => {
           </Typography>
         </Grid>
       </Grid>
+      <Grid item xs={12} />
+      <Grid item xs={12} />
     </Grid>
   )
 }
