@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { Suspense } from 'react'
 
 import PhanDoanTruongDashboard from '../PhanDoanTruong'
+import PageSkeleton from 'components/Loading/page-skeleton'
 import SelectionGroup from './components/SelectionGroup'
 
 export default function BanQuanTrigDashboard() {
@@ -11,7 +12,7 @@ export default function BanQuanTrigDashboard() {
         <SelectionGroup />
       </Suspense>
 
-      <Suspense fallback={<>Đang tải thống kê Phân đoàn...</>}>
+      <Suspense fallback={<PageSkeleton />}>
         <PhanDoanTruongDashboard />
       </Suspense>
     </Fragment>
