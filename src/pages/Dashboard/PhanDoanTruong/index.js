@@ -16,7 +16,7 @@ import { groupSummaryQuery } from '../recoil'
 export default function PhanDoanTruongDashboard() {
   const groupSummary = useRecoilValue(groupSummaryQuery)
 
-  return (
+  return groupSummary.summaryInfo.length > 0 ? (
     <Fragment>
       <Grid container spacing={3}>
         <Grid item xs={12} lg={6}>
@@ -41,5 +41,7 @@ export default function PhanDoanTruongDashboard() {
         </Grid>
       </Grid>
     </Fragment>
+  ) : (
+    <></>
   )
 }

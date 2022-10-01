@@ -1,6 +1,5 @@
 import React from 'react'
 import { Suspense } from 'react'
-import _ from 'lodash'
 
 import sessionHelper from 'utils/sessionHelper'
 import { Roles } from 'app/enums'
