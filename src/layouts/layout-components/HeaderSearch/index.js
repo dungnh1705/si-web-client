@@ -193,7 +193,6 @@ const HeaderSearch = () => {
                     label="Tìm kiếm Đoàn sinh"
                     placeholder="Nhập thông tin Đoàn sinh..."
                     variant="outlined"
-                    autoFocus
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">

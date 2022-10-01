@@ -20,6 +20,7 @@ import MenuRoundedIcon from '@material-ui/icons/MenuRounded'
 
 import { themeOptionsState } from 'recoils/atoms'
 import { themeOptionsActions } from 'recoils/selectors'
+import { ChangePasswordDialog } from 'components/Dialog'
 
 const Header = props => {
   const setThemeOptions = useSetRecoilState(themeOptionsActions)
@@ -92,6 +93,8 @@ const Header = props => {
           </Box>
         </Box>
       </AppBar>
+
+      <ChangePasswordDialog />
     </Fragment>
   )
 }
