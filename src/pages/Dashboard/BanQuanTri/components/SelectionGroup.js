@@ -10,7 +10,7 @@ const SelectionGroup = () => {
 
   const classes = useRecoilValue(totalGroupSummaryQuery)
   const [selected, setSeleted] = useRecoilState(selectedClass)
-  const [val, setVal] = useState(classId ?? classes[0].id)
+  const [val, setVal] = useState(classId !== 0 ? classId : classes[0].id)
 
   const handleMenuChange = e => {
     const selectedVal = e.target.value
