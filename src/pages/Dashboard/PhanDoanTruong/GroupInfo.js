@@ -42,7 +42,7 @@ export default function GroupInfo({ info }) {
             <CountUp start={0} end={_.sumBy(info?.summaryInfo, i => i.totalNewStudent)} duration={2} separator="" decimals={0} decimal="" prefix="" suffix="" />
           </div>
           <div className="text-black-50 text-center opacity-6 pt-3">
-            <b>{(_.sumBy(info?.summaryInfo, i => i.totalNewStudent) / _.sumBy(info?.summaryInfo, i => i.totalStudent)) * 100} %</b>
+            <b>{accounting.toFixed((_.sumBy(info?.summaryInfo, i => i.totalNewStudent) / _.sumBy(info?.summaryInfo, i => i.totalStudent)) * 100, 1)} %</b>
           </div>
         </Card>
       </Grid>
@@ -58,7 +58,7 @@ export default function GroupInfo({ info }) {
             <CountUp start={0} end={_.sumBy(info?.summaryInfo, i => i.totalOldStudent)} duration={2} separator="" decimals={0} decimal="" prefix="" suffix="" />
           </div>
           <div className="text-black-50 text-center opacity-6 pt-3">
-            <b>{(_.sumBy(info?.summaryInfo, i => i.totalOldStudent) / _.sumBy(info?.summaryInfo, i => i.totalStudent)) * 100} %</b>
+            <b>{accounting.toFixed((_.sumBy(info?.summaryInfo, i => i.totalOldStudent) / _.sumBy(info?.summaryInfo, i => i.totalStudent)) * 100, 1)} %</b>
           </div>
         </Card>
       </Grid>
