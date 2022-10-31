@@ -158,6 +158,10 @@ const StudentInfo = ({ tabValue }) => {
     }
   }
 
+  const checkShowForm = () => {
+    return student?.status === StudentStatus.Active || sessionHelper().roles.includes(Roles.BanQuanTri)
+  }
+
   return (
     <>
       {tabValue === 0 && student && (
@@ -193,7 +197,7 @@ const StudentInfo = ({ tabValue }) => {
                             </Button>
                           </Box>
                         )} */}
-                        {editable && student?.status === StudentStatus.Active && (
+                        {editable && checkShowForm() && (
                           <Box>
                             <Button size="large" variant="outlined" style={{ color: 'red', borderColor: 'red' }} className="mt-2" onClick={e => handleClickPreview(e, student?.id)}>
                               Xem biểu mẫu
