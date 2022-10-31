@@ -35,6 +35,8 @@ export const ChooseInfoFileDialog = () => {
     e.preventDefault()
     setLoading(true)
 
+    const pageUploadStudentInfo = ['PDT-StudentGroup', 'HT-StudentClass']
+
     try {
       let fromData = new FormData()
       fromData.append('file', file[0])
@@ -43,7 +45,7 @@ export const ChooseInfoFileDialog = () => {
       fromData.append('UserId', sessionHelper().userId)
       fromData.append('ClassId', sessionHelper().classId)
 
-      var res = pageCall === 'PDT-StudentGroup' ? await doPost(`file/uploadStudentInfoFile`, fromData) : await doPost(`file/addStudentFromFile`, fromData)
+      var res = pageUploadStudentInfo.includes(pageCall) ? await doPost(`file/uploadStudentInfoFile`, fromData) : await doPost(`file/addStudentFromFile`, fromData)
       if (res && res.data.success) {
         handleClose()
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })

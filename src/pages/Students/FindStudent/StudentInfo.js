@@ -186,13 +186,13 @@ const StudentInfo = ({ tabValue }) => {
                         {student?.status === StudentStatus.ChangeChurch && <span className="badge badge-danger">Chuyển xứ</span>}
                         {student?.status === StudentStatus.LeaveStudy && <span className="badge badge-warning">Nghỉ luôn</span>}
                         {student?.status === StudentStatus.Deleted && <span className="badge badge-dark">Đã xoá</span>}
-                        {(student?.status === StudentStatus.Active || student?.status === StudentStatus.InActive) && (
+                        {/* {(student?.status === StudentStatus.Active || student?.status === StudentStatus.InActive) && (
                           <Box>
                             <Button size="large" variant="outlined" color="primary">
                               Thay đổi AVATAR
                             </Button>
                           </Box>
-                        )}
+                        )} */}
                         {editable && student?.status === StudentStatus.Active && (
                           <Box>
                             <Button size="large" variant="outlined" style={{ color: 'red', borderColor: 'red' }} className="mt-2" onClick={e => handleClickPreview(e, student?.id)}>

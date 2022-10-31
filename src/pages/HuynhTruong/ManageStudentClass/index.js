@@ -5,10 +5,11 @@ import _ from 'lodash'
 
 import { ViewMode } from 'recoils/atoms'
 import { ViewModes } from 'app/enums'
-import { AbsentDialog, DialerDialog, StudentDialog } from 'components/Dialog'
+import { AbsentDialog, ChooseInfoFileDialog, DialerDialog, StudentDialog } from 'components/Dialog'
 
 import { StudentsQuery } from './recoil'
 import StudentTeam from './StudentTeam'
+import HeaderAction from './HeaderAction'
 
 const ManageStudentsClass = () => {
   const lstStudent = useRecoilValue(StudentsQuery)
@@ -24,7 +25,7 @@ const ManageStudentsClass = () => {
         <Grid container spacing={2} justifyContent="center">
           {lstStudent && (
             <Grid container item spacing={2}>
-              <Grid item xs={12} lg={9}>
+              <Grid item xs={10} sm={9}>
                 <ButtonGroup variant="contained" aria-label="contained primary button group">
                   <Button color={mode === ViewModes.DiemDanh ? 'primary' : 'default'} onClick={() => setMode(ViewModes.DiemDanh)}>
                     Điểm danh
@@ -33,6 +34,10 @@ const ManageStudentsClass = () => {
                     Xếp đội
                   </Button>
                 </ButtonGroup>
+              </Grid>
+
+              <Grid container item xs={2} sm={3} justifyContent="flex-end">
+                <HeaderAction />
               </Grid>
             </Grid>
           )}
@@ -66,11 +71,13 @@ const ManageStudentsClass = () => {
   return (
     <Suspense fallback={<>Đang tải danh sách Đoàn sinh ...</>}>
       {body()}
-      <Suspense fallback={<>Tải dữ liệu...</>}>
+
+      <>
         <DialerDialog />
         <AbsentDialog />
         <StudentDialog />
-      </Suspense>
+        <ChooseInfoFileDialog />
+      </>
     </Suspense>
   )
 }
