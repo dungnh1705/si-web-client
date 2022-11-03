@@ -26,12 +26,16 @@ const ManageAbsent = () => {
     }
   }, [])
 
+  const canShowListUnion = () => {
+    return sessionHelper().roles.includes(Roles.PhanDoanTruong) || sessionHelper().roles.includes(Roles.KyLuat) || sessionHelper().roles.includes(Roles.HocTap)
+  }
+
   const body = () => {
     return (
       <Fragment>
         <Grid container spacing={3} justifyContent="flex-start" alignItems="center">
           <Grid container item xs={9}>
-            {(sessionHelper().roles.includes(Roles.PhanDoanTruong) || sessionHelper().roles.includes(Roles.KyLuat)) && (
+            {canShowListUnion() && (
               <Grid>
                 <Card>
                   <TextField

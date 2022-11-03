@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
-import { Grid, Avatar, InputAdornment, FormControl, Box, FormGroup, FormControlLabel, Radio, CardContent, Button, TextField } from '@material-ui/core'
+import { Grid, Avatar, InputAdornment, FormControl, Box, FormGroup, FormControlLabel, Radio, CardContent, Button, TextField, MenuItem, Hidden } from '@material-ui/core'
 import Yup from 'utils/Yup'
 import { useFormik } from 'formik'
 import moment from 'moment'
@@ -32,7 +32,7 @@ import { doPost } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 
 import HolyName from './HolyName'
-import { ReloadStuSearch, GetStudentDetails } from './recoil'
+import { GetStudentDetails } from './recoil'
 
 const StudentInfo = ({ tabValue }) => {
   const student = useRecoilValue(GetStudentDetails)
@@ -40,7 +40,7 @@ const StudentInfo = ({ tabValue }) => {
 
   const setPhoneDialog = useSetRecoilState(PhoneCallDialogAtom)
   const setPreviewDialog = useSetRecoilState(DocumentPreviewDialogAtom)
-  const reloadSearch = useSetRecoilState(ReloadStuSearch)
+  // const reloadSearch = useSetRecoilState(ReloadStuSearch)
 
   const [toast, setToast] = useRecoilState(toastState)
   const [editable, setEditable] = useState(false)
@@ -133,7 +133,7 @@ const StudentInfo = ({ tabValue }) => {
       var res = await doPost(`student/updateStudent`, val)
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
-        reloadSearch(old => old + 1)
+        // reloadSearch(old => old + 1)
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })
@@ -162,6 +162,33 @@ const StudentInfo = ({ tabValue }) => {
     return student?.status === StudentStatus.Active || sessionHelper().roles.includes(Roles.BanQuanTri)
   }
 
+  const handleStatusChange = async e => {
+    e.preventDefault()
+
+    const newVal = e.target.value
+
+    const data = {
+      userId: sessionHelper().userId,
+      userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`,
+      studentId: student.id,
+      oldValue: student.status,
+      newValue: newVal,
+      note: 'Chuyển bởi BQT',
+      scholasticId: sessionHelper().scholasticId
+    }
+
+    try {
+      const res = await doPost(`student/updateStudentStatus`, data)
+
+      if (res && res.data.success) {
+        setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
+        stuForm.setFieldValue('status', newVal)
+      }
+    } catch (err) {
+      setToast({ ...toast, open: true, message: err.message, type: 'error' })
+    }
+  }
+
   return (
     <>
       {tabValue === 0 && student && (
@@ -171,41 +198,58 @@ const StudentInfo = ({ tabValue }) => {
               <Grid container spacing={2}>
                 <Grid item xs={12} lg={2}>
                   <div className="p-1">
-                    <div className="d-flex flex-column align-items-center">
-                      <Badge
-                        overlap="circular"
-                        anchorOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'right'
-                        }}
-                        variant="dot"
-                        isActive={student?.status === StudentStatus.Active}
-                        child={
-                          <Avatar className="avatar-icon d-100" style={{ fontSize: '3.25rem' }}>
-                            {`${stuForm.values?.stuFirstName?.substring(0, 1) ?? ''}${stuForm.values?.stuLastName?.substring(0, 1) ?? ''}`}
-                          </Avatar>
-                        }
-                      />
-                      <div className="w-100" style={{ textAlign: 'center', marginTop: '10px' }}>
-                        {student?.status === StudentStatus.ChangeChurch && <span className="badge badge-danger">Chuyển xứ</span>}
-                        {student?.status === StudentStatus.LeaveStudy && <span className="badge badge-warning">Nghỉ luôn</span>}
-                        {student?.status === StudentStatus.Deleted && <span className="badge badge-dark">Đã xoá</span>}
-                        {/* {(student?.status === StudentStatus.Active || student?.status === StudentStatus.InActive) && (
+                    <Grid container item xs={12} direction="column" alignItems="center" alignContent="center" justifyContent="center" spacing={3}>
+                      <Grid item xs={12}>
+                        <Badge
+                          overlap="circular"
+                          anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right'
+                          }}
+                          variant="dot"
+                          isActive={stuForm.values['status'] === StudentStatus.Active}
+                          child={
+                            <Avatar className="avatar-icon d-100" style={{ fontSize: '3.25rem' }}>
+                              {`${stuForm.values?.stuFirstName?.substring(0, 1) ?? ''}${stuForm.values?.stuLastName?.substring(0, 1) ?? ''}`}
+                            </Avatar>
+                          }
+                        />
+                      </Grid>
+                      {sessionHelper().roles.includes(Roles.BanQuanTri) && (
+                        <Grid item xs={12}>
+                          <TextField id="select" label="Trạng thái" value={stuForm.values['status']} select variant="outlined" onChange={handleStatusChange}>
+                            <MenuItem value={StudentStatus.Active}>Đang học</MenuItem>
+                            <MenuItem value={StudentStatus.LeaveStudy}>Nghỉ luôn</MenuItem>
+                            <MenuItem value={StudentStatus.ChangeChurch}>Chuyển xứ</MenuItem>
+                          </TextField>
+                        </Grid>
+                      )}
+                      <Grid item xs={12}>
+                        <div className="w-100" style={{ textAlign: 'center' }}>
+                          {!sessionHelper().roles.includes(Roles.BanQuanTri) && (
+                            <div>
+                              {student?.status === StudentStatus.ChangeChurch && <span className="badge badge-danger">Chuyển xứ</span>}
+                              {student?.status === StudentStatus.LeaveStudy && <span className="badge badge-warning">Nghỉ luôn</span>}
+                              {student?.status === StudentStatus.Deleted && <span className="badge badge-dark">Đã xoá</span>}
+                            </div>
+                          )}
+                          {/* {(student?.status === StudentStatus.Active || student?.status === StudentStatus.InActive) && (
                           <Box>
                             <Button size="large" variant="outlined" color="primary">
                               Thay đổi AVATAR
                             </Button>
                           </Box>
                         )} */}
-                        {editable && checkShowForm() && (
-                          <Box>
-                            <Button size="large" variant="outlined" style={{ color: 'red', borderColor: 'red' }} className="mt-2" onClick={e => handleClickPreview(e, student?.id)}>
-                              Xem biểu mẫu
-                            </Button>
-                          </Box>
-                        )}
-                      </div>
-                    </div>
+                          {editable && checkShowForm() && (
+                            <Box>
+                              <Button size="large" variant="outlined" style={{ color: 'red', borderColor: 'red' }} onClick={e => handleClickPreview(e, student?.id)}>
+                                Xem biểu mẫu
+                              </Button>
+                            </Box>
+                          )}
+                        </div>
+                      </Grid>
+                    </Grid>
                   </div>
                 </Grid>
                 <Grid container spacing={2} item xs={12} lg={10}>
