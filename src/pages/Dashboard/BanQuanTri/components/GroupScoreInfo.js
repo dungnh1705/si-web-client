@@ -35,13 +35,13 @@ export default function GroupScoreInfo({ info }) {
         <Grid container spacing={4}>
           <Grid item>
             <ButtonGroup>
-              <Button variant="contained" onClick={() => setView(1)} color={view == 1 ? 'primary' : 'default'}>
+              <Button variant="contained" onClick={() => setView(1)} color={view === 1 ? 'primary' : 'default'}>
                 HKI
               </Button>
-              <Button variant="contained" onClick={() => setView(2)} color={view == 2 ? 'primary' : 'default'}>
+              <Button variant="contained" onClick={() => setView(2)} color={view === 2 ? 'primary' : 'default'}>
                 HKII
               </Button>
-              <Button variant="contained" onClick={() => setView(3)} color={view == 3 ? 'primary' : 'default'}>
+              <Button variant="contained" onClick={() => setView(3)} color={view === 3 ? 'primary' : 'default'}>
                 Cả Năm
               </Button>
             </ButtonGroup>
@@ -51,10 +51,10 @@ export default function GroupScoreInfo({ info }) {
               {Ranking.map((e, index) => {
                 const total = _.sumBy(info?.summaryInfo, i =>
                   view === 1
-                    ? _.size(i.semesterOne.filter(so => so.ranking == e))
+                    ? _.size(i.semesterOne.filter(so => so.ranking === e))
                     : view === 2
-                    ? _.size(i.semesterTwo.filter(so => so.ranking == e))
-                    : _.size(i.scoreTotal.filter(so => so.ranking == e))
+                    ? _.size(i.semesterTwo.filter(so => so.ranking === e))
+                    : _.size(i.scoreTotal.filter(so => so.ranking === e))
                 )
 
                 const percent = Number(accounting.toFixed((total / totalGroupStudent) * 100, 1))
