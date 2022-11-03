@@ -30,6 +30,7 @@ const HolyName = ({ formData, holyname, field, handleSaveHolyName, isEditable, i
   const handleOk = () => {
     setOldValue(localValue)
     handleSaveHolyName(field, localValue, isMoreInfo)
+    setShowAction(false)
   }
 
   return (
@@ -37,77 +38,78 @@ const HolyName = ({ formData, holyname, field, handleSaveHolyName, isEditable, i
       {isEditable && (
         <>
           <ClickAwayListener onClickAway={handleCancel}>
-            <Grid item xs={12} sm={6} lg={4}>
-              <Autocomplete
-                disableClearable
-                // value={lstHolyName[lstHolyName.findIndex((item) => item.id === (isMoreInfo ? formData.values[`studentMoreInfo.${field}`] : formData.values[field]))] || lstHolyName[0]}
-                value={holyname}
-                onChange={(event, newValue) => {
-                  if (newValue) {
-                    setLocalValue(newValue?.id)
-                    isMoreInfo ? formData.setFieldValue(field, newValue?.id) : formData.setFieldValue(`studentMoreInfo.${field}`, newValue?.id)
-                    setShowAction(true)
-                  }
-                }}
-                onOpen={() => {
-                  setOldValue(holyname?.id)
-                }}
-                id={`stuholyname-${field}`}
-                options={lstHolyName}
-                renderOption={(option, { inputValue }) => {
-                  const matches = match(option.name, inputValue)
-                  const parts = parse(option.name, matches)
-                  return (
-                    <div>
-                      {parts.map((part, index) => (
-                        <span key={`stuf-holy-${index}`} style={{ fontWeight: part.highlight ? 700 : 400 }}>
-                          {part.text}
-                        </span>
-                      ))}
-                    </div>
-                  )
-                }}
-                getOptionLabel={option => option?.name}
-                renderInput={params => {
-                  params = {
-                    ...params,
-                    InputProps: {
-                      ...params.InputProps,
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <FontAwesomeIcon icon={faBible} />
-                        </InputAdornment>
-                      )
+            <Grid container item xs={12} sm={6} lg={4}>
+              <Grid item xs={12}>
+                <Autocomplete
+                  disableClearable
+                  // value={lstHolyName[lstHolyName.findIndex((item) => item.id === (isMoreInfo ? formData.values[`studentMoreInfo.${field}`] : formData.values[field]))] || lstHolyName[0]}
+                  value={holyname}
+                  onChange={(event, newValue) => {
+                    if (newValue) {
+                      setLocalValue(newValue?.id)
+                      isMoreInfo ? formData.setFieldValue(field, newValue?.id) : formData.setFieldValue(`studentMoreInfo.${field}`, newValue?.id)
+                      setShowAction(true)
                     }
-                  }
-                  return (
-                    <TextField
-                      label="Tên Thánh"
-                      InputLabelProps={{
-                        shrink: true
-                      }}
-                      variant="outlined"
-                      fullWidth
-                      {...params}
-                    />
-                  )
-                }}
-              />
+                  }}
+                  onOpen={() => {
+                    setOldValue(holyname?.id)
+                  }}
+                  id={`stuholyname-${field}`}
+                  options={lstHolyName}
+                  renderOption={(option, { inputValue }) => {
+                    const matches = match(option.name, inputValue)
+                    const parts = parse(option.name, matches)
+                    return (
+                      <div>
+                        {parts.map((part, index) => (
+                          <span key={`stuf-holy-${index}`} style={{ fontWeight: part.highlight ? 700 : 400 }}>
+                            {part.text}
+                          </span>
+                        ))}
+                      </div>
+                    )
+                  }}
+                  getOptionLabel={option => option?.name}
+                  renderInput={params => {
+                    params = {
+                      ...params,
+                      InputProps: {
+                        ...params.InputProps,
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <FontAwesomeIcon icon={faBible} />
+                          </InputAdornment>
+                        )
+                      }
+                    }
+                    return (
+                      <TextField
+                        label="Tên Thánh"
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        variant="outlined"
+                        fullWidth
+                        {...params}
+                      />
+                    )
+                  }}
+                />
+              </Grid>
+              {showAction && (
+                <Grid container item xs={12} alignContent="flex-end" justifyContent="flex-end" alignItems="flex-end" style={{ textAlign: 'right' }}>
+                  <Grid item xs={12}>
+                    <IconButton size="medium" edge="end" color="primary" onClick={handleOk}>
+                      <DoneIcon />
+                    </IconButton>
+                    <IconButton size="medium" edge="end" onClick={handleCancel}>
+                      <ClearIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              )}
             </Grid>
           </ClickAwayListener>
-
-          {showAction && (
-            <Grid container item xs={12} sm={6} lg={4} alignContent="flex-end">
-              <Grid item xs={12}>
-                <IconButton size="medium" edge="end" color="primary" onClick={handleOk}>
-                  <DoneIcon />
-                </IconButton>
-                <IconButton size="medium" edge="end" onClick={handleCancel}>
-                  <ClearIcon />
-                </IconButton>
-              </Grid>
-            </Grid>
-          )}
         </>
       )}
       {!isEditable && (
