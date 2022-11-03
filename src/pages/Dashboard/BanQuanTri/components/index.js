@@ -3,34 +3,21 @@ import { Grid } from '@material-ui/core'
 import { useRecoilValue } from 'recoil'
 
 import sessionHelper from 'utils/sessionHelper'
-
 import { selectedClass } from 'pages/Dashboard/recoil'
-import GroupInfo from './GroupInfo'
-import GroupScoreInfo from './GroupScoreInfo'
 
 // global state
-import { groupSummaryQuery } from '../../recoil'
 import PhanDoanTruongDashboard from 'pages/Dashboard/PhanDoanTruong'
+import BanQuanTriSummary from 'pages/Dashboard/BanQuanTri/components/BQTSummary'
 
-export default function BanQuanTriDashboard() {
-  const groupSummary = useRecoilValue(groupSummaryQuery)
+export default function BanQuanTriMainDashboard() {
   const selected = useRecoilValue(selectedClass)
   const { classId } = sessionHelper()
 
   return (
     <Fragment>
       <Grid container spacing={3}>
-        {selected.id === classId && <PhanDoanTruongDashboard />}
-        {selected.id !== classId && (
-          <>
-            <Grid item xs={12} lg={8}>
-              <GroupInfo info={groupSummary} />
-            </Grid>
-            <Grid item xs={12} lg={4}>
-              <GroupScoreInfo info={groupSummary} />
-            </Grid>
-          </>
-        )}
+        {selected?.id === classId && <PhanDoanTruongDashboard />}
+        {selected?.id !== classId && <BanQuanTriSummary />}
       </Grid>
     </Fragment>
   )

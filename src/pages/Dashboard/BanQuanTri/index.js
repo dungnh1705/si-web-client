@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 
 import PageSkeleton from 'components/Loading/page-skeleton'
 import SelectionGroup from './components/SelectionGroup'
-import BanQuanTriDashboard from './components'
+import BanQuanTriMainDashboard from './components'
 
 export default function BanQuanTrigDashboard() {
   return (
@@ -13,7 +13,7 @@ export default function BanQuanTrigDashboard() {
       </Suspense>
 
       <Suspense fallback={<PageSkeleton />}>
-        <BanQuanTriDashboard />
+        <BanQuanTriMainDashboard />
       </Suspense>
     </Fragment>
   )
