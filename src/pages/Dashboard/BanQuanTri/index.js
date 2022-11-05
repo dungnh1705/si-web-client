@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
 import { Suspense } from 'react'
 
-import PhanDoanTruongDashboard from '../PhanDoanTruong'
 import PageSkeleton from 'components/Loading/page-skeleton'
 import SelectionGroup from './components/SelectionGroup'
+import BanQuanTriMainDashboard from './components'
 
 export default function BanQuanTrigDashboard() {
   return (
@@ -13,7 +13,7 @@ export default function BanQuanTrigDashboard() {
       </Suspense>
 
       <Suspense fallback={<PageSkeleton />}>
-        <PhanDoanTruongDashboard />
+        <BanQuanTriMainDashboard />
       </Suspense>
     </Fragment>
   )

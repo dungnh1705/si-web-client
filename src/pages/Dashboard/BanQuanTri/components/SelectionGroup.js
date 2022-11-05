@@ -14,8 +14,6 @@ const SelectionGroup = () => {
 
   const handleMenuChange = e => {
     const selectedVal = e.target.value
-
-    setSeleted(classes.find(cl => cl.id === Number(selectedVal)))
     setVal(selectedVal)
   }
 
@@ -26,6 +24,10 @@ const SelectionGroup = () => {
       setSeleted(classes[0])
     }
   }, [])
+
+  useEffect(() => {
+    setSeleted(classes.find(cl => cl.id === Number(val)))
+  }, [val])
 
   return (
     <Grid container spacing={2}>

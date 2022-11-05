@@ -26,7 +26,7 @@ const functions = [
     icon: BarChartOutlinedIcon,
     content: [
       {
-        label: 'Thêm Đoàn sinh',
+        label: 'Thêm Đoàn sinh mới',
         icon: PersonAddTwoToneIcon,
         description: 'Thêm mới Đoàn sinh',
         to: '/BQT/RegisterOffline'
@@ -44,7 +44,7 @@ const functions = [
         to: '/BQT/AssignUserClass'
       },
       {
-        label: 'Phân quyền',
+        label: 'Phân chức vụ HT',
         icon: LayersTwoToneIcon,
         description: 'Phân chức vụ cho Huynh trưởng',
         to: '/BQT/AssignUserRoles'
@@ -143,7 +143,7 @@ const functions = [
         to: '/HT/StudentScore'
       },
       {
-        label: 'Danh sách nghỉ',
+        label: 'Điểm danh Chi đoàn',
         icon: CheckTwoToneIcon,
         description: 'Điểm danh Đoàn sinh vắng',
         to: '/HT/ClassAbsent'
@@ -167,8 +167,8 @@ export default [
       : functions.filter(func => {
           return (
             (sessionHelper().roles?.includes(func.role)
-              ? func.role === Roles.HuynhTruong
-                ? sessionHelper().classId
+              ? func.role === Roles.HuynhTruong || func.role === Roles.DuTruong
+                ? sessionHelper().classId && sessionHelper().unionId !== 1
                   ? true
                   : false
                 : true
