@@ -29,11 +29,11 @@ const EditorForm = () => {
   const [editorState, setEditorState] = useState('')
   const [loading, setLoading] = useState(false)
 
-  let [toast, setToast] = useRecoilState(toastState)
-  let [editorForm, setEditorForm] = useRecoilState(OpenEditorForm)
-  let { OpenEditor, Template } = editorForm
+  const [toast, setToast] = useRecoilState(toastState)
+  const [editorForm, setEditorForm] = useRecoilState(OpenEditorForm)
+  const { OpenEditor, Template } = editorForm
 
-  let setReloadTemplates = useSetRecoilState(reloadTemplates)
+  const setReloadTemplates = useSetRecoilState(reloadTemplates)
 
   useEffect(() => {
     if (Template) {
@@ -115,8 +115,8 @@ const EditorForm = () => {
       if (res && res.data.success) {
         setLoading(false)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
+        setReloadTemplates(old => old + 1)
         handleClose()
-        setReloadTemplates(re => re + 1)
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })

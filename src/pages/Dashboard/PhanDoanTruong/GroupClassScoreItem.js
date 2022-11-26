@@ -51,19 +51,19 @@ export default function GroupClassScoreItem({ union }) {
     {
       name: 'Học kỳ I',
       data: Ranking.map(e => {
-        return _.size(union?.semesterOne.filter(so => so.ranking == e))
+        return _.size(union?.semesterOne.filter(so => so.ranking === e))
       })
     },
     {
       name: 'Học kỳ II',
       data: Ranking.map(e => {
-        return _.size(union?.semesterTwo.filter(so => so.ranking == e))
+        return _.size(union?.semesterTwo.filter(so => so.ranking === e))
       })
     },
     {
       name: 'Cả năm',
       data: Ranking.map(e => {
-        return _.size(union?.scoreTotal.filter(so => so.ranking == e))
+        return _.size(union?.scoreTotal.filter(so => so.ranking === e))
       })
     }
   ]
@@ -73,13 +73,13 @@ export default function GroupClassScoreItem({ union }) {
       <Grid item xs={12} lg={3}>
         <Grid item>
           <ButtonGroup>
-            <Button variant="contained" onClick={() => setView(1)} color={view == 1 ? 'primary' : 'default'}>
+            <Button variant="contained" onClick={() => setView(1)} color={view === 1 ? 'primary' : 'default'}>
               HKI
             </Button>
-            <Button variant="contained" onClick={() => setView(2)} color={view == 2 ? 'primary' : 'default'}>
+            <Button variant="contained" onClick={() => setView(2)} color={view === 2 ? 'primary' : 'default'}>
               HKII
             </Button>
-            <Button variant="contained" onClick={() => setView(3)} color={view == 3 ? 'primary' : 'default'}>
+            <Button variant="contained" onClick={() => setView(3)} color={view === 3 ? 'primary' : 'default'}>
               Cả Năm
             </Button>
           </ButtonGroup>
@@ -88,10 +88,10 @@ export default function GroupClassScoreItem({ union }) {
           {Ranking.map((item, index) => {
             const total =
               view === 1
-                ? _.size(union?.semesterOne.filter(so => so.ranking == item))
+                ? _.size(union?.semesterOne.filter(so => so.ranking === item))
                 : view === 2
-                ? _.size(union?.semesterTwo.filter(so => so.ranking == item))
-                : _.size(union?.scoreTotal.filter(so => so.ranking == item))
+                ? _.size(union?.semesterTwo.filter(so => so.ranking === item))
+                : _.size(union?.scoreTotal.filter(so => so.ranking === item))
 
             const percent = Number(accounting.toFixed((total / union.totalStudent) * 100, 1))
 

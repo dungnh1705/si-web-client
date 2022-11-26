@@ -217,10 +217,25 @@ const StudentInfo = ({ tabValue }) => {
                       </Grid>
                       {sessionHelper().roles.includes(Roles.BanQuanTri) && (
                         <Grid item xs={12}>
-                          <TextField id="select" label="Trạng thái" value={stuForm.values['status']} select variant="outlined" onChange={handleStatusChange}>
+                          <TextField
+                            id="select"
+                            label="Trạng thái"
+                            value={stuForm.values['status']}
+                            select
+                            variant="outlined"
+                            onChange={handleStatusChange}
+                            InputProps={{
+                              readOnly: stuForm.values['status'] === StudentStatus.Deleted || stuForm.values['status'] === StudentStatus.InActive
+                            }}>
                             <MenuItem value={StudentStatus.Active}>Đang học</MenuItem>
                             <MenuItem value={StudentStatus.LeaveStudy}>Nghỉ luôn</MenuItem>
                             <MenuItem value={StudentStatus.ChangeChurch}>Chuyển xứ</MenuItem>
+                            <MenuItem value={StudentStatus.Deleted} disabled>
+                              Đã xóa
+                            </MenuItem>
+                            <MenuItem value={StudentStatus.InActive} disabled>
+                              Chưa học
+                            </MenuItem>
                           </TextField>
                         </Grid>
                       )}

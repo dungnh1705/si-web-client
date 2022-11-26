@@ -84,11 +84,11 @@ export const TemplatesQuery = selector({
   get: async ({ get }) => {
     get(reloadTemplates)
 
-    let userRoles = sessionHelper().roles
-    let res = await doGet(`template/get`)
+    const userRoles = sessionHelper().roles
+    const res = await doGet(`template/get`)
 
     if (res && res.data.success) {
-      let result = []
+      const result = []
 
       if (userRoles.includes(Roles.BanQuanTri)) return res.data.data
 
