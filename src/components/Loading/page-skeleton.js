@@ -30,7 +30,9 @@ const PageSkeleton = () => {
               </thead>
               <tbody>
                 <tr>
-                  <Skeleton />
+                  <td>
+                    <Skeleton />
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -62,7 +64,9 @@ const PageSkeleton = () => {
               </thead>
               <tbody>
                 <tr>
-                  <Skeleton />
+                  <td>
+                    <Skeleton />
+                  </td>
                 </tr>
               </tbody>
             </table>

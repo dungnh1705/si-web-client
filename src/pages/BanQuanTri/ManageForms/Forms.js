@@ -1,27 +1,12 @@
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 import { Divider, Grid } from '@material-ui/core'
-import Slider from 'react-slick'
 
 import { TemplateType } from 'app/enums'
 import { TemplatesQuery } from 'recoils/selectors'
 import FormItem from './FormItem'
 
 const Forms = () => {
-  const settings = {
-    dots: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    responsive: [
-      {
-        breakpoint: 1100,
-        settings: { slidesToShow: 1, slidesToScroll: 1 }
-      }
-    ]
-  }
-
   const myTemplates = useRecoilValue(TemplatesQuery)
 
   return (

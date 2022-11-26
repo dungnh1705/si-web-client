@@ -30,7 +30,9 @@ const CardSkeleton = () => {
               </thead>
               <tbody>
                 <tr>
-                  <Skeleton />
+                  <td>
+                    <Skeleton />
+                  </td>
                 </tr>
               </tbody>
             </table>
