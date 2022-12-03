@@ -1,11 +1,10 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Grid } from '@material-ui/core'
+import ModalSkeleton from 'components/Loading/modal-skeleton'
 
 import Forms from './Forms'
 import EditorForm from './EditorForm'
 import HeaderAction from './HeaderAction'
-import { Suspense } from 'react'
-import ModalSkeleton from 'components/Loading/modal-skeleton'
 
 const ManageForm = () => {
   return (

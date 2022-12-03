@@ -185,6 +185,13 @@ const EditorForm = () => {
     editor.selection.select(spanNode)
   }
 
+  const upperCaseWords = editor => {
+    editor.formatter.apply('uppercase')
+
+    const spanNode = editor.selection.getStart()
+    editor.selection.select(spanNode)
+  }
+
   return (
     <Modal open={OpenEditor} onClose={handleClose} className="uw-modal">
       <CardOnModal>
@@ -233,10 +240,10 @@ const EditorForm = () => {
                 init={{
                   selector: 'textarea#full-featured-non-premium',
                   plugins:
-                    'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
+                    'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount textpattern noneditable help charmap quickbars emoticons',
                   menubar: 'file edit view insert format tools table help',
                   toolbar:
-                    'increaseLetterSpacing decreaseLetterSpacing | placeholders | undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+                    'increaseLetterSpacing decreaseLetterSpacing | placeholders | upperCaseWords | undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
                   toolbar_sticky: true,
 
                   image_advtab: true,
@@ -273,12 +280,25 @@ const EditorForm = () => {
                         decreaseLetterSpacing(editor)
                       }
                     })
+                    editor.ui.registry.addButton('upperCaseWords', {
+                      type: 'button',
+                      text: 'UPPERCASE',
+                      onAction: function () {
+                        upperCaseWords(editor)
+                      }
+                    })
                   },
                   formats: {
                     letterSpacing: {
                       inline: 'span',
                       styles: {
                         'letter-spacing': '%value'
+                      }
+                    },
+                    uppercase: {
+                      inline: 'span',
+                      styles: {
+                        'text-transform': 'uppercase'
                       }
                     }
                   }

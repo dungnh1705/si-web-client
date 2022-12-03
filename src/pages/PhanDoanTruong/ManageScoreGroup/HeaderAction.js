@@ -1,25 +1,33 @@
 import React, { useState } from 'react'
-import { useRecoilValue, useRecoilState } from 'recoil'
+import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
 import { Fab, Menu, Tooltip, List, ListItem, Collapse, ListItemText } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileExcel, faFileUpload, faDownload } from '@fortawesome/free-solid-svg-icons'
-
-import sessionHelper from 'utils/sessionHelper'
-import { SemesterSelected } from './recoil'
-import { ChooseFileDialogAtom } from 'components/Dialog/recoil'
+import { faFileExcel, faFileUpload, faDownload, faFilePdf } from '@fortawesome/free-solid-svg-icons'
 
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
+
 import { SemesterEnum } from 'app/enums'
+import sessionHelper from 'utils/sessionHelper'
+import { doPost } from 'utils/axios'
+import { ChooseFileDialogAtom } from 'components/Dialog/recoil'
+import { loadingState } from 'recoils/atoms'
+
+import { SemesterSelected, StudentsGroupScore } from './recoil'
 
 const apiEndpoint = process.env.REACT_APP_WEB_API
 
 export default function HeaderAction() {
-  const semester = useRecoilValue(SemesterSelected)
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [dialog, setDialog] = useRecoilState(ChooseFileDialogAtom)
   const [expand, setExpand] = useState(false)
-  // const setReportDialog = useSetRecoilState(DocumentPreviewDialogAtom)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [expandDownloadDoc, setExpandDownloadDoc] = useState(false)
+
+  const semester = useRecoilValue(SemesterSelected)
+  const students = useRecoilValue(StudentsGroupScore)
+
+  const [dialog, setDialog] = useRecoilState(ChooseFileDialogAtom)
+
+  const setLoading = useSetRecoilState(loadingState)
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -32,6 +40,7 @@ export default function HeaderAction() {
   const handleClose = () => {
     setAnchorEl(null)
     setExpand(false)
+    setExpandDownloadDoc(false)
   }
 
   const handleDownloadExcel = (e, semesterCode) => {
@@ -51,10 +60,44 @@ export default function HeaderAction() {
     handleClose()
   }
 
-  // const handleViewReport = () => {
-  //   setReportDialog({ ...dialog, openPreviewDialog: true, templateType: TemplateType.Report })
-  //   handleClose()
-  // }
+  const handleDownloadResult = async (event, semesterCode) => {
+    event.preventDefault()
+    let templateId = ''
+
+    if (semesterCode === SemesterEnum.semesterOne) {
+      templateId = process.env.REACT_APP_FROM_RESULT_SEMESTER_ONE_ID
+    }
+
+    if (semesterCode === SemesterEnum.total) {
+      templateId = process.env.REACT_APP_FROM_RESULT_TOTAL_ID
+    }
+
+    const studentIds = []
+    students.map(student => student.students.map(item => studentIds.push(item.id)))
+
+    handleClose()
+    setLoading(true)
+    try {
+      const data = {
+        StudentId: studentIds,
+        ClassId: sessionHelper().classId,
+        ScholasticId: sessionHelper().scholasticId,
+        UserId: sessionHelper().userId,
+        TemplateId: templateId,
+        IsPreview: false
+      }
+
+      const res = await doPost(`download/previewForm`, data)
+      if (res && res.data.success) {
+        const { data } = res.data
+
+        window.open(`${apiEndpoint}/file/get?fileName=${data}`, '_parent')
+      }
+    } catch (err) {
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <>
@@ -79,6 +122,27 @@ export default function HeaderAction() {
         onClose={handleClose}>
         <div className="dropdown-menu-right dropdown-menu-lg overflow-hidden p-0">
           <List className="text-left bg-transparent d-flex align-items-center flex-column pt-0">
+            <ListItem key="action-download-Phieu-Diem" button onClick={() => setExpandDownloadDoc(!expandDownloadDoc)}>
+              <div className="grid-menu grid-menu-1col w-100">
+                <div>
+                  <div className="d-flex justify-content-left">
+                    <FontAwesomeIcon icon={faFilePdf} size="lg" className="mr-3" />
+                    <div className="d-flex align-items-center">Tải phiếu điểm</div>
+                    <div style={{ marginLeft: 'auto' }}>{expandDownloadDoc ? <ExpandLess /> : <ExpandMore />}</div>
+                  </div>
+                </div>
+              </div>
+            </ListItem>
+            <Collapse in={expandDownloadDoc} timeout="auto" unmountOnExit style={{ width: '100%' }}>
+              <List disablePadding>
+                <ListItem button onClick={e => handleDownloadResult(e, SemesterEnum.semesterOne)} style={{ textAlign: 'center' }}>
+                  <ListItemText primary="Học kỳ I" />
+                </ListItem>
+                <ListItem button onClick={e => handleDownloadResult(e, SemesterEnum.total)} style={{ textAlign: 'center' }}>
+                  <ListItemText primary="Cả năm" />
+                </ListItem>
+              </List>
+            </Collapse>
             <ListItem key="action-download-PDF" button onClick={handleExpand}>
               <div className="grid-menu grid-menu-1col w-100">
                 <div>
@@ -113,16 +177,6 @@ export default function HeaderAction() {
                 </div>
               </div>
             </ListItem>
-            {/* <ListItem key="action-upload-excel" button onClick={handleViewReport}>
-              <div className="grid-menu grid-menu-1col w-100">
-                <div>
-                  <div className="d-flex justify-content-left">
-                    <FontAwesomeIcon icon={faFileAlt} size="lg" className="mr-3" />
-                    <div className="d-flex align-items-center">Xem báo cáo</div>
-                  </div>
-                </div>
-              </div>
-            </ListItem> */}
           </List>
         </div>
       </Menu>

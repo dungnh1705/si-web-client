@@ -1,20 +1,24 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tooltip, FormControlLabel } from '@material-ui/core'
 import { useSetRecoilState, useRecoilState } from 'recoil'
 import IOSSwitch from 'components/UI/iOS-switch'
 
 import { OpenEditorForm } from './recoil'
 
-import config from 'config'
 import { doPost } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { toastState } from 'recoils/atoms'
 
 const FormItem = ({ item }) => {
-  let setEditorForm = useSetRecoilState(OpenEditorForm)
-  const [toast, setToast] = useRecoilState(toastState)
   const [template, setTemplate] = useState(item)
+
+  const setEditorForm = useSetRecoilState(OpenEditorForm)
+  const [toast, setToast] = useRecoilState(toastState)
+
+  useEffect(() => {
+    if (item) setTemplate(item)
+  }, [item])
 
   const handleTemplateClick = e => {
     e.preventDefault()

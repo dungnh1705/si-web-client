@@ -24,7 +24,7 @@ export const StudentsGroupScore = selector({
   key: 'studentsGroupScore',
   get: async ({ get }) => {
     get(ReloadGroupScore)
-    // const searchKey = get(SearchGroupScore)
+
     const userId = sessionHelper().userId
     const scholasticId = Number(sessionHelper().scholasticId)
     const classId = sessionHelper().classId
@@ -34,7 +34,6 @@ export const StudentsGroupScore = selector({
     var res = await doGet(`student/getStudentInGroup`, { scholasticId, userId, classId, getAttendance: true })
 
     if (res && res.data.success) {
-      // const distinctUnion = [...new Set(res.result.map(x => x.studentClass.find(sc => sc.classId === x.classId).unionId))]
       const lstStudent = []
 
       // Tạo mảng danh sách chi đoàn
@@ -43,11 +42,6 @@ export const StudentsGroupScore = selector({
       }
       if (res.data.data) {
         let { data } = res.data
-
-        // if (searchKey) {
-        //   let keys = slugify(searchKey, { lower: true })
-        //   data = data.filter(stu => slugify(`${stu.stuFirstName}-${stu.stuLastName}`, { lower: true }).includes(keys))
-        // }
 
         // Đưa từng Đoàn sinh vô chi đoàn
         for (const stu of data) {
