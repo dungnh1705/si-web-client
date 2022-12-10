@@ -69,6 +69,27 @@ const doAxiosDownload = (method, action, data) => {
   })
 }
 
+const doPostDownloadAxios = (method, action, data) => {
+  const headers = sessionHelper().token
+    ? {
+        'Access-Control-Allow-Origin': '*',
+        Authorization: sessionHelper().token
+      }
+    : {
+        'Access-Control-Allow-Origin': '*'
+      }
+
+  return axios({
+    method: method,
+    url: `${apiEndpoint}\\${action}`,
+    data: data,
+    withCredentials: true,
+    timeout: 30000,
+    responseType: 'stream',
+    headers: headers
+  })
+}
+
 export const doPost = (action, data) => {
   return doAxios('post', action, data)
 }
@@ -91,4 +112,8 @@ export const doUpload = (action, data) => {
       'Content-Type': 'multipart/form-data'
     }
   })
+}
+
+export const doPostDownload = (action, data) => {
+  return doPostDownloadAxios('post', action, data)
 }

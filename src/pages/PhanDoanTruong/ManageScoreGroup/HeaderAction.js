@@ -9,7 +9,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 
 import { SemesterEnum } from 'app/enums'
 import sessionHelper from 'utils/sessionHelper'
-import { doPost } from 'utils/axios'
+
 import { ChooseFileDialogAtom } from 'components/Dialog/recoil'
 import { loadingState } from 'recoils/atoms'
 
@@ -77,24 +77,17 @@ export default function HeaderAction() {
 
     handleClose()
     setLoading(true)
+
+    const { scholasticId, userId, classId, unionId } = sessionHelper()
+
     try {
-      const data = {
-        StudentId: studentIds,
-        ClassId: sessionHelper().classId,
-        ScholasticId: sessionHelper().scholasticId,
-        UserId: sessionHelper().userId,
-        TemplateId: templateId,
-        IsPreview: false
-      }
+      window.open(
+        `${apiEndpoint}/download/downloadResultForm?IsGetGroupResult=true&TemplateId=${templateId}&ScholasticId=${scholasticId}&UserId=${userId}&UnionId=${unionId}&ClassId=${classId}`,
+        '_parent'
+      )
 
-      const res = await doPost(`download/previewForm`, data)
-      if (res && res.data.success) {
-        const { data } = res.data
-
-        window.open(`${apiEndpoint}/file/get?fileName=${data}`, '_parent')
-      }
+      setLoading(false)
     } catch (err) {
-    } finally {
       setLoading(false)
     }
   }
