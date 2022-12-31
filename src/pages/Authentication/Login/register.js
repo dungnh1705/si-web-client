@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
 
 import { doPost } from 'utils/axios'
-import config from 'config'
+
 import { OpenRegisterFormState } from './recoil'
 import { loadingState, toastState } from 'recoils/atoms'
 import { useState } from 'react'

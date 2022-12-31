@@ -11,7 +11,6 @@ import svgImage9 from 'assets/images/illustrations/login.svg'
 import { useFormik } from 'formik'
 import Yup from 'utils/Yup'
 
-import config from 'config'
 import { history } from 'App'
 import { saveLoginData } from 'utils/sessionHelper'
 import { doGet, doPost } from 'utils/axios'

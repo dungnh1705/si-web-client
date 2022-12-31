@@ -51,19 +51,19 @@ export default function GroupClassScoreItem({ union }) {
     {
       name: 'Học kỳ I',
       data: Ranking.map(e => {
-        return _.size(union?.semesterOne.filter(so => so.ranking === e))
+        return _.size(union?.semesterOne.filter(so => so.ranking === e)) ?? 0
       })
     },
     {
       name: 'Học kỳ II',
       data: Ranking.map(e => {
-        return _.size(union?.semesterTwo.filter(so => so.ranking === e))
+        return _.size(union?.semesterTwo.filter(so => so.ranking === e)) ?? 0
       })
     },
     {
       name: 'Cả năm',
       data: Ranking.map(e => {
-        return _.size(union?.scoreTotal.filter(so => so.ranking === e))
+        return _.size(union?.scoreTotal.filter(so => so.ranking === e)) ?? 0
       })
     }
   ]
@@ -88,10 +88,10 @@ export default function GroupClassScoreItem({ union }) {
           {Ranking.map((item, index) => {
             const total =
               view === 1
-                ? _.size(union?.semesterOne.filter(so => so.ranking === item))
+                ? _.size(union?.semesterOne?.filter(so => so.ranking === item)) ?? 0
                 : view === 2
-                ? _.size(union?.semesterTwo.filter(so => so.ranking === item))
-                : _.size(union?.scoreTotal.filter(so => so.ranking === item))
+                ? _.size(union?.semesterTwo?.filter(so => so.ranking === item)) ?? 0
+                : _.size(union?.scoreTotal?.filter(so => so.ranking === item)) ?? 0
 
             const percent = Number(accounting.toFixed((total / union.totalStudent) * 100, 1))
 

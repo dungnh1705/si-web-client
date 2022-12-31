@@ -23,7 +23,7 @@ const ManageStudentsGroup = () => {
 
   useEffect(() => {
     window.scroll(0, positionY)
-  }, [lstStudent])
+  }, [lstStudent, positionY])
 
   const body = () => {
     return (

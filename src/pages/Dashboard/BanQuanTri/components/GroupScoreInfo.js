@@ -51,10 +51,10 @@ export default function GroupScoreInfo({ info }) {
               {Ranking.map((e, index) => {
                 const total = _.sumBy(info?.summaryInfo, i =>
                   view === 1
-                    ? _.size(i.semesterOne.filter(so => so.ranking === e))
+                    ? _.size(i?.semesterOne?.filter(so => so.ranking === e)) ?? 0
                     : view === 2
-                    ? _.size(i.semesterTwo.filter(so => so.ranking === e))
-                    : _.size(i.scoreTotal.filter(so => so.ranking === e))
+                    ? _.size(i?.semesterTwo?.filter(so => so.ranking === e)) ?? 0
+                    : _.size(i?.scoreTotal?.filter(so => so.ranking === e)) ?? 0
                 )
 
                 const percent = Number(accounting.toFixed((total / totalGroupStudent) * 100, 1))

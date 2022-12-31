@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -275,7 +276,7 @@ export const StudentDialog = () => {
     if (chagenGroupModal.closeParent === true) {
       handleClose()
     }
-  }, [chagenGroupModal.closeParent])
+  }, chagenGroupModal.closeParent)
 
   return loading ? (
     <ModalSkeleton loading={true} />

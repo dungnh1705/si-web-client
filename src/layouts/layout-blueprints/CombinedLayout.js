@@ -1,8 +1,8 @@
-import React, { Fragment, Suspense } from 'react'
+import React, { Suspense } from 'react'
 // import { useRecoilState, useRecoilValue } from 'recoil'
 // import { sessionState, themeOptionsState } from 'recoils/atoms'
 import { renderRoutes } from 'react-router-config'
-import { LeftSidebar, CollapsedSidebar, MinimalLayout, PresentationLayout } from 'layouts/layout-blueprints'
+import { LeftSidebar } from 'layouts/layout-blueprints'
 import { LinearProgress } from '@material-ui/core'
 
 // import { authState } from 'recoils/selectors'
@@ -16,7 +16,7 @@ import { checkLoginToken } from 'utils/sessionHelper'
 const CombinedLayout = props => {
   if (!checkLoginToken()) history.push('/Login')
 
-  const { children, route } = props
+  const { route } = props
 
   // const { layoutStyle } = useRecoilValue(themeOptionsState)
 

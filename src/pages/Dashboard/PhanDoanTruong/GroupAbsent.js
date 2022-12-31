@@ -57,20 +57,20 @@ export default function GroupAbsent({ info }) {
   const chartData = [
     {
       name: 'Nghỉ lễ',
-      data: info?.summaryInfo.map(item => {
-        return _.size(item.absents.filter(ab => ab.absentMode === AbsentMode.Mass))
+      data: info?.summaryInfo?.map(item => {
+        return _.size(item.absents.filter(ab => ab.absentMode === AbsentMode.Mass)) ?? 0
       })
     },
     {
       name: 'Nghỉ học',
-      data: info?.summaryInfo.map(item => {
-        return _.size(item.absents.filter(ab => ab.absentMode === AbsentMode.Class))
+      data: info?.summaryInfo?.map(item => {
+        return _.size(item.absents.filter(ab => ab.absentMode === AbsentMode.Class)) ?? 0
       })
     }
   ]
 
-  const totalAbsentMass = _.sumBy(info?.summaryInfo, i => _.size(i.absents.filter(ab => ab.absentMode === AbsentMode.Mass)))
-  const totalAbsentClass = _.sumBy(info?.summaryInfo, i => _.size(i.absents.filter(ab => ab.absentMode === AbsentMode.Class)))
+  const totalAbsentMass = _.sumBy(info?.summaryInfo, i => _.size(i?.absents?.filter(ab => ab.absentMode === AbsentMode.Mass) ?? 0))
+  const totalAbsentClass = _.sumBy(info?.summaryInfo, i => _.size(i?.absents?.filter(ab => ab.absentMode === AbsentMode.Class) ?? 0))
   const massPercent = Number(accounting.toFixed((totalAbsentMass / (totalAbsentMass + totalAbsentClass)) * 100, 1))
   const classPercent = Number(accounting.toFixed((totalAbsentClass / (totalAbsentMass + totalAbsentClass)) * 100, 1))
 

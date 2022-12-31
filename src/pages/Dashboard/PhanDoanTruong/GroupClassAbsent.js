@@ -73,15 +73,15 @@ export default function GroupClassAbsent({ info }) {
             {
               name: 'Không phép',
               data: [
-                _.size(item.absents?.filter(a => a.absentMode == AbsentMode.Mass && !a.hasPermission)),
-                _.size(item.absents?.filter(a => a.absentMode == AbsentMode.Mass && a.hasPermission))
+                _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Mass && !a.hasPermission)) ?? 0,
+                _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Mass && a.hasPermission)) ?? 0
               ]
             },
             {
               name: 'Có phép',
               data: [
-                _.size(item.absents?.filter(a => a.absentMode == AbsentMode.Class && !a.hasPermission)),
-                _.size(item.absents?.filter(a => a.absentMode == AbsentMode.Class && a.hasPermission))
+                _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Class && !a.hasPermission)) ?? 0,
+                _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Class && a.hasPermission)) ?? 0
               ]
             }
           ]

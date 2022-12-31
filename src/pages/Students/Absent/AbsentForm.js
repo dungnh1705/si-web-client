@@ -13,7 +13,7 @@ import match from 'autosuggest-highlight/match'
 import Yup from 'utils/Yup'
 import { useFormik } from 'formik'
 import { KeyboardDatePicker } from '@material-ui/pickers'
-import config from 'config'
+
 import { doPost } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { toastState } from 'recoils/atoms'

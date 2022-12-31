@@ -1,4 +1,4 @@
-import React, { Fragment, useState, Suspense } from 'react'
+import React, { Fragment, useState } from 'react'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import { Avatar, Box, Menu, Button, List, ListItem, Divider } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

@@ -22,7 +22,7 @@ const FindStudents = () => {
 
   useEffect(() => {
     if (stuId) setStudentId(stuId)
-  }, [stuId])
+  }, [stuId, setStudentId])
 
   return (
     <Fragment>
