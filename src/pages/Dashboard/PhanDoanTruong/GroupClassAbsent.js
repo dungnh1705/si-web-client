@@ -91,6 +91,7 @@ export default function GroupClassAbsent({ info }) {
               <Grid container item xs={12} justifyContent="center">
                 <Typography variant="h4">Chi đoàn {item.unionCode}</Typography>
               </Grid>
+
               <Chart options={chartOptions} series={chartData} type="bar" height={325} />
             </CardContent>
           )

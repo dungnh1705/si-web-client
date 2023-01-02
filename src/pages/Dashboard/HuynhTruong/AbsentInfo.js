@@ -105,9 +105,7 @@ const AbsentInfo = ({ info, absentMode }) => {
           </Box>
         </div>
       </div>
-      <CardContent className="p-3">
-        <Chart options={chartOptions} series={chartData} type="bar" height={325} />
-      </CardContent>
+      <CardContent className="p-3">{result.length > 0 && <Chart options={chartOptions} series={chartData} type="bar" height={325} />}</CardContent>
 
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6} className="d-flex justify-content-center">

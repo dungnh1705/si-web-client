@@ -49,7 +49,7 @@ export default function GroupAbsent({ info }) {
       show: true,
       position: 'right'
     },
-    labels: info?.summaryInfo.map(item => {
+    labels: info?.summaryInfo?.map(item => {
       return `Chi đoàn ${item.unionCode}`
     })
   }
@@ -118,7 +118,7 @@ export default function GroupAbsent({ info }) {
                 </div>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Chart options={chartOptions} series={chartData} type="bar" />
+                {info && <Chart options={chartOptions} series={chartData} type="bar" />}
               </Grid>
             </Grid>
           </div>
