@@ -46,23 +46,23 @@ const ScoreInfo = ({ info }) => {
     {
       name: 'Cả năm',
       data: [
-        _.size(info?.scoreTotal?.filter(s => s.ranking == 'Xuất sắc')),
-        _.size(info?.scoreTotal?.filter(s => s.ranking == 'Giỏi')),
-        _.size(info?.scoreTotal?.filter(s => s.ranking == 'Khá')),
-        _.size(info?.scoreTotal?.filter(s => s.ranking == 'Trung bình')),
-        _.size(info?.scoreTotal?.filter(s => s.ranking == 'Yếu')),
-        _.size(info?.scoreTotal?.filter(s => s.ranking == 'Kém'))
+        _.size(info?.scoreTotal?.filter(s => s.ranking === 'Xuất sắc')) ?? 0,
+        _.size(info?.scoreTotal?.filter(s => s.ranking === 'Giỏi')) ?? 0,
+        _.size(info?.scoreTotal?.filter(s => s.ranking === 'Khá')) ?? 0,
+        _.size(info?.scoreTotal?.filter(s => s.ranking === 'Trung bình')) ?? 0,
+        _.size(info?.scoreTotal?.filter(s => s.ranking === 'Yếu')) ?? 0,
+        _.size(info?.scoreTotal?.filter(s => s.ranking === 'Kém')) ?? 0
       ]
     },
     {
       name: 'HKI',
       data: [
-        _.size(info?.semesterOne?.filter(s => s.ranking == 'Xuất sắc')),
-        _.size(info?.semesterOne?.filter(s => s.ranking == 'Giỏi')),
-        _.size(info?.semesterOne?.filter(s => s.ranking == 'Khá')),
-        _.size(info?.semesterOne?.filter(s => s.ranking == 'Trung bình')),
-        _.size(info?.semesterOne?.filter(s => s.ranking == 'Yếu')),
-        _.size(info?.semesterOne?.filter(s => s.ranking == 'Kém'))
+        _.size(info?.semesterOne?.filter(s => s.ranking === 'Xuất sắc')) ?? 0,
+        _.size(info?.semesterOne?.filter(s => s.ranking === 'Giỏi')) ?? 0,
+        _.size(info?.semesterOne?.filter(s => s.ranking === 'Khá')) ?? 0,
+        _.size(info?.semesterOne?.filter(s => s.ranking === 'Trung bình')) ?? 0,
+        _.size(info?.semesterOne?.filter(s => s.ranking === 'Yếu')) ?? 0,
+        _.size(info?.semesterOne?.filter(s => s.ranking === 'Kém')) ?? 0
       ]
     }
   ]

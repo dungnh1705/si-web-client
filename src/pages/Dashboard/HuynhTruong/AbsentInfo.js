@@ -45,9 +45,7 @@ const AbsentInfo = ({ info, absentMode }) => {
     legend: {
       show: false
     },
-    labels: result.map(e => {
-      return e.monthYear
-    }),
+    labels: result?.map(e => e.monthYear),
     xaxis: {
       crosshairs: {
         width: 1
@@ -61,15 +59,11 @@ const AbsentInfo = ({ info, absentMode }) => {
   const chartData = [
     {
       name: 'Không phép',
-      data: result?.map(e => {
-        return _.size(e.item.filter(a => Number(a.absentMode) === absentMode && !a.hasPermission))
-      })
+      data: result?.map(e => _.size(e?.item?.filter(a => Number(a.absentMode) === absentMode && !a.hasPermission) ?? 0)) ?? []
     },
     {
       name: 'Có phép',
-      data: result?.map(e => {
-        return _.size(e.item.filter(a => Number(a.absentMode) === absentMode && a.hasPermission))
-      })
+      data: result?.map(e => _.size(e?.item?.filter(a => Number(a.absentMode) === absentMode && a.hasPermission) ?? 0)) ?? []
     }
   ]
 

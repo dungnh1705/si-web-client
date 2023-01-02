@@ -48,8 +48,6 @@ export default function GroupClassScoreItem({ union }) {
     labels: Ranking
   }
 
-  console.log(Ranking.map(e => _.size(union?.semesterOne?.filter(so => so.ranking === e)) ?? 0))
-
   const chartData = [
     {
       name: 'Học kỳ I',
