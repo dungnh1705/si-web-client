@@ -15,9 +15,8 @@ export default function GroupClassAbsent({ info }) {
     slidesToScroll: 1
   }
 
-  const chartOptions = {
+  let chartData = {
     chart: {
-      id: 'group-class-absent',
       toolbar: {
         show: false
       },
@@ -57,7 +56,8 @@ export default function GroupClassAbsent({ info }) {
     },
     yaxis: {
       min: 0
-    }
+    },
+    series: []
   }
 
   return (
@@ -70,22 +70,25 @@ export default function GroupClassAbsent({ info }) {
 
       <Slider {...settings} style={{ padding: '10px' }}>
         {info?.summaryInfo?.map((item, index) => {
-          const chartData = [
-            {
-              name: 'Không phép',
-              data: [
-                _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Mass && !a.hasPermission)) ?? 0,
-                _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Mass && a.hasPermission)) ?? 0
-              ]
-            },
-            {
-              name: 'Có phép',
-              data: [
-                _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Class && !a.hasPermission)) ?? 0,
-                _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Class && a.hasPermission)) ?? 0
-              ]
-            }
-          ]
+          chartData = {
+            ...chartData,
+            series: [
+              {
+                name: 'Không phép',
+                data: [
+                  _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Mass && !a.hasPermission)) ?? 0,
+                  _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Mass && a.hasPermission)) ?? 0
+                ]
+              },
+              {
+                name: 'Có phép',
+                data: [
+                  _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Class && !a.hasPermission)) ?? 0,
+                  _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Class && a.hasPermission)) ?? 0
+                ]
+              }
+            ]
+          }
 
           return (
             <CardContent className="p-3" key={`union-absent-${index}`}>
@@ -93,7 +96,7 @@ export default function GroupClassAbsent({ info }) {
                 <Typography variant="h4">Chi đoàn {item.unionCode}</Typography>
               </Grid>
 
-              <Chart options={chartOptions} series={chartData} type="bar" height={325} />
+              <Chart options={chartData} series={chartData.series} type="bar" height={325} />
             </CardContent>
           )
         })}

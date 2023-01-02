@@ -10,7 +10,7 @@ import { history } from 'App'
 import _ from 'lodash'
 
 const ScoreInfo = ({ info }) => {
-  const chartOptions = {
+  const chartData = {
     chart: {
       toolbar: {
         show: false
@@ -39,33 +39,32 @@ const ScoreInfo = ({ info }) => {
     legend: {
       show: false
     },
-    labels: Ranking
+    labels: Ranking,
+    series: [
+      {
+        name: 'Cả năm',
+        data: [
+          _.size(info?.scoreTotal?.filter(s => s.ranking === 'Xuất sắc')) ?? 0,
+          _.size(info?.scoreTotal?.filter(s => s.ranking === 'Giỏi')) ?? 0,
+          _.size(info?.scoreTotal?.filter(s => s.ranking === 'Khá')) ?? 0,
+          _.size(info?.scoreTotal?.filter(s => s.ranking === 'Trung bình')) ?? 0,
+          _.size(info?.scoreTotal?.filter(s => s.ranking === 'Yếu')) ?? 0,
+          _.size(info?.scoreTotal?.filter(s => s.ranking === 'Kém')) ?? 0
+        ]
+      },
+      {
+        name: 'HKI',
+        data: [
+          _.size(info?.semesterOne?.filter(s => s.ranking === 'Xuất sắc')) ?? 0,
+          _.size(info?.semesterOne?.filter(s => s.ranking === 'Giỏi')) ?? 0,
+          _.size(info?.semesterOne?.filter(s => s.ranking === 'Khá')) ?? 0,
+          _.size(info?.semesterOne?.filter(s => s.ranking === 'Trung bình')) ?? 0,
+          _.size(info?.semesterOne?.filter(s => s.ranking === 'Yếu')) ?? 0,
+          _.size(info?.semesterOne?.filter(s => s.ranking === 'Kém')) ?? 0
+        ]
+      }
+    ]
   }
-
-  const chartData = [
-    {
-      name: 'Cả năm',
-      data: [
-        _.size(info?.scoreTotal?.filter(s => s.ranking === 'Xuất sắc')) ?? 0,
-        _.size(info?.scoreTotal?.filter(s => s.ranking === 'Giỏi')) ?? 0,
-        _.size(info?.scoreTotal?.filter(s => s.ranking === 'Khá')) ?? 0,
-        _.size(info?.scoreTotal?.filter(s => s.ranking === 'Trung bình')) ?? 0,
-        _.size(info?.scoreTotal?.filter(s => s.ranking === 'Yếu')) ?? 0,
-        _.size(info?.scoreTotal?.filter(s => s.ranking === 'Kém')) ?? 0
-      ]
-    },
-    {
-      name: 'HKI',
-      data: [
-        _.size(info?.semesterOne?.filter(s => s.ranking === 'Xuất sắc')) ?? 0,
-        _.size(info?.semesterOne?.filter(s => s.ranking === 'Giỏi')) ?? 0,
-        _.size(info?.semesterOne?.filter(s => s.ranking === 'Khá')) ?? 0,
-        _.size(info?.semesterOne?.filter(s => s.ranking === 'Trung bình')) ?? 0,
-        _.size(info?.semesterOne?.filter(s => s.ranking === 'Yếu')) ?? 0,
-        _.size(info?.semesterOne?.filter(s => s.ranking === 'Kém')) ?? 0
-      ]
-    }
-  ]
 
   return (
     <Card className="card-box mb-4">
@@ -82,7 +81,7 @@ const ScoreInfo = ({ info }) => {
         </div>
       </div>
       <CardContent className="p-3">
-        <Chart options={chartOptions} series={chartData} type="bar" height={200} />
+        <Chart options={chartData} series={chartData.series} type="bar" height={200} />
       </CardContent>
     </Card>
   )

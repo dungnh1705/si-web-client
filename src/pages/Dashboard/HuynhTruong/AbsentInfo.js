@@ -13,7 +13,7 @@ import { AbsentMode } from 'app/enums'
 const AbsentInfo = ({ info, absentMode }) => {
   const [result, setResult] = useState([])
 
-  const chartOptions = {
+  const chartData = {
     chart: {
       toolbar: {
         show: false
@@ -53,19 +53,18 @@ const AbsentInfo = ({ info, absentMode }) => {
     },
     yaxis: {
       min: 0
-    }
-  }
-
-  const chartData = [
-    {
-      name: 'Không phép',
-      data: result?.map(e => _.size(e?.item?.filter(a => Number(a.absentMode) === absentMode && !a.hasPermission) ?? 0)) ?? []
     },
-    {
-      name: 'Có phép',
-      data: result?.map(e => _.size(e?.item?.filter(a => Number(a.absentMode) === absentMode && a.hasPermission) ?? 0)) ?? []
-    }
-  ]
+    series: [
+      {
+        name: 'Không phép',
+        data: result?.map(e => _.size(e?.item?.filter(a => Number(a.absentMode) === absentMode && !a.hasPermission) ?? 0)) ?? []
+      },
+      {
+        name: 'Có phép',
+        data: result?.map(e => _.size(e?.item?.filter(a => Number(a.absentMode) === absentMode && a.hasPermission) ?? 0)) ?? []
+      }
+    ]
+  }
 
   useEffect(() => {
     function fetchData() {
@@ -105,7 +104,7 @@ const AbsentInfo = ({ info, absentMode }) => {
           </Box>
         </div>
       </div>
-      <CardContent className="p-3">{result.length > 0 && <Chart options={chartOptions} series={chartData} type="bar" height={325} />}</CardContent>
+      <CardContent className="p-3">{result.length > 0 && <Chart options={chartData} series={chartData.series} type="bar" height={325} />}</CardContent>
 
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6} className="d-flex justify-content-center">

@@ -12,7 +12,7 @@ import { Ranking } from 'app/enums'
 export default function GroupClassScoreItem({ union }) {
   const [view, setView] = useState(1)
 
-  const chartOptions = {
+  const chartData = {
     chart: {
       id: 'group-class-score-item',
       toolbar: {
@@ -46,23 +46,22 @@ export default function GroupClassScoreItem({ union }) {
       show: true,
       position: 'top'
     },
-    labels: Ranking
+    labels: Ranking,
+    series: [
+      {
+        name: 'Học kỳ I',
+        data: Ranking.map(e => _.size(union?.semesterOne?.filter(so => so.ranking === e)) ?? 0)
+      },
+      {
+        name: 'Học kỳ II',
+        data: Ranking.map(e => _.size(union?.semesterTwo?.filter(so => so.ranking === e)) ?? 0)
+      },
+      {
+        name: 'Cả năm',
+        data: Ranking.map(e => _.size(union?.scoreTotal?.filter(so => so.ranking === e)) ?? 0)
+      }
+    ]
   }
-
-  const chartData = [
-    {
-      name: 'Học kỳ I',
-      data: Ranking.map(e => _.size(union?.semesterOne?.filter(so => so.ranking === e)) ?? 0)
-    },
-    {
-      name: 'Học kỳ II',
-      data: Ranking.map(e => _.size(union?.semesterTwo?.filter(so => so.ranking === e)) ?? 0)
-    },
-    {
-      name: 'Cả năm',
-      data: Ranking.map(e => _.size(union?.scoreTotal?.filter(so => so.ranking === e)) ?? 0)
-    }
-  ]
 
   return (
     <>
@@ -109,7 +108,7 @@ export default function GroupClassScoreItem({ union }) {
         </div>
       </Grid>
       <Grid item xs={12} lg={9}>
-        <Chart options={chartOptions} series={chartData} type="bar" />
+        <Chart options={chartData} series={chartData.series} type="bar" />
       </Grid>
     </>
   )

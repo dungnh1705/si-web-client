@@ -33,12 +33,12 @@ export default function PhanDoanTruongDashboard() {
           <GroupClassScoreInfo info={groupSummary} />
         </Grid>
 
-        {/* <Grid item xs={12} lg={8}>
+        <Grid item xs={12} lg={8}>
           <GroupAbsent info={groupSummary} />
         </Grid>
         <Grid item xs={12} lg={4}>
-          <GroupClassAbsent info={groupSummary} /> */}
-        {/* </Grid> */}
+          <GroupClassAbsent info={groupSummary} />
+        </Grid>
       </Grid>
     </Fragment>
   ) : (
