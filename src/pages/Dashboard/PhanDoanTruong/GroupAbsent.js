@@ -13,8 +13,9 @@ import { AbsentMode } from 'app/enums'
 import accounting from 'accounting'
 
 export default function GroupAbsent({ info }) {
-  const chartOptions = {
+  const chartData = {
     chart: {
+      id: 'group-absent',
       toolbar: {
         show: false
       },
@@ -49,21 +50,18 @@ export default function GroupAbsent({ info }) {
       show: true,
       position: 'right'
     },
-    labels: info?.summaryInfo?.map(item => {
-      return `Chi đoàn ${item.unionCode}`
-    })
+    labels: info?.summaryInfo?.map(item => `Chi đoàn ${item.unionCode}`),
+    series: [
+      {
+        name: 'Nghỉ lễ',
+        data: info?.summaryInfo?.map(item => _.size(item?.absents?.filter(ab => ab.absentMode === AbsentMode.Mass)) ?? 0) ?? []
+      },
+      {
+        name: 'Nghỉ học',
+        data: info?.summaryInfo?.map(item => _.size(item?.absents?.filter(ab => ab.absentMode === AbsentMode.Class)) ?? 0) ?? []
+      }
+    ]
   }
-
-  const chartData = [
-    {
-      name: 'Nghỉ lễ',
-      data: info?.summaryInfo?.map(item => _.size(item?.absents?.filter(ab => ab.absentMode === AbsentMode.Mass)) ?? 0) ?? []
-    },
-    {
-      name: 'Nghỉ học',
-      data: info?.summaryInfo?.map(item => _.size(item?.absents?.filter(ab => ab.absentMode === AbsentMode.Class)) ?? 0) ?? []
-    }
-  ]
 
   const totalAbsentMass = _.sumBy(info?.summaryInfo, i => _.size(i?.absents?.filter(ab => ab.absentMode === AbsentMode.Mass) ?? 0))
   const totalAbsentClass = _.sumBy(info?.summaryInfo, i => _.size(i?.absents?.filter(ab => ab.absentMode === AbsentMode.Class) ?? 0))
@@ -118,7 +116,7 @@ export default function GroupAbsent({ info }) {
                 </div>
               </Grid>
               <Grid item xs={12} md={6}>
-                {info && <Chart options={chartOptions} series={chartData} type="bar" />}
+                {info && <Chart options={chartData} series={chartData.series} type="bar" />}
               </Grid>
             </Grid>
           </div>

@@ -14,6 +14,7 @@ export default function GroupClassScoreItem({ union }) {
 
   const chartOptions = {
     chart: {
+      id: 'group-class-score-item',
       toolbar: {
         show: false
       },

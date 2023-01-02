@@ -17,6 +17,7 @@ export default function GroupClassAbsent({ info }) {
 
   const chartOptions = {
     chart: {
+      id: 'group-class-absent',
       toolbar: {
         show: false
       },
