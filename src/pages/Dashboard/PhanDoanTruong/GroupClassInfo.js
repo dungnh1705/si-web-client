@@ -23,8 +23,8 @@ export default function GroupInfo({ info }) {
 
   const settings = {
     dots: true,
-    infinite: true,
-    speed: 800,
+    infinite: false,
+    speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1
   }
