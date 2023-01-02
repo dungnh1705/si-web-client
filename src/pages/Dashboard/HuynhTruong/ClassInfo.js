@@ -1,7 +1,7 @@
 import React from 'react'
-import { Grid, Card, CardContent, Button, Divider, CardHeader, Box, IconButton } from '@material-ui/core'
+import { Grid, Card, CardContent, Box, IconButton } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUsers, faUserSlash, faChevronRight, faUserPlus, faMale, faFemale, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faUserSlash, faChevronRight, faUserPlus, faMale, faUser, faRestroom, faUserLock } from '@fortawesome/free-solid-svg-icons'
 
 import { history } from 'App'
 
@@ -58,22 +58,24 @@ const ClassInfo = ({ info }) => {
           <Grid item xs={4}>
             <div className="text-center">
               <div>
-                <FontAwesomeIcon icon={faMale} className="font-size-xxl text-success" />
+                <FontAwesomeIcon icon={faUserLock} className="font-size-xxl text-success" />
               </div>
               <div className="mt-3 line-height-sm">
-                <b className="font-size-lg"> {info?.maleStudent}</b>
-                <span className="text-black-50 d-block">Nam</span>
+                <b className="font-size-lg">{info?.totalStayInClass}</b>
+                <span className="text-black-50 d-block">Đoàn sinh ở lại</span>
               </div>
             </div>
           </Grid>
           <Grid item xs={4}>
             <div className="text-center">
               <div>
-                <FontAwesomeIcon icon={faFemale} className="font-size-xxl text-danger" />
+                <FontAwesomeIcon icon={faRestroom} className="font-size-xxl text-danger" />
               </div>
               <div className="mt-3 line-height-sm">
-                <b className="font-size-lg">{info?.femaleStudent}</b>
-                <span className="text-black-50 d-block">Nữ</span>
+                <b className="font-size-lg">
+                  {info?.maleStudent} | {info?.femaleStudent}
+                </b>
+                <span className="text-black-50 d-block">Nam | Nữ</span>
               </div>
             </div>
           </Grid>

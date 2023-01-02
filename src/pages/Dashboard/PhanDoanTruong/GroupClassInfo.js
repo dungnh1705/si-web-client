@@ -6,7 +6,7 @@ import _ from 'lodash'
 
 // icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUsers, faUserSlash, faChevronRight, faUserPlus, faMale, faFemale, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faUserSlash, faChevronRight, faUserPlus, faUserLock, faRestroom, faUser } from '@fortawesome/free-solid-svg-icons'
 
 // components
 import { history } from 'App'
@@ -103,22 +103,24 @@ export default function GroupInfo({ info }) {
               <Grid item xs={4}>
                 <div className="text-center">
                   <div>
-                    <FontAwesomeIcon icon={faMale} className="font-size-xxl text-danger" />
+                    <FontAwesomeIcon icon={faUserLock} className="font-size-xxl text-danger" />
                   </div>
                   <div className="mt-3 line-height-sm">
-                    <b className="font-size-lg">{item.maleStudent}</b>
-                    <span className="text-black-50 d-block">Nam</span>
+                    <b className="font-size-lg">{item.totalStayInClass}</b>
+                    <span className="text-black-50 d-block">Đoàn sinh ở lại</span>
                   </div>
                 </div>
               </Grid>
               <Grid item xs={4}>
                 <div className="text-center">
                   <div>
-                    <FontAwesomeIcon icon={faFemale} className="font-size-xxl text-success" />
+                    <FontAwesomeIcon icon={faRestroom} className="font-size-xxl text-success" />
                   </div>
                   <div className="mt-3 line-height-sm">
-                    <b className="font-size-lg">{item.femaleStudent}</b>
-                    <span className="text-black-50 d-block">Nữ</span>
+                    <b className="font-size-lg">
+                      {item.maleStudent} | {item.femaleStudent}
+                    </b>
+                    <span className="text-black-50 d-block">Nam | Nữ</span>
                   </div>
                 </div>
               </Grid>
