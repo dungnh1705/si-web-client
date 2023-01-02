@@ -47,24 +47,21 @@ export default function GroupClassScoreItem({ union }) {
     },
     labels: Ranking
   }
+
+  console.log(Ranking.map(e => _.size(union?.semesterOne?.filter(so => so.ranking === e)) ?? 0))
+
   const chartData = [
     {
       name: 'Học kỳ I',
-      data: Ranking.map(e => {
-        return _.size(union?.semesterOne.filter(so => so.ranking === e)) ?? 0
-      })
+      data: Ranking.map(e => _.size(union?.semesterOne?.filter(so => so.ranking === e)) ?? 0)
     },
     {
       name: 'Học kỳ II',
-      data: Ranking.map(e => {
-        return _.size(union?.semesterTwo.filter(so => so.ranking === e)) ?? 0
-      })
+      data: Ranking.map(e => _.size(union?.semesterTwo?.filter(so => so.ranking === e)) ?? 0)
     },
     {
       name: 'Cả năm',
-      data: Ranking.map(e => {
-        return _.size(union?.scoreTotal.filter(so => so.ranking === e)) ?? 0
-      })
+      data: Ranking.map(e => _.size(union?.scoreTotal?.filter(so => so.ranking === e)) ?? 0)
     }
   ]
 

@@ -57,15 +57,11 @@ export default function GroupAbsent({ info }) {
   const chartData = [
     {
       name: 'Nghỉ lễ',
-      data: info?.summaryInfo?.map(item => {
-        return _.size(item.absents.filter(ab => ab.absentMode === AbsentMode.Mass)) ?? 0
-      })
+      data: info?.summaryInfo?.map(item => _.size(item?.absents?.filter(ab => ab.absentMode === AbsentMode.Mass)) ?? 0)
     },
     {
       name: 'Nghỉ học',
-      data: info?.summaryInfo?.map(item => {
-        return _.size(item.absents.filter(ab => ab.absentMode === AbsentMode.Class)) ?? 0
-      })
+      data: info?.summaryInfo?.map(item => _.size(item?.absents?.filter(ab => ab.absentMode === AbsentMode.Class)) ?? 0)
     }
   ]
 
