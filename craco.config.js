@@ -15,6 +15,9 @@ const config = {
         webpackConfig
       )
     }
+  },
+  devServer: {
+    port: 3004
   }
 }
 module.exports = config
