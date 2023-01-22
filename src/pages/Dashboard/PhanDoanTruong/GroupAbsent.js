@@ -6,7 +6,7 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 import { history } from 'App'
 import Chart from 'react-apexcharts'
-import _ from 'lodash'
+import { size, sumBy } from 'lodash'
 
 // constance
 import { AbsentMode } from 'app/enums'
@@ -54,17 +54,17 @@ export default function GroupAbsent({ info }) {
     series: [
       {
         name: 'Nghỉ lễ',
-        data: info?.summaryInfo?.map(item => _.size(item?.absents?.filter(ab => ab.absentMode === AbsentMode.Mass)) ?? 0) ?? []
+        data: info?.summaryInfo?.map(item => size(item?.absents?.filter(ab => ab.absentMode === AbsentMode.Mass)) ?? 0) ?? []
       },
       {
         name: 'Nghỉ học',
-        data: info?.summaryInfo?.map(item => _.size(item?.absents?.filter(ab => ab.absentMode === AbsentMode.Class)) ?? 0) ?? []
+        data: info?.summaryInfo?.map(item => size(item?.absents?.filter(ab => ab.absentMode === AbsentMode.Class)) ?? 0) ?? []
       }
     ]
   }
 
-  const totalAbsentMass = _.sumBy(info?.summaryInfo, i => _.size(i?.absents?.filter(ab => ab.absentMode === AbsentMode.Mass) ?? 0))
-  const totalAbsentClass = _.sumBy(info?.summaryInfo, i => _.size(i?.absents?.filter(ab => ab.absentMode === AbsentMode.Class) ?? 0))
+  const totalAbsentMass = sumBy(info?.summaryInfo, i => size(i?.absents?.filter(ab => ab.absentMode === AbsentMode.Mass) ?? 0))
+  const totalAbsentClass = sumBy(info?.summaryInfo, i => size(i?.absents?.filter(ab => ab.absentMode === AbsentMode.Class) ?? 0))
   const massPercent = Number(accounting.toFixed((totalAbsentMass / (totalAbsentMass + totalAbsentClass)) * 100, 1))
   const classPercent = Number(accounting.toFixed((totalAbsentClass / (totalAbsentMass + totalAbsentClass)) * 100, 1))
 
