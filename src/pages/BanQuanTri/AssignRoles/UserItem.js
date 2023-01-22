@@ -28,12 +28,7 @@ const UserItem = ({ user }) => {
               horizontal: 'right'
             }}
             variant="dot"
-            child={
-              <Avatar sizes="50" src={user?.croppedAvatarId ? `img/avatar/${user?.croppedAvatarId}.png` : ''}>{`${user?.firstName?.substring(0, 1)}${user?.lastName?.substring(
-                0,
-                1
-              )}`}</Avatar>
-            }
+            child={<Avatar sizes="50" src={user?.avatarUrl}>{`${user?.firstName?.substring(0, 1)}${user?.lastName?.substring(0, 1)}`}</Avatar>}
           />
           <div className="p-3">
             <a href="#/" onClick={e => e.preventDefault()} className="font-weight-bold text-black" title="...">
