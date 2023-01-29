@@ -61,6 +61,7 @@ const ManageStudentScore = () => {
   return (
     <Suspense fallback={<div>Đang tải danh sách điểm Đoàn sinh...</div>}>
       {body()}
+
       <Suspense fallback={<ModalSkeleton />}>
         <ScoreDownloadDialog />
         <ChooseFileDialog />

@@ -8,6 +8,10 @@ import { documentReview } from './recoil'
 export default function ReportViewer() {
   const document = useRecoilValue(documentReview)
 
+  // const handleSaveAsPdf = content => {
+  //   console.log(content)
+  // }
+
   return (
     <Grid container spacing={3} justifyContent="center">
       <Grid item xs={12}>
@@ -19,12 +23,40 @@ export default function ReportViewer() {
           init={{
             selector: 'textarea',
             menubar: false,
-            plugins: 'print ',
+            // external_plugins: {
+            //   saveToPdf: 'https://cdn.rawgit.com/Api2Pdf/api2pdf.tinymce/master/save-to-pdf/dist/save-to-pdf/plugin.js'
+            // },
+            plugins: 'print',
             toolbar: 'print',
             toolbar_sticky: true,
             height: 700,
             skin: 'oxide',
             content_css: 'default'
+            // setup: function (editor) {
+            //   editor.ui.registry.addMenuItem('saveAsPdf', {
+            //     text: 'SAVE AS',
+            //     fetch: function (callback) {
+            //       callback([
+            //         {
+            //           type: 'menuitem',
+            //           text: 'PDF',
+            //           // icon: 'unlock',
+            //           onAction: function () {
+            //             editor.save()
+            //           }
+            //         },
+            //         {
+            //           type: 'menuitem',
+            //           text: 'PDF',
+            //           // icon: 'unlock',
+            //           onAction: function () {
+            //             editor.save()
+            //           }
+            //         }
+            //       ])
+            //     }
+            //   })
+            // }
           }}
         />
       </Grid>
