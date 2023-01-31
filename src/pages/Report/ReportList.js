@@ -103,19 +103,19 @@ export default function () {
             Xem trước
           </Button>
         </Grid>
-        {/* <Grid item xs={6}>
+        <Grid item xs={6}>
           <Button
             size="large"
             fullWidth
             variant="contained"
-            color="secondary"
+            color="default"
             disabled={!selectedTemplate}
             startIcon={<GetAppRoundedIcon />}
             onClick={e => handleReport(e, false)}
             style={buttonStyle}>
             Tải xuống
           </Button>
-        </Grid> */}
+        </Grid>
       </Grid>
     </Grid>
   )
