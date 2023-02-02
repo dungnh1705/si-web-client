@@ -10,10 +10,9 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import { SemesterEnum } from 'app/enums'
 import sessionHelper from 'utils/sessionHelper'
 
-import { ChooseFileDialogAtom } from 'components/Dialog/recoil'
-import { loadingState } from 'recoils/atoms'
+import { ChooseFileDialogAtom, GroupScoreResultDialogAtom } from 'components/Dialog/recoil'
 
-import { SemesterSelected, StudentsGroupScore } from './recoil'
+import { SemesterSelected } from './recoil'
 
 const apiEndpoint = process.env.REACT_APP_WEB_API
 
@@ -23,11 +22,9 @@ export default function HeaderAction() {
   const [expandDownloadDoc, setExpandDownloadDoc] = useState(false)
 
   const semester = useRecoilValue(SemesterSelected)
-  const students = useRecoilValue(StudentsGroupScore)
 
   const [dialog, setDialog] = useRecoilState(ChooseFileDialogAtom)
-
-  const setLoading = useSetRecoilState(loadingState)
+  const [dialogResult, setDialogResult] = useRecoilState(GroupScoreResultDialogAtom)
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -62,34 +59,21 @@ export default function HeaderAction() {
 
   const handleDownloadResult = async (event, semesterCode) => {
     event.preventDefault()
-    let templateId = ''
+    let templateId = '',
+      title = ''
 
     if (semesterCode === SemesterEnum.semesterOne) {
       templateId = process.env.REACT_APP_FROM_RESULT_SEMESTER_ONE_ID
+      title = 'HKI'
     }
 
     if (semesterCode === SemesterEnum.total) {
       templateId = process.env.REACT_APP_FROM_RESULT_TOTAL_ID
+      title = 'Cả năm'
     }
 
-    const studentIds = []
-    students.map(student => student.students.map(item => studentIds.push(item.id)))
-
+    setDialogResult({ ...dialogResult, open: true, templateId: templateId, title: title })
     handleClose()
-    setLoading(true)
-
-    const { scholasticId, userId, classId, unionId } = sessionHelper()
-
-    try {
-      window.open(
-        `${apiEndpoint}/download/downloadResultForm?IsGetGroupResult=true&TemplateId=${templateId}&ScholasticId=${scholasticId}&UserId=${userId}&UnionId=${unionId}&ClassId=${classId}`,
-        '_parent'
-      )
-
-      setLoading(false)
-    } catch (err) {
-      setLoading(false)
-    }
   }
 
   return (

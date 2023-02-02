@@ -80,3 +80,12 @@ export const ChangeGroupModalAtom = atom({
     closeParent: false
   }
 })
+
+export const GroupScoreResultDialogAtom = atom({
+  key: 'GroupScoreResultDialogAtom',
+  default: {
+    open: false,
+    templateId: undefined,
+    title: ''
+  }
+})

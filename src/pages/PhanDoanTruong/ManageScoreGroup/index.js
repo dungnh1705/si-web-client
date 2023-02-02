@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 
 import { v4 as uuidv4 } from 'uuid'
 import { Semester } from 'app/enums'
-import { DocumentPreviewDialog, ChooseFileDialog } from 'components/Dialog'
+import { DocumentPreviewDialog, ChooseFileDialog, GroupScoreResultDialog } from 'components/Dialog'
 
 import { SemesterSelected, StudentsGroupScore } from './recoil'
 import StudentUnion from './StudentUnion'
@@ -57,8 +57,11 @@ const ManageScoreGroup = () => {
   return (
     <Suspense fallback={<>Đang tải Danh sách điểm ...</>}>
       {body()}
+
+      {/* DIALOG */}
       <DocumentPreviewDialog />
       <ChooseFileDialog />
+      <GroupScoreResultDialog />
     </Suspense>
   )
 }
