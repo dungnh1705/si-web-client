@@ -125,7 +125,7 @@ export const RolesDialog = () => {
 
   return (
     <Dialog open={open} onClose={handleCloseDialog} aria-labelledby="responsive-roles-dialog" fullScreen={fullScreen} maxWidth="lg">
-      <DialogTitle>Phân quyền Huynh trưởng</DialogTitle>
+      <DialogTitle>Phân chức vụ Huynh trưởng</DialogTitle>
       <Divider />
       <DialogContent>
         <CardContent>

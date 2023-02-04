@@ -2,8 +2,11 @@ import React from 'react'
 import { useRecoilValue } from 'recoil'
 import { Divider, Grid } from '@material-ui/core'
 
+import { orderBy } from 'lodash'
+
 import { TemplateType } from 'app/enums'
 import { TemplatesQuery } from 'recoils/selectors'
+
 import FormItem from './FormItem'
 
 const Forms = () => {
@@ -19,11 +22,12 @@ const Forms = () => {
             </div>
           </div>
           <Divider />
-          {myTemplates
-            ?.filter(t => t.templateType === TemplateType.Document)
-            ?.map(item => (
-              <FormItem key={item.id} item={item} />
-            ))}
+          {orderBy(
+            myTemplates?.filter(t => t.templateType === TemplateType.Document),
+            ['name']
+          )?.map(item => (
+            <FormItem key={item.id} item={item} />
+          ))}
         </div>
       </Grid>
       <Grid item xs={12}>
@@ -35,11 +39,12 @@ const Forms = () => {
           </div>
           <Divider />
 
-          {myTemplates
-            ?.filter(t => t.templateType === TemplateType.Report)
-            ?.map(item => (
-              <FormItem key={item.id} item={item} />
-            ))}
+          {orderBy(
+            myTemplates?.filter(t => t.templateType === TemplateType.Report),
+            ['name']
+          )?.map(item => (
+            <FormItem key={item.id} item={item} />
+          ))}
         </div>
       </Grid>
       <Grid item xs={12}>
@@ -51,11 +56,12 @@ const Forms = () => {
           </div>
           <Divider />
 
-          {myTemplates
-            ?.filter(t => t.templateType === TemplateType.SystemTemplate)
-            ?.map(item => (
-              <FormItem key={item.id} item={item} />
-            ))}
+          {orderBy(
+            myTemplates?.filter(t => t.templateType === TemplateType.SystemTemplate),
+            ['name']
+          )?.map(item => (
+            <FormItem key={item.id} item={item} />
+          ))}
         </div>
       </Grid>
     </>

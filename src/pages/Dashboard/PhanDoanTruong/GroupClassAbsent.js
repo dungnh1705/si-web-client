@@ -23,7 +23,7 @@ export default function GroupClassAbsent({ info }) {
 
       <Slider {...settings} style={{ padding: '10px' }}>
         {info?.summaryInfo?.map((item, index) => (
-          <GroupClassAbsentItem item={item} index={index} />
+          <GroupClassAbsentItem item={item} index={index} key={`group-class-absent-${item.unionId}`} />
         ))}
       </Slider>
     </Card>

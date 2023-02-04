@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, TextField, MenuItem, Button, Hidden } from '@material-ui/core'
+import { Grid, TextField, MenuItem, Button } from '@material-ui/core'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 
 // icons
@@ -8,7 +8,6 @@ import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded'
 
 // constance
 import sessionHelper from 'utils/sessionHelper'
-import config from 'config'
 
 // components
 import { doPost } from 'utils/axios'
@@ -35,7 +34,7 @@ export default function () {
     setLoading(true)
 
     try {
-      let data = {
+      const data = {
         StudentId: [],
         ClassId: sessionHelper().classId,
         ScholasticId: sessionHelper().scholasticId,
@@ -43,10 +42,20 @@ export default function () {
         TemplateId: selectedTemplate,
         IsPreview: isPreview
       }
-      let res = await doPost(`download/previewForm`, data)
-      if (res && res.data.success) {
-        let { data } = res.data
-        isPreview ? setDocument(data) : window.open(`${apiEndpoint}/file/get?fileName=${data}`, '_parent')
+
+      if (isPreview) {
+        const res = await doPost(`download/previewForm`, data)
+        if (res) {
+          const { data } = res.data
+          setDocument(data)
+        }
+      } else {
+        window.open(
+          `${apiEndpoint}/download/downloadPreviewForm?StudentId=[]&ClassId=${sessionHelper().classId}&ScholasticId=${sessionHelper().scholasticId}&UserId=${
+            sessionHelper().userId
+          }&TemplateId=${selectedTemplate}`,
+          '_parent'
+        )
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })
@@ -82,16 +91,24 @@ export default function () {
       </Grid>
       <Grid container {...buttonGrid} item spacing={1} alignContent="center" justifyContent="space-between" direction="row">
         <Grid item xs={6}>
-          <Button size='large' fullWidth variant="contained" color="primary" disabled={!selectedTemplate} startIcon={<VisibilityRoundedIcon />} onClick={handleReport} style={buttonStyle}>
+          <Button
+            size="large"
+            fullWidth
+            variant="contained"
+            color="primary"
+            disabled={!selectedTemplate}
+            startIcon={<VisibilityRoundedIcon />}
+            onClick={handleReport}
+            style={buttonStyle}>
             Xem trước
           </Button>
         </Grid>
         <Grid item xs={6}>
           <Button
-            size='large'
+            size="large"
             fullWidth
             variant="contained"
-            color="secondary"
+            color="default"
             disabled={!selectedTemplate}
             startIcon={<GetAppRoundedIcon />}
             onClick={e => handleReport(e, false)}

@@ -2,7 +2,7 @@ import React from 'react'
 import { CardContent, Grid, Typography } from '@material-ui/core'
 import Chart from 'react-apexcharts'
 
-import _ from 'lodash'
+import { size } from 'lodash'
 import { AbsentMode } from 'app/enums'
 
 export default function GroupClassAbsentItem({ item, index }) {
@@ -53,15 +53,15 @@ export default function GroupClassAbsentItem({ item, index }) {
       {
         name: 'Không phép',
         data: [
-          _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Mass && !a.hasPermission)) ?? 0,
-          _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Mass && a.hasPermission)) ?? 0
+          size(item?.absents?.filter(a => a.absentMode === AbsentMode.Mass && !a.hasPermission)) ?? 0,
+          size(item?.absents?.filter(a => a.absentMode === AbsentMode.Class && !a.hasPermission)) ?? 0
         ]
       },
       {
         name: 'Có phép',
         data: [
-          _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Class && !a.hasPermission)) ?? 0,
-          _.size(item?.absents?.filter(a => a.absentMode === AbsentMode.Class && a.hasPermission)) ?? 0
+          size(item?.absents?.filter(a => a.absentMode === AbsentMode.Mass && a.hasPermission)) ?? 0,
+          size(item?.absents?.filter(a => a.absentMode === AbsentMode.Class && a.hasPermission)) ?? 0
         ]
       }
     ]

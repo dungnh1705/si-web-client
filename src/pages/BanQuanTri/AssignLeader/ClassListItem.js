@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
+import { useSetRecoilState, useRecoilState } from 'recoil'
 import { Avatar, TextField, Card, Divider, CardContent } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import parse from 'autosuggest-highlight/parse'
@@ -8,19 +8,18 @@ import { useFormik } from 'formik'
 import Yup from 'utils/Yup'
 
 import sessionHelper from 'utils/sessionHelper'
-import config from 'config'
 import { doPost } from 'utils/axios'
 
 import { loadingState, toastState } from 'recoils/atoms'
 import { ReloadClasses } from './recoil'
 
 const ClassListItem = ({ classInfo, users }) => {
-  let [toast, setToast] = useRecoilState(toastState)
-  let setLoading = useSetRecoilState(loadingState)
-  let setReloadClass = useSetRecoilState(ReloadClasses)
+  const [toast, setToast] = useRecoilState(toastState)
+  const setLoading = useSetRecoilState(loadingState)
+  const setReloadClass = useSetRecoilState(ReloadClasses)
 
   const formData = useFormik({
-    initialValues: { ...classInfo },
+    initialValues: classInfo.leader,
     validationSchema: Yup.object({}),
     validateOnChange: true,
     validateOnMount: true,
@@ -29,11 +28,9 @@ const ClassListItem = ({ classInfo, users }) => {
 
   const handleAgree = async (e, newVal) => {
     e.preventDefault()
-    formData.setFieldValue('leader', newVal)
-
     setLoading(true)
     try {
-      const res = await doPost(`user/assignLeader`, { ...formData.values, leader: newVal, userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}` })
+      const res = await doPost(`user/assignLeader`, { ...classInfo, leader: newVal, userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}` })
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         setReloadClass(reload => reload + 1)
@@ -42,6 +39,7 @@ const ClassListItem = ({ classInfo, users }) => {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })
     } finally {
       setLoading(false)
+      formData.setValues(newVal)
     }
   }
 
@@ -58,8 +56,8 @@ const ClassListItem = ({ classInfo, users }) => {
           <Autocomplete
             fullWidth
             className="w-100"
-            noOptionsText="Không tìm thấy HT phù hợp"
-            value={formData.values?.leader}
+            noOptionsText="Không tìm thấy Huynh Trưởng phù hợp"
+            value={formData.values}
             onChange={(e, newValue) => {
               handleAgree(e, newValue)
             }}
@@ -71,7 +69,7 @@ const ClassListItem = ({ classInfo, users }) => {
               const parts = parse(`${option.holyName?.name} ${option.firstName} ${option.lastName}`, matches)
               return (
                 <div className="d-flex align-items-center">
-                  <Avatar src={option?.croppedAvatarId ? `img/avatar/${option?.croppedAvatarId}.png` : ''} className="mr-2">
+                  <Avatar src={option?.avatarUrl} className="mr-2">
                     {`${option?.firstName?.substring(0, 1)}${option?.lastName?.substring(0, 1)}`}
                   </Avatar>
                   <div>
