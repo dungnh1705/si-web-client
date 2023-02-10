@@ -85,8 +85,6 @@ const UserRolesForm = () => {
     }
   }
 
-  console.log(editingUser)
-
   return (
     <Suspense>
       <Grid container spacing={3} justifyContent="center">
@@ -171,7 +169,7 @@ const UserRolesForm = () => {
         </Grid>
         <Grid item xs={12}>
           <Grid item justifyContent="flex-end" container>
-            <Button size='large' color="primary" variant="contained" type="submit" onClick={handleClickSave} disabled={userFormMode !== 'Edit'}>
+            <Button size="large" color="primary" variant="contained" type="submit" onClick={handleClickSave} disabled={userFormMode !== 'Edit'}>
               Lưu
             </Button>
           </Grid>
