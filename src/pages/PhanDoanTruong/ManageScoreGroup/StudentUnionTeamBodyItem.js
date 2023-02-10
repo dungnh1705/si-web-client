@@ -95,9 +95,9 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
   }
 
   async function handleSaveScore(name, newVal) {
-    const { firstName, lastName } = sessionHelper()
-    const avg = name === 'average' ? student?.score.average : null
-    const newScore = { ...student?.score, [name]: newVal, average: avg, userFullName: `${firstName} ${lastName}`, semesterCode: semester }
+    const { firstName, lastName, scholasticId } = sessionHelper()
+    const avg = name === 'average' ? newVal : null
+    const newScore = { ...student.score, [name]: newVal, average: avg, userFullName: `${firstName} ${lastName}`, semesterCode: semester, studentId: student.id, scholasticId }
 
     try {
       const res = await doPost(`student/updateStudentScore`, newScore)
@@ -148,7 +148,7 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
         <tr
           className="tr__active"
           style={{
-            backgroundColor: student.score?.average < 3.5 ? red[200] : 'inherit'
+            backgroundColor: student.score?.average < 3.5 && student.score?.average > 0 ? red[200] : 'inherit'
           }}>
           <td className={classStyle.pinCell} onClick={handleRowClick}>
             {student.holyName}&nbsp;
@@ -194,7 +194,7 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
       {student && semester === SemesterEnum.total && (
         <tr
           style={{
-            backgroundColor: student.score?.avgTotal < 3.5 ? red[100] : 'inherit'
+            backgroundColor: student.score?.avgTotal < 3.5 && student.score?.average > 0 ? red[100] : 'inherit'
           }}>
           <td onClick={handleRowClick} className="td--active">
             {student.holyName}&nbsp;
