@@ -24,7 +24,7 @@ export default function ScoreTextField(props) {
   }
 
   function handleOnBlur(e) {
-    if (isNumber && Number(newVal) !== Number(currentVal ?? 0) && isValid) {
+    if (isNumber && isValid) {
       setCurrentVal(newVal)
       handleSave(name, newVal)
     }
@@ -36,7 +36,7 @@ export default function ScoreTextField(props) {
   }
 
   useEffect(() => {
-    setNewVal(value)
+    setNewVal(value ?? '')
   }, [value])
 
   return <TextField value={newVal} variant="outlined" style={{ minWidth: minWidth }} onChange={handleOnChange} onBlur={handleOnBlur} type="text" error={!isValid} />

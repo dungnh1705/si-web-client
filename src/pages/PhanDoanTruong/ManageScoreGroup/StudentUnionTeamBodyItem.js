@@ -96,7 +96,7 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
 
   async function handleSaveScore(name, newVal) {
     const { firstName, lastName, scholasticId } = sessionHelper()
-    const avg = name === 'average' ? newVal : null
+    const avg = name === 'average' ? (newVal === 0 || !newVal ? null : newVal) : null
     const newScore = { ...student.score, [name]: newVal, average: avg, userFullName: `${firstName} ${lastName}`, semesterCode: semester, studentId: student.id, scholasticId }
 
     try {
