@@ -1,65 +1,91 @@
-import React, { Suspense } from 'react'
-import { Grid, ButtonGroup, Button, Hidden, Typography } from '@material-ui/core'
+import React, { Suspense, useEffect } from 'react'
+import { Grid, ButtonGroup, Button, Hidden, Typography, CardContent } from '@material-ui/core'
 import { useRecoilState, useRecoilValue } from 'recoil'
+import { useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 
-import { v4 as uuidv4 } from 'uuid'
+import Slider from 'react-slick'
 import { Semester } from 'app/enums'
-import { DocumentPreviewDialog, ChooseFileDialog, GroupScoreResultDialog } from 'components/Dialog'
+import { ChooseFileDialog, GroupScoreResultDialog } from 'components/Dialog'
+import { UnionQuery } from 'recoils/selectors'
 
-import { SemesterSelected, StudentsGroupScore } from './recoil'
-import StudentUnion from './StudentUnion'
-import HeaderAction from './HeaderAction'
+import { SemesterSelected, UnionScoreSelected } from 'pages/PhanDoanTruong/ManageScoreGroup/recoil'
+import HeaderAction from 'pages/PhanDoanTruong/ManageScoreGroup//HeaderAction'
+import StudentUnion from 'pages/PhanDoanTruong/ManageScoreGroup/StudentUnion'
+import PageSkeleton from 'components/Loading/page-skeleton'
 
 const ManageScoreGroup = () => {
-  const lstStuScore = useRecoilValue(StudentsGroupScore)
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   const [semester, setSemester] = useRecoilState(SemesterSelected)
+  const [selectedUnion, setSelectedUnion] = useRecoilState(UnionScoreSelected)
+  const lstUnion = useRecoilValue(UnionQuery)
 
-  const body = () => {
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: isMobile ? 2.5 : 4.5,
+    slidesToScroll: isMobile ? 2 : 3,
+    nextArrow: <></>,
+    prevArrow: <></>
+  }
+
+  function handleClickUnion(unionId) {
+    setSelectedUnion(unionId)
+  }
+
+  useEffect(() => {
+    if (!selectedUnion) setSelectedUnion(lstUnion[0]?.unionId)
+  }, [])
+
+  const Body = () => {
     return (
-      <Grid container spacing={2}>
-        {lstStuScore && (
-          <>
-            <Grid item xs={12} sm={9}>
-              <ButtonGroup variant="contained" aria-label="contained primary button group">
-                {Semester.map(s => (
-                  <Button key={s.Id} color={semester === s.Id ? 'primary' : 'default'} onClick={() => setSemester(s.Id)}>
-                    {s.Name}
-                  </Button>
-                ))}
-              </ButtonGroup>
-            </Grid>
-
-            <Hidden xsDown>
-              <Grid container item sm={3} justifyContent="flex-end">
-                <HeaderAction />
-              </Grid>
-            </Hidden>
-
-            {lstStuScore.map(u => (
-              <Grid key={`score-group-${uuidv4()}`} item xs={12}>
-                <StudentUnion union={u} />
-              </Grid>
-            ))}
-          </>
-        )}
-
-        {!lstStuScore && (
-          <Grid container item spacing={3}>
-            <Grid item xs={12}>
-              <Typography variant="h4">Chưa có Đoàn sinh trong Phân đoàn</Typography>
-            </Grid>
+      <div>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={9}>
+            <ButtonGroup variant="contained" aria-label="contained primary button group">
+              {Semester.map(s => (
+                <Button key={s.Id} color={semester === s.Id ? 'primary' : 'default'} onClick={() => setSemester(s.Id)}>
+                  {s.Name}
+                </Button>
+              ))}
+            </ButtonGroup>
           </Grid>
-        )}
-      </Grid>
+
+          <Hidden xsDown>
+            <Grid container item sm={3} justifyContent="flex-end">
+              <HeaderAction />
+            </Grid>
+          </Hidden>
+        </Grid>
+
+        <br />
+        <Slider {...settings}>
+          {lstUnion &&
+            lstUnion.map(union => (
+              <CardContent onClick={() => handleClickUnion(union.unionId)} key={union.unionId}>
+                <Typography variant="h4" className={`carousel-header ${selectedUnion === union.unionId ? 'carousel-header__active' : ''}`}>
+                  Chi đoàn {union.unionCode}
+                </Typography>
+              </CardContent>
+            ))}
+        </Slider>
+
+        <br />
+        <Suspense fallback={<PageSkeleton />}>
+          <StudentUnion />
+        </Suspense>
+      </div>
     )
   }
   return (
     <Suspense fallback={<>Đang tải Danh sách điểm ...</>}>
-      {body()}
+      <Body />
 
       {/* DIALOG */}
-      <DocumentPreviewDialog />
+      {/* <DocumentPreviewDialog /> */}
       <ChooseFileDialog />
       <GroupScoreResultDialog />
     </Suspense>
