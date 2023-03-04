@@ -1,3 +1,4 @@
+import React from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from '@material-ui/core/styles'
 import { Box } from '@material-ui/core'
@@ -6,7 +7,7 @@ export default function LoadingScreen({ ...other }) {
   const theme = useTheme()
 
   return (
-    <Box height='100%' display='flex' alignItems='center' justifyContent='center' bgcolor={theme.palette.background.default} {...other}>
+    <Box height="100%" display="flex" alignItems="center" justifyContent="center" bgcolor={theme.palette.background.default} {...other}>
       <Box
         component={motion.div}
         animate={{

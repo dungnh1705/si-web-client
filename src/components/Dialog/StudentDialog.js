@@ -276,7 +276,7 @@ export const StudentDialog = () => {
     if (chagenGroupModal.closeParent === true) {
       handleClose()
     }
-  }, chagenGroupModal.closeParent)
+  }, [chagenGroupModal.closeParent])
 
   return loading ? (
     <ModalSkeleton loading={true} />

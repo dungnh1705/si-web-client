@@ -26,6 +26,12 @@ const functions = [
     icon: BarChartOutlinedIcon,
     content: [
       {
+        label: 'Thông tin Phân đoàn',
+        icon: DashboardTwoToneIcon,
+        description: 'Xem thông tin chi tiết của từng Phân đoàn',
+        to: '/BQT/GroupInfo'
+      },
+      {
         label: 'Thêm Đoàn sinh mới',
         icon: PersonAddTwoToneIcon,
         description: 'Thêm mới Đoàn sinh',

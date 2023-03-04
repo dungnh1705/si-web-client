@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import { Fab, Menu, Tooltip, List, ListItem, Collapse, ListItemText } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileExcel, faFileUpload, faDownload, faFilePdf } from '@fortawesome/free-solid-svg-icons'
@@ -13,8 +13,7 @@ import sessionHelper from 'utils/sessionHelper'
 import { ChooseFileDialogAtom, GroupScoreResultDialogAtom } from 'components/Dialog/recoil'
 
 import { SemesterSelected } from './recoil'
-
-const apiEndpoint = process.env.REACT_APP_WEB_API
+import { doDownload } from 'utils/axios'
 
 export default function HeaderAction() {
   const [expand, setExpand] = useState(false)
@@ -42,14 +41,16 @@ export default function HeaderAction() {
 
   const handleDownloadExcel = (e, semesterCode) => {
     e.preventDefault()
-
-    window.open(
-      `${apiEndpoint}/file/getGroupScoreCSV?ScholasticId=${sessionHelper().scholasticId}&UserId=${sessionHelper().userId}&Semester=${semesterCode}&ClassId=${
-        sessionHelper().classId
-      }`,
-      '_parent'
-    )
     handleClose()
+
+    const params = {
+      scholasticId: sessionHelper().scholasticId,
+      classId: sessionHelper().classId,
+      userId: sessionHelper().userId,
+      semester: semesterCode
+    }
+
+    return doDownload('file/getGroupScoreCSV', params)
   }
 
   const handleUploadExcel = () => {

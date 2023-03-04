@@ -5,7 +5,7 @@ import { faFileExcel, faDownload } from '@fortawesome/free-solid-svg-icons'
 import { useSetRecoilState, useRecoilState } from 'recoil'
 
 import sessionHelper from 'utils/sessionHelper'
-import { doPost } from 'utils/axios'
+import { doPost, doDownload } from 'utils/axios'
 import { toastState } from 'recoils/atoms'
 import { ChooseFileInfoDialogAtom } from 'components/Dialog/recoil'
 
@@ -50,12 +50,15 @@ export default function HeaderAction() {
 
   const handleDownloadStudentInfo = async e => {
     e.preventDefault()
-
-    window.open(
-      `${apiEndpoint}/file/getGroupStudentInfoCSV?ScholasticId=${sessionHelper().scholasticId}&UserId=${sessionHelper().userId}&ClassId=${sessionHelper().classId}`,
-      '_parent'
-    )
     handleClose()
+
+    const params = {
+      scholasticId: sessionHelper().scholasticId,
+      classId: sessionHelper().classId,
+      userId: sessionHelper().userId
+    }
+
+    return doDownload('file/getGroupStudentInfoCSV', params)
   }
 
   const handleUploadStudentInfoFile = () => {

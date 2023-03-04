@@ -61,7 +61,8 @@ export default {
     }
   },
   holyNameLookup(holynames, lookupId) {
-    return holynames.find(h => h.id === lookupId)?.name || ''
+    const res = holynames.find(h => h.id === lookupId)?.name || ''
+    return res === '...' ? '' : res
   },
   toString(o) {
     let newObject = { ...o }

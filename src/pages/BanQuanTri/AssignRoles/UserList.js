@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import { TextField, InputAdornment, Divider, Fab, List } from '@material-ui/core'
@@ -16,11 +16,15 @@ import UserItem from './UserItem'
 import { UserListQuery, SearchKey } from './recoil'
 
 const UserList = () => {
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(6)
-  const [searchKey, setSearchKey] = useRecoilState(SearchKey)
+  // const [page, setPage] = useState(0)
+  // const [rowsPerPage, setRowsPerPage] = useState(6)
+
+  const rowsPerPage = 6
+
   const [searchText, setSearchText] = useState('')
   const [isShowUserList, setIsShowUserList] = useState(false)
+
+  const [searchKey, setSearchKey] = useRecoilState(SearchKey)
 
   const handleSearch = () => {
     setSearchKey(searchText)
@@ -89,9 +93,11 @@ const UserList = () => {
           <List>
             <div className="scroll-area-xl shadow-overflow">
               <PerfectScrollbar>
-                {userList?.map(row => {
-                  return <UserItem user={row} key={rowsPerPage + row.id} />
-                })}
+                {userList.map(row => (
+                  <Suspense fallback={<>Loading....</>} key={rowsPerPage + row.id}>
+                    <UserItem user={row} />
+                  </Suspense>
+                ))}
               </PerfectScrollbar>
             </div>
           </List>

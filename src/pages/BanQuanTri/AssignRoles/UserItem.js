@@ -1,20 +1,40 @@
-import React from 'react'
-import { useSetRecoilState } from 'recoil'
+import React, { useEffect, useState } from 'react'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { Avatar, ListItem, Grid } from '@material-ui/core'
 
-import { EditingUser, UserFormMode } from './recoil'
-import { getMaxRole } from 'utils/sessionHelper'
 import Badge from 'components/UI/Badge'
+
 import { UserStatus } from 'app/enums'
+import { storageState } from 'recoils/firebase'
+
+import { getMaxRole } from 'utils/sessionHelper'
+import FileUtils from 'utils/FileUtils'
+
+import { EditingUser, UserFormMode } from 'pages/BanQuanTri/AssignRoles/recoil'
 
 const UserItem = ({ user }) => {
+  const storage = useRecoilValue(storageState)
+
   const setUserFormMode = useSetRecoilState(UserFormMode)
   const setEditingUser = useSetRecoilState(EditingUser)
+
+  const [imageUrl, setImageUrl] = useState()
 
   const handleClickEdit = () => {
     setEditingUser(user)
     setUserFormMode('Edit')
   }
+
+  useEffect(() => {
+    async function fetch() {
+      const avatarFiles = await FileUtils.getFiles(storage, `avatars/${user.id}`)
+      const userAvatar = avatarFiles.find(img => img.fileName === `${user.croppedAvatarId}.png`)
+
+      setImageUrl(userAvatar?.url ?? null)
+    }
+
+    if (user.croppedAvatarId) fetch()
+  }, [user])
 
   return (
     <ListItem button className="align-box-row" onClick={() => handleClickEdit(user)} key={user?.id}>
@@ -28,7 +48,7 @@ const UserItem = ({ user }) => {
               horizontal: 'right'
             }}
             variant="dot"
-            child={<Avatar sizes="50" src={user?.avatarUrl}>{`${user?.firstName?.substring(0, 1)}${user?.lastName?.substring(0, 1)}`}</Avatar>}
+            child={<Avatar sizes="50" src={imageUrl}>{`${user?.firstName?.substring(0, 1)}${user?.lastName?.substring(0, 1)}`}</Avatar>}
           />
           <div className="p-3">
             <a href="#/" onClick={e => e.preventDefault()} className="font-weight-bold text-black" title="...">

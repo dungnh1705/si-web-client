@@ -123,3 +123,20 @@ export const UserAvatarQuery = selector({
     }
   }
 })
+
+export const UserImageSelector = selectorFamily({
+  key: 'UserImageSelector',
+  get:
+    ({ userId, croppedAvatarId }) =>
+    async ({ get }) => {
+      if (croppedAvatarId) {
+        const storage = get(storageState)
+
+        const avatarFiles = await FileUtils.getFiles(storage, `avatars/${userId}`)
+        const userAvatar = avatarFiles.find(img => img.fileName === `${croppedAvatarId}.png`)
+
+        return userAvatar.url ?? null
+      }
+      return null
+    }
+})

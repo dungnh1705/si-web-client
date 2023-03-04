@@ -8,8 +8,8 @@ import sessionHelper from 'utils/sessionHelper'
 // import { doPost } from 'utils/axios'
 // import { toastState } from 'recoils/atoms'
 import { ChooseFileInfoDialogAtom } from 'components/Dialog/recoil'
+import { doDownload } from 'utils/axios'
 
-const apiEndpoint = process.env.REACT_APP_WEB_API
 // const templateId = process.env.REACT_APP_START_YEAR_DOC_ID
 
 export default function HeaderAction() {
@@ -50,9 +50,14 @@ export default function HeaderAction() {
 
   const handleDownloadStudentInfo = async e => {
     e.preventDefault()
-
-    window.open(`${apiEndpoint}/file/getClassStudentInfoCSV?ClassId=${sessionHelper().classId}&UnionId=${sessionHelper().unionId}`, '_parent')
     handleClose()
+
+    const params = {
+      classId: sessionHelper().classId,
+      unionId: sessionHelper().unionId
+    }
+
+    return doDownload('file/getClassStudentInfoCSV', params)
   }
 
   const handleUploadStudentInfoFile = () => {

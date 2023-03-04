@@ -14,6 +14,7 @@ import FindStudents from 'pages/Students/FindStudent'
 import MyProfile from 'pages/Users/MyProfile'
 // BQT
 import RegisterOffline from 'pages/BanQuanTri/RegisterOffline'
+import GroupInfo from 'pages/BanQuanTri/GroupInfo'
 // PDT
 import AddNewStudent from 'pages/PhanDoanTruong/AddNewStudent'
 import ManageScoreGroup from 'pages/PhanDoanTruong/ManageScoreGroup'
@@ -107,6 +108,15 @@ export default [
         component: lazy(() => import('pages/Report'))
       },
       // Ban Quản trị
+      {
+        path: '/BQT/GroupInfo',
+        exact: true,
+        component: () => (
+          <Suspense fallback={<PageSkeleton />}>
+            <GroupInfo />
+          </Suspense>
+        )
+      },
       {
         path: '/BQT/RegisterOffline',
         exact: true,

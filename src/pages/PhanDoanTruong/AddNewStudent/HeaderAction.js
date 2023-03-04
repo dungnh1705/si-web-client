@@ -5,8 +5,7 @@ import { faFileExcel, faDownload } from '@fortawesome/free-solid-svg-icons'
 import { useRecoilState } from 'recoil'
 
 import { ChooseFileInfoDialogAtom } from 'components/Dialog/recoil'
-
-const apiEndpoint = process.env.REACT_APP_WEB_API
+import { doDownload } from 'utils/axios'
 
 export default function HeaderAction() {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -19,9 +18,9 @@ export default function HeaderAction() {
 
   const handleDownloadStudentInfo = async e => {
     e.preventDefault()
-
-    window.open(`${apiEndpoint}/file/getRegisterFile`, '_parent')
     handleClose()
+
+    return doDownload('file/getRegisterFile')
   }
 
   const handleUploadStudentInfoFile = () => {
