@@ -8,14 +8,12 @@ import _ from 'lodash'
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded'
 import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded'
 
-import { doPost } from 'utils/axios'
+import { doDownload, doPost } from 'utils/axios'
 import { TemplatesQuery } from 'recoils/selectors'
 import { Editor } from '@tinymce/tinymce-react'
 import { DocumentPreviewDialogAtom } from './recoil'
 import { toastState, loadingState } from 'recoils/atoms'
 import sessionHelper from 'utils/sessionHelper'
-
-const apiEndpoint = process.env.REACT_APP_WEB_API
 
 export const DocumentPreviewDialog = () => {
   let [templateId, setTemplateId] = useState('')
@@ -68,7 +66,7 @@ export const DocumentPreviewDialog = () => {
     setLoading(true)
 
     try {
-      let data = {
+      const data = {
         StudentId: [studentId],
         ClassId: sessionHelper().classId,
         ScholasticId: sessionHelper().scholasticId,
@@ -77,11 +75,11 @@ export const DocumentPreviewDialog = () => {
         IsPreview: false
       }
 
-      let res = await doPost(`download/previewForm`, data)
+      const res = await doPost(`download/previewForm`, data)
       if (res && res.data.success) {
         setLoading(false)
-        let { data } = res.data
-        window.open(`${apiEndpoint}/file/get?fileName=${data}`, '_parent')
+        const { data } = res.data
+        doDownload('/file/get', { fileName: data })
       }
     } catch (err) {
       setLoading(false)

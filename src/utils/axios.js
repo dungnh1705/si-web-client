@@ -69,7 +69,7 @@ const doAxiosDownload = (method, action, params, data) => {
         'Access-Control-Allow-Origin': '*'
       }
 
-  axios({
+  return axios({
     method: method,
     url: `${apiEndpoint}\\${action}`,
     data: data,

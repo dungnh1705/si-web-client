@@ -10,23 +10,23 @@ import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded'
 import sessionHelper from 'utils/sessionHelper'
 
 // components
-import { doPost } from 'utils/axios'
+import { doDownload, doPost } from 'utils/axios'
 import _ from 'lodash'
 import { TemplateType } from 'app/enums'
 import { loadingState, toastState } from 'recoils/atoms'
 import { documentReview, reportTemplateQuery } from './recoil'
+import ButtonLoading from 'components/UI/ButtonLoading'
 
 const buttonStyle = { fontSize: '0.9em', padding: '0.75em 0' }
 const inputGrid = { xs: 12, sm: 6, md: 8, lg: 9 }
 const buttonGrid = { xs: 12, sm: 6, md: 4, lg: 3 }
-const apiEndpoint = process.env.REACT_APP_WEB_API
 
 export default function () {
   const templates = useRecoilValue(reportTemplateQuery)
 
   const [selectedTemplate, setSelectedTemplate] = useState('')
   const [toast, setToast] = useRecoilState(toastState)
-  const setLoading = useSetRecoilState(loadingState)
+  const [loading, setLoading] = useRecoilState(loadingState)
   const setDocument = useSetRecoilState(documentReview)
 
   const handleReport = async (e, isPreview = true) => {
@@ -48,19 +48,14 @@ export default function () {
         if (res) {
           const { data } = res.data
           setDocument(data)
+          setLoading(false)
         }
       } else {
-        window.open(
-          `${apiEndpoint}/download/downloadPreviewForm?StudentId=[]&ClassId=${sessionHelper().classId}&ScholasticId=${sessionHelper().scholasticId}&UserId=${
-            sessionHelper().userId
-          }&TemplateId=${selectedTemplate}`,
-          '_parent'
-        )
+        await doDownload('download/downloadPreviewForm', data)
+        setLoading(false)
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -104,17 +99,7 @@ export default function () {
           </Button>
         </Grid>
         <Grid item xs={6}>
-          <Button
-            size="large"
-            fullWidth
-            variant="contained"
-            color="default"
-            disabled={!selectedTemplate}
-            startIcon={<GetAppRoundedIcon />}
-            onClick={e => handleReport(e, false)}
-            style={buttonStyle}>
-            Tải xuống
-          </Button>
+          <ButtonLoading btnText="Tải xuống" loading={loading} handleButtonClick={e => handleReport(e, false)} disabled={!selectedTemplate} startIcon={<GetAppRoundedIcon />} />
         </Grid>
       </Grid>
     </Grid>

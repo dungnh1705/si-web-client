@@ -39,17 +39,15 @@ const useStyles = makeStyles(theme => ({
 export default function ButtonLoading(props) {
   const classes = useStyles()
 
-  const { btnText, loading, disabled, handleButtonClick, type } = props
+  const { btnText, loading, disabled, handleButtonClick, type, startIcon } = props
   return (
     <Fragment>
-      {/* <div className={classes.root}> */}
       <div className={classes.wrapper}>
-        <Button type={type || 'button'} size="large" variant="contained" color="primary" disabled={loading || disabled} onClick={handleButtonClick} fullWidth>
+        <Button type={type || 'button'} size="large" variant="contained" color="primary" disabled={loading || disabled} onClick={handleButtonClick} fullWidth startIcon={startIcon}>
           {btnText}
         </Button>
         {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
       </div>
-      {/* </div> */}
     </Fragment>
   )
 }
