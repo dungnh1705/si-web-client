@@ -8,14 +8,12 @@ import { useTheme } from '@material-ui/core/styles'
 import StyledCheckbox from 'components/UI/StyledCheckbox'
 import ButtonLoading from 'components/UI/ButtonLoading'
 import { StudentStatus } from 'app/enums'
-import { doPost } from 'utils/axios'
+import { doDownload, doPost } from 'utils/axios'
 
 import { HolyNameQuery, TemplatesQuery } from 'recoils/selectors'
 import { ScoreDownloadDialogAtom } from './recoil'
 import sessionHelper from 'utils/sessionHelper'
 import { toastState } from 'recoils/atoms'
-
-const apiEndpoint = process.env.REACT_APP_WEB_API
 
 export const ScoreDownloadDialog = () => {
   const theme = useTheme()
@@ -90,7 +88,7 @@ export const ScoreDownloadDialog = () => {
         setLoading(false)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
 
-        window.open(`${apiEndpoint}/file/get?fileName=${data}`, '_parent')
+        doDownload('file/get', { fileName: data })
       }
     } catch (err) {
       setLoading(false)

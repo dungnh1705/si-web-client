@@ -6,14 +6,12 @@ import { faDownload, faFilePdf, faFileExcel, faFileUpload } from '@fortawesome/f
 import { useRecoilValue, useRecoilState } from 'recoil'
 import { StudentListQuery } from './recoil'
 
-import config from 'config'
 import sessionHelper from 'utils/sessionHelper'
 import { ChooseFileDialogAtom, ScoreDownloadDialogAtom } from 'components/Dialog/recoil'
 
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
-
-const apiEndpoint = process.env.REACT_APP_WEB_API
+import { doDownload } from 'utils/axios'
 
 export default function HeaderAction() {
   let [anchorEl, setAnchorEl] = useState(null)
@@ -42,13 +40,14 @@ export default function HeaderAction() {
 
   const handleDownloadExcel = (e, semesterCode) => {
     e.preventDefault()
+    const params = {
+      ScholasticId: sessionHelper().scholasticId,
+      ClassId: sessionHelper().classId,
+      SemesterCode: semesterCode,
+      UnionId: sessionHelper().unionId
+    }
 
-    window.open(
-      `${apiEndpoint}/file/getScoreCSV?ScholasticId=${sessionHelper().scholasticId}&ClassId=${sessionHelper().classId}&UnionId=${
-        sessionHelper().unionId
-      }&SemesterCode=${semesterCode}`,
-      '_parent'
-    )
+    doDownload('file/getScoreCSV', params)
     handleClose()
   }
 

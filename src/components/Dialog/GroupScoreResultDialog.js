@@ -7,8 +7,7 @@ import { UnionQuery } from 'recoils/selectors'
 import sessionHelper from 'utils/sessionHelper'
 
 import { GroupScoreResultDialogAtom } from './recoil'
-
-const apiEndpoint = process.env.REACT_APP_WEB_API
+import { doDownload } from 'utils/axios'
 
 export const GroupScoreResultDialog = () => {
   const [loading, setLoading] = useState(false)
@@ -25,18 +24,21 @@ export const GroupScoreResultDialog = () => {
     setDialog({ ...dialog, open: false })
   }
 
-  function handleDownload() {
+  async function handleDownload() {
     setLoading(true)
-
     const { scholasticId, userId, classId } = sessionHelper()
-    const ids = unionIds.join('&UnionIds=')
+
+    const params = {
+      IsGetGroupResult: true,
+      TemplateId: templateId,
+      ScholasticId: scholasticId,
+      UserId: userId,
+      UnionIds: unionIds,
+      ClassId: classId
+    }
 
     try {
-      window.open(
-        `${apiEndpoint}/download/downloadResultForm?IsGetGroupResult=true&TemplateId=${templateId}&ScholasticId=${scholasticId}&UserId=${userId}&UnionIds=${ids}&ClassId=${classId}`,
-        '_parent'
-      )
-
+      await doDownload('download/downloadResultForm', params)
       setLoading(false)
     } catch (err) {
       setLoading(false)

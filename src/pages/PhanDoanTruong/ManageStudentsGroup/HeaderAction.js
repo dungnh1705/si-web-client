@@ -9,7 +9,6 @@ import { doPost, doDownload } from 'utils/axios'
 import { toastState } from 'recoils/atoms'
 import { ChooseFileInfoDialogAtom } from 'components/Dialog/recoil'
 
-const apiEndpoint = process.env.REACT_APP_WEB_API
 const templateId = process.env.REACT_APP_START_YEAR_DOC_ID
 
 export default function HeaderAction() {
@@ -41,7 +40,7 @@ export default function HeaderAction() {
       const res = await doPost(`download/previewForm`, data)
       if (res && res.data.success) {
         const { data } = res.data
-        window.open(`${apiEndpoint}/file/get?fileName=${data}`, '_parent')
+        doDownload('file/get', { fileName: data })
       }
     } catch (err) {
       setToast({ open: true, message: err.message, type: 'error' })
