@@ -24,7 +24,8 @@ const ConfirmDialog = () => {
 
   let setReload = useSetRecoilState(ReloadStudentAbsent)
 
-  const handleClose = () => {
+  const handleClose = (e, reason) => {
+    if (reason && reason === 'backdropClick') return
     setOpen(false)
   }
 

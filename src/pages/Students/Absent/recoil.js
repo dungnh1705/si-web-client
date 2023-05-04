@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil'
 import _ from 'lodash'
-import config from 'config'
+
 import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { HolyNameQuery } from 'recoils/selectors'
@@ -78,7 +78,7 @@ export const LoadListStudent = selector({
 
     try {
       var res =
-        Number(classId) !== 0 && !roles.includes(Roles.HocTap)
+        Number(classId) !== 0 && !roles.includes(Roles.HocTap) && !roles.includes(Roles.PhanDoanTruong)
           ? await doGet(`student/getStudentInClass`, { classCode: classId, unionId })
           : await doGet(`student/getStudentInGroup`, { scholasticId, userId, classId })
 
@@ -98,6 +98,23 @@ export const LoadListStudent = selector({
       }
     } catch (err) {
       return null
+    }
+  }
+})
+
+export const LoadSundayList = selector({
+  key: 'LoadSundayList',
+  get: async () => {
+    const { scholasticId } = sessionHelper()
+
+    try {
+      var res = await doGet(`student/getSchoolDates`, { scholasticId, semesterCode: 'null' })
+
+      if (res && res.data.success) {
+        return res.data.data.map(item => item.schoolDate)
+      }
+    } catch (err) {
+      return []
     }
   }
 })
