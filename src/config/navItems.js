@@ -174,7 +174,9 @@ export default [
           return (
             (sessionHelper().roles?.includes(func.role)
               ? func.role === Roles.HuynhTruong || func.role === Roles.DuTruong
-                ? sessionHelper().classId && sessionHelper().unionId !== 1
+                ? sessionHelper().roles?.includes(Roles.PhanDoanTruong) && sessionHelper().unionId === 0
+                  ? false
+                  : sessionHelper().classId && sessionHelper().unionId !== 1
                   ? true
                   : false
                 : true
