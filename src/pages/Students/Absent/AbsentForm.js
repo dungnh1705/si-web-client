@@ -1,37 +1,57 @@
 import React, { useState } from 'react'
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
-import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Button, FormGroup, FormControlLabel, FormControl, Divider } from '@material-ui/core'
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Button, FormGroup, FormControlLabel, FormControl, Divider, Box, Input } from '@material-ui/core'
 
 import StyledCheckbox from 'components/UI/StyledCheckbox'
 import StyledRadio from 'components/UI/StyledRadio'
 import ButtonLoading from 'components/UI/ButtonLoading'
 import { AbsentMode } from 'app/enums'
+import Select from '@material-ui/core/Select'
+import Checkbox from '@material-ui/core/Checkbox'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import Chip from '@material-ui/core/Chip'
+import ListItemText from '@material-ui/core/ListItemText'
 
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import parse from 'autosuggest-highlight/parse'
 import match from 'autosuggest-highlight/match'
 import Yup from 'utils/Yup'
 import { useFormik } from 'formik'
-import { KeyboardDatePicker } from '@material-ui/pickers'
+import moment from 'moment'
 
 import { doPost } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { toastState } from 'recoils/atoms'
 
-import { LoadListStudent, OpenAbsentForm, ReloadStudentAbsent } from './recoil'
+import { LoadListStudent, LoadSundayList, OpenAbsentForm, ReloadStudentAbsent } from './recoil'
 
-const initForm = { StudentId: '', Reason: '', DateAbsent: new Date(), IsActive: true, Mode: 0, HasPermission: true, Modes: [] }
+const initForm = { StudentId: '', Reason: '', DateAbsents: [], IsActive: true, Mode: 0, HasPermission: true, Modes: [] }
+
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250
+    }
+  }
+}
 
 const AbsentForm = () => {
-  let lstStudent = useRecoilValue(LoadListStudent)
-  let [openForm, setOpenForm] = useRecoilState(OpenAbsentForm)
-  let [toast, setToast] = useRecoilState(toastState)
-  let setReloadAbsent = useSetRecoilState(ReloadStudentAbsent)
-  let [loading, setLoading] = useState(false)
+  const lstStudent = useRecoilValue(LoadListStudent)
+  const lstSunday = useRecoilValue(LoadSundayList)
+  const setReloadAbsent = useSetRecoilState(ReloadStudentAbsent)
+
+  const [openForm, setOpenForm] = useRecoilState(OpenAbsentForm)
+  const [toast, setToast] = useRecoilState(toastState)
+  const [loading, setLoading] = useState(false)
 
   const validationSchema = Yup.object({
     StudentId: Yup.string().required('Không để trống'),
-    Modes: Yup.array().min(1, 'Phải chọn 1 trong 2 loại ngày nghỉ.')
+    Modes: Yup.array().min(1, 'Phải chọn 1 trong 2 loại ngày nghỉ.'),
+    DateAbsents: Yup.array().min(1, 'Phải chọn ít nhất 1 ngày nghỉ.')
   })
 
   const formData = useFormik({
@@ -58,27 +78,6 @@ const AbsentForm = () => {
       onChange: handleChange,
       inputProps: {
         maxLength: maxLength
-      }
-    }
-  }
-
-  const DatePicker_Props = (name, label) => {
-    const { values, errors, touched, handleBlur, handleChange } = formData
-    return {
-      name,
-      label,
-      fullWidth: true,
-      inputVariant: 'outlined',
-      error: errors[name] && touched[name],
-      helperText: errors[name] && touched[name] && errors[name],
-      InputLabelProps: { shrink: true },
-      format: 'dd/MM/yyyy',
-      value: values[name] ?? null,
-      autoOk: true,
-      onBlur: handleBlur,
-      onChange: handleChange,
-      KeyboardButtonProps: {
-        'aria-label': 'change date'
       }
     }
   }
@@ -111,11 +110,13 @@ const AbsentForm = () => {
     }
   }
 
-  const handleChangeDate = (date, name) => {
+  const handleChange = (date, name) => {
     formData.setFieldValue(name, date)
   }
 
-  const handleCloseForm = () => {
+  const handleCloseForm = (e, reason) => {
+    if (reason && reason === 'backdropClick') return
+
     if (!loading) {
       formData.resetForm({ values: initForm })
       setOpenForm(false)
@@ -142,7 +143,33 @@ const AbsentForm = () => {
       <DialogContent style={{ padding: '20px 10px' }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <KeyboardDatePicker {...DatePicker_Props('DateAbsent', 'Ngày nghỉ')} onChange={date => handleChangeDate(date, 'DateAbsent')} />
+            <FormControl fullWidth>
+              <InputLabel id="multi-date-absent-label" shrink style={{ marginLeft: '15px' }}>
+                Chọn ngày nghỉ
+              </InputLabel>
+              <Select
+                labelId="multi-date-absent-label"
+                id="multiple-chip"
+                multiple
+                value={formData.values['DateAbsents']}
+                onChange={e => handleChange(e.target.value, 'DateAbsents')}
+                input={<Input />}
+                renderValue={selected => (
+                  <Box style={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {selected.map(value => (
+                      <Chip key={value} label={moment(value).format('DD/MM/YYYY')} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}>
+                {lstSunday.map(item => (
+                  <MenuItem key={item} value={item}>
+                    <Checkbox checked={formData.values['DateAbsents'].indexOf(item) > -1} />
+                    <ListItemText primary={moment(item).format('DD/MM/YYYY')} />
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12}>
             <Autocomplete
@@ -170,12 +197,12 @@ const AbsentForm = () => {
               renderInput={params => (
                 <TextField
                   label="Đoàn sinh"
-                  InputLabelProps={{
-                    shrink: true
-                  }}
                   variant="outlined"
                   fullWidth={true}
                   {...params}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
                 />
               )}
             />
