@@ -37,7 +37,7 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
 
   const [student, setStudent] = useState(undefined)
   const [reload, setReload] = useState(0)
-  const [beUpClass, setBeUpClass] = useState(student?.score?.beUpClass)
+  const [beUpClass, setBeUpClass] = useState(false)
 
   const semester = useRecoilValue(SemesterSelected)
   const [toast, setToast] = useRecoilState(toastState)
@@ -126,6 +126,12 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
   }, [])
 
   useEffect(() => {
+    if (student?.score) {
+      setBeUpClass(student?.score?.beUpClass)
+    }
+  }, [student])
+
+  useEffect(() => {
     async function fetch() {
       const { scholasticId } = sessionHelper()
 
@@ -182,7 +188,6 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
           {/* Nghỉ lễ không phép */}
           <td>{sumAbsents().massNonPermission}</td>
           <td>
-            {' '}
             <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="100px" />
           </td>
           <td>
