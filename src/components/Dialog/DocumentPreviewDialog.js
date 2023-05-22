@@ -8,7 +8,7 @@ import _ from 'lodash'
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded'
 import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded'
 
-import { doDownload, doPost } from 'utils/axios'
+import { doDownload, doPostDownload, doPost } from 'utils/axios'
 import { TemplatesQuery } from 'recoils/selectors'
 import { Editor } from '@tinymce/tinymce-react'
 import { DocumentPreviewDialogAtom } from './recoil'
@@ -72,15 +72,11 @@ export const DocumentPreviewDialog = () => {
         ScholasticId: sessionHelper().scholasticId,
         UserId: sessionHelper().userId,
         TemplateId: templateId,
-        IsPreview: false
+        IsPreview: true
       }
 
-      const res = await doPost(`download/previewForm`, data)
-      if (res && res.data.success) {
-        setLoading(false)
-        const { data } = res.data
-        doDownload('/file/get', { fileName: data })
-      }
+      await doDownload(`download/downloadForm`, data)
+      setLoading(false)
     } catch (err) {
       setLoading(false)
       setToast({ open: true, message: err.message, type: 'error' })
