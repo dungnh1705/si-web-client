@@ -194,7 +194,7 @@ const StudentScoreDetails = ({ student }) => {
       </Grid>
       <Grid item xs={5} sm={4}>
         <FormControl variant="outlined" fullWidth>
-          <InputLabel>Hạnh kiểm</InputLabel>
+          <InputLabel>Đạo đức</InputLabel>
           <Select
             inputlabelprops={{ shrink: true }}
             inputProps={{
@@ -206,7 +206,7 @@ const StudentScoreDetails = ({ student }) => {
             onChange={e => {
               formData.setFieldValue('morality', e.target.value)
             }}
-            label="Hạnh kiểm"
+            label="Đạo đức"
             MenuProps={{
               anchorOrigin: {
                 vertical: 'bottom',

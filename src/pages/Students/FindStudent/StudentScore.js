@@ -140,7 +140,7 @@ const StudentScore = ({ tabValue }) => {
                         <TextField {...TextField_Props('ranking', 'Xếp loại', sOne.ranking)} />
                       </Grid>
                       <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('morality', 'Hạnh kiểm', sOne.morality)} />
+                        <TextField {...TextField_Props('morality', 'Đạo đức', sOne.morality)} />
                       </Grid>
                       <Grid item xs={12} lg={3}>
                         <TextField {...TextField_Props('comment', 'Nhận xét', sOne.comment)} />
@@ -177,7 +177,7 @@ const StudentScore = ({ tabValue }) => {
                         <TextField {...TextField_Props('ranking', 'Xếp loại', sTwo.ranking)} type="text" />
                       </Grid>
                       <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('morality', 'Hạnh kiểm', sTwo.morality)} type="text" />
+                        <TextField {...TextField_Props('morality', 'Đạo đức', sTwo.morality)} type="text" />
                       </Grid>
                       <Grid item xs={12} lg={3}>
                         <TextField {...TextField_Props('comment', 'Nhận xét', sTwo.comment)} type="text" />
@@ -208,7 +208,7 @@ const StudentScore = ({ tabValue }) => {
                         <TextField {...TextField_Props('ranking', 'Xếp loại', tt.ranking)} type="text" />
                       </Grid>
                       <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('morality', 'Hạnh kiểm', tt.morality)} type="text" />
+                        <TextField {...TextField_Props('morality', 'Đạo đức', tt.morality)} type="text" />
                       </Grid>
                       <Grid item xs={12} lg={5}>
                         <TextField {...TextField_Props('comment', 'Nhận xét', tt.comment)} type="text" />
