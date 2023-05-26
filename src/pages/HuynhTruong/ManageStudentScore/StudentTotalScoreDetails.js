@@ -161,7 +161,7 @@ const StudentTotalScoreDetails = ({ student }) => {
       </Grid>
       <Grid item xs={3}>
         <FormControl variant="outlined" fullWidth>
-          <InputLabel>Hạnh kiểm</InputLabel>
+          <InputLabel>Đạo đức</InputLabel>
           <Select
             inputlabelprops={{ shrink: true }}
             inputProps={{
@@ -172,7 +172,7 @@ const StudentTotalScoreDetails = ({ student }) => {
             value={formData.values['morality'] ?? 'Tốt'}
             onChange={e => formData.setFieldValue('morality', e.target.value)}
             onBlur={saveTotalScore}
-            label="Hạnh kiểm"
+            label="Đạo đức"
             MenuProps={{
               anchorOrigin: {
                 vertical: 'bottom',
