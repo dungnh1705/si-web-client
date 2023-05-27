@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Grid, TextField, MenuItem, Button } from '@material-ui/core'
+import React, { useEffect, useState } from 'react'
+import { Button, Grid, MenuItem, TextField } from '@material-ui/core'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 
 // icons
@@ -18,8 +18,8 @@ import { documentReview, reportTemplateQuery } from './recoil'
 import ButtonLoading from 'components/UI/ButtonLoading'
 
 const buttonStyle = { fontSize: '0.9em', padding: '0.75em 0' }
-const inputGrid = { xs: 12, sm: 6, md: 8, lg: 9 }
-const buttonGrid = { xs: 12, sm: 6, md: 4, lg: 3 }
+const inputGrid = { xs: 12, sm: 6, md: 8 }
+const buttonGrid = { xs: 12, sm: 6, md: 4 }
 
 export default function () {
   const templates = useRecoilValue(reportTemplateQuery)
