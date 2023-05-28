@@ -150,47 +150,47 @@ const StudentScore = ({ tabValue }) => {
                       <tbody>
                         <tr>
                           <th>Học kỳ I</th>
-                          <th style={{ textAlign: 'center' }}>{sOne.oldTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sOne.fifteenTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sOne.lessonTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sOne.semesterTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sOne.average}</th>
-                          <th style={{ textAlign: 'center' }}>{sOne.morality}</th>
-                          <th style={{ textAlign: 'center' }}>{sOne.ranking}</th>
+                          <th style={{ textAlign: 'center' }}>{sOne?.oldTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sOne?.fifteenTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sOne?.lessonTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sOne?.semesterTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sOne?.average}</th>
+                          <th style={{ textAlign: 'center' }}>{sOne?.morality}</th>
+                          <th style={{ textAlign: 'center' }}>{sOne?.ranking}</th>
                         </tr>
                         <tr>
                           <th>Nhận xét</th>
                           <th colSpan={7} style={{ textAlign: 'center' }}>
-                            {sOne.comment}
+                            {sOne?.comment}
                           </th>
                         </tr>
                         <tr>
                           <th>Học kỳ II</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo.oldTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo.fifteenTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo.lessonTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo.semesterTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo.average}</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo.morality}</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo.ranking}</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo?.oldTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo?.fifteenTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo?.lessonTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo?.semesterTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo?.average}</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo?.morality}</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo?.ranking}</th>
                         </tr>
                         <tr>
                           <th>Nhận xét</th>
                           <th colSpan={7} style={{ textAlign: 'center' }}>
-                            {sTwo.comment}
+                            {sTwo?.comment}
                           </th>
                         </tr>
                         <tr>
                           <th>Cả năm</th>
                           <th style={{ textAlign: 'center' }} colSpan={2}>
-                            {total.avgSemesterOne}
+                            {total?.avgSemesterOne}
                           </th>
                           <th style={{ textAlign: 'center' }} colSpan={2}>
-                            {total.avgSemesterTwo}
+                            {total?.avgSemesterTwo}
                           </th>
-                          <th style={{ textAlign: 'center' }}>{total.avgTotal}</th>
-                          <th style={{ textAlign: 'center' }}>{total.morality}</th>
-                          <th style={{ textAlign: 'center' }}>{total.ranking}</th>
+                          <th style={{ textAlign: 'center' }}>{total?.avgTotal}</th>
+                          <th style={{ textAlign: 'center' }}>{total?.morality}</th>
+                          <th style={{ textAlign: 'center' }}>{total?.ranking}</th>
                         </tr>
                         <tr>
                           <th>Nhận xét</th>
