@@ -1,229 +1,215 @@
-import React from 'react'
-import { Grid, TextField, CardContent, Avatar, Tooltip } from '@material-ui/core'
+import React, { Fragment, useEffect, useState } from 'react'
+import { Grid, CardContent, Avatar, Tooltip, Card, IconButton, Divider } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
-import Slider from 'react-slick'
 import Badge from 'components/UI/Badge'
+import { orderBy } from 'lodash'
 
 import { HolyNameQuery } from 'recoils/selectors'
 import { useRecoilValue } from 'recoil'
-import { orderBy } from 'lodash'
 
 import { GetStudentDetails } from './recoil'
 
-const StudentScore = ({ tabValue }) => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  }
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import ExpandLessIcon from '@material-ui/icons/ExpandLess'
+import { UserStatus } from 'app/enums'
+import { nanoid } from 'nanoid'
 
+const StudentScore = ({ tabValue }) => {
   const student = useRecoilValue(GetStudentDetails)
   const lstHolyName = useRecoilValue(HolyNameQuery)
-
-  const TextField_Props = (name, label, val) => {
-    return {
-      name,
-      label,
-      fullWidth: true,
-      variant: 'outlined',
-      value: val ?? '',
-      InputProps: {
-        readOnly: true
-      },
-      InputLabelProps: { shrink: true }
-    }
-  }
+  const [collapse, setCollapse] = useState([])
 
   const getHolyName = holyId => {
     return lstHolyName?.find(h => h.id === holyId)?.name
   }
 
+  const handleClickCollapse = sectionId => {
+    collapse.some(item => item === sectionId) ? setCollapse(collapse.filter(i => i !== sectionId)) : setCollapse([...collapse, sectionId])
+  }
+
+  useEffect(() => {
+    if (student) {
+      setCollapse([`${student.id}-0`])
+    }
+  }, [student])
+
   if (tabValue === 1 && student) {
     return (
-      <Slider {...settings}>
-        {orderBy(student?.studentClass, ['classId'], ['desc'])?.map((cl, index) => {
-          const schoolYear = cl.class?.scholastic
-          const leader = cl?.class?.leader
+      <div className="mt-3">
+        {orderBy(student?.studentClass, ['classId'], ['desc']).map((sl, index) => {
+          const schoolYear = sl.class?.scholastic
+          const leader = sl?.class?.leader
+          const key = `${sl.studentId}-${index}`
+          const groupInfo = sl?.class?.group
+          const sOne = student.semesterOne?.find(s => s.scholasticId === sl.class?.scholasticId)
+          const sTwo = student.semesterTwo?.find(s => s.scholasticId === sl.class?.scholasticId)
+          const total = student.total?.find(s => s.scholasticId === sl.class?.scholasticId)
+
           return (
-            <div key={`scl-${index * 77}`}>
-              <CardContent>
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <Typography>Năm học: {`${schoolYear?.startYear} - ${schoolYear?.endYear}`}</Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>{`Phân đoàn: ${cl.class?.group?.groupName} - Chi đoàn: ${cl.union?.unionCode == 0 ? '' : cl.union?.unionCode}`}</Typography>
-                  </Grid>
-                  <Grid item xs={12} md={4}>
-                    <div className="d-flex align-items-center">
-                      <Typography>Phân đoàn trưởng:</Typography>
-                      <Badge
-                        isActive={leader?.status == 2}
-                        overlap="circular"
-                        anchorOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'right'
-                        }}
-                        variant="dot"
-                        child={
-                          <Tooltip title={`${getHolyName(leader?.holyNameId)} ${leader?.firstName} ${leader?.lastName}`}>
-                            <Avatar src={leader?.croppedAvatarId ? `img/avatar/${leader?.croppedAvatarId}.png` : ''}>
-                              {`${leader?.firstName?.substring(0, 1)}${leader?.lastName?.substring(0, 1)}`}
-                            </Avatar>
-                          </Tooltip>
-                        }
-                        className="ml-2"
-                      />
+            <div key={key}>
+              <Card className="card-box mb-2 w-100">
+                <div className="card-header d-flex pb-1 pt-1" onClick={() => handleClickCollapse(key)} style={{ cursor: 'pointer' }}>
+                  <div className="card-header--title">
+                    <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Năm học: {`${schoolYear?.startYear} - ${schoolYear?.endYear}`}</h4>
+                  </div>
+                  <Grid container item xs={10} justifyContent="flex-end">
+                    <div className="card-header--actions">
+                      <Tooltip arrow title={!collapse.some(item => item === key) ? 'Thu lại' : 'Mở rộng'}>
+                        <IconButton size="medium" color="primary">
+                          {!collapse.some(item => item === key) ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                        </IconButton>
+                      </Tooltip>
                     </div>
                   </Grid>
-                  <Grid item xs={12} md={8}>
-                    <div className="d-flex align-items-center">
-                      <Typography variant="subtitle1">HT phụ trách: </Typography>
-                      <div className="ml-4">
-                        {cl.class?.assignment
-                          ?.filter(a => a.unionId === cl.union?.unionId && a.unionId !== 1) // UnionId = 1 là HT chưa đc phân chi đoàn
-                          .map((ass, index) => {
-                            const teacher = ass?.user
-                            return (
-                              <div className="avatar-icon-wrapper" key={`teacher-${index * 66}`}>
-                                <Badge
-                                  isActive={teacher?.status == 2}
-                                  overlap="circular"
-                                  anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'right'
-                                  }}
-                                  variant="dot"
-                                  child={
-                                    <Tooltip title={`${getHolyName(teacher?.holyNameId)} ${teacher?.firstName} ${teacher?.lastName}`}>
-                                      <Avatar src={teacher?.croppedAvatarId ? `img/avatar/${teacher?.croppedAvatarId}.png` : ''}>
-                                        {`${teacher?.firstName?.substring(0, 1)}${teacher?.lastName?.substring(0, 1)}`}
-                                      </Avatar>
-                                    </Tooltip>
-                                  }
-                                />
-                              </div>
-                            )
-                          })}
+                </div>
+                <Divider />
+                <CardContent hidden={!collapse.some(item => item === key)}>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                      <Typography variant={'h5'}>{`Phân đoàn: ${groupInfo.groupName} - Chi đoàn: ${sl.union?.unionCode ?? ''}`}</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <div className="d-flex align-items-center mt-2">
+                        <Typography>Phân đoàn trưởng:</Typography>
+                        <Badge
+                          isActive={leader?.status === UserStatus.Active}
+                          overlap="circular"
+                          anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right'
+                          }}
+                          variant="dot"
+                          child={
+                            <Tooltip title={`${getHolyName(leader?.holyNameId)} ${leader?.firstName} ${leader?.lastName}`}>
+                              <Avatar src={leader?.croppedAvatarId ? `img/avatar/${leader?.croppedAvatarId}.png` : ''}>
+                                {`${leader?.firstName?.substring(0, 1)}${leader?.lastName?.substring(0, 1)}`}
+                              </Avatar>
+                            </Tooltip>
+                          }
+                          className="ml-2"
+                        />
+                        <Typography variant={'h5'} className="ml-2">
+                          {getHolyName(leader?.holyNameId)} {leader?.firstName} {leader?.lastName}
+                        </Typography>
                       </div>
+                    </Grid>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div className="d-flex align-items-center mt-2">
+                      <Typography>Huynh Trưởng phụ trách:</Typography>
+                      {sl.class?.assignment
+                        ?.filter(a => a.unionId === sl.union?.unionId && a.unionId !== 1) // UnionId = 1 là HT chưa đc phân chi đoàn
+                        .map((ass, index) => {
+                          const teacher = ass?.user
+                          const teacherName = `${getHolyName(teacher?.holyNameId)} ${teacher?.firstName} ${teacher?.lastName}`
+
+                          return (
+                            <Fragment key={nanoid(5)}>
+                              <div className="ml-2">
+                                <div className="avatar-icon-wrapper">
+                                  <Badge
+                                    isActive={teacher?.status === UserStatus.Active}
+                                    overlap="circular"
+                                    anchorOrigin={{
+                                      vertical: 'bottom',
+                                      horizontal: 'right'
+                                    }}
+                                    variant="dot"
+                                    child={
+                                      <Tooltip title={teacherName}>
+                                        <Avatar src={teacher?.croppedAvatarId ? `img/avatar/${teacher?.croppedAvatarId}.png` : ''}>
+                                          {`${teacher?.firstName?.substring(0, 1)}${teacher?.lastName?.substring(0, 1)}`}
+                                        </Avatar>
+                                      </Tooltip>
+                                    }
+                                  />
+                                </div>
+                              </div>
+                              <Typography variant={'h5'} className="ml-2" key={nanoid(5)}>
+                                {teacherName}
+                              </Typography>
+                            </Fragment>
+                          )
+                        })}
                     </div>
                   </Grid>
-                </Grid>
-                {orderBy(
-                  student?.semesterOne?.filter(s => s.scholasticId === cl.class?.scholasticId),
-                  ['scholasticId'],
-                  ['desc']
-                ).map(sOne => {
-                  return (
-                    <Grid container spacing={3} key={135}>
-                      <Grid item xs={12} lg={1}>
-                        <Typography>HKI:</Typography>
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('oldTest', 'Miệng', sOne.oldTest)} />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('fifteenTest', `15'`, sOne.fifteenTest)} />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('lessonTest', '1 Tiết', sOne.lessonTest)} />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('semesterTest', 'HK', sOne.semesterTest)} />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('average', 'TB', sOne.average)} />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={2}>
-                        <TextField {...TextField_Props('ranking', 'Xếp loại', sOne.ranking)} />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('morality', 'Đạo đức', sOne.morality)} />
-                      </Grid>
-                      <Grid item xs={12} lg={3}>
-                        <TextField {...TextField_Props('comment', 'Nhận xét', sOne.comment)} />
-                      </Grid>
-                    </Grid>
-                  )
-                })}
-                {orderBy(
-                  student?.semesterTwo?.filter(s => s.scholasticId === cl.class?.scholasticId),
-                  ['scholasticId'],
-                  ['desc']
-                ).map(sTwo => {
-                  return (
-                    <Grid container spacing={3} key={579}>
-                      <Grid item xs={12} lg={1}>
-                        <Typography>HKII:</Typography>
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('oldTest', 'Miệng', sTwo.oldTest)} type="text" />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('fifteenTest', `15'`, sTwo.fifteenTest)} type="text" />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('lessonTest', '1 Tiết', sTwo.lessonTest)} type="text" />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('semesterTest', 'HK', sTwo.semesterTest)} type="text" />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('average', 'TB', sTwo.average)} type="text" />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={2}>
-                        <TextField {...TextField_Props('ranking', 'Xếp loại', sTwo.ranking)} type="text" />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('morality', 'Đạo đức', sTwo.morality)} type="text" />
-                      </Grid>
-                      <Grid item xs={12} lg={3}>
-                        <TextField {...TextField_Props('comment', 'Nhận xét', sTwo.comment)} type="text" />
-                      </Grid>
-                    </Grid>
-                  )
-                })}
-                {orderBy(
-                  student?.total?.filter(s => s.scholasticId === cl.class?.scholasticId),
-                  ['scholasticId'],
-                  ['desc']
-                ).map(tt => {
-                  return (
-                    <Grid container spacing={3} key={913}>
-                      <Grid item xs={12} lg={1}>
-                        <Typography>Cả năm:</Typography>
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('avgSemesterOne', 'TB HKI', tt.avgSemesterOne)} type="text" />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('avgSemesterTwo', 'TB HKII', tt.avgSemesterTwo)} type="text" />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('avgTotal', 'TB Cả năm', tt.avgTotal)} type="text" />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={2}>
-                        <TextField {...TextField_Props('ranking', 'Xếp loại', tt.ranking)} type="text" />
-                      </Grid>
-                      <Grid item xs={6} md={4} lg={1}>
-                        <TextField {...TextField_Props('morality', 'Đạo đức', tt.morality)} type="text" />
-                      </Grid>
-                      <Grid item xs={12} lg={5}>
-                        <TextField {...TextField_Props('comment', 'Nhận xét', tt.comment)} type="text" />
-                      </Grid>
-                    </Grid>
-                  )
-                })}
-              </CardContent>
+                  <Grid item xs={12}>
+                    <table className="table table-hover text-nowrap mb-0 mt-3">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th style={{ textAlign: 'center' }}>15'</th>
+                          <th style={{ textAlign: 'center' }}>15'</th>
+                          <th style={{ textAlign: 'center' }}>1 tiết</th>
+                          <th style={{ textAlign: 'center' }}>Học kỳ</th>
+                          <th style={{ textAlign: 'center' }}>TB</th>
+                          <th style={{ textAlign: 'center' }}>Đạo đức</th>
+                          <th style={{ textAlign: 'center' }}>Xếp loại</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th>Học kỳ I</th>
+                          <th style={{ textAlign: 'center' }}>{sOne.oldTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sOne.fifteenTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sOne.lessonTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sOne.semesterTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sOne.average}</th>
+                          <th style={{ textAlign: 'center' }}>{sOne.morality}</th>
+                          <th style={{ textAlign: 'center' }}>{sOne.ranking}</th>
+                        </tr>
+                        <tr>
+                          <th>Nhận xét</th>
+                          <th colSpan={7} style={{ textAlign: 'center' }}>
+                            {sOne.comment}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>Học kỳ II</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo.oldTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo.fifteenTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo.lessonTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo.semesterTest}</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo.average}</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo.morality}</th>
+                          <th style={{ textAlign: 'center' }}>{sTwo.ranking}</th>
+                        </tr>
+                        <tr>
+                          <th>Nhận xét</th>
+                          <th colSpan={7} style={{ textAlign: 'center' }}>
+                            {sTwo.comment}
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>Cả năm</th>
+                          <th style={{ textAlign: 'center' }} colSpan={2}>
+                            {total.avgSemesterOne}
+                          </th>
+                          <th style={{ textAlign: 'center' }} colSpan={2}>
+                            {total.avgSemesterTwo}
+                          </th>
+                          <th style={{ textAlign: 'center' }}>{total.avgTotal}</th>
+                          <th style={{ textAlign: 'center' }}>{total.morality}</th>
+                          <th style={{ textAlign: 'center' }}>{total.ranking}</th>
+                        </tr>
+                        <tr>
+                          <th>Nhận xét</th>
+                          <th colSpan={7} style={{ textAlign: 'center' }}>
+                            {total.comment}
+                          </th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </Grid>
+                </CardContent>
+              </Card>
             </div>
           )
         })}
-      </Slider>
+      </div>
     )
   }
-  if (tabValue === 1 && !student) return <div className="p-3">Chưa có thông tin Đoàn sinh.</div>
+  if (tabValue === 1 && !student) return <div className="p-3">Đoàn sinh đã chọn chưa có quá trình học.</div>
   return null
 }
 export default StudentScore
