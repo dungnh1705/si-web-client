@@ -195,7 +195,7 @@ const StudentScore = ({ tabValue }) => {
                         <tr>
                           <th>Nhận xét</th>
                           <th colSpan={7} style={{ textAlign: 'center' }}>
-                            {total.comment}
+                            {total?.comment}
                           </th>
                         </tr>
                       </tbody>
