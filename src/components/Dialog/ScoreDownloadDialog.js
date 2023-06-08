@@ -82,14 +82,8 @@ export const ScoreDownloadDialog = () => {
         IsPreview: false
       }
 
-      let res = await doPost(`download/previewForm`, data)
-      if (res && res.data.success) {
-        let { data } = res.data
-        setLoading(false)
-        setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
-
-        doDownload('file/get', { fileName: data })
-      }
+      await doDownload(`download/downloadForm`, data)
+      setLoading(false)
     } catch (err) {
       setLoading(false)
       setToast({ ...toast, open: true, message: err.message, type: 'error' })
