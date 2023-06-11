@@ -81,25 +81,25 @@ const functions = [
         to: '/PDT/AddNewStudent'
       },
       {
-        label: 'Danh sách Phân đoàn',
+        label: 'Phân đoàn của tôi',
         icon: PeopleAltTwoToneIcon,
         description: 'Danh sách Đoàn sinh trong Phân đoàn',
         to: '/PDT/StudentGroup'
       },
       {
-        label: 'Chuyển Chi đoàn',
+        label: 'Chuyển chi đoàn',
         icon: PeopleAltTwoToneIcon,
         description: 'Chuyển Chi đoàn cho Đoàn sinh trong Phân Đoàn',
         to: '/PDT/ChangeStudentUnion'
       },
       {
-        label: 'Điểm Phân đoàn',
+        label: 'Nhập điểm',
         icon: StarTwoToneIcon,
         description: 'Danh sách điểm Phân đoàn',
         to: '/PDT/StudentGroupScore'
       },
       {
-        label: 'Điểm danh Phân đoàn',
+        label: 'Điểm danh',
         icon: CheckTwoToneIcon,
         description: 'Điểm danh Đoàn sinh vắng',
         to: '/PDT/GroupAbsent'
@@ -112,19 +112,19 @@ const functions = [
     icon: BarChartOutlinedIcon,
     content: [
       {
-        label: 'Danh sách Chi đoàn',
+        label: 'Chi đoàn của tôi',
         icon: PeopleAltTwoToneIcon,
         description: 'Danh sách Đoàn sinh trong Chi đoàn',
         to: '/HT/StudentClass'
       },
       {
-        label: 'Điểm Chi đoàn',
+        label: 'Nhập điểm',
         icon: StarTwoToneIcon,
         description: 'Danh sách điểm Chi đoàn',
         to: '/HT/StudentScore'
       },
       {
-        label: 'Điểm danh Chi đoàn',
+        label: 'Điểm danh',
         icon: CheckTwoToneIcon,
         description: 'Điểm danh Đoàn sinh vắng',
         to: '/HT/ClassAbsent'
@@ -137,19 +137,19 @@ const functions = [
     icon: BarChartOutlinedIcon,
     content: [
       {
-        label: 'Danh sách chi đoàn',
+        label: 'Chi đoàn của tôi',
         icon: PeopleAltTwoToneIcon,
         description: 'Danh sách Đoàn sinh trong Chi đoàn',
         to: '/HT/StudentClass'
       },
       {
-        label: 'Điểm chi đoàn',
+        label: 'Nhập điểm',
         icon: StarTwoToneIcon,
         description: 'Danh sách điểm Chi đoàn',
         to: '/HT/StudentScore'
       },
       {
-        label: 'Điểm danh Chi đoàn',
+        label: 'Điểm danh',
         icon: CheckTwoToneIcon,
         description: 'Điểm danh Đoàn sinh vắng',
         to: '/HT/ClassAbsent'
