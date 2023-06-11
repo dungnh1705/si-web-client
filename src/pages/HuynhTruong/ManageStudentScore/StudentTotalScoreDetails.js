@@ -169,7 +169,7 @@ const StudentTotalScoreDetails = ({ student }) => {
               id: 'default-total-morality',
               readOnly: !formData.values['isActive']
             }}
-            value={formData.values['morality'] ?? 'Tốt'}
+            value={formData.values['morality'] ?? undefined}
             onChange={e => formData.setFieldValue('morality', e.target.value)}
             onBlur={saveTotalScore}
             label="Đạo đức"

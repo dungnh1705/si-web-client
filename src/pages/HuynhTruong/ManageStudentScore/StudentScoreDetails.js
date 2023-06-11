@@ -16,7 +16,16 @@ import { PageYOffset, toastState } from 'recoils/atoms'
 
 import { ReloadStudentList, WorkingSemester } from './recoil'
 
-const initialValues = { oldTest: '', fifteenTest: '', lessonTest: '', semesterTest: '', average: '', morality: 'Tốt', comment: '', isActive: true }
+const initialValues = {
+  oldTest: '',
+  fifteenTest: '',
+  lessonTest: '',
+  semesterTest: '',
+  average: '',
+  morality: 'Tốt',
+  comment: '',
+  isActive: true
+}
 
 const StudentScoreDetails = ({ student }) => {
   const setReloadStudent = useSetRecoilState(ReloadStudentList)
@@ -202,7 +211,7 @@ const StudentScoreDetails = ({ student }) => {
               id: 'default-morality',
               readOnly: !formData.values['isActive']
             }}
-            value={formData.values['morality'] ?? 'Tốt'}
+            value={formData.values['morality'] ?? undefined}
             onChange={e => {
               formData.setFieldValue('morality', e.target.value)
             }}
