@@ -1,9 +1,9 @@
 import React from 'react'
-import { Typography, CardContent } from '@material-ui/core'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { ButtonGroup, Button, CardContent, Typography, Hidden } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
+import { useRecoilState, useRecoilValue } from 'recoil'
 import Slider from 'react-slick'
 
 import { UnionSelected, UnionInGroupSelector } from 'pages/BanQuanTri/GroupInfo/recoil'
@@ -15,6 +15,10 @@ export default function GroupUnionList() {
   const unionInGroup = useRecoilValue(UnionInGroupSelector)
   const [selectedUnion, setSelectedUnion] = useRecoilState(UnionSelected)
 
+  function handleClickUnion(unionId) {
+    setSelectedUnion(unionId)
+  }
+
   const settings = {
     dots: false,
     infinite: false,
@@ -25,24 +29,30 @@ export default function GroupUnionList() {
     prevArrow: <></>
   }
 
-  function handleClickUnion(unionId) {
-    setSelectedUnion(unionId)
-  }
-
-  // React.useEffect(() => {
-  //   if (!selectedUnion) setSelectedUnion(unionInGroup[0]?.unionId)
-  // }, [unionInGroup])
-
-  return (
-    <Slider {...settings}>
-      {unionInGroup &&
-        unionInGroup.map(union => (
-          <CardContent onClick={() => handleClickUnion(union.unionId)} key={union.unionId}>
-            <Typography variant="h4" className={`carousel-header ${selectedUnion === union.unionId ? 'carousel-header__active' : ''}`}>
+  return unionInGroup ? (
+    <>
+      <Hidden xsDown>
+        <ButtonGroup variant="contained" aria-label="contained primary button group">
+          {unionInGroup.map(union => (
+            <Button onClick={() => handleClickUnion(union.unionId)} key={union.unionId} color={selectedUnion === union.unionId ? 'primary' : 'default'} size={'large'}>
               Chi đoàn {union.unionCode}
-            </Typography>
-          </CardContent>
-        ))}
-    </Slider>
+            </Button>
+          ))}
+        </ButtonGroup>
+      </Hidden>
+      <Hidden smUp>
+        <Slider {...settings}>
+          {unionInGroup.map(union => (
+            <CardContent onClick={() => handleClickUnion(union.unionId)} key={union.unionId}>
+              <Typography variant="h4" className={`carousel-header ${selectedUnion === union.unionId ? 'carousel-header__active' : ''}`}>
+                Chi đoàn {union.unionCode}
+              </Typography>
+            </CardContent>
+          ))}
+        </Slider>
+      </Hidden>
+    </>
+  ) : (
+    <></>
   )
 }

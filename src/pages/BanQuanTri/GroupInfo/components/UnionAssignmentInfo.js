@@ -12,12 +12,11 @@ import StringUtils from 'utils/StringUtils'
 export default function UnionAssignmentInfo() {
   const holyNames = useRecoilValue(HolyNameQuery)
   const users = useRecoilValue(AssignmentOfUnionSelector)
-  console.log(users)
 
   if (!users || users.length === 0) return <></>
 
   return (
-    <Grid container spacing={2} justifyContent="center" alignItems="center" className="mb-3">
+    <Grid container spacing={2} justifyContent="center" alignItems="center" className="m-3">
       <Grid item xs={12}>
         <Typography variant="h4">HUYNH TRƯỞNG PHỤ TRÁCH</Typography>
       </Grid>
@@ -25,7 +24,7 @@ export default function UnionAssignmentInfo() {
       <Grid container item xs={12} justifyContent="center" className="mt-1 mb-2">
         {users.map(user => (
           <Grid item xs={12} sm={6} lg={4} key={user.id} className="text-center">
-            <Typography variant="h3">
+            <Typography variant="h3" className="link__active">
               {StringUtils.holyNameLookup(holyNames, user.holyNameId)} {user.firstName} {user.lastName}
             </Typography>
           </Grid>
