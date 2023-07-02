@@ -59,10 +59,10 @@ const SidebarCollapsed = props => {
         <Paper elevation={7} square className="app-sidebar-collapsed-wrapper">
           <AppBar color="primary" position="relative" elevation={0}>
             <div className="sidebar-collapsed-logo">
-              <Box className="header-logo-wrapper" title="Đoàn TNTT Thánh Phanxicô Xaviê Gx.Thạch Đà">
+              <Box className="header-logo-wrapper" title="Xứ Đoàn TNTT Thánh Phanxicô Xaviê Gx.Thạch Đà">
                 <Link to="/Dashboard" className="header-logo-wrapper-link">
                   <IconButton color="primary" size="medium" className="header-logo-wrapper-btn">
-                    <img className="app-sidebar-logo" alt="Đoàn TNTT Thánh Phanxicô Xaviê Gx.Thạch Đà" src={projectLogo} />
+                    <img className="app-sidebar-logo" alt="Xứ Đoàn TNTT Thánh Phanxicô Xaviê Gx.Thạch Đà" src={projectLogo} />
                   </IconButton>
                 </Link>
               </Box>
