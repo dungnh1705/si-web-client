@@ -32,10 +32,10 @@ const SidebarHeader = props => {
         className={clsx('app-sidebar-header', {
           'app-sidebar-header-close': sidebarToggle && !sidebarHover
         })}>
-        <Box className="header-logo-wrapper" title="Đoàn TNTT Ngôi Ba Thiên Chúa Gx.Thạch Đà">
+        <Box className="header-logo-wrapper" title="Đoàn TNTT Thánh Phanxicô Xaviê Gx.Thạch Đà">
           <Link to="/Dashboard" className="header-logo-wrapper-link">
-            <IconButton color="primary" size='medium' className="header-logo-wrapper-btn">
-              <img className="app-sidebar-logo" alt="Đoàn TNTT Ngôi Ba Thiên Chúa Gx.Thạch Đà" src={projectLogo} />
+            <IconButton color="primary" size="medium" className="header-logo-wrapper-btn">
+              <img className="app-sidebar-logo" alt="Đoàn TNTT Thánh Phanxicô Xaviê Gx.Thạch Đà" src={projectLogo} />
             </IconButton>
           </Link>
           <Box className="header-logo-text">TNTT Gx.Thạch Đà</Box>
@@ -45,14 +45,14 @@ const SidebarHeader = props => {
             'app-sidebar-header-btn-close': sidebarToggle && !sidebarHover
           })}>
           <Tooltip title="Toggle Sidebar" placement="right">
-            <IconButton color="inherit" onClick={toggleSidebar} size='medium'>
+            <IconButton color="inherit" onClick={toggleSidebar} size="medium">
               {sidebarToggle ? <MenuRoundedIcon /> : <MenuOpenRoundedIcon />}
             </IconButton>
           </Tooltip>
         </Box>
         <Box className="app-sidebar-header-btn-mobile">
           <Tooltip title="Toggle Sidebar" placement="right">
-            <IconButton color="inherit" onClick={toggleSidebarMobile} size='medium'>
+            <IconButton color="inherit" onClick={toggleSidebarMobile} size="medium">
               {sidebarToggleMobile ? <MenuOpenRoundedIcon /> : <MenuRoundedIcon />}
             </IconButton>
           </Tooltip>

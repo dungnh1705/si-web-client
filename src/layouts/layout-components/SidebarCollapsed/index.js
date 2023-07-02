@@ -59,10 +59,10 @@ const SidebarCollapsed = props => {
         <Paper elevation={7} square className="app-sidebar-collapsed-wrapper">
           <AppBar color="primary" position="relative" elevation={0}>
             <div className="sidebar-collapsed-logo">
-              <Box className="header-logo-wrapper" title="Đoàn TNTT Ngôi Ba Thiên Chúa Gx.Thạch Đà">
+              <Box className="header-logo-wrapper" title="Xứ Đoàn TNTT Thánh Phanxicô Xaviê Gx.Thạch Đà">
                 <Link to="/Dashboard" className="header-logo-wrapper-link">
                   <IconButton color="primary" size="medium" className="header-logo-wrapper-btn">
-                    <img className="app-sidebar-logo" alt="Đoàn TNTT Ngôi Ba Thiên Chúa Gx.Thạch Đà" src={projectLogo} />
+                    <img className="app-sidebar-logo" alt="Xứ Đoàn TNTT Thánh Phanxicô Xaviê Gx.Thạch Đà" src={projectLogo} />
                   </IconButton>
                 </Link>
               </Box>
@@ -74,7 +74,7 @@ const SidebarCollapsed = props => {
                 <li>
                   <Tooltip arrow placement="right" title="Dashboard">
                     <Button
-                      size='large'
+                      size="large"
                       className="app-sidebar-btn-wrapper"
                       activeClassName="active"
                       component={RouterLink}
@@ -89,7 +89,7 @@ const SidebarCollapsed = props => {
 
                 <li>
                   <Tooltip arrow placement="right" title="Users">
-                    <Button size='large' className="app-sidebar-btn-wrapper" activeClassName="active" component={RouterLink} to="/Users" onClick={setForceChecking}>
+                    <Button size="large" className="app-sidebar-btn-wrapper" activeClassName="active" component={RouterLink} to="/Users" onClick={setForceChecking}>
                       <PeopleOutlineOutlinedIcon className="app-sidebar-btn-icon" />
                     </Button>
                   </Tooltip>
@@ -97,7 +97,7 @@ const SidebarCollapsed = props => {
 
                 <li>
                   <Tooltip arrow placement="right" title="Reports">
-                    <Button size='large' className="app-sidebar-btn-wrapper" activeClassName="active" component={RouterLink} to="/Reports" onClick={setForceChecking}>
+                    <Button size="large" className="app-sidebar-btn-wrapper" activeClassName="active" component={RouterLink} to="/Reports" onClick={setForceChecking}>
                       <BarChartOutlinedIcon className="app-sidebar-btn-icon" />
                     </Button>
                   </Tooltip>

@@ -124,7 +124,7 @@ const ResetPassword = () => {
                         </Grid>
                         <Grid item xs={12} lg={7} className="d-flex flex-column align-items-center">
                           <span className="w-100 text-left text-md-center pb-4">
-                            <h1 className="display-4 text-xl-left text-center mb-3 font-weight-bold">Đoàn TNTT Ngôi Ba Thiên Chúa Gx.Thạch Đà</h1>
+                            <h1 className="display-4 text-xl-left text-center mb-3 font-weight-bold">Xứ Đoàn TNTT Thánh Phanxicô Xaviê Gx.Thạch Đà</h1>
                             <p className="font-size-lg text-xl-left text-center mb-3 text-black-50">Hãy nhập mật khẩu mới để đăng nhập hệ thống</p>
                             <p className="font-size-lg text-xl-left mb-0" style={{ color: '#263055', fontSize: '14px' }}>
                               - Mật khẩu từ 8-32 ký tự.
