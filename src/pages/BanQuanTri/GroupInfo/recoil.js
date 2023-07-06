@@ -47,7 +47,10 @@ export const UnionInGroupSelector = selector({
     const scholasticId = sessionHelper().scholasticId
 
     if (selectedGroup) {
-      let res = await doGet(`assignment/getListUnionInGroup`, { scholasticId: scholasticId, userId: selectedGroup.leaderId })
+      let res = await doGet(`assignment/getListUnionInGroup`, {
+        scholasticId: scholasticId,
+        userId: selectedGroup.leaderId
+      })
 
       if (res && res.data.success) {
         return _.orderBy(res.data.data, ['unionCode'], ['asc'])
