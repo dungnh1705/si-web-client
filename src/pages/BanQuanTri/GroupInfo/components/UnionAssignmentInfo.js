@@ -9,6 +9,7 @@ import { AssignmentOfUnionSelector } from 'pages/BanQuanTri/GroupInfo/recoil'
 // utils
 import StringUtils from 'utils/StringUtils'
 import { TeacherInfoDialogAtom } from 'components/Dialog/recoil'
+import { doGet } from 'utils/axios'
 
 export default function UnionAssignmentInfo() {
   const holyNames = useRecoilValue(HolyNameQuery)
@@ -17,8 +18,11 @@ export default function UnionAssignmentInfo() {
 
   if (!users || users.length === 0) return <></>
 
-  function handleShowInfo(userId) {
-    setInfoDialog({ ...infoDialog, open: true })
+  async function handleShowInfo(userId) {
+    const teacherInfo = await doGet('user/getUser', { userId: userId })
+    if (teacherInfo && teacherInfo.data.success) {
+      setInfoDialog({ ...infoDialog, open: true, info: teacherInfo.data.data })
+    }
   }
 
   return (

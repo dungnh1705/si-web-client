@@ -129,7 +129,7 @@ export const UserImageSelector = selectorFamily({
   get:
     ({ userId, croppedAvatarId }) =>
     async ({ get }) => {
-      if (croppedAvatarId) {
+      if (userId && croppedAvatarId) {
         const storage = get(storageState)
 
         const avatarFiles = await FileUtils.getFiles(storage, `avatars/${userId}`)
