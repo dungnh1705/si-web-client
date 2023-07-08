@@ -8,7 +8,7 @@ import FileUtils from 'utils/FileUtils'
 
 import { storageState } from 'recoils/firebase'
 
-import { themeOptionsState, reloadTemplates, reloadListUnion, reloadUserAvatar } from './atoms'
+import { themeOptionsState, reloadTemplates, reloadListUnion, reloadUserAvatar, UserImageAtom } from './atoms'
 
 export const themeOptionsActions = selector({
   key: 'themeOptionsActions',
@@ -124,19 +124,18 @@ export const UserAvatarQuery = selector({
   }
 })
 
-export const UserImageSelector = selectorFamily({
+export const UserImageSelector = selector({
   key: 'UserImageSelector',
-  get:
-    ({ userId, croppedAvatarId }) =>
-    async ({ get }) => {
-      if (userId && croppedAvatarId) {
-        const storage = get(storageState)
+  get: async ({ get }) => {
+    const userInfo = get(UserImageAtom)
+    if (userInfo && userInfo.id && userInfo.croppedAvatarId) {
+      const storage = get(storageState)
 
-        const avatarFiles = await FileUtils.getFiles(storage, `avatars/${userId}`)
-        const userAvatar = avatarFiles.find(img => img.fileName === `${croppedAvatarId}.png`)
+      const avatarFiles = await FileUtils.getFiles(storage, `avatars/${userInfo.id}`)
+      const userAvatar = avatarFiles.find(img => img.fileName === `${userInfo.croppedAvatarId}.png`)
 
-        return userAvatar.url ?? null
-      }
-      return null
+      return userAvatar?.url ?? ''
     }
+    return ''
+  }
 })

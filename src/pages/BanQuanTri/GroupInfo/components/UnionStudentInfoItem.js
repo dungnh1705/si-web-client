@@ -34,7 +34,7 @@ export default function UnionStudentInfoItem({ item }) {
   if (!item) return <></>
 
   return (
-    <Card className="card-box mb-3 w-100">
+    <Card className="card-box mb-3 mt-3 w-100">
       <div className="card-header d-flex pb-1 pt-1" onClick={() => setCollapse(!collapse)} style={{ cursor: 'pointer' }}>
         <div className="card-header--title">
           {item.team === 0 && <h4 className="font-size-lg mb-0 py-2 font-weight-bold">Chưa phân đội - {item.students?.length}</h4>}

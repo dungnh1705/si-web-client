@@ -8,8 +8,6 @@ import GroupUnionList from 'pages/BanQuanTri/GroupInfo/components/GroupUnionList
 import UnionStudentInfo from 'pages/BanQuanTri/GroupInfo/components/UnionStudentInfo'
 import UnionAssignmentInfo from 'pages/BanQuanTri/GroupInfo/components/UnionAssignmentInfo'
 
-import { TeacherInfoDialog } from 'components/Dialog'
-
 export default function GroupInfo() {
   return (
     <Fragment>
@@ -32,10 +30,6 @@ export default function GroupInfo() {
       <Suspense fallback={<PageSkeleton />}>
         <UnionStudentInfo />
       </Suspense>
-      {/*  DIALOG*/}
-      <>
-        <TeacherInfoDialog />
-      </>
     </Fragment>
   )
 }
