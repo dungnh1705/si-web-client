@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Dialog, DialogTitle, Divider, DialogContent, DialogActions, Button, Grid, Avatar } from '@material-ui/core'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { TeacherInfoDialogAtom } from './recoil'
