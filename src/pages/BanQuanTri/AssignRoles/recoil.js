@@ -9,20 +9,26 @@ export const ReloadUserList = atom({
 })
 
 export const UserListQuery = selector({
-  key: 'UserListState',
+  key: 'UserListQuery',
   get: async ({ get }) => {
+    const { scholasticId, userId } = sessionHelper()
+
     get(ReloadUserList)
 
-    const searchKey = get(SearchKey)
+    const filter = get(UserFilterAtom)
 
-    const res = searchKey
-      ? await doGet(`user/searchUsers`, {
-          scholasticId: sessionHelper().scholasticId,
-          keywords: searchKey
+    const res = filter
+      ? await doGet(`user/search`, {
+          scholasticId,
+          ...filter
         })
-      : await doGet(`user/getUsers`, { scholasticId: sessionHelper().scholasticId })
+      : await doGet(`user/getUsers`, { scholasticId })
 
-    return res.data.data.filter(i => Number(i.id) !== Number(sessionHelper().userId))
+    if (res && res.data.success) {
+      return res.data.data.filter(i => Number(i.id) !== Number(userId))
+    }
+
+    return []
   }
 })
 
@@ -41,7 +47,7 @@ export const EditingUser = atom({
   default: null
 })
 
-export const SearchKey = atom({
-  key: 'SearchKey',
+export const UserFilterAtom = atom({
+  key: 'UserFilterAtom',
   default: null
 })

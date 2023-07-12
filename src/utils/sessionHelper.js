@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import _ from 'lodash'
 import StringUtils from './StringUtils'
+import { Roles } from '../app/enums'
 
 const LOGIN_INFO_KEY = 'login_info'
 const secretKey = process.env.REACT_APP_SECRET_KEY
@@ -37,6 +38,23 @@ export function getMaxRole(roles = []) {
 
     let maxRoles = _.max(localData.roles)
     return StringUtils.buildRoleName(maxRoles)
+  }
+}
+
+export function getLevel(roles = []) {
+  if (roles.length > 0) {
+    const rolesId = roles.map(e => {
+      return e.id
+    })
+    if (rolesId.includes(Roles.HuynhTruong)) return 'HT'
+    if (rolesId.includes(Roles.DuTruong)) return 'DT'
+    return ''
+  } else {
+    const localData = JSON.parse(localStorage.getItem(LOGIN_INFO_KEY))
+
+    if (localData.roles.includes(Roles.HuynhTruong)) return 'HT'
+    if (localData.roles.includes(Roles.DuTruong)) return 'DT'
+    return ''
   }
 }
 

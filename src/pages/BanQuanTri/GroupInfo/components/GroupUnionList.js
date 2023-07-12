@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { ButtonGroup, Button, CardContent, Typography, Hidden } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -29,11 +29,11 @@ export default function GroupUnionList() {
     prevArrow: <></>
   }
 
-  return unionInGroup ? (
-    <>
+  return (
+    <Fragment>
       <Hidden xsDown>
         <ButtonGroup variant="contained" aria-label="contained primary button group">
-          {unionInGroup.map(union => (
+          {unionInGroup?.map(union => (
             <Button onClick={() => handleClickUnion(union.unionId)} key={union.unionId} color={selectedUnion === union.unionId ? 'primary' : 'default'} size={'large'}>
               Chi đoàn {union.unionCode}
             </Button>
@@ -42,7 +42,7 @@ export default function GroupUnionList() {
       </Hidden>
       <Hidden smUp>
         <Slider {...settings}>
-          {unionInGroup.map(union => (
+          {unionInGroup?.map(union => (
             <CardContent onClick={() => handleClickUnion(union.unionId)} key={union.unionId}>
               <Typography variant="h4" className={`carousel-header ${selectedUnion === union.unionId ? 'carousel-header__active' : ''}`}>
                 Chi đoàn {union.unionCode}
@@ -51,8 +51,6 @@ export default function GroupUnionList() {
           ))}
         </Slider>
       </Hidden>
-    </>
-  ) : (
-    <></>
+    </Fragment>
   )
 }

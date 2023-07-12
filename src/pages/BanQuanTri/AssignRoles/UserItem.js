@@ -7,7 +7,7 @@ import { Avatar, ListItem, Grid, Button } from '@material-ui/core'
 import { UserStatus } from 'app/enums'
 import { storageState } from 'recoils/firebase'
 
-// import { getMaxRole } from 'utils/sessionHelper'
+import { getLevel, getMaxRole } from 'utils/sessionHelper'
 import FileUtils from 'utils/FileUtils'
 
 import { EditingUser, UserFormMode } from 'pages/BanQuanTri/AssignRoles/recoil'
@@ -15,7 +15,7 @@ import moment from 'moment/moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 
-const UserItem = ({ user, index }) => {
+const UserItem = ({ user }) => {
   const storage = useRecoilValue(storageState)
 
   const setUserFormMode = useSetRecoilState(UserFormMode)
@@ -40,41 +40,19 @@ const UserItem = ({ user, index }) => {
   }, [user])
 
   return (
-    // <ListItem button className="align-box-row" onClick={() => handleClickEdit(user)} key={user?.id}>
-    //   <Grid container spacing={3} item xs={12}>
-    //     <div className="d-flex align-items-center pl-2">
-    //       <Badge
-    //         isActive={user?.status === UserStatus.Active}
-    //         overlap="circular"
-    //         anchorOrigin={{
-    //           vertical: 'bottom',
-    //           horizontal: 'right'
-    //         }}
-    //         variant="dot"
-    //         child={<Avatar sizes="50" src={imageUrl}>{`${user?.firstName?.substring(0, 1)}${user?.lastName?.substring(0, 1)}`}</Avatar>}
-    //       />
-    //       <div className="p-3">
-    //         <a href="#/" onClick={e => e.preventDefault()} className="font-weight-bold text-black" title="...">
-    //           {`${user?.holyName?.name ?? ''} ${user.firstName ?? ''} ${user.lastName ?? ''}`}
-    //         </a>
-    //         <span className="d-block"># {getMaxRole(user?.roles)}</span>
-    //         <span className="text-black-50 d-block">{user.email}</span>
-    //       </div>
-    //     </div>
-    //   </Grid>
-    // </ListItem>
     <tr>
-      <td className="font-weight-bold">#{index + 1}</td>
+      <td className="font-weight-bold">#{user.id}</td>
       <td>
         <div className="d-flex align-items-center">
           <Avatar alt="..." className="mr-2" src={imageUrl} />
           <div>{user.fullName}</div>
         </div>
       </td>
-      <td>{user.email}</td>
       <td>{user.dob ? moment(user.dob).format('DD/MM/YYYY') : ''}</td>
       <td className="text-center">{user.joinedYear ? moment(user.joinedYear).format('YYYY') : ''}</td>
       <td className="text-center">{user.phone ? `0${user.phone}` : ''}</td>
+      <td className="text-center">{getLevel(user.roles)}</td>
+      <td className="text-center">{getMaxRole(user.roles) === 'Huynh trưởng' || getMaxRole(user.roles) === 'Dự trưởng' ? '' : getMaxRole(user.roles)}</td>
       <td className="text-center">{user.assignment.groupName}</td>
       <td className="text-center text-muted">
         {user?.status === UserStatus.Active && <span className="my-2 text-success font-size-md px-4 py-1 h-auto badge badge-neutral-success">Đang dạy</span>}

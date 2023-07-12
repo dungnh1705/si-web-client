@@ -102,18 +102,19 @@ const UserList = () => {
               <tr>
                 <th className="bg-white text-left">ID</th>
                 <th className="bg-white">Tên Thánh, Họ và Tên</th>
-                <th className="bg-white text-left">Email</th>
                 <th className="bg-white text-left">Ngày sinh</th>
-                <th className="bg-white text-center">Năm tham gia Giáo Lý</th>
+                <th className="bg-white text-center">Năm bắt đầu</th>
                 <th className="bg-white text-center">SĐT</th>
+                <th className="bg-white text-center">Cấp bậc</th>
+                <th className="bg-white text-center">Chức vụ</th>
                 <th className="bg-white text-center">Công tác tại</th>
                 <th className="bg-white text-center">Tình trạng</th>
                 <th className="bg-white text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {userList?.map((user, index) => (
-                <UserItem user={user} index={index} key={user.id} />
+              {userList?.map(user => (
+                <UserItem user={user} key={user.id} />
               ))}
             </tbody>
           </table>
