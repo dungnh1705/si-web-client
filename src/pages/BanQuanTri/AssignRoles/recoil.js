@@ -1,11 +1,7 @@
 import { atom, selector } from 'recoil'
-import _ from 'lodash'
 
 import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
-import FileUtils from 'utils/FileUtils'
-
-import { storageState } from 'recoils/firebase'
 
 export const ReloadUserList = atom({
   key: 'ReloadUserList',
@@ -13,32 +9,26 @@ export const ReloadUserList = atom({
 })
 
 export const UserListQuery = selector({
-  key: 'UserListState',
+  key: 'UserListQuery',
   get: async ({ get }) => {
+    const { scholasticId, userId } = sessionHelper()
+
     get(ReloadUserList)
 
-    const searchKey = get(SearchKey)
-    const storage = get(storageState)
+    const filter = get(UserFilterAtom)
 
-    var res = searchKey ? await doGet(`user/searchUsers`, { keywords: searchKey }) : await doGet(`user/getUsers`, { scholasticId: sessionHelper().scholasticId })
+    const res = filter
+      ? await doGet(`user/search`, {
+          scholasticId,
+          ...filter
+        })
+      : await doGet(`user/getUsers`, { scholasticId })
 
-    const users = _.orderBy(
-      res.data.data.filter(i => Number(i.id) !== Number(sessionHelper().userId)),
-      ['lastName'],
-      ['asc']
-    )
+    if (res && res.data.success) {
+      return res.data.data.filter(i => Number(i.id) !== Number(userId))
+    }
 
-    const avatarPromises = users.map(async user => {
-      if (user.croppedAvatarId) {
-        const avatars = await FileUtils.getFiles(storage, `avatars/${user.id}`)
-        const userAvatar = avatars.find(img => img.fileName === `${user.croppedAvatarId}.png`)
-
-        return { ...user, avatarUrl: userAvatar }
-      }
-
-      return user
-    })
-    return await Promise.all(avatarPromises)
+    return []
   }
 })
 
@@ -57,7 +47,7 @@ export const EditingUser = atom({
   default: null
 })
 
-export const SearchKey = atom({
-  key: 'SearchKey',
+export const UserFilterAtom = atom({
+  key: 'UserFilterAtom',
   default: null
 })

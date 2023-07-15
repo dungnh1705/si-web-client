@@ -89,3 +89,19 @@ export const GroupScoreResultDialogAtom = atom({
     title: ''
   }
 })
+
+export const TeacherInfoDialogAtom = atom({
+  key: 'TeacherInfoDialogAtom',
+  default: {
+    open: false,
+    info: undefined
+  }
+})
+
+export const ChangeUserPasswordDialogAtom = atom({
+  key: 'ChangeUserPasswordDialogAtom',
+  default: {
+    open: false,
+    info: undefined
+  }
+})

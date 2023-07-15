@@ -21,10 +21,11 @@ export default function GroupSummaryInfo() {
   const totalNewStudentInGroup = _.sumBy(groupSummaryInfo?.summaryInfo, i => i.totalNewStudent)
   const totalOldStudentInGroup = _.sumBy(groupSummaryInfo?.summaryInfo, i => i.totalOldStudent)
   const totalStudentLeaveInGroup = _.sumBy(groupSummaryInfo?.summaryInfo, i => i.totalStudentLeave + i.totalStudentChangeChurch)
+  const totalStudentStayInGroup = _.sumBy(groupSummaryInfo?.summaryInfo, i => i.totalStayInClass)
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={6} lg={3}>
+    <Grid container spacing={2} justifyContent={'center'}>
+      <Grid item xs={12} sm={4} lg={2}>
         <Card className="card-box border-0 card-shadow-first p-4 mb-4">
           <div className="d-flex align-items-center">
             <div className="d-40 rounded-circle bg-first text-white text-center font-size-lg mr-3">
@@ -40,10 +41,42 @@ export default function GroupSummaryInfo() {
           </div>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6} lg={3}>
+      <Grid item xs={12} sm={4} lg={2}>
         <Card className="card-box border-0 card-shadow-first p-4 mb-4">
           <div className="d-flex align-items-center">
-            <div className="d-40 rounded-circle bg-warning text-white text-center font-size-lg mr-3">
+            <div className="d-40 rounded-circle bg-primary text-white text-center font-size-lg mr-3">
+              <FontAwesomeIcon icon={faUser} />
+            </div>
+            <div className="text-black-50">Đoàn sinh đầu năm</div>
+          </div>
+          <div className="display-3 text-center line-height-sm text-second text-center d-flex align-items-center pt-3 justify-content-center">
+            <CountUp start={0} end={totalOldStudentInGroup ?? 0} duration={2} separator="" decimals={0} decimal="" prefix="" suffix="" />
+          </div>
+          <div className="text-black-50 text-center opacity-6 pt-3">
+            <b>{accounting.toFixed((totalOldStudentInGroup / totalStudentInGroup) * 100, 2)} %</b>
+          </div>
+        </Card>
+      </Grid>
+      <Grid item xs={12} sm={4} lg={2}>
+        <Card className="card-box border-0 card-shadow-first p-4 mb-4">
+          <div className="d-flex align-items-center">
+            <div className="d-40 rounded-circle bg-danger text-white text-center font-size-lg mr-3">
+              <FontAwesomeIcon icon={faUser} />
+            </div>
+            <div className="text-black-50">Đoàn sinh ở lại</div>
+          </div>
+          <div className="display-3 text-center line-height-sm text-second text-center d-flex align-items-center pt-3 justify-content-center">
+            <CountUp start={0} end={totalStudentStayInGroup ?? 0} duration={2} separator="" decimals={0} decimal="" prefix="" suffix="" />
+          </div>
+          <div className="text-black-50 text-center opacity-6 pt-3">
+            <b>{accounting.toFixed((totalStudentStayInGroup / totalStudentInGroup) * 100, 2)} %</b>
+          </div>
+        </Card>
+      </Grid>
+      <Grid item xs={12} sm={4} lg={2}>
+        <Card className="card-box border-0 card-shadow-first p-4 mb-4">
+          <div className="d-flex align-items-center">
+            <div className="d-40 rounded-circle bg-success text-white text-center font-size-lg mr-3">
               <FontAwesomeIcon icon={faUserPlus} />
             </div>
             <div className="text-black-50">Đoàn sinh mới</div>
@@ -56,23 +89,8 @@ export default function GroupSummaryInfo() {
           </div>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6} lg={3}>
-        <Card className="card-box border-0 card-shadow-first p-4 mb-4">
-          <div className="d-flex align-items-center">
-            <div className="d-40 rounded-circle bg-primary text-white text-center font-size-lg mr-3">
-              <FontAwesomeIcon icon={faUser} />
-            </div>
-            <div className="text-black-50">Đoàn sinh cũ</div>
-          </div>
-          <div className="display-3 text-center line-height-sm text-second text-center d-flex align-items-center pt-3 justify-content-center">
-            <CountUp start={0} end={totalOldStudentInGroup ?? 0} duration={2} separator="" decimals={0} decimal="" prefix="" suffix="" />
-          </div>
-          <div className="text-black-50 text-center opacity-6 pt-3">
-            <b>{accounting.toFixed((totalOldStudentInGroup / totalStudentInGroup) * 100, 2)} %</b>
-          </div>
-        </Card>
-      </Grid>
-      <Grid item xs={12} sm={6} lg={3}>
+
+      <Grid item xs={12} sm={4} lg={2}>
         <Card className="card-box border-0 card-shadow-first p-4 mb-4">
           <div className="d-flex align-items-center">
             <div className="d-40 rounded-circle bg-danger text-white text-center font-size-lg mr-3">

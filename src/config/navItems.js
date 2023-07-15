@@ -50,7 +50,7 @@ const functions = [
         to: '/BQT/AssignUserClass'
       },
       {
-        label: 'Phân chức vụ HT',
+        label: 'Danh sách HT/DT',
         icon: LayersTwoToneIcon,
         description: 'Phân chức vụ cho Huynh trưởng',
         to: '/BQT/AssignUserRoles'

@@ -1,4 +1,4 @@
-import { atom } from 'recoil'
+import { atom, atomFamily } from 'recoil'
 import { ViewModes } from 'app/enums'
 
 export const themeOptionsState = atom({
@@ -112,4 +112,9 @@ export const reloadUserAvatar = atom({
 export const ShowChangePassword = atom({
   key: 'ShowChangePassword',
   default: false
+})
+
+export const UserImageAtom = atom({
+  key: 'UserImageAtom',
+  default: undefined
 })
