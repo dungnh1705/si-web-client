@@ -4,6 +4,7 @@ import { Grid, LinearProgress } from '@material-ui/core'
 import UserList from './UserList'
 import UserRolesForm from './UserRolesForm'
 import SearchBar from './components/SearchBar'
+import ChangeUserPasswordDialog from 'components/Dialog/ChangeUserPasswordDialog'
 
 const UserRoles = () => {
   return (
@@ -20,6 +21,8 @@ const UserRoles = () => {
         {/*  <UserRolesForm />*/}
         {/*</Grid>*/}
       </Grid>
+
+      <ChangeUserPasswordDialog />
     </Suspense>
   )
 }

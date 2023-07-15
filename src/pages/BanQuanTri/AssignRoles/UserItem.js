@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { Avatar, ListItem, Grid, Button } from '@material-ui/core'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { Avatar } from '@material-ui/core'
 
 // import Badge from 'components/UI/Badge'
 
@@ -12,14 +12,17 @@ import FileUtils from 'utils/FileUtils'
 
 import { EditingUser, UserFormMode } from 'pages/BanQuanTri/AssignRoles/recoil'
 import moment from 'moment/moment'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
+
+import UserAction from './components/UserAction'
+import { ChangeUserPasswordDialogAtom } from 'components/Dialog/recoil'
 
 const UserItem = ({ user }) => {
   const storage = useRecoilValue(storageState)
 
   const setUserFormMode = useSetRecoilState(UserFormMode)
   const setEditingUser = useSetRecoilState(EditingUser)
+
+  const [changePasswordDialog, setChangePasswordDialog] = useRecoilState(ChangeUserPasswordDialogAtom)
 
   const [imageUrl, setImageUrl] = useState()
 
@@ -38,6 +41,10 @@ const UserItem = ({ user }) => {
 
     if (user.croppedAvatarId) fetch()
   }, [user])
+
+  const handleChangePassword = () => {
+    setChangePasswordDialog({ ...changePasswordDialog, open: true, info: user })
+  }
 
   return (
     <tr>
@@ -61,9 +68,7 @@ const UserItem = ({ user }) => {
         {user?.status === UserStatus.NewUser && <span className="my-2 text-info font-size-md px-4 py-1 h-auto badge badge-neutral-info">Tài khoản mới</span>}
       </td>
       <td className="text-center">
-        <Button size="small" color="primary">
-          <FontAwesomeIcon icon={faEllipsisH} className="font-size-lg" />
-        </Button>
+        <UserAction handleChangePassword={handleChangePassword} />
       </td>
     </tr>
   )

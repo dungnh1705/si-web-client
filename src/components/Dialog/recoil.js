@@ -97,3 +97,11 @@ export const TeacherInfoDialogAtom = atom({
     info: undefined
   }
 })
+
+export const ChangeUserPasswordDialogAtom = atom({
+  key: 'ChangeUserPasswordDialogAtom',
+  default: {
+    open: false,
+    info: undefined
+  }
+})

@@ -109,7 +109,7 @@ const UserList = () => {
                 <th className="bg-white text-center">Chức vụ</th>
                 <th className="bg-white text-center">Công tác tại</th>
                 <th className="bg-white text-center">Tình trạng</th>
-                <th className="bg-white text-center">Actions</th>
+                <th className="bg-white text-center">Chức năng</th>
               </tr>
             </thead>
             <tbody>
