@@ -14,7 +14,7 @@ import { EditingUser, UserFormMode } from 'pages/BanQuanTri/AssignRoles/recoil'
 import moment from 'moment/moment'
 
 import UserAction from './components/UserAction'
-import { ChangeUserPasswordDialogAtom } from 'components/Dialog/recoil'
+import { ChangeUserPasswordDialogAtom, ChangeUserStatusDialogAtom } from 'components/Dialog/recoil'
 
 const UserItem = ({ user }) => {
   const storage = useRecoilValue(storageState)
@@ -23,6 +23,7 @@ const UserItem = ({ user }) => {
   const setEditingUser = useSetRecoilState(EditingUser)
 
   const [changePasswordDialog, setChangePasswordDialog] = useRecoilState(ChangeUserPasswordDialogAtom)
+  const [changeStatusDialog, setChangeStatusDialog] = useRecoilState(ChangeUserStatusDialogAtom)
 
   const [imageUrl, setImageUrl] = useState()
 
@@ -44,6 +45,10 @@ const UserItem = ({ user }) => {
 
   const handleChangePassword = () => {
     setChangePasswordDialog({ ...changePasswordDialog, open: true, info: user })
+  }
+
+  const handleChangeStatus = () => {
+    setChangeStatusDialog({ ...changeStatusDialog, open: true, info: user })
   }
 
   return (
@@ -68,7 +73,7 @@ const UserItem = ({ user }) => {
         {user?.status === UserStatus.NewUser && <span className="my-2 text-info font-size-md px-4 py-1 h-auto badge badge-neutral-info">Tài khoản mới</span>}
       </td>
       <td className="text-center">
-        <UserAction handleChangePassword={handleChangePassword} />
+        <UserAction handleChangePassword={handleChangePassword} handleChangeStatus={handleChangeStatus} />
       </td>
     </tr>
   )

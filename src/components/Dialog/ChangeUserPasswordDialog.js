@@ -94,10 +94,10 @@ export default function ChangeUserPasswordDialog() {
               <TextField {...TextField_Props('email', 'Email đăng nhập')} type="text" disabled={true} />
             </Grid>
             <Grid item xs={12}>
-              <TextField {...TextField_Props('NewPassword', 'Mật khẩu mới', false, 'Bắt buộc')} type="password" />
+              <TextField {...TextField_Props('NewPassword', 'Mật khẩu mới', true, 'Bắt buộc')} type="password" />
             </Grid>
             <Grid item xs={12}>
-              <TextField {...TextField_Props('ConfirmPassword', 'Nhập lại mật khẩu mới', false, 'Bắt buộc')} type="password" />
+              <TextField {...TextField_Props('ConfirmPassword', 'Nhập lại mật khẩu mới', true, 'Bắt buộc')} type="password" />
             </Grid>
           </Grid>
         </CardContent>

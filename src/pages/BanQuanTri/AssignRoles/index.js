@@ -5,6 +5,7 @@ import UserList from './UserList'
 import UserRolesForm from './UserRolesForm'
 import SearchBar from './components/SearchBar'
 import ChangeUserPasswordDialog from 'components/Dialog/ChangeUserPasswordDialog'
+import ChangeUserStatusDialog from 'components/Dialog/ChangeUserStatusDialog'
 
 const UserRoles = () => {
   return (
@@ -23,6 +24,7 @@ const UserRoles = () => {
       </Grid>
 
       <ChangeUserPasswordDialog />
+      <ChangeUserStatusDialog />
     </Suspense>
   )
 }
