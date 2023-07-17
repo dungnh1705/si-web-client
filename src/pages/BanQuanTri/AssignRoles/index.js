@@ -4,10 +4,16 @@ import { Grid, LinearProgress } from '@material-ui/core'
 import UserList from './UserList'
 import UserRolesForm from './UserRolesForm'
 import SearchBar from './components/SearchBar'
+
 import ChangeUserPasswordDialog from 'components/Dialog/ChangeUserPasswordDialog'
 import ChangeUserStatusDialog from 'components/Dialog/ChangeUserStatusDialog'
+import UserInfoDialog from 'components/Dialog/UserInfoDialog'
+import { useSetRecoilState } from 'recoil'
+import { ReloadUserList } from './recoil'
 
 const UserRoles = () => {
+  const setReloadUserList = useSetRecoilState(ReloadUserList)
+
   return (
     <Suspense fallback={<>Đang tải danh sách HT...</>}>
       <SearchBar />
@@ -25,6 +31,7 @@ const UserRoles = () => {
 
       <ChangeUserPasswordDialog />
       <ChangeUserStatusDialog />
+      <UserInfoDialog reloadUserList={() => setReloadUserList(old => old + 1)} />
     </Suspense>
   )
 }

@@ -113,3 +113,11 @@ export const ChangeUserStatusDialogAtom = atom({
     info: undefined
   }
 })
+
+export const UserInfoDialogAtom = atom({
+  key: 'UserInfoDialogAtom',
+  default: {
+    open: false,
+    info: undefined
+  }
+})

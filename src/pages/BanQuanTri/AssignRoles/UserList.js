@@ -85,7 +85,7 @@ const UserList = () => {
       <Card className="card-box mb-4">
         <div className="card-header py-3">
           <div className="card-header--title">
-            <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Danh sách Huynh trưởng / Dự trưởng</h4>
+            <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Danh sách Huynh trưởng | Dự trưởng</h4>
           </div>
           {/*<div className="card-header--actions">*/}
           {/*  <Button size="small" variant="outlined" color="secondary">*/}
@@ -103,7 +103,7 @@ const UserList = () => {
                 <th className="bg-white text-left">ID</th>
                 <th className="bg-white">Tên Thánh, Họ và Tên</th>
                 <th className="bg-white text-left">Ngày sinh</th>
-                <th className="bg-white text-center">Năm bắt đầu</th>
+                <th className="bg-white text-center">Ngày bổn mạng</th>
                 <th className="bg-white text-center">SĐT</th>
                 <th className="bg-white text-center">Cấp bậc</th>
                 <th className="bg-white text-center">Chức vụ</th>
