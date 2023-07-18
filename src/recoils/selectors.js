@@ -43,7 +43,7 @@ export const GroupQuery = selector({
   get: async () => {
     let res = await doGet(`class/getGroup`)
 
-    if (res && res.data.success) return _.orderBy(res.data.data, ['groupId'], ['asc'])
+    if (res && res.data.success) return res.data.data
     else return []
   }
 })

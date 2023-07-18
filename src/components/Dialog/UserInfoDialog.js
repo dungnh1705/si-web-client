@@ -16,9 +16,11 @@ import {
   FormGroup,
   FormLabel,
   Grid,
-  InputAdornment
+  InputAdornment,
+  MenuItem,
+  TextField
 } from '@material-ui/core'
-import { HolyNameQuery } from 'recoils/selectors'
+import { GroupQuery, HolyNameQuery } from 'recoils/selectors'
 import { useFormik } from 'formik'
 import { UserInfoDialogAtom } from './recoil'
 import Yup from 'utils/Yup'
@@ -30,6 +32,9 @@ import StyledRadio from 'components/UI/StyledRadio'
 import { KeyboardDatePicker } from '@material-ui/pickers'
 import moment from 'moment/moment'
 import { doPost } from 'utils/axios'
+import _ from 'lodash'
+
+import sessionHelper from 'utils/sessionHelper'
 
 export default function UserInfoDialog({ reloadUserList }) {
   const theme = useTheme()
@@ -41,11 +46,12 @@ export default function UserInfoDialog({ reloadUserList }) {
   const { open, info } = dialog
 
   const holyNames = useRecoilValue(HolyNameQuery)
+  const groups = useRecoilValue(GroupQuery)
 
   const useFormValidationFrom = Yup.object({})
 
   const userForm = useFormik({
-    initialValues: { ...info },
+    initialValues: { ...info, OldGroupName: info?.assignment.groupName },
     validationSchema: useFormValidationFrom,
     validateOnChange: true,
     validateOnMount: true,
@@ -62,7 +68,14 @@ export default function UserInfoDialog({ reloadUserList }) {
     const val = userForm.values
 
     try {
-      const res = await doPost(`user/update`, val)
+      const res = await doPost(`user/update`, {
+        ...val,
+        assignment: {
+          ...val.assignment,
+          ScholasticId: sessionHelper().scholasticId,
+          ModifiedBy: sessionHelper().fullName
+        }
+      })
       if (res && res.data.success) {
         setLoading(false)
         handleCloseDialog()
@@ -118,17 +131,33 @@ export default function UserInfoDialog({ reloadUserList }) {
       label,
       fullWidth: true,
       inputVariant: 'outlined',
-      error: errors[name] && touched[name],
-      helperText: errors[name] && touched[name] && errors[name],
+      error: _.get(errors, name) && _.get(touched, name),
+      helperText: _.get(errors, name) && _.get(touched, name) && _.get(errors, name),
+      value: _.get(values, name) ?? null,
       InputLabelProps: { shrink: true },
       format: format,
-      value: values[name] ?? null,
       autoOk: true,
       onBlur: handleBlur,
       onChange: handleChange,
       KeyboardButtonProps: {
         'aria-label': 'change date'
       }
+    }
+  }
+
+  const TextField_Props = (name, label) => {
+    const { values, errors, touched, handleBlur, handleChange } = userForm
+    return {
+      name,
+      label,
+      fullWidth: true,
+      variant: 'outlined',
+      error: _.get(errors, name) && _.get(touched, name),
+      helperText: _.get(errors, name) && _.get(touched, name) && _.get(errors, name),
+      value: _.get(values, name) ?? null,
+      InputLabelProps: { shrink: true },
+      onBlur: handleBlur,
+      onChange: handleChange
     }
   }
 
@@ -281,7 +310,15 @@ export default function UserInfoDialog({ reloadUserList }) {
                   </FormGroup>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6} lg={3}></Grid>
+              <Grid item xs={12} sm={6} lg={3}>
+                <TextField select {...TextField_Props('assignment.groupName', 'Phân đoàn')}>
+                  {groups?.map((group, i) => (
+                    <MenuItem key={`group-${group.groupName}`} value={group.groupName}>
+                      {group.groupName}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
             </Grid>
           </Grid>
         </CardContent>
