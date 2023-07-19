@@ -10,12 +10,15 @@ import ChangeUserStatusDialog from 'components/Dialog/ChangeUserStatusDialog'
 import UserInfoDialog from 'components/Dialog/UserInfoDialog'
 import { useSetRecoilState } from 'recoil'
 import { ReloadUserList } from './recoil'
+import HeaderAction from './components/HeaderAction'
 
 const UserRoles = () => {
   const setReloadUserList = useSetRecoilState(ReloadUserList)
 
   return (
     <Suspense fallback={<>Đang tải danh sách HT...</>}>
+      <HeaderAction />
+
       <SearchBar />
 
       <Grid container spacing={3} alignItems="flex-start" justifyContent="center" className="mt-2">

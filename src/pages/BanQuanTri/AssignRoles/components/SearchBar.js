@@ -81,16 +81,13 @@ export default function SearchBar() {
             </TextField>
           </Grid>
           <Grid container item xs={12} justifyContent={'flex-end'} alignItems={'center'} spacing={2}>
-            <Grid item xs={6} md={2}>
-              <Button fullWidth variant={'contained'} color={'default'} size={'large'} onClick={handleClearFilter}>
-                Xóa bộ lọc
-              </Button>
-            </Grid>
-            <Grid item xs={6} md={2}>
-              <Button fullWidth variant={'contained'} color={'primary'} size={'large'} onClick={handleSearch}>
-                Tìm kiếm
-              </Button>
-            </Grid>
+            <Button variant={'contained'} color={'default'} size={'large'} onClick={handleClearFilter} className={'mr-2'}>
+              Xóa bộ lọc
+            </Button>
+
+            <Button variant={'contained'} color={'primary'} size={'large'} onClick={handleSearch}>
+              Tìm kiếm
+            </Button>
           </Grid>
         </Grid>
       </CardContent>
