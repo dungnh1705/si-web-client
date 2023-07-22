@@ -11,6 +11,7 @@ import UserInfoDialog from 'components/Dialog/UserInfoDialog'
 import { useSetRecoilState } from 'recoil'
 import { ReloadUserList } from './recoil'
 import HeaderAction from './components/HeaderAction'
+import NewUserDialog from 'components/Dialog/NewUserDialog'
 
 const UserRoles = () => {
   const setReloadUserList = useSetRecoilState(ReloadUserList)
@@ -35,6 +36,7 @@ const UserRoles = () => {
       <ChangeUserPasswordDialog />
       <ChangeUserStatusDialog />
       <UserInfoDialog reloadUserList={() => setReloadUserList(old => old + 1)} />
+      <NewUserDialog reloadUserList={() => setReloadUserList(old => old + 1)} />
     </Suspense>
   )
 }

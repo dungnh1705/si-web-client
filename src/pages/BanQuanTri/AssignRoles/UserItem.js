@@ -68,8 +68,8 @@ const UserItem = ({ user }) => {
       <td>{user.dob ? moment(user.dob).format('DD/MM/YYYY') : ''}</td>
       <td className="text-center">{user.patronDate ? moment(user.patronDate).format('DD/MM') : ''}</td>
       <td className="text-center">{user.phone ? `0${user.phone}` : ''}</td>
-      <td className="text-center">{getLevel(user.roles)}</td>
-      <td className="text-center">{getMaxRole(user.roles) === 'Huynh trưởng' || getMaxRole(user.roles) === 'Dự trưởng' ? '' : getMaxRole(user.roles)}</td>
+      <td className="text-center">{getLevel(user.roles, false)}</td>
+      <td className="text-center">{getMaxRole(user.roles, false) === 'Huynh trưởng' || getMaxRole(user.roles, false) === 'Dự trưởng' ? '' : getMaxRole(user.roles, false)}</td>
       <td className="text-center">{user.assignment.groupName}</td>
       <td className="text-center text-muted">
         {user?.status === UserStatus.Active && <span className="my-2 text-success font-size-md px-4 py-1 h-auto badge badge-neutral-success">Đang dạy</span>}

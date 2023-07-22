@@ -39,6 +39,8 @@ const convertDateTimeOffset = payload => {
 }
 
 const doAxios = (method, action, data, params = null) => {
+  const modifiedBy = sessionHelper().fullName
+
   const headers = sessionHelper().token
     ? {
         'Access-Control-Allow-Origin': '*',
@@ -48,11 +50,13 @@ const doAxios = (method, action, data, params = null) => {
         'Access-Control-Allow-Origin': '*'
       }
 
+  const body = data ? convertDateTimeOffset(data) : data
+
   return axios({
     method: method,
     url: `${apiEndpoint}\\${action}`,
     params: params,
-    data: data ? convertDateTimeOffset(data) : data,
+    data: { ...body, modifiedBy },
     withCredentials: true,
     timeout: 30000,
     headers: headers

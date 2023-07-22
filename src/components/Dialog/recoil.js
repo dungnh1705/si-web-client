@@ -121,3 +121,10 @@ export const UserInfoDialogAtom = atom({
     info: undefined
   }
 })
+
+export const NewUserDialogAtom = atom({
+  key: 'NewUserDialogAtom',
+  default: {
+    open: false
+  }
+})
