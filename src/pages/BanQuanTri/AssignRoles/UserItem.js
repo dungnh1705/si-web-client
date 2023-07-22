@@ -14,7 +14,7 @@ import { EditingUser, UserFormMode } from 'pages/BanQuanTri/AssignRoles/recoil'
 import moment from 'moment/moment'
 
 import UserAction from './components/UserAction'
-import { ChangeUserPasswordDialogAtom } from 'components/Dialog/recoil'
+import { ChangeUserPasswordDialogAtom, ChangeUserStatusDialogAtom, UserInfoDialogAtom } from 'components/Dialog/recoil'
 
 const UserItem = ({ user }) => {
   const storage = useRecoilValue(storageState)
@@ -23,6 +23,8 @@ const UserItem = ({ user }) => {
   const setEditingUser = useSetRecoilState(EditingUser)
 
   const [changePasswordDialog, setChangePasswordDialog] = useRecoilState(ChangeUserPasswordDialogAtom)
+  const [changeStatusDialog, setChangeStatusDialog] = useRecoilState(ChangeUserStatusDialogAtom)
+  const [changeInfoDialog, setChangeInfoDialog] = useRecoilState(UserInfoDialogAtom)
 
   const [imageUrl, setImageUrl] = useState()
 
@@ -46,6 +48,14 @@ const UserItem = ({ user }) => {
     setChangePasswordDialog({ ...changePasswordDialog, open: true, info: user })
   }
 
+  const handleChangeStatus = () => {
+    setChangeStatusDialog({ ...changeStatusDialog, open: true, info: user })
+  }
+
+  const handleChangeInfo = () => {
+    setChangeInfoDialog({ ...changeInfoDialog, open: true, info: user })
+  }
+
   return (
     <tr>
       <td className="font-weight-bold">#{user.id}</td>
@@ -56,10 +66,10 @@ const UserItem = ({ user }) => {
         </div>
       </td>
       <td>{user.dob ? moment(user.dob).format('DD/MM/YYYY') : ''}</td>
-      <td className="text-center">{user.joinedYear ? moment(user.joinedYear).format('YYYY') : ''}</td>
+      <td className="text-center">{user.patronDate ? moment(user.patronDate).format('DD/MM') : ''}</td>
       <td className="text-center">{user.phone ? `0${user.phone}` : ''}</td>
-      <td className="text-center">{getLevel(user.roles)}</td>
-      <td className="text-center">{getMaxRole(user.roles) === 'Huynh trưởng' || getMaxRole(user.roles) === 'Dự trưởng' ? '' : getMaxRole(user.roles)}</td>
+      <td className="text-center">{getLevel(user.roles, false)}</td>
+      <td className="text-center">{getMaxRole(user.roles, false) === 'Huynh trưởng' || getMaxRole(user.roles, false) === 'Dự trưởng' ? '' : getMaxRole(user.roles, false)}</td>
       <td className="text-center">{user.assignment.groupName}</td>
       <td className="text-center text-muted">
         {user?.status === UserStatus.Active && <span className="my-2 text-success font-size-md px-4 py-1 h-auto badge badge-neutral-success">Đang dạy</span>}
@@ -68,7 +78,7 @@ const UserItem = ({ user }) => {
         {user?.status === UserStatus.NewUser && <span className="my-2 text-info font-size-md px-4 py-1 h-auto badge badge-neutral-info">Tài khoản mới</span>}
       </td>
       <td className="text-center">
-        <UserAction handleChangePassword={handleChangePassword} />
+        <UserAction handleChangePassword={handleChangePassword} handleChangeStatus={handleChangeStatus} handleChangeInfo={handleChangeInfo} />
       </td>
     </tr>
   )

@@ -2,9 +2,8 @@ import React, { Fragment, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
 import { Button, List, ListItem, Menu } from '@material-ui/core'
-import ChangeUserPasswordDialog from 'components/Dialog/ChangeUserPasswordDialog'
 
-export default function UserAction({ handleChangePassword }) {
+export default function UserAction({ handleChangePassword, handleChangeStatus, handleChangeInfo }) {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleOpen = event => {
@@ -18,6 +17,16 @@ export default function UserAction({ handleChangePassword }) {
   const handleClickChangePassword = () => {
     handleClose()
     handleChangePassword()
+  }
+
+  const handleClickChangeStatus = () => {
+    handleClose()
+    handleChangeStatus()
+  }
+
+  const handleClickChangeInfo = () => {
+    handleClose()
+    handleChangeInfo()
   }
 
   return (
@@ -41,7 +50,7 @@ export default function UserAction({ handleChangePassword }) {
         onClose={handleClose}>
         <div className="dropdown-menu-right dropdown-menu-lg overflow-hidden p-0">
           <List className="bg-transparent d-flex align-items-center flex-column pt-0">
-            <ListItem key="action-edit-user" button>
+            <ListItem key="action-edit-user" button onClick={handleClickChangeInfo}>
               <div className="grid-menu grid-menu-1col w-100">
                 <div>
                   <div className="d-flex justify-content-center">
@@ -61,7 +70,7 @@ export default function UserAction({ handleChangePassword }) {
               </div>
             </ListItem>
 
-            <ListItem key="action-update-status" button>
+            <ListItem key="action-update-status" button onClick={handleClickChangeStatus}>
               <div className="grid-menu grid-menu-1col w-100">
                 <div>
                   <div className="d-flex justify-content-center">

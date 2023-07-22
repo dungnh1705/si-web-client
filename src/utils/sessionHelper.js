@@ -25,7 +25,7 @@ export function checkSession() {
   return localStorage.getItem(LOGIN_INFO_KEY) ? true : false
 }
 
-export function getMaxRole(roles = []) {
+export function getMaxRole(roles = [], isCheckLoginUser = true) {
   if (roles.length > 0) {
     let maxRoles = _.max(
       roles.map(e => {
@@ -34,14 +34,20 @@ export function getMaxRole(roles = []) {
     )
     return StringUtils.buildRoleName(maxRoles)
   } else {
-    const localData = JSON.parse(localStorage.getItem(LOGIN_INFO_KEY))
+    /// Trường hợp check User đang login
+    if (isCheckLoginUser) {
+      const localData = JSON.parse(localStorage.getItem(LOGIN_INFO_KEY))
 
-    let maxRoles = _.max(localData.roles)
-    return StringUtils.buildRoleName(maxRoles)
+      let maxRoles = _.max(localData.roles)
+      return StringUtils.buildRoleName(maxRoles)
+    }
+
+    /// nếu có UserId mà k có roles th return ""
+    return ''
   }
 }
 
-export function getLevel(roles = []) {
+export function getLevel(roles = [], isCheckLoginUser = true) {
   if (roles.length > 0) {
     const rolesId = roles.map(e => {
       return e.id
@@ -50,10 +56,14 @@ export function getLevel(roles = []) {
     if (rolesId.includes(Roles.DuTruong)) return 'DT'
     return ''
   } else {
-    const localData = JSON.parse(localStorage.getItem(LOGIN_INFO_KEY))
+    if (isCheckLoginUser) {
+      const localData = JSON.parse(localStorage.getItem(LOGIN_INFO_KEY))
 
-    if (localData.roles.includes(Roles.HuynhTruong)) return 'HT'
-    if (localData.roles.includes(Roles.DuTruong)) return 'DT'
+      if (localData.roles.includes(Roles.HuynhTruong)) return 'HT'
+      if (localData.roles.includes(Roles.DuTruong)) return 'DT'
+      return ''
+    }
+
     return ''
   }
 }

@@ -4,7 +4,7 @@ import { TextField } from '@material-ui/core'
 import { get } from 'lodash'
 import StringUtils from 'utils/StringUtils'
 
-export default function ShortTextField({ formik, name, label = '', required = false, autoCapitalize = false, readOnly = false, maxLength, onClick }) {
+export default function ShortTextField({ formik, name, label = '', required = false, autoCapitalize = false, readOnly = false, maxLength, onClick, inputProps }) {
   const forFormik = () => {
     const { values, errors, touched, handleBlur, handleChange } = formik
 
@@ -23,6 +23,7 @@ export default function ShortTextField({ formik, name, label = '', required = fa
         maxLength: maxLength
       },
       InputProps: {
+        ...inputProps,
         readOnly: readOnly
       }
     }

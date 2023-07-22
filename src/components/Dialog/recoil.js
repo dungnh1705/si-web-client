@@ -105,3 +105,26 @@ export const ChangeUserPasswordDialogAtom = atom({
     info: undefined
   }
 })
+
+export const ChangeUserStatusDialogAtom = atom({
+  key: 'ChangeUserStatusDialogAtom',
+  default: {
+    open: false,
+    info: undefined
+  }
+})
+
+export const UserInfoDialogAtom = atom({
+  key: 'UserInfoDialogAtom',
+  default: {
+    open: false,
+    info: undefined
+  }
+})
+
+export const NewUserDialogAtom = atom({
+  key: 'NewUserDialogAtom',
+  default: {
+    open: false
+  }
+})
