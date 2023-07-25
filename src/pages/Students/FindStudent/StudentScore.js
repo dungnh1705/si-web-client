@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Grid, CardContent, Avatar, Tooltip, Card, IconButton, Divider } from '@material-ui/core'
+import { Grid, CardContent, Tooltip, Card, IconButton, Divider } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import Badge from 'components/UI/Badge'
 import { orderBy } from 'lodash'
 
 import { HolyNameQuery } from 'recoils/selectors'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { GetStudentDetails } from './recoil'
 
@@ -13,11 +13,16 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import { UserStatus } from 'app/enums'
 import { nanoid } from 'nanoid'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
+import { PhoneCallDialogAtom } from 'components/Dialog/recoil'
 
 const StudentScore = ({ tabValue }) => {
   const student = useRecoilValue(GetStudentDetails)
   const lstHolyName = useRecoilValue(HolyNameQuery)
   const [collapse, setCollapse] = useState([])
+
+  const setPhoneDialog = useSetRecoilState(PhoneCallDialogAtom)
 
   const getHolyName = holyId => {
     return lstHolyName?.find(h => h.id === holyId)?.name
@@ -25,6 +30,12 @@ const StudentScore = ({ tabValue }) => {
 
   const handleClickCollapse = sectionId => {
     collapse.some(item => item === sectionId) ? setCollapse(collapse.filter(i => i !== sectionId)) : setCollapse([...collapse, sectionId])
+  }
+
+  const handleClickCall = phoneNo => {
+    if (phoneNo && !phoneNo.includes('null')) {
+      setPhoneDialog({ phoneCallDialog: true, phoneNo: phoneNo })
+    }
   }
 
   useEffect(() => {
@@ -71,6 +82,10 @@ const StudentScore = ({ tabValue }) => {
                     <Grid item xs={12}>
                       <div className="d-flex align-items-center mt-2">
                         <Typography>Phân đoàn trưởng:</Typography>
+
+                        <Typography variant={'h5'} className="ml-2">
+                          {getHolyName(leader?.holyNameId)} {leader?.firstName} {leader?.lastName}
+                        </Typography>
                         <Badge
                           isActive={leader?.status === UserStatus.Active}
                           overlap="circular"
@@ -80,17 +95,14 @@ const StudentScore = ({ tabValue }) => {
                           }}
                           variant="dot"
                           child={
-                            <Tooltip title={`${getHolyName(leader?.holyNameId)} ${leader?.firstName} ${leader?.lastName}`}>
-                              <Avatar src={leader?.croppedAvatarId ? `img/avatar/${leader?.croppedAvatarId}.png` : ''}>
-                                {`${leader?.firstName?.substring(0, 1)}${leader?.lastName?.substring(0, 1)}`}
-                              </Avatar>
-                            </Tooltip>
+                            <IconButton
+                              color={leader?.status === UserStatus.Active && leader?.phone ? 'primary' : 'default'}
+                              onClick={() => handleClickCall(`+84${leader?.phone}`)}>
+                              <FontAwesomeIcon icon={faPhoneAlt} className="font-size-lg" />
+                            </IconButton>
                           }
                           className="ml-2"
                         />
-                        <Typography variant={'h5'} className="ml-2">
-                          {getHolyName(leader?.holyNameId)} {leader?.firstName} {leader?.lastName}
-                        </Typography>
                       </div>
                     </Grid>
                   </Grid>
@@ -105,6 +117,9 @@ const StudentScore = ({ tabValue }) => {
 
                           return (
                             <Fragment key={nanoid(5)}>
+                              <Typography variant={'h5'} className="ml-2">
+                                {teacherName}
+                              </Typography>
                               <div className="ml-2">
                                 <div className="avatar-icon-wrapper">
                                   <Badge
@@ -116,25 +131,22 @@ const StudentScore = ({ tabValue }) => {
                                     }}
                                     variant="dot"
                                     child={
-                                      <Tooltip title={teacherName}>
-                                        <Avatar src={teacher?.croppedAvatarId ? `img/avatar/${teacher?.croppedAvatarId}.png` : ''}>
-                                          {`${teacher?.firstName?.substring(0, 1)}${teacher?.lastName?.substring(0, 1)}`}
-                                        </Avatar>
-                                      </Tooltip>
+                                      <IconButton
+                                        color={teacher?.status === UserStatus.Active && teacher?.phone ? 'primary' : 'default'}
+                                        onClick={() => handleClickCall(`+84${teacher?.phone}`)}>
+                                        <FontAwesomeIcon icon={faPhoneAlt} className="font-size-lg" />
+                                      </IconButton>
                                     }
                                   />
                                 </div>
                               </div>
-                              <Typography variant={'h5'} className="ml-2" key={nanoid(5)}>
-                                {teacherName}
-                              </Typography>
                             </Fragment>
                           )
                         })}
                     </div>
                   </Grid>
                   <Grid item xs={12}>
-                    <table className="table table-hover text-nowrap mb-0 mt-3">
+                    <table className="table table-hover text-nowrap mb-0 mt-3 table-responsive">
                       <thead>
                         <tr>
                           <th></th>

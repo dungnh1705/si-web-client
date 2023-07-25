@@ -14,6 +14,7 @@ export const DialerDialog = () => {
 
   const handleCall = () => {
     if (phoneNo) window.open(`tel:${phoneNo}`)
+    handleClose()
   }
 
   return (
