@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Dialog, DialogTitle, Divider, DialogContent, DialogActions, Button, Grid, Avatar } from '@material-ui/core'
+import { Dialog, DialogTitle, Divider, DialogContent, DialogActions, Button, Grid, Avatar, IconButton } from '@material-ui/core'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { TeacherInfoDialogAtom } from './recoil'
 import { useTheme } from '@material-ui/core/styles'
@@ -7,6 +7,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { UserImageSelector } from 'recoils/selectors'
 import { UserStatus } from 'app/enums'
 import { UserImageAtom } from 'recoils/atoms'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
 
 export const TeacherInfoDialog = () => {
   const theme = useTheme()
@@ -29,11 +31,17 @@ export const TeacherInfoDialog = () => {
     setInfoDialog({ ...infoDialog, open: false, info: undefined })
   }
 
+  const handleClickCall = phoneNo => {
+    if (phoneNo) {
+      window.open(`tel:+84${phoneNo}`)
+    }
+  }
+
   return (
     <Dialog open={open} onClose={handleCloseDialog} fullScreen={fullScreen} maxWidth="md">
       <DialogTitle>Thông tin Huynh Trưởng</DialogTitle>
       <Divider />
-      <DialogContent style={{ minWidth: '300px' }}>
+      <DialogContent>
         <Grid container spacing={2} justifyContent={'center'} alignItems={'center'}>
           <Grid item xs={12}>
             <div className="text-center pt-4">
@@ -60,6 +68,13 @@ export const TeacherInfoDialog = () => {
               </p>
               <p className="mb-0 text-black-50">{info?.email}</p>
             </div>
+          </Grid>
+          <Grid container item xs={12} spacing={3} justifyContent={'center'} alignItems={'center'}>
+            <Grid item xs={2}>
+              <IconButton color={info?.status === UserStatus.Active && info?.phone ? 'primary' : 'default'} onClick={() => handleClickCall(info?.phone)}>
+                <FontAwesomeIcon icon={faPhoneAlt} className="font-size-lg" />
+              </IconButton>
+            </Grid>
           </Grid>
         </Grid>
       </DialogContent>

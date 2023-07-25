@@ -25,7 +25,7 @@ export default function GroupSummaryInfo() {
 
   return (
     <Grid container spacing={2} justifyContent={'center'}>
-      <Grid item xs={12} sm={4} lg={2}>
+      <Grid item xs={6} sm={4} lg={2}>
         <Card className="card-box border-0 card-shadow-first p-4 mb-4">
           <div className="d-flex align-items-center">
             <div className="d-40 rounded-circle bg-first text-white text-center font-size-lg mr-3">
@@ -41,7 +41,7 @@ export default function GroupSummaryInfo() {
           </div>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={4} lg={2}>
+      <Grid item xs={6} sm={4} lg={2}>
         <Card className="card-box border-0 card-shadow-first p-4 mb-4">
           <div className="d-flex align-items-center">
             <div className="d-40 rounded-circle bg-primary text-white text-center font-size-lg mr-3">
@@ -57,7 +57,7 @@ export default function GroupSummaryInfo() {
           </div>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={4} lg={2}>
+      <Grid item xs={6} sm={4} lg={2}>
         <Card className="card-box border-0 card-shadow-first p-4 mb-4">
           <div className="d-flex align-items-center">
             <div className="d-40 rounded-circle bg-danger text-white text-center font-size-lg mr-3">
@@ -73,7 +73,7 @@ export default function GroupSummaryInfo() {
           </div>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={4} lg={2}>
+      <Grid item xs={6} sm={4} lg={2}>
         <Card className="card-box border-0 card-shadow-first p-4 mb-4">
           <div className="d-flex align-items-center">
             <div className="d-40 rounded-circle bg-success text-white text-center font-size-lg mr-3">
