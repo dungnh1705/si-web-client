@@ -1,13 +1,13 @@
 import BarChartOutlinedIcon from '@material-ui/icons/BarChartOutlined'
 
 import DashboardTwoToneIcon from '@material-ui/icons/DashboardTwoTone'
-import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone'
+// import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone'
 import PeopleAltTwoToneIcon from '@material-ui/icons/PeopleAltTwoTone'
 import StarTwoToneIcon from '@material-ui/icons/StarTwoTone'
 import CheckTwoToneIcon from '@material-ui/icons/CheckTwoTone'
 import AssignmentIndTwoToneIcon from '@material-ui/icons/AssignmentIndTwoTone'
 import PersonAddTwoToneIcon from '@material-ui/icons/PersonAddTwoTone'
-import SupervisorAccountTwoToneIcon from '@material-ui/icons/SupervisorAccountTwoTone'
+// import SupervisorAccountTwoToneIcon from '@material-ui/icons/SupervisorAccountTwoTone'
 import AssignmentTurnedInTwoToneIcon from '@material-ui/icons/AssignmentTurnedInTwoTone'
 import LayersTwoToneIcon from '@material-ui/icons/LayersTwoTone'
 import ImportContactsTwoToneIcon from '@material-ui/icons/ImportContactsTwoTone'
@@ -22,7 +22,7 @@ const functions = [
   { label: 'Xem báo cáo', icon: PollTwoToneIcon, to: '/Report' },
   {
     role: Roles.BanQuanTri,
-    label: 'Ban quản trị',
+    label: 'Ban điều hành',
     icon: BarChartOutlinedIcon,
     content: [
       {
@@ -37,23 +37,29 @@ const functions = [
         description: 'Thêm mới Đoàn sinh',
         to: '/BQT/RegisterOffline'
       },
-      {
-        label: 'Bổ nhiệm PĐT',
-        icon: SupervisorAccountTwoToneIcon,
-        description: 'Bổ nhiệm Phân đoàn trưởng',
-        to: '/BQT/AssignLeader'
-      },
-      {
-        label: 'Phân công tác HT',
-        icon: AssignmentTurnedInTwoToneIcon,
-        description: 'Phân công tác cho Huynh trưởng',
-        to: '/BQT/AssignUserClass'
-      },
+      // {
+      //   label: 'Bổ nhiệm PĐT',
+      //   icon: SupervisorAccountTwoToneIcon,
+      //   description: 'Bổ nhiệm Phân đoàn trưởng',
+      //   to: '/BQT/AssignLeader'
+      // },
+      // {
+      //   label: 'Phân công tác HT',
+      //   icon: AssignmentTurnedInTwoToneIcon,
+      //   description: 'Phân công tác cho Huynh trưởng',
+      //   to: '/BQT/AssignUserClass'
+      // },
       {
         label: 'Danh sách HT|DT',
         icon: LayersTwoToneIcon,
         description: 'Phân chức vụ cho Huynh trưởng',
         to: '/BQT/AssignUserRoles'
+      },
+      {
+        label: 'Phân công tác HT',
+        icon: AssignmentTurnedInTwoToneIcon,
+        description: 'Phân công tác cho Huynh trưởng',
+        to: '/BQT/TeacherAssignment'
       },
       {
         label: 'Quản lý biểu mẫu',

@@ -20,18 +20,20 @@ export default function HeaderAction() {
   }
 
   return (
-    <Fragment className={'ml-0 mr-0'}>
-      <Grid container spacing={3} justifyContent={'flex-end'} alignItems={'center'} className={'mt-2 mb-3'}>
-        <Grid container item xs={12} justifyContent={'flex-end'}>
-          <Button variant={'contained'} className={'mr-2'} onClick={handleAddNewuser}>
-            Thêm mới
-          </Button>
+    <Fragment>
+      <div>
+        <Grid container spacing={3} justifyContent={'flex-end'} alignItems={'center'} className={'mt-2 mb-3'}>
+          <Grid container item xs={12} justifyContent={'flex-end'}>
+            <Button variant={'contained'} className={'mr-2'} onClick={handleAddNewuser}>
+              Thêm mới
+            </Button>
 
-          <Button variant={'contained'} color={'primary'} onClick={handleDownloadUserExcel}>
-            Tải Excel
-          </Button>
+            <Button variant={'contained'} color={'primary'} onClick={handleDownloadUserExcel}>
+              Tải Excel
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
+      </div>
     </Fragment>
   )
 }

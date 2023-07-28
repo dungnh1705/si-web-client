@@ -15,6 +15,7 @@ import MyProfile from 'pages/Users/MyProfile'
 // BQT
 import RegisterOffline from 'pages/BanQuanTri/RegisterOffline'
 import GroupInfo from 'pages/BanQuanTri/GroupInfo'
+import TeacherAssignment from './pages/BanQuanTri/TeacherAssignment'
 // PDT
 import AddNewStudent from 'pages/PhanDoanTruong/AddNewStudent'
 import ManageScoreGroup from 'pages/PhanDoanTruong/ManageScoreGroup'
@@ -126,15 +127,19 @@ export default [
           </Suspense>
         )
       },
+      // {
+      //   path: '/BQT/AssignLeader',
+      //   exact: true,
+      //   component: lazy(() => import('pages/BanQuanTri/AssignLeader'))
+      // },
       {
-        path: '/BQT/AssignLeader',
+        path: '/BQT/TeacherAssignment',
         exact: true,
-        component: lazy(() => import('pages/BanQuanTri/AssignLeader'))
-      },
-      {
-        path: '/BQT/AssignUserClass',
-        exact: true,
-        component: lazy(() => import('pages/BanQuanTri/Assignment'))
+        component: () => (
+          <Suspense fallback={<PageSkeleton />}>
+            <TeacherAssignment />
+          </Suspense>
+        )
       },
       {
         path: '/BQT/AssignUserRoles',

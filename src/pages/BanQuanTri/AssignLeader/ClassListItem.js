@@ -30,7 +30,11 @@ const ClassListItem = ({ classInfo, users }) => {
     e.preventDefault()
     setLoading(true)
     try {
-      const res = await doPost(`user/assignLeader`, { ...classInfo, leader: newVal, userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}` })
+      const res = await doPost(`user/assignLeader`, {
+        ...classInfo,
+        leader: newVal,
+        userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`
+      })
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         setReloadClass(reload => reload + 1)
