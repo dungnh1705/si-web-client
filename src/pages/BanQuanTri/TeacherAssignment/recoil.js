@@ -38,7 +38,14 @@ export const UsersAvailableSelector = selector({
     const res = await doGet(`user/getUserAssign`, { scholasticId: sessionHelper().scholasticId })
 
     if (res && res.data.success) {
-      return res.data.data
+      const result = res.data.data.map(item => {
+        return {
+          id: item.id,
+          label: item.fullName
+        }
+      })
+
+      return result
     }
 
     return []
@@ -53,7 +60,11 @@ export const UsersQuerySelector = selector({
     const res = await doGet(`user/getUsers`, { scholasticId: sessionHelper().scholasticId })
 
     if (res && res.data.success) {
-      return res.data.data.filter(user => user.status === UserStatus.Active)
+      return res.data.data
+        .filter(user => user.status === UserStatus.Active)
+        .map(item => {
+          return { id: item.id, label: item.fullName }
+        })
     }
 
     return []

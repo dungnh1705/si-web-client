@@ -22,23 +22,25 @@ export default function GroupLeader({ info }) {
   const setReloadUsers = useSetRecoilState(ReloadUsersQueryAtom)
 
   const formData = useFormik({
-    initialValues: info.leader,
+    initialValues: { id: info.leaderId, label: info.leader.fullName },
     validationSchema: Yup.object({}),
     validateOnChange: true,
     validateOnMount: true,
     enableReinitialize: true
   })
 
-  const handleAgree = async (e, newVal) => {
+  const handleAgree = async (e, newValue) => {
     e.preventDefault()
     setLoading(true)
     try {
       const res = await doPost(`user/assignLeader`, {
-        ...info,
-        leader: newVal,
-        userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`
+        classId: info.id,
+        oldLeaderId: info.leaderId,
+        newLeaderId: newValue.id,
+        modifiedBy: sessionHelper().fullName
       })
       if (res && res.data.success) {
+        await formData.setValues(newValue)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         setReloadUsers(reload => reload + 1)
       }
@@ -46,12 +48,11 @@ export default function GroupLeader({ info }) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })
     } finally {
       setLoading(false)
-      formData.setValues(newVal)
     }
   }
 
   return (
-    <Grid container spacing={3} justifyContent={'flex-start'} alignItems={'center'}>
+    <Grid container spacing={3} justifyContent={'flex-start'} alignItems={'flex-start'}>
       <Grid item xs={12}>
         Phân đoàn trưởng
       </Grid>
@@ -68,8 +69,8 @@ export default function GroupLeader({ info }) {
           id={`leader-${nanoid(2)}`}
           options={users.filter(user => user.id !== formData.values['id'])}
           renderOption={(option, { inputValue }) => {
-            const matches = match(`${option.holyName?.name} ${option.firstName} ${option.lastName}`, inputValue)
-            const parts = parse(`${option.holyName?.name} ${option.firstName} ${option.lastName}`, matches)
+            const matches = match(`${option.label}`, inputValue)
+            const parts = parse(`${option.label}`, matches)
             return (
               <div className="d-flex align-items-center">
                 {/*<Avatar src={option?.avatarUrl} className="mr-2">*/}
@@ -85,7 +86,7 @@ export default function GroupLeader({ info }) {
               </div>
             )
           }}
-          getOptionLabel={option => option.fullName}
+          getOptionLabel={option => option.label}
           renderInput={params => (
             <TextField
               InputLabelProps={{

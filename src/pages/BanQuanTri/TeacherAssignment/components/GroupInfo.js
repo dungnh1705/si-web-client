@@ -14,7 +14,7 @@ export default function GroupInfo({ info }) {
       </div>
       <Divider />
       <CardContent>
-        <Grid container spacing={3} justifyContent={'flex-start'} alignItems={'center'}>
+        <Grid container spacing={3} justifyContent={'flex-start'} alignItems={'flex-start'}>
           <Grid item xs={12} lg={3}>
             <Suspense fallback={<LinearProgress />}>
               <GroupLeader info={info} />
@@ -22,7 +22,7 @@ export default function GroupInfo({ info }) {
           </Grid>
           <Grid item xs={12} lg={9}>
             <Suspense fallback={<LinearProgress />}>
-              <GroupMember />
+              <GroupMember info={info} />
             </Suspense>
           </Grid>
         </Grid>
