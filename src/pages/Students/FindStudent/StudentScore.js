@@ -63,7 +63,7 @@ const StudentScore = ({ tabValue }) => {
                   <div className="card-header--title">
                     <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Năm học: {`${schoolYear?.startYear} - ${schoolYear?.endYear}`}</h4>
                   </div>
-                  <Grid container item xs={10} justifyContent="flex-end">
+                  <Grid container item xs={2} justifyContent="flex-end">
                     <div className="card-header--actions">
                       <Tooltip arrow title={!collapse.some(item => item === key) ? 'Thu lại' : 'Mở rộng'}>
                         <IconButton size="medium" color="primary">
