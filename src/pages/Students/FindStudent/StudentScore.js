@@ -63,7 +63,7 @@ const StudentScore = ({ tabValue }) => {
                   <div className="card-header--title">
                     <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Năm học: {`${schoolYear?.startYear} - ${schoolYear?.endYear}`}</h4>
                   </div>
-                  <Grid container item xs={10} justifyContent="flex-end">
+                  <Grid container item xs={2} justifyContent="flex-end">
                     <div className="card-header--actions">
                       <Tooltip arrow title={!collapse.some(item => item === key) ? 'Thu lại' : 'Mở rộng'}>
                         <IconButton size="medium" color="primary">
@@ -146,72 +146,74 @@ const StudentScore = ({ tabValue }) => {
                     </div>
                   </Grid>
                   <Grid item xs={12}>
-                    <table className="table table-hover text-nowrap mb-0 mt-3 table-responsive">
-                      <thead>
-                        <tr>
-                          <th></th>
-                          <th style={{ textAlign: 'center' }}>15'</th>
-                          <th style={{ textAlign: 'center' }}>15'</th>
-                          <th style={{ textAlign: 'center' }}>1 tiết</th>
-                          <th style={{ textAlign: 'center' }}>Học kỳ</th>
-                          <th style={{ textAlign: 'center' }}>TB</th>
-                          <th style={{ textAlign: 'center' }}>Đạo đức</th>
-                          <th style={{ textAlign: 'center' }}>Xếp loại</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th>Học kỳ I</th>
-                          <th style={{ textAlign: 'center' }}>{sOne?.oldTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sOne?.fifteenTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sOne?.lessonTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sOne?.semesterTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sOne?.average}</th>
-                          <th style={{ textAlign: 'center' }}>{sOne?.morality}</th>
-                          <th style={{ textAlign: 'center' }}>{sOne?.ranking}</th>
-                        </tr>
-                        <tr>
-                          <th>Nhận xét</th>
-                          <th colSpan={7} style={{ textAlign: 'center' }}>
-                            {sOne?.comment}
-                          </th>
-                        </tr>
-                        <tr>
-                          <th>Học kỳ II</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo?.oldTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo?.fifteenTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo?.lessonTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo?.semesterTest}</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo?.average}</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo?.morality}</th>
-                          <th style={{ textAlign: 'center' }}>{sTwo?.ranking}</th>
-                        </tr>
-                        <tr>
-                          <th>Nhận xét</th>
-                          <th colSpan={7} style={{ textAlign: 'center' }}>
-                            {sTwo?.comment}
-                          </th>
-                        </tr>
-                        <tr>
-                          <th>Cả năm</th>
-                          <th style={{ textAlign: 'center' }} colSpan={2}>
-                            {total?.avgSemesterOne}
-                          </th>
-                          <th style={{ textAlign: 'center' }} colSpan={2}>
-                            {total?.avgSemesterTwo}
-                          </th>
-                          <th style={{ textAlign: 'center' }}>{total?.avgTotal}</th>
-                          <th style={{ textAlign: 'center' }}>{total?.morality}</th>
-                          <th style={{ textAlign: 'center' }}>{total?.ranking}</th>
-                        </tr>
-                        <tr>
-                          <th>Nhận xét</th>
-                          <th colSpan={7} style={{ textAlign: 'center' }}>
-                            {total?.comment}
-                          </th>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <div className="table-responsive">
+                      <table className="table text-nowrap mb-0 mt-3">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th style={{ textAlign: 'center' }}>15'</th>
+                            <th style={{ textAlign: 'center' }}>15'</th>
+                            <th style={{ textAlign: 'center' }}>1 tiết</th>
+                            <th style={{ textAlign: 'center' }}>Học kỳ</th>
+                            <th style={{ textAlign: 'center' }}>TB</th>
+                            <th style={{ textAlign: 'center' }}>Đạo đức</th>
+                            <th style={{ textAlign: 'center' }}>Xếp loại</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th>Học kỳ I</th>
+                            <th style={{ textAlign: 'center' }}>{sOne?.oldTest}</th>
+                            <th style={{ textAlign: 'center' }}>{sOne?.fifteenTest}</th>
+                            <th style={{ textAlign: 'center' }}>{sOne?.lessonTest}</th>
+                            <th style={{ textAlign: 'center' }}>{sOne?.semesterTest}</th>
+                            <th style={{ textAlign: 'center' }}>{sOne?.average}</th>
+                            <th style={{ textAlign: 'center' }}>{sOne?.morality}</th>
+                            <th style={{ textAlign: 'center' }}>{sOne?.ranking}</th>
+                          </tr>
+                          <tr>
+                            <th>Nhận xét</th>
+                            <th colSpan={7} style={{ textAlign: 'center' }}>
+                              {sOne?.comment}
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>Học kỳ II</th>
+                            <th style={{ textAlign: 'center' }}>{sTwo?.oldTest}</th>
+                            <th style={{ textAlign: 'center' }}>{sTwo?.fifteenTest}</th>
+                            <th style={{ textAlign: 'center' }}>{sTwo?.lessonTest}</th>
+                            <th style={{ textAlign: 'center' }}>{sTwo?.semesterTest}</th>
+                            <th style={{ textAlign: 'center' }}>{sTwo?.average}</th>
+                            <th style={{ textAlign: 'center' }}>{sTwo?.morality}</th>
+                            <th style={{ textAlign: 'center' }}>{sTwo?.ranking}</th>
+                          </tr>
+                          <tr>
+                            <th>Nhận xét</th>
+                            <th colSpan={7} style={{ textAlign: 'center' }}>
+                              {sTwo?.comment}
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>Cả năm</th>
+                            <th style={{ textAlign: 'center' }} colSpan={2}>
+                              {total?.avgSemesterOne}
+                            </th>
+                            <th style={{ textAlign: 'center' }} colSpan={2}>
+                              {total?.avgSemesterTwo}
+                            </th>
+                            <th style={{ textAlign: 'center' }}>{total?.avgTotal}</th>
+                            <th style={{ textAlign: 'center' }}>{total?.morality}</th>
+                            <th style={{ textAlign: 'center' }}>{total?.ranking}</th>
+                          </tr>
+                          <tr>
+                            <th>Nhận xét</th>
+                            <th colSpan={7} style={{ textAlign: 'center' }}>
+                              {total?.comment}
+                            </th>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </Grid>
                 </CardContent>
               </Card>

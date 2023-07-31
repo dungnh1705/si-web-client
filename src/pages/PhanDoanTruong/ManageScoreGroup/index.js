@@ -62,16 +62,27 @@ const ManageScoreGroup = () => {
         </Grid>
 
         <br />
-        <Slider {...settings}>
-          {lstUnion &&
-            lstUnion.map(union => (
-              <CardContent onClick={() => handleClickUnion(union.unionId)} key={union.unionId}>
-                <Typography variant="h4" className={`carousel-header ${selectedUnion === union.unionId ? 'carousel-header__active' : ''}`}>
-                  Chi đoàn {union.unionCode}
-                </Typography>
-              </CardContent>
+        <Hidden xsDown>
+          <ButtonGroup variant="contained" aria-label="contained primary button group" className={'mb-4'}>
+            {lstUnion?.map(union => (
+              <Button onClick={() => handleClickUnion(union.unionId)} key={union.unionId} color={selectedUnion === union.unionId ? 'primary' : 'default'} size={'large'}>
+                Chi đoàn {union.unionCode}
+              </Button>
             ))}
-        </Slider>
+          </ButtonGroup>
+        </Hidden>
+        <Hidden smUp>
+          <Slider {...settings}>
+            {lstUnion &&
+              lstUnion.map(union => (
+                <CardContent onClick={() => handleClickUnion(union.unionId)} key={union.unionId}>
+                  <Typography variant="h4" className={`carousel-header ${selectedUnion === union.unionId ? 'carousel-header__active' : ''}`}>
+                    Chi đoàn {union.unionCode}
+                  </Typography>
+                </CardContent>
+              ))}
+          </Slider>
+        </Hidden>
 
         <br />
         <Suspense fallback={<PageSkeleton />}>
