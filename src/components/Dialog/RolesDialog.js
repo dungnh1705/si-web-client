@@ -178,7 +178,7 @@ export const RolesDialog = () => {
                   />
                   <FormControlLabel
                     control={<StyledCheckbox checked={formRoles.values.includes(Roles.BanQuanTri)} onChange={handleCheckRole} value={Roles.BanQuanTri} />}
-                    label="Ban quản trị"
+                    label="Ban điều hành"
                     disabled={!sessionHelper().roles.includes(Roles.BanQuanTri)}
                   />
                 </FormGroup>

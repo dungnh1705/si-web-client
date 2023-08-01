@@ -17,7 +17,7 @@ export default {
         res = 'Admin'
         break
       case Roles.BanQuanTri:
-        res = 'Ban quản trị'
+        res = 'Ban điều hành'
         break
       case Roles.PhongTrao:
         res = 'Phong trào'
