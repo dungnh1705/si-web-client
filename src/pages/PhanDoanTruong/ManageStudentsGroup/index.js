@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react'
+import React, { Fragment, Suspense, useEffect } from 'react'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import { Grid, Typography, ButtonGroup, Button } from '@material-ui/core'
 import _ from 'lodash'
@@ -27,9 +27,9 @@ const ManageStudentsGroup = () => {
 
   const body = () => {
     return (
-      <Grid container spacing={1}>
+      <Grid container spacing={2}>
         {lstStudent && (
-          <Grid container spacing={1}>
+          <Grid container item xs={12} alignItems={'center'} justifyContent="flex-start" spacing={2} className="mt-1">
             <Grid item xs={10} sm={9}>
               <ButtonGroup variant="contained" aria-label="contained primary button group">
                 <Button color={mode === ViewModes.DiemDanh ? 'primary' : 'default'} onClick={() => setMode(ViewModes.DiemDanh)}>
@@ -41,7 +41,7 @@ const ManageStudentsGroup = () => {
               </ButtonGroup>
             </Grid>
 
-            <Grid container item xs={2} sm={3} justifyContent="flex-end">
+            <Grid container item xs={2} sm={3} justifyContent="flex-end" alignItems={'center'}>
               <HeaderAction />
             </Grid>
           </Grid>
@@ -80,13 +80,13 @@ const ManageStudentsGroup = () => {
     <Suspense fallback={<>Đang tải Danh sách Đoàn sinh ...</>}>
       {body()}
 
-      <>
+      <Fragment>
         <StudentDialog />
         <AbsentDialog />
         <DialerDialog />
         <ChooseInfoFileDialog />
         <ChangeGroupModal />
-      </>
+      </Fragment>
     </Suspense>
   )
 }

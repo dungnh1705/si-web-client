@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { List, ListItem, Tooltip, Fab, Menu } from '@material-ui/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileExcel, faDownload } from '@fortawesome/free-solid-svg-icons'
+import { faFileExcel, faDownload, faFilePdf } from '@fortawesome/free-solid-svg-icons'
 import { useSetRecoilState, useRecoilState } from 'recoil'
 
 import sessionHelper from 'utils/sessionHelper'
-import { doPost, doDownload } from 'utils/axios'
-import { toastState } from 'recoils/atoms'
+import { doDownload } from 'utils/axios'
+import { loadingState, toastState } from 'recoils/atoms'
 import { ChooseFileInfoDialogAtom } from 'components/Dialog/recoil'
 
 const templateId = process.env.REACT_APP_START_YEAR_DOC_ID
@@ -15,6 +15,7 @@ export default function HeaderAction() {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const setToast = useSetRecoilState(toastState)
+  const setLoading = useSetRecoilState(loadingState)
 
   const [dialog, setDialog] = useRecoilState(ChooseFileInfoDialogAtom)
 
@@ -24,7 +25,7 @@ export default function HeaderAction() {
 
   const handleDownload = async e => {
     e.preventDefault()
-
+    setLoading(true)
     handleClose()
 
     try {
@@ -37,11 +38,8 @@ export default function HeaderAction() {
         IsPreview: false
       }
 
-      const res = await doPost(`download/previewForm`, data)
-      if (res && res.data.success) {
-        const { data } = res.data
-        doDownload('file/get', { fileName: data })
-      }
+      await doDownload('download/downloadPreviewForm', data)
+      setLoading(false)
     } catch (err) {
       setToast({ open: true, message: err.message, type: 'error' })
     }
@@ -70,7 +68,7 @@ export default function HeaderAction() {
   }
 
   return (
-    <>
+    <Fragment>
       <Tooltip title="Tải xuống">
         <Fab component="div" size="small" color="primary" onClick={handleOpen}>
           <FontAwesomeIcon icon={faDownload} />
@@ -96,7 +94,7 @@ export default function HeaderAction() {
               <div className="grid-menu grid-menu-1col w-100">
                 <div>
                   <div className="d-flex justify-content-left">
-                    <FontAwesomeIcon icon={faFileExcel} size="lg" className="mr-3" />
+                    <FontAwesomeIcon icon={faFilePdf} size="lg" className="mr-3" />
                     <div className="d-flex align-items-center">Tải danh sách Đoàn sinh</div>
                   </div>
                 </div>
@@ -127,6 +125,6 @@ export default function HeaderAction() {
           </List>
         </div>
       </Menu>
-    </>
+    </Fragment>
   )
 }
