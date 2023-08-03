@@ -108,7 +108,7 @@ export default [
         exact: true,
         component: lazy(() => import('pages/Report'))
       },
-      // Ban Quản trị
+      // Ban Điều hành
       {
         path: '/BQT/GroupInfo',
         exact: true,

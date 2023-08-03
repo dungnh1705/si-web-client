@@ -305,7 +305,7 @@ export default function UserInfoDialog({ reloadUserList }) {
                     />
                     <FormControlLabel
                       control={<StyledCheckbox checked={checkIncludesRole(userForm.values['role'], Roles.BanQuanTri)} onChange={handleCheckRole} value={Roles.BanQuanTri} />}
-                      label="Ban quản trị"
+                      label="Ban điều hành"
                     />
                   </FormGroup>
                 </FormControl>

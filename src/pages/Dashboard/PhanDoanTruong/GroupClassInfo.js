@@ -49,7 +49,8 @@ export default function GroupInfo({ info }) {
           <CardContent className="p-1" key={`Group-Info-${item.unionCode}`}>
             <Grid container spacing={3} className="mt-1" justifyContent="center">
               <Grid container item xs={12} justifyContent="center">
-                <Typography variant="h4">Chi đoàn {item.unionCode}</Typography>
+                {item.unionCode === 0 && <Typography variant="h4">Chưa phân Chi đoàn</Typography>}
+                {item.unionCode !== 0 && <Typography variant="h4">Chi đoàn {item.unionCode}</Typography>}
               </Grid>
 
               <Grid container item xs={12}>

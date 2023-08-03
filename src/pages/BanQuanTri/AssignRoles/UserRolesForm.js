@@ -159,7 +159,7 @@ const UserRolesForm = () => {
                     />
                     <FormControlLabel
                       control={<StyledCheckbox checked={formData.values.includes(Roles.BanQuanTri)} onChange={handleCheckRole} value={Roles.BanQuanTri} />}
-                      label="Ban quản trị"
+                      label="Ban điều hành"
                     />
                   </FormGroup>
                 </FormControl>

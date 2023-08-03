@@ -8,12 +8,10 @@ import HeaderAction from './HeaderAction'
 
 export default function AddNewStudent() {
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={2}>
       <Hidden smDown>
-        <Grid container spacing={3} style={{ marginTop: '5px' }}>
-          <Grid container item sm={12} justifyContent="flex-end">
-            <HeaderAction />
-          </Grid>
+        <Grid container item xs={12} spacing={2} className="mt-1" justifyContent="flex-end">
+          <HeaderAction />
         </Grid>
       </Hidden>
 

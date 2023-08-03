@@ -4,7 +4,7 @@ import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
 import { Autocomplete } from '@material-ui/lab'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { ReloadUsersQueryAtom, UsersQuerySelector } from '../recoil'
+import { ReloadAssignmentsAtom, ReloadUsersQueryAtom, UsersQuerySelector } from '../recoil'
 import { loadingState, toastState } from 'recoils/atoms'
 
 import { useFormik } from 'formik'
@@ -20,6 +20,7 @@ export default function GroupLeader({ info }) {
   const setLoading = useSetRecoilState(loadingState)
 
   const setReloadUsers = useSetRecoilState(ReloadUsersQueryAtom)
+  const setReloadClass = useSetRecoilState(ReloadAssignmentsAtom)
 
   const formData = useFormik({
     initialValues: { id: info.leaderId, label: info.leader.fullName },
@@ -43,6 +44,7 @@ export default function GroupLeader({ info }) {
         await formData.setValues(newValue)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         setReloadUsers(reload => reload + 1)
+        setReloadClass(reload => reload + 1)
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })
