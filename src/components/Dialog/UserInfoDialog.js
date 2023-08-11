@@ -292,6 +292,10 @@ export default function UserInfoDialog({ reloadUserList }) {
                       label="Ngành trưởng"
                     />
                     <FormControlLabel
+                      control={<StyledCheckbox checked={checkIncludesRole(userForm.values['role'], Roles.PhungVu)} onChange={handleCheckRole} value={Roles.PhungVu} />}
+                      label="Phụng vụ"
+                    />
+                    <FormControlLabel
                       control={<StyledCheckbox checked={checkIncludesRole(userForm.values['role'], Roles.HocTap)} onChange={handleCheckRole} value={Roles.HocTap} />}
                       label="Học tập"
                     />
@@ -300,11 +304,12 @@ export default function UserInfoDialog({ reloadUserList }) {
                       label="Kỷ luật"
                     />
                     <FormControlLabel
-                      control={<StyledCheckbox checked={checkIncludesRole(userForm.values['role'], Roles.PhongTrao)} onChange={handleCheckRole} value={Roles.PhongTrao} />}
+                      control={<StyledCheckbox checked={checkIncludesRole(userForm.values['role'], Roles.SinhHoat)} onChange={handleCheckRole} value={Roles.SinhHoat} />}
                       label="Sinh hoạt"
                     />
+
                     <FormControlLabel
-                      control={<StyledCheckbox checked={checkIncludesRole(userForm.values['role'], Roles.BanQuanTri)} onChange={handleCheckRole} value={Roles.BanQuanTri} />}
+                      control={<StyledCheckbox checked={checkIncludesRole(userForm.values['role'], Roles.BanDieuHanh)} onChange={handleCheckRole} value={Roles.BanDieuHanh} />}
                       label="Ban điều hành"
                     />
                   </FormGroup>

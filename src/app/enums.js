@@ -35,8 +35,8 @@ export const Roles = {
   PhanDoanTruong: 16,
   NganhTruong: 32,
   KyLuat: 64,
-  PhongTrao: 128,
-  SinhHoat: 256,
+  SinhHoat: 128,
+  PhungVu: 256,
   Admin: 2,
   HocTap: 512,
   BanDieuHanh: 1028

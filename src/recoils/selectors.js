@@ -90,7 +90,7 @@ export const TemplatesQuery = selector({
     if (res && res.data.success) {
       const result = []
 
-      if (userRoles.includes(Roles.BanQuanTri)) return res.data.data
+      if (userRoles.includes(Roles.BanDieuHanh)) return res.data.data
 
       res.data.data.forEach(item => {
         userRoles.forEach(r => {

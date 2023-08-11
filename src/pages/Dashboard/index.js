@@ -17,7 +17,7 @@ const Dashboard = () => {
       {maxRole === Roles.HuynhTruong && sessionHelper().unionId > 1 && <HuynhTruongDashboard />}
       {maxRole === Roles.HuynhTruong && sessionHelper().unionId === 1 && <h4>Bạn chưa được phân công Chi đoàn nên không có dữ liệu.</h4>}
       {maxRole === Roles.PhanDoanTruong && <PhanDoanTruongDashboard />}
-      {maxRole === Roles.BanQuanTri && <BanQuanTrigDashboard />}
+      {maxRole === Roles.BanDieuHanh && <BanQuanTrigDashboard />}
     </Suspense>
   )
 }
