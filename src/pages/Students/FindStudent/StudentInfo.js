@@ -51,7 +51,7 @@ const StudentInfo = ({ tabValue }) => {
       const currentStudentClass = student.studentClass.find(s => s.classId === classInfo?.id)
       const isEditable =
         sessionHelper().roles.includes(Roles.Admin) ||
-        sessionHelper().roles.includes(Roles.BanQuanTri) ||
+        sessionHelper().roles.includes(Roles.BanDieuHanh) ||
         (sessionHelper().roles.includes(Roles.PhanDoanTruong) && Number(sessionHelper().userId) === classInfo?.leaderId) ||
         (currentStudentClass?.classId === Number(sessionHelper().classId) && currentStudentClass?.unionId === Number(sessionHelper().unionId))
 
@@ -159,7 +159,7 @@ const StudentInfo = ({ tabValue }) => {
   }
 
   const checkShowForm = () => {
-    return student?.status === StudentStatus.Active || sessionHelper().roles.includes(Roles.BanQuanTri)
+    return student?.status === StudentStatus.Active || sessionHelper().roles.includes(Roles.BanDieuHanh)
   }
 
   const handleStatusChange = async e => {
@@ -215,7 +215,7 @@ const StudentInfo = ({ tabValue }) => {
                           }
                         />
                       </Grid>
-                      {sessionHelper().roles.includes(Roles.BanQuanTri) && (
+                      {sessionHelper().roles.includes(Roles.BanDieuHanh) && (
                         <Grid item xs={12}>
                           <TextField
                             id="select"
@@ -241,7 +241,7 @@ const StudentInfo = ({ tabValue }) => {
                       )}
                       <Grid item xs={12}>
                         <div className="w-100" style={{ textAlign: 'center' }}>
-                          {!sessionHelper().roles.includes(Roles.BanQuanTri) && (
+                          {!sessionHelper().roles.includes(Roles.BanDieuHanh) && (
                             <div>
                               {student?.status === StudentStatus.ChangeChurch && <span className="badge badge-danger">Chuyển xứ</span>}
                               {student?.status === StudentStatus.LeaveStudy && <span className="badge badge-warning">Nghỉ luôn</span>}

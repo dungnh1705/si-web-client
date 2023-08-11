@@ -35,10 +35,11 @@ export const Roles = {
   PhanDoanTruong: 16,
   NganhTruong: 32,
   KyLuat: 64,
-  PhongTrao: 128,
-  BanQuanTri: 256,
+  SinhHoat: 128,
+  PhungVu: 256,
   Admin: 2,
-  HocTap: 512
+  HocTap: 512,
+  BanDieuHanh: 1028
 }
 
 export const Functions = {

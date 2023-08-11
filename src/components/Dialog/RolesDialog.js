@@ -165,6 +165,10 @@ export const RolesDialog = () => {
                     label="Ngành trưởng"
                   />
                   <FormControlLabel
+                    control={<StyledCheckbox checked={formRoles.values.includes(Roles.PhungVu)} onChange={handleCheckRole} value={Roles.PhungVu} />}
+                    label="Phụng vụ"
+                  />
+                  <FormControlLabel
                     control={<StyledCheckbox checked={formRoles.values.includes(Roles.HocTap)} onChange={handleCheckRole} value={Roles.HocTap} />}
                     label="Học tập"
                   />
@@ -173,13 +177,13 @@ export const RolesDialog = () => {
                     label="Kỷ luật"
                   />
                   <FormControlLabel
-                    control={<StyledCheckbox checked={formRoles.values.includes(Roles.PhongTrao)} onChange={handleCheckRole} value={Roles.PhongTrao} />}
-                    label="Phong trào"
+                    control={<StyledCheckbox checked={formRoles.values.includes(Roles.SinhHoat)} onChange={handleCheckRole} value={Roles.SinhHoat} />}
+                    label="Sinh hoạt"
                   />
                   <FormControlLabel
-                    control={<StyledCheckbox checked={formRoles.values.includes(Roles.BanQuanTri)} onChange={handleCheckRole} value={Roles.BanQuanTri} />}
+                    control={<StyledCheckbox checked={formRoles.values.includes(Roles.BanDieuHanh)} onChange={handleCheckRole} value={Roles.BanDieuHanh} />}
                     label="Ban điều hành"
-                    disabled={!sessionHelper().roles.includes(Roles.BanQuanTri)}
+                    disabled={!sessionHelper().roles.includes(Roles.BanDieuHanh)}
                   />
                 </FormGroup>
               </FormControl>

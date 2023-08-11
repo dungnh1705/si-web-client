@@ -16,11 +16,11 @@ export default {
       case Roles.Admin:
         res = 'Admin'
         break
-      case Roles.BanQuanTri:
+      case Roles.BanDieuHanh:
         res = 'Ban điều hành'
         break
-      case Roles.PhongTrao:
-        res = 'Phong trào'
+      case Roles.SinhHoat:
+        res = 'Sinh hoạt'
         break
       case Roles.KyLuat:
         res = 'Kỷ luật'
@@ -40,6 +40,9 @@ export default {
       case Roles.HocTap:
         res = 'Học tập'
         break
+      case Roles.PhungVu:
+        res = 'Phụng vụ'
+        break
       default:
         res = ''
         break
@@ -50,8 +53,8 @@ export default {
   getMaxRole(roles = []) {
     const role = _.max(roles)
     switch (role) {
-      case Roles.BanQuanTri:
-        return Roles.BanQuanTri
+      case Roles.BanDieuHanh:
+        return Roles.BanDieuHanh
 
       case Roles.PhanDoanTruong:
         return Roles.PhanDoanTruong

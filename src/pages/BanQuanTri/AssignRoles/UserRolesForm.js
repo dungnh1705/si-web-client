@@ -146,6 +146,10 @@ const UserRolesForm = () => {
                       label="Ngành trưởng"
                     />
                     <FormControlLabel
+                      control={<StyledCheckbox checked={formData.values.includes(Roles.PhungVu)} onChange={handleCheckRole} value={Roles.PhungVu} />}
+                      label="Phụng vụ"
+                    />
+                    <FormControlLabel
                       control={<StyledCheckbox checked={formData.values.includes(Roles.HocTap)} onChange={handleCheckRole} value={Roles.HocTap} />}
                       label="Học tập"
                     />
@@ -154,11 +158,11 @@ const UserRolesForm = () => {
                       label="Kỷ luật"
                     />
                     <FormControlLabel
-                      control={<StyledCheckbox checked={formData.values.includes(Roles.PhongTrao)} onChange={handleCheckRole} value={Roles.PhongTrao} />}
-                      label="Phong trào"
+                      control={<StyledCheckbox checked={formData.values.includes(Roles.SinhHoat)} onChange={handleCheckRole} value={Roles.SinhHoat} />}
+                      label="Sinh hoạt"
                     />
                     <FormControlLabel
-                      control={<StyledCheckbox checked={formData.values.includes(Roles.BanQuanTri)} onChange={handleCheckRole} value={Roles.BanQuanTri} />}
+                      control={<StyledCheckbox checked={formData.values.includes(Roles.BanDieuHanh)} onChange={handleCheckRole} value={Roles.BanDieuHanh} />}
                       label="Ban điều hành"
                     />
                   </FormGroup>

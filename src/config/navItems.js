@@ -21,7 +21,7 @@ const functions = [
   // { label: 'Tìm kiếm Đoàn sinh', icon: SearchTwoToneIcon, to: '/FindStudent' },
   { label: 'Xem báo cáo', icon: PollTwoToneIcon, to: '/Report' },
   {
-    role: Roles.BanQuanTri,
+    role: Roles.BanDieuHanh,
     label: 'Ban điều hành',
     icon: BarChartOutlinedIcon,
     content: [
