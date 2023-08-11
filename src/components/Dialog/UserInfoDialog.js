@@ -51,7 +51,7 @@ export default function UserInfoDialog({ reloadUserList }) {
   const useFormValidationFrom = Yup.object({})
 
   const userForm = useFormik({
-    initialValues: { ...info, OldGroupName: info?.assignment.groupName },
+    initialValues: { ...info, assignment: { ...info?.assignment, oldGroupName: info?.assignment.groupName } },
     validationSchema: useFormValidationFrom,
     validateOnChange: true,
     validateOnMount: true,
