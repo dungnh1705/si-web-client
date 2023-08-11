@@ -301,7 +301,7 @@ export default function UserInfoDialog({ reloadUserList }) {
                     />
                     <FormControlLabel
                       control={<StyledCheckbox checked={checkIncludesRole(userForm.values['role'], Roles.PhongTrao)} onChange={handleCheckRole} value={Roles.PhongTrao} />}
-                      label="Phong trào"
+                      label="Sinh hoạt"
                     />
                     <FormControlLabel
                       control={<StyledCheckbox checked={checkIncludesRole(userForm.values['role'], Roles.BanQuanTri)} onChange={handleCheckRole} value={Roles.BanQuanTri} />}

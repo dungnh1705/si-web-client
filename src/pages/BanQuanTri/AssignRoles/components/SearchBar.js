@@ -64,11 +64,13 @@ export default function SearchBar() {
           </Grid>
           <Grid item xs={12} md={2}>
             <TextField select {...TextField_Props('position', 'Chức vụ')}>
-              <MenuItem value={256}>Ban điều hành</MenuItem>
+              <MenuItem value={1028}>Ban điều hành</MenuItem>
+              <MenuItem value={32}>Ngành trưởng</MenuItem>
               <MenuItem value={16}>Phân đoàn trưởng</MenuItem>
+              <MenuItem value={256}>Phụng vụ</MenuItem>
               <MenuItem value={512}>Học tập</MenuItem>
               <MenuItem value={64}>Kỷ luật</MenuItem>
-              <MenuItem value={128}>Phong trào</MenuItem>
+              <MenuItem value={128}>Sinh hoạt</MenuItem>
             </TextField>
           </Grid>
           <Grid item xs={12} md={2}>

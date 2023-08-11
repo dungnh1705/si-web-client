@@ -20,7 +20,7 @@ export default {
         res = 'Ban điều hành'
         break
       case Roles.PhongTrao:
-        res = 'Phong trào'
+        res = 'Sinh hoạt'
         break
       case Roles.KyLuat:
         res = 'Kỷ luật'

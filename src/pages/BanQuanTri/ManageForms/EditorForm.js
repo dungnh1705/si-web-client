@@ -18,7 +18,7 @@ import { toastState, reloadTemplates } from 'recoils/atoms'
 
 import { OpenEditorForm } from './recoil'
 
-const initValue = { templateType: 0, name: '', content: '', subject: null, roleTemplate: 256 }
+const initValue = { templateType: 0, name: '', content: '', subject: null, roleTemplate: 1028 }
 const type = [
   { id: 0, name: 'Biểu mẫu' },
   { id: 2, name: 'Báo cáo' },
@@ -111,7 +111,11 @@ const EditorForm = () => {
     let data = editor.values
 
     try {
-      let res = await doPost(`template/createOrUpdateTemplate`, { ...data, updatedUserId: sessionHelper().userId, content: editorState })
+      let res = await doPost(`template/createOrUpdateTemplate`, {
+        ...data,
+        updatedUserId: sessionHelper().userId,
+        content: editorState
+      })
       if (res && res.data.success) {
         setLoading(false)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
