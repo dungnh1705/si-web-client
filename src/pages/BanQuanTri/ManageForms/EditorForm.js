@@ -231,7 +231,10 @@ const EditorForm = () => {
                       control={<StyledCheckbox checked={checkRole(Roles.PhanDoanTruong)} onChange={handleCheckRole} value={Roles.PhanDoanTruong} />}
                       label="Phân đoàn trưởng"
                     />
-                    <FormControlLabel control={<StyledCheckbox checked={checkRole(Roles.BanQuanTri)} onChange={handleCheckRole} value={Roles.BanQuanTri} />} label="Ban quản trị" />
+                    <FormControlLabel
+                      control={<StyledCheckbox checked={checkRole(Roles.BanDieuHanh)} onChange={handleCheckRole} value={Roles.BanDieuHanh} />}
+                      label="Ban quản trị"
+                    />
                   </FormGroup>
                 </FormControl>
               </Grid>
