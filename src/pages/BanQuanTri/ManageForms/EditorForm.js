@@ -233,7 +233,7 @@ const EditorForm = () => {
                     />
                     <FormControlLabel
                       control={<StyledCheckbox checked={checkRole(Roles.BanDieuHanh)} onChange={handleCheckRole} value={Roles.BanDieuHanh} />}
-                      label="Ban quản trị"
+                      label="Ban điều hành"
                     />
                   </FormGroup>
                 </FormControl>

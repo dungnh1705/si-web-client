@@ -130,7 +130,7 @@ const Login = () => {
                     </Hidden>
                     <Grid item xs={12} md={7} lg={7} className="d-flex flex-column align-items-center">
                       <span className="w-100 text-left text-md-center pb-4">
-                        <h1 className="display-4 text-xl-left text-center mb-3 font-weight-bold">Xứ Đoàn TNTT Thánh Phanxicô Xaviê Gx.Thạch Đà</h1>
+                        <h1 className="display-4 text-xl-left text-center mb-3 font-weight-bold">Xứ Đoàn Thánh Phanxicô Xaviê - Gx.Thạch Đà</h1>
                         <p className="font-size-lg text-xl-left text-center mb-0 text-black-50">Hệ thống quản lý thông tin Đoàn sinh</p>
                       </span>
                       <Card className="m-0 w-100 p-0 border-0">
