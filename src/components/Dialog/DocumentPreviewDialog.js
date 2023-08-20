@@ -8,12 +8,14 @@ import _ from 'lodash'
 import VisibilityRoundedIcon from '@material-ui/icons/VisibilityRounded'
 import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded'
 
-import { doDownload, doPostDownload, doPost } from 'utils/axios'
+import { doDownload, doPost } from 'utils/axios'
 import { TemplatesQuery } from 'recoils/selectors'
 import { Editor } from '@tinymce/tinymce-react'
 import { DocumentPreviewDialogAtom } from './recoil'
 import { toastState, loadingState } from 'recoils/atoms'
 import sessionHelper from 'utils/sessionHelper'
+import { Roles } from 'app/enums'
+import StringUtils from 'utils/StringUtils'
 
 export const DocumentPreviewDialog = () => {
   let [templateId, setTemplateId] = useState('')
@@ -65,10 +67,16 @@ export const DocumentPreviewDialog = () => {
     e.preventDefault()
     setLoading(true)
 
+    let classId = null
+    const maxRoles = StringUtils.getMaxRole(sessionHelper().roles)
+    if (maxRoles !== Roles.BanDieuHanh) {
+      classId = sessionHelper().classId
+    }
+
     try {
       const data = {
         StudentId: [studentId],
-        ClassId: sessionHelper().classId,
+        ClassId: classId,
         ScholasticId: sessionHelper().scholasticId,
         UserId: sessionHelper().userId,
         TemplateId: templateId,
@@ -84,12 +92,14 @@ export const DocumentPreviewDialog = () => {
   }
 
   return (
-    <Dialog open={openPreviewDialog} onClose={handleClose} fullScreen={fullscreen} scroll="body" maxWidth="md" fullWidth>
+    <Dialog open={openPreviewDialog} onClose={handleClose} fullScreen={fullscreen} scroll='body' maxWidth='md'
+            fullWidth>
       <DialogContent>
         <CardContent style={{ padding: 0 }}>
-          <Grid container spacing={1} alignContent="center">
+          <Grid container spacing={1} alignContent='center'>
             <Grid item xs={12} md={5}>
-              <TextField label="Chọn biễu mẫu" variant="outlined" fullWidth InputLabelProps={{ shrink: true }} select onChange={e => setTemplateId(e.target.value)}>
+              <TextField label='Chọn biễu mẫu' variant='outlined' fullWidth InputLabelProps={{ shrink: true }} select
+                         onChange={e => setTemplateId(e.target.value)}>
                 {_.uniqBy(templates, 'id')
                   ?.filter(temp => temp.templateType === templateType)
                   ?.map(item => (
@@ -99,13 +109,13 @@ export const DocumentPreviewDialog = () => {
                   ))}
               </TextField>
             </Grid>
-            <Grid container item xs={12} md={7} alignItems="center" justifyContent="flex-end" spacing={1}>
+            <Grid container item xs={12} md={7} alignItems='center' justifyContent='flex-end' spacing={1}>
               <Grid item xs={12} sm={4}>
                 <Button
-                  size="large"
+                  size='large'
                   fullWidth
-                  variant="contained"
-                  color="primary"
+                  variant='contained'
+                  color='primary'
                   disabled={!templateId}
                   startIcon={<VisibilityRoundedIcon />}
                   onClick={handlePreview}
@@ -115,10 +125,10 @@ export const DocumentPreviewDialog = () => {
               </Grid>
               <Grid item xs={12} sm={4}>
                 <Button
-                  size="large"
+                  size='large'
                   fullWidth
-                  variant="contained"
-                  color="secondary"
+                  variant='contained'
+                  color='secondary'
                   disabled={!templateId}
                   startIcon={<GetAppRoundedIcon />}
                   onClick={handleDownload}
@@ -127,16 +137,16 @@ export const DocumentPreviewDialog = () => {
                 </Button>
               </Grid>
               <Grid item xs={12} sm={4}>
-                <Button size="large" fullWidth variant="outlined" onClick={handleClose} style={{ padding: 'auto 0' }}>
+                <Button size='large' fullWidth variant='outlined' onClick={handleClose} style={{ padding: 'auto 0' }}>
                   Quay về
                 </Button>
               </Grid>
             </Grid>
             <Grid item xs={12}>
               <Editor
-                id="form-preview"
-                textareaName="form-preview"
-                apiKey="wb7w2gsu9xl1x2ybdqmdxdjy403ebj31rcygwmzrc5b8ndlx"
+                id='form-preview'
+                textareaName='form-preview'
+                apiKey='wb7w2gsu9xl1x2ybdqmdxdjy403ebj31rcygwmzrc5b8ndlx'
                 value={document}
                 init={{
                   selector: 'textarea',
