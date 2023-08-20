@@ -43,20 +43,26 @@ const doAxios = (method, action, data, params = null) => {
 
   const headers = sessionHelper().token
     ? {
-        'Access-Control-Allow-Origin': '*',
-        Authorization: sessionHelper().token
-      }
+      'Access-Control-Allow-Origin': '*',
+      Authorization: sessionHelper().token
+    }
     : {
-        'Access-Control-Allow-Origin': '*'
-      }
+      'Access-Control-Allow-Origin': '*'
+    }
 
-  const body = data ? convertDateTimeOffset(data) : data
+  let body = null
+  if (data instanceof FormData) {
+    body = data
+  } else {
+    body = { ...data ? convertDateTimeOffset(data) : data, modifiedBy }
+  }
+
 
   return axios({
     method: method,
     url: `${apiEndpoint}\\${action}`,
     params: params,
-    data: { ...body, modifiedBy },
+    data: body,
     withCredentials: true,
     timeout: 30000,
     headers: headers
@@ -66,12 +72,12 @@ const doAxios = (method, action, data, params = null) => {
 const doAxiosDownload = (method, action, params, data) => {
   const headers = sessionHelper().token
     ? {
-        'Access-Control-Allow-Origin': '*',
-        Authorization: sessionHelper().token
-      }
+      'Access-Control-Allow-Origin': '*',
+      Authorization: sessionHelper().token
+    }
     : {
-        'Access-Control-Allow-Origin': '*'
-      }
+      'Access-Control-Allow-Origin': '*'
+    }
 
   return axios({
     method: method,
@@ -101,12 +107,12 @@ const doAxiosDownload = (method, action, params, data) => {
 const doPostDownloadAxios = (method, action, data) => {
   const headers = sessionHelper().token
     ? {
-        'Access-Control-Allow-Origin': '*',
-        Authorization: sessionHelper().token
-      }
+      'Access-Control-Allow-Origin': '*',
+      Authorization: sessionHelper().token
+    }
     : {
-        'Access-Control-Allow-Origin': '*'
-      }
+      'Access-Control-Allow-Origin': '*'
+    }
 
   return axios({
     method: method,
