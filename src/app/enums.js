@@ -39,7 +39,7 @@ export const Roles = {
   PhungVu: 256,
   Admin: 2,
   HocTap: 512,
-  BanDieuHanh: 1028
+  BanDieuHanh: 1024
 }
 
 export const Functions = {
