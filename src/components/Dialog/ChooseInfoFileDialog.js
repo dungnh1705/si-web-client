@@ -1,6 +1,16 @@
 import React, { useState } from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Button, Divider, InputAdornment } from '@material-ui/core'
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  TextField,
+  Button,
+  Divider,
+  InputAdornment
+} from '@material-ui/core'
 
 import ButtonLoading from 'components/UI/ButtonLoading'
 import { doPost } from 'utils/axios'
@@ -71,19 +81,19 @@ export const ChooseInfoFileDialog = () => {
       <DialogTitle>Nhập Thông tin Đoàn sinh từ file</DialogTitle>
       <Divider />
       <DialogContent>
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
+        <Grid container spacing={2} justifyContent='center' alignItems='center'>
           <Grid item xs={12}>
             <TextField
               value={file ? file[0].name : ''}
-              variant="outlined"
+              variant='outlined'
               fullWidth
               InputProps={{
                 readOnly: true,
                 endAdornment: (
-                  <InputAdornment position="end">
-                    <Button size="large" variant="contained" component="label" fullWidth>
+                  <InputAdornment position='end'>
+                    <Button size='large' variant='contained' component='label' fullWidth>
                       Tìm
-                      <TextField type="file" onChange={onFileSelect} inputProps={{ accept: '.xlsx', hidden: true }} />
+                      <TextField type='file' onChange={onFileSelect} inputProps={{ accept: '.xlsx', hidden: true }} />
                     </Button>
                   </InputAdornment>
                 )
@@ -93,12 +103,12 @@ export const ChooseInfoFileDialog = () => {
         </Grid>
       </DialogContent>
       <DialogActions style={{ padding: '10px 23px' }}>
-        <Grid container item spacing={2} justifyContent="flex-end">
+        <Grid container item spacing={2} justifyContent='flex-end'>
           <Grid item xs={6}>
-            <ButtonLoading btnText="Tải lên" loading={loading} handleButtonClick={handleUpload} disabled={!file} />
+            <ButtonLoading btnText='Tải lên' loading={loading} handleButtonClick={handleUpload} disabled={!file} />
           </Grid>
           <Grid item xs={6}>
-            <Button size="large" onClick={handleClose} fullWidth variant="outlined">
+            <Button size='large' onClick={handleClose} fullWidth variant='outlined'>
               Quay về
             </Button>
           </Grid>
