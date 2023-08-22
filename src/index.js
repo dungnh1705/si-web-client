@@ -5,7 +5,7 @@ import { RecoilRoot } from 'recoil'
 import SuspenseLoading from 'components/SuspenseLoading'
 
 import App from './App'
-import ConfigLoader from './ConfigLoader'
+// import ConfigLoader from './ConfigLoader'
 
 const Wrapper = () => {
   return (
@@ -17,4 +17,5 @@ const Wrapper = () => {
   )
 }
 
-ReactDOM.render(<ConfigLoader ready={() => <Wrapper />}></ConfigLoader>, document.getElementById('root'))
+// ReactDOM.render(<ConfigLoader ready={() => <Wrapper />}></ConfigLoader>, document.getElementById('root'))
+ReactDOM.render(<Wrapper />, document.getElementById('root'))

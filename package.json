@@ -27,6 +27,7 @@
     "clsx": "^1.1.1",
     "copy-webpack-plugin": "^6.0.3",
     "date-fns": "^2.16.1",
+    "env-cmd": "^10.1.0",
     "firebase": "8.8.0",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
@@ -62,7 +63,9 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build"
+    "build": "craco build",
+    "build:dev": "env-cmd -f .env.dev react-scripts build",
+    "build:prod": "env-cmd -f .env.prod react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"
