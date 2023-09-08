@@ -15,7 +15,7 @@ const StudentTeam = ({ item, unionId }) => {
   const viewMode = useRecoilValue(ViewMode)
 
   const [collapse, setCollapse] = useState(true)
-  const [viewAbsentMode, setViewAbsentMode] = useState(AbsentMode.Mass)
+  // const [viewAbsentMode, setViewAbsentMode] = useState(AbsentMode.Mass)
 
   const handleCollapse = () => {
     setCollapse(!collapse)
@@ -24,20 +24,21 @@ const StudentTeam = ({ item, unionId }) => {
   return (
     <>
       {item?.students?.length > 0 && (
-        <Card className="card-box mb-1 w-100">
-          <div className="card-header d-flex pb-1 pt-1" onClick={handleCollapse} style={{ cursor: 'pointer' }}>
-            <div className="card-header--title">
-              {item.team === 0 && <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Chưa phân đội - {item?.students?.length}</h4>}
+        <Card className='card-box mb-1 w-100'>
+          <div className='card-header d-flex pb-1 pt-1' onClick={handleCollapse} style={{ cursor: 'pointer' }}>
+            <div className='card-header--title'>
+              {item.team === 0 &&
+                <h4 className='font-size-lg mb-0 py-1 font-weight-bold'>Chưa phân đội - {item?.students?.length}</h4>}
               {item.team !== 0 && (
-                <h4 className="font-size-lg mb-0 py-1 font-weight-bold">
+                <h4 className='font-size-lg mb-0 py-1 font-weight-bold'>
                   Đội: {item.team} - {item?.students?.length}
                 </h4>
               )}
             </div>
-            <Grid container item xs={3} justifyContent="flex-end">
-              <div className="card-header--actions">
+            <Grid container item xs={3} justifyContent='flex-end'>
+              <div className='card-header--actions'>
                 <Tooltip arrow title={!collapse ? 'Thu lại' : 'Mở rộng'}>
-                  <IconButton size="medium" color="primary">
+                  <IconButton size='medium' color='primary'>
                     {collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </IconButton>
                 </Tooltip>
@@ -46,44 +47,45 @@ const StudentTeam = ({ item, unionId }) => {
           </div>
           <Divider />
           {item?.students?.length > 0 && (
-            <div className="table-responsive" hidden={collapse}>
-              <table className="table table-hover text-nowrap mb-0">
+            <div className='table-responsive' hidden={collapse}>
+              <table className='table table-hover text-nowrap mb-0'>
                 <thead>
-                  <tr>
-                    {viewMode !== ViewModes.DiemDanh && (
-                      <th rowSpan="2" className="td-center">
-                        STT
-                      </th>
-                    )}
-                    <th rowSpan="2">Tên Thánh, Họ và Tên</th>
-                    {viewMode === ViewModes.DiemDanh && item.team !== 0 && (
-                      <th colSpan="2" rowSpan={viewMode === ViewModes.DiemDanh ? 1 : 2} className="td-center">
-                        <ButtonGroup variant="contained" aria-label="contained primary button group">
-                          <Button color={viewAbsentMode === AbsentMode.Mass ? 'secondary' : 'default'} onClick={() => setViewAbsentMode(AbsentMode.Mass)}>
-                            Lễ
-                          </Button>
-                          <Button color={viewAbsentMode === AbsentMode.Class ? 'secondary' : 'default'} onClick={() => setViewAbsentMode(AbsentMode.Class)}>
-                            Học
-                          </Button>
-                        </ButtonGroup>
-                      </th>
-                    )}
-                    {viewMode === ViewModes.DanhSachNghi && <th rowSpan="2">Trạng thái</th>}
-                  </tr>
-
-                  {item.team !== 0 && viewMode === ViewModes.DiemDanh && (
-                    <tr>
-                      <th className="td-center">P</th>
-                      <th className="td-center">KP</th>
-                    </tr>
+                <tr>
+                  {viewMode !== ViewModes.DiemDanh && (
+                    <th rowSpan='2' className='td-center'>
+                      STT
+                    </th>
                   )}
+                  <th rowSpan='2'>Tên Thánh, Họ và Tên</th>
+                  {/*{viewMode === ViewModes.DiemDanh && item.team !== 0 && (*/}
+                  {/*  <th colSpan="2" rowSpan={viewMode === ViewModes.DiemDanh ? 1 : 2} className="td-center">*/}
+                  {/*    <ButtonGroup variant="contained" aria-label="contained primary button group">*/}
+                  {/*      <Button color={viewAbsentMode === AbsentMode.Mass ? 'secondary' : 'default'} onClick={() => setViewAbsentMode(AbsentMode.Mass)}>*/}
+                  {/*        Lễ*/}
+                  {/*      </Button>*/}
+                  {/*      <Button color={viewAbsentMode === AbsentMode.Class ? 'secondary' : 'default'} onClick={() => setViewAbsentMode(AbsentMode.Class)}>*/}
+                  {/*        Học*/}
+                  {/*      </Button>*/}
+                  {/*    </ButtonGroup>*/}
+                  {/*  </th>*/}
+                  {/*)}*/}
+                  {viewMode === ViewModes.DanhSachNghi && <th rowSpan='2'>Trạng thái</th>}
+                </tr>
+
+                {/*{item.team !== 0 && viewMode === ViewModes.DiemDanh && (*/}
+                {/*  <tr>*/}
+                {/*    <th className='td-center'>P</th>*/}
+                {/*    <th className='td-center'>KP</th>*/}
+                {/*  </tr>*/}
+                {/*)}*/}
                 </thead>
                 <tbody>
-                  {item.students
-                    .sort((a, b) => a.stuGender - b.stuGender || a.stuLastName.localeCompare(b.stuLastName))
-                    .map((stu, index) => (
-                      <StudentTeamItem key={`stu-team-item-${stu.id}`} student={stu} unionId={unionId} viewAbsentMode={viewAbsentMode} team={item.team} index={index + 1} />
-                    ))}
+                {item.students
+                  .sort((a, b) => a.stuGender - b.stuGender || a.stuLastName.localeCompare(b.stuLastName))
+                  .map((stu, index) => (
+                    <StudentTeamItem key={`stu-team-item-${stu.id}`} student={stu} unionId={unionId}
+                                     viewAbsentMode={false} team={item.team} index={index + 1} />
+                  ))}
                 </tbody>
               </table>
             </div>

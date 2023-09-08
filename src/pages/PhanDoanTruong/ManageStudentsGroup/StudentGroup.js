@@ -39,9 +39,20 @@ const StudentGroup = ({ item }) => {
         if (item.team !== 0) item.students = item.students.filter(stu => stu.status === StudentStatus.ChangeChurch || stu.status === StudentStatus.LeaveStudy)
         else item.students = []
       })
-    } else {
+    }
+    // else {
+    //   lstStudentInTeam.forEach(item => {
+    //     if (item.team !== 0) item.students = _.filter(item.students, { status: StudentStatus.Active })
+    //   })
+    // }
+
+    if (viewMode === ViewModes.DanhSachOLai) {
       lstStudentInTeam.forEach(item => {
-        if (item.team !== 0) item.students = _.filter(item.students, { status: StudentStatus.Active })
+        if (item.team !== 0) {
+          item.students = item.students.filter(stu => stu.studentClass[0].stayInClass)
+        } else {
+          item.students = []
+        }
       })
     }
 
@@ -57,21 +68,23 @@ const StudentGroup = ({ item }) => {
   return (
     <>
       {item?.students?.length > 0 && (
-        <Card className="card-box mb-1 w-100">
-          <div className="card-header d-flex pb-1 pt-1" onClick={handleCollapse} style={{ cursor: 'pointer' }}>
-            <div className="card-header--title">
-              {item.unionId === 1 && <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Chưa phân Chi đoàn - {item?.students?.length}</h4>}
+        <Card className='card-box mb-1 w-100'>
+          <div className='card-header d-flex pb-1 pt-1' onClick={handleCollapse} style={{ cursor: 'pointer' }}>
+            <div className='card-header--title'>
+              {item.unionId === 1 && <h4 className='font-size-lg mb-0 py-1 font-weight-bold'>Chưa phân Chi đoàn
+                - {item?.students?.length}</h4>}
               {item.unionId !== 1 && (
-                <h4 className="font-size-lg mb-0 py-1 font-weight-bold">
-                  Chi đoàn: {item.unionCode} - {item?.students?.length} /{' '}
-                  {item?.students?.filter(i => i.status === StudentStatus.ChangeChurch || i.status === StudentStatus.LeaveStudy)?.length}
+                <h4 className='font-size-lg mb-0 py-1 font-weight-bold'>
+                  Chi đoàn: {item.unionCode} - {item?.students?.length} |{' '}
+                  {item?.students?.filter(i => i.status === StudentStatus.ChangeChurch || i.status === StudentStatus.LeaveStudy)?.length} |{' '}
+                  {item?.students?.filter(i => i.studentClass[0].stayInClass)?.length}
                 </h4>
               )}
             </div>
-            <Grid container item xs={4} justifyContent="flex-end">
-              <div className="card-header--actions">
+            <Grid container item xs={4} justifyContent='flex-end'>
+              <div className='card-header--actions'>
                 <Tooltip arrow title={!collapse ? 'Thu lại' : 'Mở rộng'}>
-                  <IconButton size="medium" color="primary">
+                  <IconButton size='medium' color='primary'>
                     {collapse ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </IconButton>
                 </Tooltip>
@@ -79,24 +92,26 @@ const StudentGroup = ({ item }) => {
             </Grid>
           </div>
           <Divider />
+          {/* === 1 là những đoàn sinh chưa phân Chi đoàn */}
           {item.unionId === 1 && (
-            <div className="table-responsive" hidden={collapse}>
-              <table className="table table-hover text-nowrap mb-0">
+            <div className='table-responsive' hidden={collapse}>
+              <table className='table table-hover text-nowrap mb-0'>
                 <thead>
-                  <tr>
-                    {viewMode !== ViewModes.DiemDanh && <th className="td-center">STT</th>}
-
-                    <th>Tên Thánh, Họ và Tên</th>
-                  </tr>
+                <tr>
+                  {viewMode !== ViewModes.DiemDanh && <th className='td-center'>STT</th>}
+                  <th>Tên Thánh, Họ và Tên</th>
+                </tr>
                 </thead>
                 <tbody>
-                  {_.orderBy(item.students).map((stu, index) => (
-                    <StudentTeamItem key={`stu-team-no-union-${stu.id}`} student={stu} unionId={item.unionId} index={index + 1} />
-                  ))}
+                {_.orderBy(item.students).map((stu, index) => (
+                  <StudentTeamItem key={`stu-team-no-union-${stu.id}`} student={stu} unionId={item.unionId}
+                                   index={index + 1} />
+                ))}
                 </tbody>
               </table>
             </div>
           )}
+          {/* !== 1 là những đoàn sinh đã được phân Chi đoàn */}
           {item.unionId !== 1 && (
             <CardContent hidden={collapse}>
               {_.orderBy(filterAbsent(), ['team'], ['asc']).map((team, index) => (

@@ -85,7 +85,9 @@ export const ViewModes = {
   DiemDanh: 0,
   XepDoi: 1,
   XepChiDoan: 2,
-  DanhSachNghi: 3
+  DanhSachNghi: 3,
+  DanhSachDS: 4,
+  DanhSachOLai: 5
 }
 
 export const AbsentMode = {

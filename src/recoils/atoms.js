@@ -91,7 +91,7 @@ export const reloadTemplates = atom({
 
 export const ViewMode = atom({
   key: 'viewMode',
-  default: ViewModes.DiemDanh
+  default: ViewModes.DanhSachDS
 })
 
 export const PageYOffset = atom({
