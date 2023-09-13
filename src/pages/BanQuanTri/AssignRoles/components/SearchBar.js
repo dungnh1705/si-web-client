@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRecoilValue, useRecoilState } from 'recoil'
 
 import { Button, Card, CardContent, Grid, MenuItem, TextField } from '@material-ui/core'
@@ -15,7 +15,9 @@ export default function SearchBar() {
   const validationSchema = Yup.object({})
 
   const filterForm = useFormik({
-    initialValues: {},
+    initialValues: {
+      status: 2
+    },
     validationSchema: validationSchema,
     validateOnChange: false,
     validateOnMount: false,
@@ -49,6 +51,13 @@ export default function SearchBar() {
     setFilter(null)
   }
 
+  useEffect(() => {
+    if (!filter){
+        const defaultValues = filterForm.values
+        console.log(defaultValues)
+        setFilter({...defaultValues})
+    }
+  }, [])
   return (
     <Card className="card-box mb-4">
       <CardContent className="p-3">
