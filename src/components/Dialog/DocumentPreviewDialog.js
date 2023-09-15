@@ -80,7 +80,7 @@ export const DocumentPreviewDialog = () => {
         ScholasticId: sessionHelper().scholasticId,
         UserId: sessionHelper().userId,
         TemplateId: templateId,
-        IsPreview: true
+        IsPreview: false
       }
 
       await doDownload(`download/downloadForm`, data)

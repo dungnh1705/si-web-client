@@ -15,11 +15,13 @@ import PollTwoToneIcon from '@material-ui/icons/PollTwoTone'
 
 import { Roles } from 'app/enums'
 import sessionHelper from 'utils/sessionHelper'
+import { Download, DownloadCloud } from 'react-feather'
 
 const functions = [
   { label: 'Thông tin chung', icon: DashboardTwoToneIcon, to: '/Dashboard' },
   // { label: 'Tìm kiếm Đoàn sinh', icon: SearchTwoToneIcon, to: '/FindStudent' },
   { label: 'Xem báo cáo', icon: PollTwoToneIcon, to: '/Report' },
+  { label: 'Tải biểu mẫu', icon: Download, to: '/Form' },
   {
     role: Roles.BanDieuHanh,
     label: 'Ban điều hành',
@@ -177,19 +179,19 @@ export default [
     content: sessionHelper().isFirstLogin
       ? []
       : functions.filter(func => {
-          return (
-            (sessionHelper().roles?.includes(func.role)
-              ? func.role === Roles.HuynhTruong || func.role === Roles.DuTruong
-                ? sessionHelper().roles?.includes(Roles.PhanDoanTruong) && sessionHelper().unionId === 0
-                  ? false
-                  : sessionHelper().classId && sessionHelper().unionId !== 1
+        return (
+          (sessionHelper().roles?.includes(func.role)
+            ? func.role === Roles.HuynhTruong || func.role === Roles.DuTruong
+              ? sessionHelper().roles?.includes(Roles.PhanDoanTruong) && sessionHelper().unionId === 0
+                ? false
+                : sessionHelper().classId && sessionHelper().unionId !== 1
                   ? true
                   : false
-                : true
-              : func.role === Roles.PhanDoanTruong && sessionHelper().roles?.includes(Roles.HocTap)
+              : true
+            : func.role === Roles.PhanDoanTruong && sessionHelper().roles?.includes(Roles.HocTap)
               ? true
               : false) || !func.role
-          )
-        })
+        )
+      })
   }
 ]

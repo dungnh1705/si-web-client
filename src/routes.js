@@ -12,6 +12,8 @@ import CardSkeleton from 'components/Loading/card-skeleton'
 
 import FindStudents from 'pages/Students/FindStudent'
 import MyProfile from 'pages/Users/MyProfile'
+
+import FormDownload from 'pages/Form'
 // BQT
 import RegisterOffline from 'pages/BanQuanTri/RegisterOffline'
 import GroupInfo from 'pages/BanQuanTri/GroupInfo'
@@ -31,7 +33,7 @@ export default [
   {
     path: '/',
     exact: true,
-    component: () => <Redirect to="/Dashboard" />
+    component: () => <Redirect to='/Dashboard' />
   },
   {
     path: ['/Login', '/ResetPassword', '/VerifyNewUser'],
@@ -53,7 +55,7 @@ export default [
         component: lazy(() => import('pages/Authentication/ResetPassword'))
       },
       {
-        component: () => <Redirect to="/errors/error-404" />
+        component: () => <Redirect to='/errors/error-404' />
       }
     ]
   },
@@ -72,12 +74,12 @@ export default [
         component: lazy(() => import('pages/Error/Error500'))
       },
       {
-        component: () => <Redirect to="/errors/error-404" />
+        component: () => <Redirect to='/errors/error-404' />
       }
     ]
   },
   {
-    path: ['/Dashboard', '/MyProfile', '/FindStudent', '/Report', '/BQT', '/PDT', '/HT'],
+    path: ['/Dashboard', '/MyProfile', '/FindStudent', '/Report', '/Form', '/BQT', '/PDT', '/HT'],
     component: CombinedLayout,
     routes: [
       {
@@ -107,6 +109,15 @@ export default [
         path: '/Report',
         exact: true,
         component: lazy(() => import('pages/Report'))
+      },
+      {
+        path: '/Form',
+        exact: true,
+        component: () => (
+          <Suspense fallback={<PageSkeleton />}>
+            <FormDownload />
+          </Suspense>
+        )
       },
       // Ban Điều hành
       {
@@ -236,7 +247,7 @@ export default [
       },
       // Error page
       {
-        component: () => <Redirect to="/errors/error-404" />
+        component: () => <Redirect to='/errors/error-404' />
       }
     ]
   }

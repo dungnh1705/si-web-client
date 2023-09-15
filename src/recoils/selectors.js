@@ -67,16 +67,16 @@ export const UnionRegisterQuery = selectorFamily({
   key: 'UnionRegisterQuery',
   get:
     groupId =>
-    async ({ get }) => {
-      get(reloadListUnion)
-      const res = await doGet(`assignment/getUnionByGroupId`, { groupId })
+      async ({ get }) => {
+        get(reloadListUnion)
+        const res = await doGet(`assignment/getUnionByGroupId`, { groupId })
 
-      if (res && res.data.success) {
-        const unionOrdered = _.orderBy(res.data.data, ['unionCode'], ['asc'])
-        return unionOrdered
+        if (res && res.data.success) {
+          const unionOrdered = _.orderBy(res.data.data, ['unionCode'], ['asc'])
+          return unionOrdered
+        }
+        return []
       }
-      return []
-    }
 })
 
 export const TemplatesQuery = selector({
@@ -89,14 +89,16 @@ export const TemplatesQuery = selector({
 
     if (res && res.data.success) {
       const result = []
+      const { data } = res.data
 
-      if (userRoles.includes(Roles.BanDieuHanh)) return res.data.data
+      if (userRoles.includes(Roles.BanDieuHanh)) return data
 
-      res.data.data.forEach(item => {
-        userRoles.forEach(r => {
-          if (item.roleTemplate & r) result.push(item)
+      data.forEach(item => {
+        userRoles.forEach(role => {
+          if (item.roleTemplate & role) result.push(item)
         })
       })
+
       return _.orderBy(result, ['name'], ['asc'])
     }
     return []
