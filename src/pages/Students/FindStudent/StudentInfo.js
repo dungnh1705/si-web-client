@@ -10,7 +10,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faBirthdayCake,
   faHandHoldingWater,
+  faHandHolding,
   faPrayingHands,
+  faChurch,
   faHands,
   faBarcode,
   faUserTie,
@@ -189,6 +191,7 @@ const StudentInfo = ({ tabValue }) => {
     }
   }
 
+
   return (
     <>
       {tabValue === 0 && student && (
@@ -344,28 +347,82 @@ const StudentInfo = ({ tabValue }) => {
                       </FormControl>
                     </Grid>
                   </Grid>
+
                   <Grid container item spacing={2}>
-                    <Grid item xs={12} sm={6} lg={4}>
+                    <Grid item xs={12} sm={4}  lg={4}>
                       <KeyboardDatePicker
                         {...DatePicker_Props('studentMoreInfo.stuBaptismDate', 'Ngày rửa tội', faHandHoldingWater)}
                         value={stuForm.values['studentMoreInfo']?.stuBaptismDate ?? null}
                         onChange={date => handleDateChange('stuBaptismDate', date, true)}
                       />
+
                     </Grid>
-                    <Grid item xs={12} sm={6} lg={4}>
-                      <KeyboardDatePicker
-                        {...DatePicker_Props('studentMoreInfo.stuEucharistDate', 'Ngày rước lễ', faPrayingHands)}
-                        value={stuForm.values['studentMoreInfo']?.stuEucharistDate ?? null}
-                        onChange={date => handleDateChange('stuEucharistDate', date, true)}
+
+                    <Grid item xs={12} sm={4} lg={5}>
+                      <InlineTextField
+                        label="Linh mục rửa tội"
+                        field="note"
+                        value={stuForm.values.studentMoreInfo['stuBaptismBy'] ?? ''}
+                        icon={faHandHolding}
+                        handleChanged={handleSaveNotLoading}
+                        isEditable={editable}
                       />
+                      </Grid>
+
+                      <Grid item xs={12} sm={4} lg={3}>
+                        <InlineTextField
+                          label="Tại giáo xứ"
+                          field="note"
+                          value={stuForm.values.studentMoreInfo['stuBaptismIn'] ?? ''}
+                          icon={faChurch}
+                          handleChanged={handleSaveNotLoading}
+                          isEditable={editable}
+                        />
+                      </Grid>
+
+                    <Grid container item spacing={2}>
+                      <Grid item xs={12} sm={6} lg={6}>
+                        <KeyboardDatePicker
+                          {...DatePicker_Props('studentMoreInfo.stuEucharistDate', 'Ngày rước lễ', faPrayingHands)}
+                          value={stuForm.values['studentMoreInfo']?.stuEucharistDate ?? null}
+                          onChange={date => handleDateChange('stuEucharistDate', date, true)}
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} sm={6} lg={6}>
+                        <InlineTextField
+                          label="Tại giáo xứ"
+                          field="note"
+                          value={stuForm.values.studentMoreInfo['stuEucharistIn'] ?? ''}
+                          icon={faChurch}
+                          handleChanged={handleSaveNotLoading}
+                          isEditable={editable}
+                        />
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={6} lg={4}>
-                      <KeyboardDatePicker
-                        {...DatePicker_Props('studentMoreInfo.stuConfirmationDate', 'Ngày Thêm sức', faHands)}
-                        value={stuForm.values['studentMoreInfo']?.stuConfirmationDate ?? null}
-                        onChange={date => handleDateChange('stuConfirmationDate', date, true)}
-                      />
+
+                    <Grid container item spacing={2}>
+                      <Grid item xs={12} sm={6} lg={6}>
+                        <KeyboardDatePicker
+                          {...DatePicker_Props('studentMoreInfo.stuConfirmationDate', 'Ngày Thêm sức', faHands)}
+                          value={stuForm.values['studentMoreInfo']?.stuConfirmationDate ?? null}
+                          onChange={date => handleDateChange('stuConfirmationDate', date, true)}
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} sm={6} lg={6}>
+                        <InlineTextField
+                          label="Tại giáo xứ"
+                          field="note"
+                          value={stuForm.values.studentMoreInfo['stuConfirmationIn'] ?? ''}
+                          icon={faChurch}
+                          handleChanged={handleSaveNotLoading}
+                          isEditable={editable}
+                        />
+                      </Grid>
+
                     </Grid>
+
                   </Grid>
                   <Grid container item spacing={2}>
                     <Grid item xs={12} lg={8}>
@@ -380,7 +437,7 @@ const StudentInfo = ({ tabValue }) => {
                     </Grid>
                   </Grid>
                   <Grid container item spacing={2}>
-                    <Grid item xs={12} lg={8}>
+                    <Grid item xs={12} lg={6}>
                       <InlineTextField
                         label="Địa chỉ"
                         field="stuAddress"
@@ -391,7 +448,20 @@ const StudentInfo = ({ tabValue }) => {
                         isMoreInfo={true}
                       />
                     </Grid>
+
+                    <Grid item xs={12} lg={6}>
+                      <InlineTextField
+                        label="Giáo khu/họ"
+                        field="stuArea"
+                        value={stuForm.values['studentMoreInfo']?.stuArea ?? ''}
+                        icon={faHome}
+                        handleChanged={handleSaveNotLoading}
+                        isEditable={editable}
+                        isMoreInfo={true}
+                      />
+                    </Grid>
                   </Grid>
+
                   <Grid container item spacing={2}>
                     <HolyName
                       formData={stuForm}
@@ -403,7 +473,7 @@ const StudentInfo = ({ tabValue }) => {
                     />
                   </Grid>
                   <Grid container item spacing={2}>
-                    <Grid item xs={12} sm={6} lg={8}>
+                    <Grid item xs={12} sm={4} lg={4}>
                       <InlineTextField
                         label="Họ tên Cha"
                         field="stuFatherFullName"
@@ -414,7 +484,16 @@ const StudentInfo = ({ tabValue }) => {
                         isMoreInfo={true}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6} lg={4}>
+
+                    <Grid item xs={12} sm={4} lg={4}>
+                      <KeyboardDatePicker
+                        {...DatePicker_Props('studentMoreInfo.stuFatherDob', 'Năm Sinh', faBirthdayCake)}
+                        value={stuForm.values['studentMoreInfo']?.stuFatherDob ?? null}
+                        onChange={date => handleDateChange('stuFatherDob', date, true)}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} sm={4} lg={4}>
                       <InlineTextField
                         label="SĐT"
                         field="stuFatherPhone"
@@ -438,7 +517,7 @@ const StudentInfo = ({ tabValue }) => {
                     />
                   </Grid>
                   <Grid container item spacing={2}>
-                    <Grid item xs={12} sm={6} lg={8}>
+                    <Grid item xs={12} sm={4} lg={4}>
                       <InlineTextField
                         label="Họ tên Mẹ"
                         field="stuMotherFullName"
@@ -449,7 +528,16 @@ const StudentInfo = ({ tabValue }) => {
                         isMoreInfo={true}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6} lg={4}>
+
+                    <Grid item xs={12} sm={4} lg={4}>
+                      <KeyboardDatePicker
+                        {...DatePicker_Props('studentMoreInfo.stuMotherDob', 'Năm Sinh', faBirthdayCake)}
+                        value={stuForm.values['studentMoreInfo']?.stuMotherDob ?? null}
+                        onChange={date => handleDateChange('stuMotherDob', date, true)}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} sm={4} lg={4}>
                       <InlineTextField
                         label="SĐT"
                         field="stuMotherPhone"
