@@ -19,9 +19,10 @@ import { Download, DownloadCloud } from 'react-feather'
 
 const functions = [
   { label: 'Thông tin chung', icon: DashboardTwoToneIcon, to: '/Dashboard' },
-  // { label: 'Tìm kiếm Đoàn sinh', icon: SearchTwoToneIcon, to: '/FindStudent' },
   { label: 'Xem báo cáo', icon: PollTwoToneIcon, to: '/Report' },
-  { label: 'Tải biểu mẫu', icon: Download, to: '/Form' },
+  { label: 'Tải biểu mẫu', role: Roles.PhanDoanTruong, icon: Download, to: '/Form' },
+  { label: 'Tải biểu mẫu', role: Roles.HuynhTruong, icon: Download, to: '/Form' },
+  { label: 'Tải biểu mẫu', role: Roles.DuTruong, icon: Download, to: '/Form' },
   {
     role: Roles.BanDieuHanh,
     label: 'Ban điều hành',
@@ -39,18 +40,6 @@ const functions = [
         description: 'Thêm mới Đoàn sinh',
         to: '/BQT/RegisterOffline'
       },
-      // {
-      //   label: 'Bổ nhiệm PĐT',
-      //   icon: SupervisorAccountTwoToneIcon,
-      //   description: 'Bổ nhiệm Phân đoàn trưởng',
-      //   to: '/BQT/AssignLeader'
-      // },
-      // {
-      //   label: 'Phân công tác HT',
-      //   icon: AssignmentTurnedInTwoToneIcon,
-      //   description: 'Phân công tác cho Huynh trưởng',
-      //   to: '/BQT/AssignUserClass'
-      // },
       {
         label: 'Danh sách HT|DT',
         icon: LayersTwoToneIcon,

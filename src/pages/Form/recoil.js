@@ -19,11 +19,6 @@ export const groupStudentIdSelectedAtom = atom({
   default: []
 })
 
-export const unionTeamSelectedAtom = atom({
-  key: 'unionTeamSelectedAtom',
-  default: []
-})
-
 export const documentTemplateQuery = selector({
   key: 'documentTemplateQuery',
   get: async () => {
@@ -73,54 +68,42 @@ export const unionInGroupQuery = selector({
   }
 })
 
-export const teamInClassQuery = selector({
-  key: 'teamInClassQuery',
-  get: async () => {
-    const userId = sessionHelper().userId
-    const scholasticId = sessionHelper().scholasticId
-
-    let res = await doGet(`assignment/getListUnionInGroup`, { scholasticId: scholasticId, userId: userId })
-
-    if (res && res.data.success) {
-      return _.orderBy(res.data.data, ['unionCode'], ['asc'])
-    }
-    return []
-  }
-})
-
 export const studentsInUnionQuery = selector({
   key: 'studentsInUnionQuery',
   get: async ({ get }) => {
-    const unionIdSelected = get(groupUnionSelectedAtom)
-    if (unionIdSelected) {
-      const classId = sessionHelper().classId
+    let unionIdSelected = get(groupUnionSelectedAtom)
 
-      const res = await doGet(`student/getStudentInUnion`, { classId, unionId: unionIdSelected })
+    // Trường hợp không phải Phân đoàn trưởng
+    if (!unionIdSelected) {
+      unionIdSelected = sessionHelper().unionId
+    }
+    const classId = sessionHelper().classId
 
-      if (res && res.data.success) {
-        const { data } = res.data
+    const res = await doGet(`student/getStudentInUnion`, { classId, unionId: unionIdSelected })
 
-        const distinctTeam = [...new Set(data?.map(x => x.studentClass.find(sc => Number(sc.classId) === Number(classId))?.team))]
-        const lstStudent = []
+    if (res && res.data.success) {
+      const { data } = res.data
 
-        for (const t of distinctTeam) {
-          lstStudent.push({ team: t, students: [] })
-        }
+      const distinctTeam = [...new Set(data?.map(x => x.studentClass.find(sc => Number(sc.classId) === Number(classId))?.team))]
+      const lstStudent = []
 
-        for (const student of data) {
-          lstStudent.forEach(t => {
-            if (t.team === student.studentClass.find(sc => Number(sc.classId) === Number(classId)).team) {
-              if (student.studentClass.find(sc => Number(sc.classId) === Number(classId)).isTeamLead) {
-                t.students.push({ ...student, isTeamLead: true })
-              } else {
-                t.students.push({ ...student, isTeamLead: false })
-              }
-            }
-          })
-        }
-
-        return _.orderBy(lstStudent, ['team'], ['asc'])
+      for (const t of distinctTeam) {
+        lstStudent.push({ team: t, students: [] })
       }
+
+      for (const student of data) {
+        lstStudent.forEach(t => {
+          if (t.team === student.studentClass.find(sc => Number(sc.classId) === Number(classId)).team) {
+            if (student.studentClass.find(sc => Number(sc.classId) === Number(classId)).isTeamLead) {
+              t.students.push({ ...student, isTeamLead: true })
+            } else {
+              t.students.push({ ...student, isTeamLead: false })
+            }
+          }
+        })
+      }
+
+      return _.orderBy(lstStudent, ['team'], ['asc'])
     }
 
     return []
