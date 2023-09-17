@@ -327,7 +327,6 @@ const StudentInfo = ({ tabValue }) => {
                         value={stuForm.values?.studentMoreInfo['stuOldClass'] ?? ''}
                         icon={faPen}
                         handleChanged={handleSaveNotLoading}
-                        isRequired={true}
                         isEditable={editable}
                         isMoreInfo={true}
                       />
@@ -339,7 +338,6 @@ const StudentInfo = ({ tabValue }) => {
                         value={stuForm.values?.studentMoreInfo['stuOldClassIn'] ?? ''}
                         icon={faChurch}
                         handleChanged={handleSaveNotLoading}
-                        isRequired={true}
                         isEditable={editable}
                         isMoreInfo={true}
                       />
@@ -513,10 +511,14 @@ const StudentInfo = ({ tabValue }) => {
                     </Grid>
 
                     <Grid item xs={12} sm={4} lg={4}>
-                      <KeyboardDatePicker
-                        {...DatePicker_Props('studentMoreInfo.stuFatherDob', 'Năm Sinh', faBirthdayCake)}
-                        value={stuForm.values['studentMoreInfo']?.stuFatherDob ?? null}
-                        onChange={date => handleDateChange('stuFatherDob', date, true)}
+                      <InlineTextField
+                        label="Năm sinh"
+                        field="stuFatherDob"
+                        value={stuForm.values['studentMoreInfo']?.stuFatherDob ?? ''}
+                        icon={faBirthdayCake}
+                        handleChanged={handleSaveNotLoading}
+                        isEditable={editable}
+                        isMoreInfo={true}
                       />
                     </Grid>
 
@@ -557,10 +559,14 @@ const StudentInfo = ({ tabValue }) => {
                     </Grid>
 
                     <Grid item xs={12} sm={4} lg={4}>
-                      <KeyboardDatePicker
-                        {...DatePicker_Props('studentMoreInfo.stuMotherDob', 'Năm Sinh', faBirthdayCake)}
-                        value={stuForm.values['studentMoreInfo']?.stuMotherDob ?? null}
-                        onChange={date => handleDateChange('stuMotherDob', date, true)}
+                      <InlineTextField
+                        label="Năm sinh"
+                        field="stuMotherDob"
+                        value={stuForm.values['studentMoreInfo']?.stuMotherDob ?? ''}
+                        icon={faBirthdayCake}
+                        handleChanged={handleSaveNotLoading}
+                        isEditable={editable}
+                        isMoreInfo={true}
                       />
                     </Grid>
 
