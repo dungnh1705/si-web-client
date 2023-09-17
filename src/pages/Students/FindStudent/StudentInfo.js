@@ -191,7 +191,7 @@ const StudentInfo = ({ tabValue }) => {
     }
   }
 
-
+  console.log(student)
   return (
     <>
       {tabValue === 0 && student && (
@@ -298,7 +298,7 @@ const StudentInfo = ({ tabValue }) => {
                     />
                   </Grid>
                   <Grid container item spacing={2}>
-                    <Grid item xs={12} sm={6} lg={8}>
+                    <Grid item xs={12} sm={4} lg={4}>
                       <InlineTextField
                         label="Họ và Đệm"
                         field="stuFirstName"
@@ -309,7 +309,7 @@ const StudentInfo = ({ tabValue }) => {
                         isEditable={editable}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6} lg={4}>
+                    <Grid item xs={12} sm={4} lg={4}>
                       <InlineTextField
                         label="Tên"
                         field="stuLastName"
@@ -320,7 +320,25 @@ const StudentInfo = ({ tabValue }) => {
                         isEditable={editable}
                       />
                     </Grid>
+
+                    <Grid item xs={12} sm={4} lg={4}>
+                      <InlineTextField
+                        label="Đã học lớp giáo lý"
+                        field="stuLastName"
+                        value={
+                          stuForm.values?.studentClass.map((Class, index) => {
+                            return index === 0 ?  Class.class.group['groupName'] : " " + Class.class.group['groupName']
+                          })
+                        }
+                        icon={faUserTie}
+                        handleChanged={handleSaveNotLoading}
+                        isRequired={true}
+                        isEditable={editable}
+                      />
+                    </Grid>
                   </Grid>
+
+
                   <Grid container item spacing={2}>
                     <Grid item xs={12} sm={6} lg={4}>
                       <KeyboardDatePicker {...DatePicker_Props('stuDob', 'Sinh nhật', faBirthdayCake)} onChange={date => handleDateChange('stuDob', date)} />
