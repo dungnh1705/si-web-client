@@ -21,7 +21,7 @@ const buttonStyle = { fontSize: '0.9em', padding: '0.75em 0' }
 const inputGrid = { xs: 12, sm: 6, md: 8 }
 const buttonGrid = { xs: 12, sm: 6, md: 4 }
 
-export default function () {
+export default function() {
   const templates = useRecoilValue(reportTemplateQuery)
 
   const [selectedTemplate, setSelectedTemplate] = useState('')
@@ -73,24 +73,26 @@ export default function () {
         </MenuItem>
       ))
     ) : (
-      <MenuItem>Không có biểu mẫu</MenuItem>
+      <MenuItem>Không có Báo cáo phù hợp</MenuItem>
     )
   }
 
   return (
-    <Grid container spacing={3} className="mt-2" justifyContent="center">
-      <Grid container {...inputGrid} item alignContent="center" direction="column">
-        <TextField label="Chọn biễu mẫu" variant="outlined" fullWidth InputLabelProps={{ shrink: true }} select onChange={e => setSelectedTemplate(e.target.value)}>
+    <Grid container spacing={3} className='mt-2' justifyContent='center'>
+      <Grid container {...inputGrid} item alignContent='center' direction='column'>
+        <TextField label='Chọn báo cáo' variant='outlined' fullWidth InputLabelProps={{ shrink: true }} select
+                   onChange={e => setSelectedTemplate(e.target.value)}>
           {reportList()}
         </TextField>
       </Grid>
-      <Grid container {...buttonGrid} item spacing={1} alignContent="center" justifyContent="space-between" direction="row">
+      <Grid container {...buttonGrid} item spacing={1} alignContent='center' justifyContent='space-between'
+            direction='row'>
         <Grid item xs={6}>
           <Button
-            size="large"
+            size='large'
             fullWidth
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             disabled={!selectedTemplate}
             startIcon={<VisibilityRoundedIcon />}
             onClick={handleReport}
@@ -99,7 +101,8 @@ export default function () {
           </Button>
         </Grid>
         <Grid item xs={6}>
-          <ButtonLoading btnText="Tải xuống" loading={loading} handleButtonClick={e => handleReport(e, false)} disabled={!selectedTemplate} startIcon={<GetAppRoundedIcon />} />
+          <ButtonLoading btnText='Tải xuống' loading={loading} handleButtonClick={e => handleReport(e, false)}
+                         disabled={!selectedTemplate} startIcon={<GetAppRoundedIcon />} />
         </Grid>
       </Grid>
     </Grid>

@@ -10,10 +10,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faBirthdayCake,
   faHandHoldingWater,
+  faHandHolding,
   faPrayingHands,
+  faChurch,
   faHands,
   faBarcode,
   faUserTie,
+  faPen,
   faHome,
   faStickyNote,
   faMale,
@@ -318,6 +321,7 @@ const StudentInfo = ({ tabValue }) => {
                       />
                     </Grid>
                   </Grid>
+
                   <Grid container item spacing={2}>
                     <Grid item xs={12} sm={6} lg={4}>
                       <KeyboardDatePicker {...DatePicker_Props('stuDob', 'Sinh nhật', faBirthdayCake)} onChange={date => handleDateChange('stuDob', date)} />
@@ -344,28 +348,84 @@ const StudentInfo = ({ tabValue }) => {
                       </FormControl>
                     </Grid>
                   </Grid>
+
                   <Grid container item spacing={2}>
-                    <Grid item xs={12} sm={6} lg={4}>
+                    <Grid item xs={12} sm={4} lg={4}>
                       <KeyboardDatePicker
                         {...DatePicker_Props('studentMoreInfo.stuBaptismDate', 'Ngày rửa tội', faHandHoldingWater)}
                         value={stuForm.values['studentMoreInfo']?.stuBaptismDate ?? null}
                         onChange={date => handleDateChange('stuBaptismDate', date, true)}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6} lg={4}>
-                      <KeyboardDatePicker
-                        {...DatePicker_Props('studentMoreInfo.stuEucharistDate', 'Ngày rước lễ', faPrayingHands)}
-                        value={stuForm.values['studentMoreInfo']?.stuEucharistDate ?? null}
-                        onChange={date => handleDateChange('stuEucharistDate', date, true)}
+
+                    <Grid item xs={12} sm={4} lg={4}>
+                      <InlineTextField
+                        label="Linh mục rửa tội"
+                        field="stuBaptismBy"
+                        value={stuForm.values.studentMoreInfo['stuBaptismBy'] ?? ''}
+                        icon={faHandHolding}
+                        handleChanged={handleSaveNotLoading}
+                        isEditable={editable}
+                        isMoreInfo={true}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6} lg={4}>
-                      <KeyboardDatePicker
-                        {...DatePicker_Props('studentMoreInfo.stuConfirmationDate', 'Ngày Thêm sức', faHands)}
-                        value={stuForm.values['studentMoreInfo']?.stuConfirmationDate ?? null}
-                        onChange={date => handleDateChange('stuConfirmationDate', date, true)}
+
+                    <Grid item xs={12} sm={4} lg={4}>
+                      <InlineTextField
+                        label="Tại giáo xứ"
+                        field="stuBaptismIn"
+                        value={stuForm.values.studentMoreInfo['stuBaptismIn'] ?? ''}
+                        icon={faChurch}
+                        handleChanged={handleSaveNotLoading}
+                        isEditable={editable}
+                        isMoreInfo={true}
                       />
                     </Grid>
+
+                    <Grid container item spacing={2}>
+                      <Grid item xs={12} sm={4} lg={4}>
+                        <KeyboardDatePicker
+                          {...DatePicker_Props('studentMoreInfo.stuEucharistDate', 'Ngày rước lễ', faPrayingHands)}
+                          value={stuForm.values['studentMoreInfo']?.stuEucharistDate ?? null}
+                          onChange={date => handleDateChange('stuEucharistDate', date, true)}
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} sm={4} lg={4}>
+                        <InlineTextField
+                          label="Tại giáo xứ"
+                          field="stuEucharistIn"
+                          value={stuForm.values.studentMoreInfo['stuEucharistIn'] ?? ''}
+                          icon={faChurch}
+                          handleChanged={handleSaveNotLoading}
+                          isEditable={editable}
+                          isMoreInfo={true}
+                        />
+                      </Grid>
+                    </Grid>
+
+                    <Grid container item spacing={2}>
+                      <Grid item xs={12} sm={4} lg={4}>
+                        <KeyboardDatePicker
+                          {...DatePicker_Props('studentMoreInfo.stuConfirmationDate', 'Ngày Thêm sức', faHands)}
+                          value={stuForm.values['studentMoreInfo']?.stuConfirmationDate ?? null}
+                          onChange={date => handleDateChange('stuConfirmationDate', date, true)}
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} sm={4} lg={4}>
+                        <InlineTextField
+                          label="Tại giáo xứ"
+                          field="stuConfirmationIn"
+                          value={stuForm.values.studentMoreInfo['stuConfirmationIn'] ?? ''}
+                          icon={faChurch}
+                          handleChanged={handleSaveNotLoading}
+                          isEditable={editable}
+                          isMoreInfo={true}
+                        />
+                      </Grid>
+                    </Grid>
+
                   </Grid>
                   <Grid container item spacing={2}>
                     <Grid item xs={12} lg={8}>
@@ -376,6 +436,31 @@ const StudentInfo = ({ tabValue }) => {
                         icon={faStickyNote}
                         handleChanged={handleSaveNotLoading}
                         isEditable={editable}
+                      />
+                    </Grid>
+                  </Grid>
+
+                  <Grid container item spacing={2}>
+                    <Grid item xs={12} sm={4} lg={4}>
+                      <InlineTextField
+                        label="Đã học lớp giáo lý"
+                        field="stuOldClass"
+                        value={stuForm.values?.studentMoreInfo['stuOldClass'] ?? ''}
+                        icon={faPen}
+                        handleChanged={handleSaveNotLoading}
+                        isEditable={editable}
+                        isMoreInfo={true}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4} lg={4}>
+                      <InlineTextField
+                        label="Tại giáo xứ"
+                        field="stuOldClassIn"
+                        value={stuForm.values?.studentMoreInfo['stuOldClassIn'] ?? ''}
+                        icon={faChurch}
+                        handleChanged={handleSaveNotLoading}
+                        isEditable={editable}
+                        isMoreInfo={true}
                       />
                     </Grid>
                   </Grid>
@@ -391,7 +476,20 @@ const StudentInfo = ({ tabValue }) => {
                         isMoreInfo={true}
                       />
                     </Grid>
+
+                    <Grid item xs={12} lg={4}>
+                      <InlineTextField
+                        label="Giáo khu/họ"
+                        field="stuArea"
+                        value={stuForm.values['studentMoreInfo']?.stuArea ?? ''}
+                        icon={faHome}
+                        handleChanged={handleSaveNotLoading}
+                        isEditable={editable}
+                        isMoreInfo={true}
+                      />
+                    </Grid>
                   </Grid>
+
                   <Grid container item spacing={2}>
                     <HolyName
                       formData={stuForm}
@@ -403,7 +501,7 @@ const StudentInfo = ({ tabValue }) => {
                     />
                   </Grid>
                   <Grid container item spacing={2}>
-                    <Grid item xs={12} sm={6} lg={8}>
+                    <Grid item xs={12} sm={4} lg={4}>
                       <InlineTextField
                         label="Họ tên Cha"
                         field="stuFatherFullName"
@@ -414,7 +512,20 @@ const StudentInfo = ({ tabValue }) => {
                         isMoreInfo={true}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6} lg={4}>
+
+                    <Grid item xs={12} sm={4} lg={4}>
+                      <InlineTextField
+                        label="Năm sinh"
+                        field="stuFatherDob"
+                        value={stuForm.values['studentMoreInfo']?.stuFatherDob ?? ''}
+                        icon={faBirthdayCake}
+                        handleChanged={handleSaveNotLoading}
+                        isEditable={editable}
+                        isMoreInfo={true}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} sm={4} lg={4}>
                       <InlineTextField
                         label="SĐT"
                         field="stuFatherPhone"
@@ -438,7 +549,7 @@ const StudentInfo = ({ tabValue }) => {
                     />
                   </Grid>
                   <Grid container item spacing={2}>
-                    <Grid item xs={12} sm={6} lg={8}>
+                    <Grid item xs={12} sm={4} lg={4}>
                       <InlineTextField
                         label="Họ tên Mẹ"
                         field="stuMotherFullName"
@@ -449,7 +560,20 @@ const StudentInfo = ({ tabValue }) => {
                         isMoreInfo={true}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6} lg={4}>
+
+                    <Grid item xs={12} sm={4} lg={4}>
+                      <InlineTextField
+                        label="Năm sinh"
+                        field="stuMotherDob"
+                        value={stuForm.values['studentMoreInfo']?.stuMotherDob ?? ''}
+                        icon={faBirthdayCake}
+                        handleChanged={handleSaveNotLoading}
+                        isEditable={editable}
+                        isMoreInfo={true}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} sm={4} lg={4}>
                       <InlineTextField
                         label="SĐT"
                         field="stuMotherPhone"

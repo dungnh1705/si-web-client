@@ -15,11 +15,14 @@ import PollTwoToneIcon from '@material-ui/icons/PollTwoTone'
 
 import { Roles } from 'app/enums'
 import sessionHelper from 'utils/sessionHelper'
+import { Download, DownloadCloud } from 'react-feather'
 
 const functions = [
   { label: 'Thông tin chung', icon: DashboardTwoToneIcon, to: '/Dashboard' },
-  // { label: 'Tìm kiếm Đoàn sinh', icon: SearchTwoToneIcon, to: '/FindStudent' },
   { label: 'Xem báo cáo', icon: PollTwoToneIcon, to: '/Report' },
+  { label: 'Tải biểu mẫu', role: Roles.PhanDoanTruong, icon: Download, to: '/Form' },
+  { label: 'Tải biểu mẫu', role: Roles.HuynhTruong, icon: Download, to: '/Form' },
+  { label: 'Tải biểu mẫu', role: Roles.DuTruong, icon: Download, to: '/Form' },
   {
     role: Roles.BanDieuHanh,
     label: 'Ban điều hành',
@@ -37,18 +40,6 @@ const functions = [
         description: 'Thêm mới Đoàn sinh',
         to: '/BQT/RegisterOffline'
       },
-      // {
-      //   label: 'Bổ nhiệm PĐT',
-      //   icon: SupervisorAccountTwoToneIcon,
-      //   description: 'Bổ nhiệm Phân đoàn trưởng',
-      //   to: '/BQT/AssignLeader'
-      // },
-      // {
-      //   label: 'Phân công tác HT',
-      //   icon: AssignmentTurnedInTwoToneIcon,
-      //   description: 'Phân công tác cho Huynh trưởng',
-      //   to: '/BQT/AssignUserClass'
-      // },
       {
         label: 'Danh sách HT|DT',
         icon: LayersTwoToneIcon,
@@ -177,19 +168,19 @@ export default [
     content: sessionHelper().isFirstLogin
       ? []
       : functions.filter(func => {
-          return (
-            (sessionHelper().roles?.includes(func.role)
-              ? func.role === Roles.HuynhTruong || func.role === Roles.DuTruong
-                ? sessionHelper().roles?.includes(Roles.PhanDoanTruong) && sessionHelper().unionId === 0
-                  ? false
-                  : sessionHelper().classId && sessionHelper().unionId !== 1
+        return (
+          (sessionHelper().roles?.includes(func.role)
+            ? func.role === Roles.HuynhTruong || func.role === Roles.DuTruong
+              ? sessionHelper().roles?.includes(Roles.PhanDoanTruong) && sessionHelper().unionId === 0
+                ? false
+                : sessionHelper().classId && sessionHelper().unionId !== 1
                   ? true
                   : false
-                : true
-              : func.role === Roles.PhanDoanTruong && sessionHelper().roles?.includes(Roles.HocTap)
+              : true
+            : func.role === Roles.PhanDoanTruong && sessionHelper().roles?.includes(Roles.HocTap)
               ? true
               : false) || !func.role
-          )
-        })
+        )
+      })
   }
 ]

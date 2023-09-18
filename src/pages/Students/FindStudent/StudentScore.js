@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Grid, CardContent, Tooltip, Card, IconButton, Divider } from '@material-ui/core'
+import { Grid, CardContent, Tooltip, Card, IconButton, Divider, makeStyles } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import Badge from 'components/UI/Badge'
 import { orderBy } from 'lodash'
@@ -17,7 +17,30 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
 import { PhoneCallDialogAtom } from 'components/Dialog/recoil'
 
+const useStyle = makeStyles({
+  pinCell: {
+    position: 'sticky',
+    left: 0,
+    backgroundColor: 'white',
+    zIndex: 1,
+
+    '&::after': {
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      bottom: 0,
+      width: '2.5px',
+      zIndex: 2,
+      content: '""',
+      backgroundColor: '#E5E6F5'
+    }
+  }
+})
+
+
 const StudentScore = ({ tabValue }) => {
+  const ClassStyle = useStyle()
+
   const student = useRecoilValue(GetStudentDetails)
   const lstHolyName = useRecoilValue(HolyNameQuery)
   const [collapse, setCollapse] = useState([])
@@ -150,7 +173,7 @@ const StudentScore = ({ tabValue }) => {
                       <table className="table text-nowrap mb-0 mt-3">
                         <thead>
                           <tr>
-                            <th></th>
+                            <th className={ClassStyle.pinCell}></th>
                             <th style={{ textAlign: 'center' }}>15'</th>
                             <th style={{ textAlign: 'center' }}>15'</th>
                             <th style={{ textAlign: 'center' }}>1 tiết</th>
@@ -160,9 +183,9 @@ const StudentScore = ({ tabValue }) => {
                             <th style={{ textAlign: 'center' }}>Xếp loại</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody className={ClassStyle.pinCell}>
                           <tr>
-                            <th>Học kỳ I</th>
+                            <th className={ClassStyle.pinCell}>Học kỳ I</th>
                             <th style={{ textAlign: 'center' }}>{sOne?.oldTest}</th>
                             <th style={{ textAlign: 'center' }}>{sOne?.fifteenTest}</th>
                             <th style={{ textAlign: 'center' }}>{sOne?.lessonTest}</th>
@@ -172,13 +195,13 @@ const StudentScore = ({ tabValue }) => {
                             <th style={{ textAlign: 'center' }}>{sOne?.ranking}</th>
                           </tr>
                           <tr>
-                            <th>Nhận xét</th>
+                            <th className={ClassStyle.pinCell}>Nhận xét</th>
                             <th colSpan={7} style={{ textAlign: 'center' }}>
                               {sOne?.comment}
                             </th>
                           </tr>
                           <tr>
-                            <th>Học kỳ II</th>
+                            <th className={ClassStyle.pinCell}>Học kỳ II</th>
                             <th style={{ textAlign: 'center' }}>{sTwo?.oldTest}</th>
                             <th style={{ textAlign: 'center' }}>{sTwo?.fifteenTest}</th>
                             <th style={{ textAlign: 'center' }}>{sTwo?.lessonTest}</th>
@@ -188,13 +211,13 @@ const StudentScore = ({ tabValue }) => {
                             <th style={{ textAlign: 'center' }}>{sTwo?.ranking}</th>
                           </tr>
                           <tr>
-                            <th>Nhận xét</th>
+                            <th className={ClassStyle.pinCell}>Nhận xét</th>
                             <th colSpan={7} style={{ textAlign: 'center' }}>
                               {sTwo?.comment}
                             </th>
                           </tr>
                           <tr>
-                            <th>Cả năm</th>
+                            <th className={ClassStyle.pinCell}>Cả năm</th>
                             <th style={{ textAlign: 'center' }} colSpan={2}>
                               {total?.avgSemesterOne}
                             </th>
@@ -206,7 +229,7 @@ const StudentScore = ({ tabValue }) => {
                             <th style={{ textAlign: 'center' }}>{total?.ranking}</th>
                           </tr>
                           <tr>
-                            <th>Nhận xét</th>
+                            <th className={ClassStyle.pinCell}>Nhận xét</th>
                             <th colSpan={7} style={{ textAlign: 'center' }}>
                               {total?.comment}
                             </th>

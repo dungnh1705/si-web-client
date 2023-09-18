@@ -1,13 +1,26 @@
 import React, { useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { Dialog, DialogTitle, DialogContent, DialogActions, Divider, Button, Grid, Card, Tooltip, IconButton, TextField, MenuItem } from '@material-ui/core'
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Divider,
+  Button,
+  Grid,
+  Card,
+  Tooltip,
+  IconButton,
+  TextField,
+  MenuItem
+} from '@material-ui/core'
 import _ from 'lodash'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { useTheme } from '@material-ui/core/styles'
 import StyledCheckbox from 'components/UI/StyledCheckbox'
 import ButtonLoading from 'components/UI/ButtonLoading'
-import { StudentStatus } from 'app/enums'
+import { StudentStatus, TemplateType } from 'app/enums'
 import { doDownload, doPost } from 'utils/axios'
 
 import { HolyNameQuery, TemplatesQuery } from 'recoils/selectors'
@@ -90,65 +103,76 @@ export const ScoreDownloadDialog = () => {
     }
   }
 
+  const templateList = () => {
+    const result = templates.filter(item => item.templateType === TemplateType.Document)
+
+    return result?.map(item => (
+      <MenuItem key={item.id} value={item.id}>
+        {item.name}
+      </MenuItem>
+    ))
+  }
+
   return (
-    <Dialog open={openScoreDownload} onClose={handleClose} aria-labelledby="responsive-download-dialog" fullScreen={fullScreen} maxWidth="lg">
+    <Dialog open={openScoreDownload} onClose={handleClose} aria-labelledby='responsive-download-dialog'
+            fullScreen={fullScreen} maxWidth='lg'>
       <DialogTitle>Tải Phiếu báo điểm - {studentIds.length}</DialogTitle>
       <Divider />
       <DialogContent>
         <Grid container spacing={2}>
           <Grid item xs={12} lg={6}>
-            <TextField label="Loại biễu mẫu" variant="outlined" fullWidth InputLabelProps={{ shrink: true }} select onChange={e => setTemplateId(e.target.value)}>
-              {templates?.map(item => (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.name}
-                </MenuItem>
-              ))}
+            <TextField label='Chọn biễu mẫu' variant='outlined' fullWidth InputLabelProps={{ shrink: true }} select
+                       onChange={e => setTemplateId(e.target.value)}>
+              {templateList()}
             </TextField>
           </Grid>
         </Grid>
         <Grid container spacing={2}>
           {lstStudent?.map((item, index) => (
             <Grid item xs={12} lg={6} key={`down-stu-${index}`}>
-              <Card className="card-box mb-1 w-100">
-                <div className="card-header d-flex pb-1 pt-1" onClick={e => handleCardClick(e, item.team)} style={{ cursor: 'pointer' }}>
-                  <div className="card-header--title">
-                    <h4 className="font-size-lg mb-0 py-1 font-weight-bold">Đội:{item.team}</h4>
+              <Card className='card-box mb-1 w-100'>
+                <div className='card-header d-flex pb-1 pt-1' onClick={e => handleCardClick(e, item.team)}
+                     style={{ cursor: 'pointer' }}>
+                  <div className='card-header--title'>
+                    <h4 className='font-size-lg mb-0 py-1 font-weight-bold'>Đội:{item.team}</h4>
                   </div>
-                  <Grid container item justifyContent="flex-end">
-                    <div className="card-header--actions">
+                  <Grid container item justifyContent='flex-end'>
+                    <div className='card-header--actions'>
                       <Tooltip arrow title={!handleCollapse(item.team) ? 'Thu lại' : 'Mở rộng'}>
-                        <IconButton size="medium" color="default">
-                          {handleCollapse(item.team) ? <FontAwesomeIcon icon={['fas', 'angle-down']} /> : <FontAwesomeIcon icon={['fas', 'angle-up']} />}
+                        <IconButton size='medium' color='default'>
+                          {handleCollapse(item.team) ? <FontAwesomeIcon icon={['fas', 'angle-down']} /> :
+                            <FontAwesomeIcon icon={['fas', 'angle-up']} />}
                         </IconButton>
                       </Tooltip>
                     </div>
                   </Grid>
                 </div>
-                <div className="table-responsive" hidden={handleCollapse(item.team)}>
-                  <table className="table table-hover text-nowrap mb-0">
+                <div className='table-responsive' hidden={handleCollapse(item.team)}>
+                  <table className='table table-hover text-nowrap mb-0'>
                     <thead>
-                      <tr>
-                        <th>
-                          <StyledCheckbox onChange={handleCheckAll} value={item.team} />
-                        </th>
-                        <th>Tên Thánh, Họ và Tên</th>
-                      </tr>
+                    <tr>
+                      <th>
+                        <StyledCheckbox onChange={handleCheckAll} value={item.team} />
+                      </th>
+                      <th>Tên Thánh, Họ và Tên</th>
+                    </tr>
                     </thead>
                     <tbody>
-                      {_.orderBy(
-                        item.students.filter(stu => stu.status !== StudentStatus.ChangeChurch && stu.status !== StudentStatus.LeaveStudy),
-                        ['stuLastName'],
-                        ['asc']
-                      ).map((stu, index) => (
-                        <tr key={`lst-stu-${stu.id}-${index}`} style={{ cursor: 'pointer' }}>
-                          <td>
-                            <StyledCheckbox onChange={handleClickRow} value={stu.id} checked={studentIds.some(v => v === stu.id)} />
-                          </td>
-                          <td>
-                            {lstHolyname.find(h => h.id === stu.stuHolyId).name} {stu.stuFirstName} {stu.stuLastName}
-                          </td>
-                        </tr>
-                      ))}
+                    {_.orderBy(
+                      item.students.filter(stu => stu.status !== StudentStatus.ChangeChurch && stu.status !== StudentStatus.LeaveStudy),
+                      ['stuLastName'],
+                      ['asc']
+                    ).map((stu, index) => (
+                      <tr key={`lst-stu-${stu.id}-${index}`} style={{ cursor: 'pointer' }}>
+                        <td>
+                          <StyledCheckbox onChange={handleClickRow} value={stu.id}
+                                          checked={studentIds.some(v => v === stu.id)} />
+                        </td>
+                        <td>
+                          {lstHolyname.find(h => h.id === stu.stuHolyId).name} {stu.stuFirstName} {stu.stuLastName}
+                        </td>
+                      </tr>
+                    ))}
                     </tbody>
                   </table>
                 </div>
@@ -158,8 +182,9 @@ export const ScoreDownloadDialog = () => {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <ButtonLoading btnText="Tải xuống" loading={loading} handleButtonClick={handleDownload} disabled={!templateId || studentIds.length === 0} />
-        <Button size="large" variant="contained" onClick={handleClose}>
+        <ButtonLoading btnText='Tải xuống' loading={loading} handleButtonClick={handleDownload}
+                       disabled={!templateId || studentIds.length === 0} />
+        <Button size='large' variant='contained' onClick={handleClose}>
           Quay về
         </Button>
       </DialogActions>
