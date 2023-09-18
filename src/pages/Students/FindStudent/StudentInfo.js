@@ -192,7 +192,6 @@ const StudentInfo = ({ tabValue }) => {
     }
   }
 
-  console.log(student)
   return (
     <>
       {tabValue === 0 && student && (
