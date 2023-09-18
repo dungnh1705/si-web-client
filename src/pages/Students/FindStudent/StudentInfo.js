@@ -192,6 +192,7 @@ const StudentInfo = ({ tabValue }) => {
     }
   }
 
+  console.log(student)
   return (
     <>
       {tabValue === 0 && student && (
@@ -358,7 +359,7 @@ const StudentInfo = ({ tabValue }) => {
                       />
                     </Grid>
 
-                    <Grid item xs={12} sm={4} lg={5}>
+                    <Grid item xs={12} sm={4} lg={4}>
                       <InlineTextField
                         label="Linh mục rửa tội"
                         field="stuBaptismBy"
@@ -370,7 +371,7 @@ const StudentInfo = ({ tabValue }) => {
                       />
                     </Grid>
 
-                    <Grid item xs={12} sm={4} lg={3}>
+                    <Grid item xs={12} sm={4} lg={4}>
                       <InlineTextField
                         label="Tại giáo xứ"
                         field="stuBaptismIn"
