@@ -5,6 +5,7 @@ import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { HolyNameQuery } from 'recoils/selectors'
 import { Roles, StudentStatus } from 'app/enums'
+import { ReloadStudentList } from '../../HuynhTruong/ManageStudentScore/recoil'
 
 export const ReloadStudentAbsent = atom({
   key: 'ReloadStudentAbsent',
@@ -18,6 +19,11 @@ export const OpenAbsentForm = atom({
 
 export const UnionCodeFilter = atom({
   key: 'UnionCodeFilter',
+  default: 1
+})
+
+export const UnionSelected = atom ({
+  key: 'UnionSelected',
   default: 1
 })
 
@@ -36,8 +42,10 @@ export const LoadStudentAbsent = selector({
   get: async ({ get }) => {
     get(ReloadStudentAbsent)
     const unionCode = get(UnionCodeFilter)
+    const unionId = get(UnionSelected)
 
-    const { classId, userId, scholasticId, unionId, roles } = sessionHelper()
+
+    const { classId, userId, scholasticId, roles } = sessionHelper()
 
     try {
       var res = await doGet(`student/getAbsent`, { scholasticId: scholasticId, classCode: classId, userId: userId })
@@ -50,11 +58,11 @@ export const LoadStudentAbsent = selector({
           if (
             // unionId = 0 là PĐT, unionId = 1 là Kỷ Luật
             roles.includes(Roles.PhanDoanTruong) || roles.includes(Roles.KyLuat)
-              ? stu.student.studentClass.find(sc => sc.class?.scholasticId == scholasticId)?.union?.unionCode == unionCode
-              : stu.student.studentClass.find(sc => sc.class?.scholasticId == scholasticId)?.union?.unionId == unionId
+              ? stu.student.studentClass.find(sc => sc.class?.scholasticId === Number(scholasticId))?.union?.unionCode === unionCode
+              : stu.student.studentClass.find(sc => sc.class?.scholasticId === Number(scholasticId))?.union?.unionId === unionId
           ) {
-            if (!result.find(re => re.year === `${month}/${year}`)) result.push({ year: `${month}/${year}`, item: [] })
 
+            if (!result.find(re => re.year === `${month}/${year}`)) result.push({ year: `${month}/${year}`, item: [] })
             result.forEach(re => {
               if (re.year === `${month}/${year}`) re.item.push(stu)
             })
@@ -73,7 +81,7 @@ export const LoadStudentAbsent = selector({
 export const LoadListStudent = selector({
   key: 'LoadListStudent',
   get: async ({ get }) => {
-    const { classId, userId, scholasticId, unionId, roles } = sessionHelper()
+    const { classId, userId, scholasticId, roles, unionId } = sessionHelper()
     const lstHolyName = get(HolyNameQuery)
 
     try {
@@ -115,6 +123,43 @@ export const LoadSundayList = selector({
       }
     } catch (err) {
       return []
+    }
+  }
+})
+
+
+export const StudentListQuery = selector({
+  key: 'studentListState',
+  get: async ({ get }) => {
+    get(ReloadStudentList)
+    const { classId, scholasticId } = sessionHelper()
+    const unionId = get(UnionSelected)
+
+    try {
+      var res = await doGet(`student/getStudentInClass`, { classCode: classId, unionId: unionId })
+
+      if (res && res.data.success && res.data.data) {
+        const distinctTeam = [...new Set(res.data.data.map(x => x.studentClass.find(sc => Number(sc.classId) === Number(classId)).team))]
+        const lstStudent = []
+
+        for (const t of distinctTeam) {
+          if (t !== 0) lstStudent.push({ team: t, students: [] })
+        }
+        for (const stu of res.data.data) {
+          stu.semesterOne = stu.semesterOne?.filter(sr => Number(sr.scholasticId) === Number(scholasticId))
+          stu.semesterTwo = stu.semesterTwo?.filter(sr => Number(sr.scholasticId) === Number(scholasticId))
+          stu.total = stu.total?.filter(sr => Number(sr.scholasticId) === Number(scholasticId))
+
+          lstStudent.forEach(t => {
+            if (t.team === stu.studentClass.find(sc => Number(sc.classId) === Number(classId)).team) {
+              t.students.push(stu)
+            }
+          })
+        }
+        return _.orderBy(lstStudent, ['team'], ['asc'])
+      }
+    } catch (err) {
+      return null
     }
   }
 })

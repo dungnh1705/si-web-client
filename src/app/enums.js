@@ -122,3 +122,21 @@ export const RegisterMode = {
   Offline: 0,
   Online: 1
 }
+
+export const colorOption = {
+  '0': 'red',
+  '1': 'blue',
+  '-1': 'black'
+}
+
+export const valueOption = {
+  Permission: '1',
+  NonPermission: '0',
+  NoAbsent: '-1'
+}
+
+export const saveDataMode = {
+  Add: 0,
+  Modify: 1,
+  Delete: 3
+}
