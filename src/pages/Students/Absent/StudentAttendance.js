@@ -1,17 +1,17 @@
-import React, { Fragment, Suspense, useState } from 'react'
+import React, { Fragment, Suspense, useEffect, useState } from 'react'
 import { Grid, Card, Tooltip, IconButton, makeStyles, LinearProgress } from '@material-ui/core'
-import { filter } from 'lodash'
+
 import moment from 'moment'
 
 //Icons
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
-import { StudentStatus } from 'app/enums'
-
 import StudentAttendanceItem from './StudentAttendanceItem'
-import { LoadSundayList } from './recoil'
+import { AbsentUnionSelected, LoadSundayList } from './recoil'
 import { useRecoilValue } from 'recoil'
+import { doGet } from 'utils/axios'
+import sessionHelper from 'utils/sessionHelper'
 
 const useStyle = makeStyles({
   pinCell: {
@@ -36,6 +36,8 @@ const useStyle = makeStyles({
 const StudentAttendance = ({ team }) => {
   const classStyle = useStyle()
   const [collapse, setCollapse] = useState(true)
+  const [stuIds, setStuIds] = useState([])
+
 
   const handleShowStudent = () => {
     setCollapse(!collapse)
@@ -45,6 +47,7 @@ const StudentAttendance = ({ team }) => {
     return moment.utc(date).format('DD/MM/YYYY')
   }
 
+  const unionIdSelected = useRecoilValue(AbsentUnionSelected)
   const listSunday = useRecoilValue(LoadSundayList)
   const currentDate = moment()
 
@@ -52,7 +55,24 @@ const StudentAttendance = ({ team }) => {
     .filter((date) => moment.utc(date) <= currentDate && moment.utc(date).month() > 7)
     .map((date) => formatDate(date))
 
-  const LimitSundayList = listSunday.filter((date) => moment.utc(date) <= currentDate && moment.utc(date).month() > 7)
+  useEffect(() => {
+    async function fetchData(teamId) {
+      const res = await doGet('student/getStudentIdsInTeam', {
+        classId: sessionHelper().classId,
+        unionId: unionIdSelected,
+        team: teamId
+      })
+      if (res && res.data.success) {
+        const { data } = res.data
+        setStuIds(data)
+      }
+    }
+
+    if (collapse === false) {
+      fetchData(team.team).finally()
+    }
+  }, [collapse, team.team, unionIdSelected])
+
 
   return (
     <Grid item xs={12}>
@@ -92,14 +112,9 @@ const StudentAttendance = ({ team }) => {
             </tr>
             </thead>
             <tbody>
-            {filter(team?.students, { status: StudentStatus.Active })
-              .sort((a, b) => a.stuGender - b.stuGender || a.stuLastName.localeCompare(b.stuLastName))
-              .map((student, index) => (
-                <Suspense fallback={<LinearProgress />} key={`attendance-student-${student.id}`}>
-                  <StudentAttendanceItem student={student} id={index}
-                                         SundayList={LimitSundayList} />
-                </Suspense>
-              ))}
+            <Suspense fallback={<LinearProgress />}>
+              <StudentAttendanceItem studentIds={stuIds} />
+            </Suspense>
             </tbody>
           </table>
         </div>

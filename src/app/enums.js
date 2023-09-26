@@ -125,7 +125,7 @@ export const RegisterMode = {
 
 export const absentTypeOptionsColorEnum = {
   '0': 'red',
-  '1': 'blue',
+  '1': 'green',
   '-1': 'black'
 }
 

@@ -7,9 +7,10 @@ import InputBase from '@material-ui/core/InputBase'
 import sessionHelper from 'utils/sessionHelper'
 import { doPost } from 'utils/axios'
 import { absentTypeOptionsColorEnum, absentTypeOptionsEnum, saveAbsentDataModeEnum } from 'app/enums'
+import { useRecoilState } from 'recoil'
+import { ReloadStudentDetailsWithAbsentList } from './recoil'
 
-
-const BootstrapInput = withStyles((theme) => ({
+const BootstrapInput = withStyles(theme => ({
   root: {
     'label + &': {
       marginTop: theme.spacing(3)
@@ -44,20 +45,21 @@ const BootstrapInput = withStyles((theme) => ({
   }
 }))(InputBase)
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   margin: {
     margin: theme.spacing(1)
   }
 }))
 
-
 export default function ControlledOpenSelect({ Permission, date, dropdownAbsentMode, studentId, absentObj }) {
   const classes = useStyles()
 
+  let reload = 0
   const [absentType, setAbsentType] = React.useState(absentTypeOptionsEnum.NoAbsent) // Manage state of absent mode before and after change
   const [selectedColor, setSelectedColor] = React.useState(absentTypeOptionsColorEnum[Permission.toString()])
+  const [reloadAbsent, setReloadAbsent] = useRecoilState(ReloadStudentDetailsWithAbsentList)
 
-  const handleChange = async (event) => {
+  const handleChange = async event => {
     const data = {
       StudentId: studentId,
       Reason: '',
@@ -73,7 +75,11 @@ export default function ControlledOpenSelect({ Permission, date, dropdownAbsentM
 
     let body = {}
     const selectedAttendanceOption = event.target.value // New Attendance value
-    setSelectedColor(selectedAttendanceOption === absentTypeOptionsEnum.Permission ? absentTypeOptionsColorEnum[absentTypeOptionsEnum.Permission] : absentTypeOptionsColorEnum[selectedAttendanceOption])
+    setSelectedColor(
+      selectedAttendanceOption === absentTypeOptionsEnum.Permission
+        ? absentTypeOptionsColorEnum[absentTypeOptionsEnum.Permission]
+        : absentTypeOptionsColorEnum[selectedAttendanceOption]
+    )
 
     // If new absent mode is not NoAbsent, then we will prepare data to send to server
     if (selectedAttendanceOption !== absentTypeOptionsEnum.NoAbsent) {
@@ -91,30 +97,23 @@ export default function ControlledOpenSelect({ Permission, date, dropdownAbsentM
     try {
       await doPost(`student/absent`, body)
       setAbsentType(selectedAttendanceOption)
-    } catch (err) {
-    }
+      setReloadAbsent([...reloadAbsent, { id: studentId, reload: reload++ }])
+    } catch (err) {}
   }
 
   useEffect(() => {
     setAbsentType(Permission)
-  }, [])
+  }, [Permission, setAbsentType])
 
   return (
     <>
       <FormControl className={classes.margin}>
-        <NativeSelect
-          value={absentType}
-          onChange={handleChange}
-          input={<BootstrapInput />}
-          style={{ color: selectedColor }}
-        >
-          <option aria-label='None' value={absentTypeOptionsEnum.NoAbsent} />
-          <option value={absentTypeOptionsEnum.Permission}
-                  style={{ color: absentTypeOptionsColorEnum[absentTypeOptionsEnum.Permission] }}>
+        <NativeSelect value={absentType} onChange={handleChange} input={<BootstrapInput />} style={{ color: selectedColor }}>
+          <option aria-label="None" value={absentTypeOptionsEnum.NoAbsent} />
+          <option value={absentTypeOptionsEnum.Permission} style={{ color: absentTypeOptionsColorEnum[absentTypeOptionsEnum.Permission] }}>
             P
           </option>
-          <option value={absentTypeOptionsEnum.NonPermission}
-                  style={{ color: absentTypeOptionsColorEnum[absentTypeOptionsEnum.NonPermission] }}>
+          <option value={absentTypeOptionsEnum.NonPermission} style={{ color: absentTypeOptionsColorEnum[absentTypeOptionsEnum.NonPermission] }}>
             KP
           </option>
         </NativeSelect>

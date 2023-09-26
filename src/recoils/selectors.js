@@ -72,8 +72,7 @@ export const UnionRegisterQuery = selectorFamily({
         const res = await doGet(`assignment/getUnionByGroupId`, { groupId })
 
         if (res && res.data.success) {
-          const unionOrdered = _.orderBy(res.data.data, ['unionCode'], ['asc'])
-          return unionOrdered
+          return _.orderBy(res.data.data, ['unionCode'], ['asc'])
         }
         return []
       }
