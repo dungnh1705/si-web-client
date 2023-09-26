@@ -1,18 +1,15 @@
-import React  from 'react'
+import React, { Fragment } from 'react'
 
 import { makeStyles, Hidden } from '@material-ui/core'
 
-import {  useRecoilValue } from 'recoil'
+import { useRecoilValue } from 'recoil'
 
-import { AbsentMode } from 'app/enums'
 import { HolyNameQuery } from 'recoils/selectors'
 import ControlledOpenSelect from './Selection'
 
-// import StudentTeamItemDetails from './StudentTeamItemDetails'
-
-import {LoadStudentAbsent} from './recoil'
-import studentAbsent from './StudentAbsent'
+import { StudentAbsentListQuery } from './recoil'
 import moment from 'moment'
+import { AbsentMode, absentTypeOptionsEnum } from 'app/enums'
 
 const useStyle = makeStyles({
   pinCell: {
@@ -34,62 +31,51 @@ const useStyle = makeStyles({
   }
 })
 
-const StudentTeamItem = ({ student, SundayList }) => {
+const StudentAttendanceItem = ({ student, SundayList }) => {
   const classStyle = useStyle()
 
-  const lstHolyname = useRecoilValue(HolyNameQuery)
-  const AbsentList = useRecoilValue(LoadStudentAbsent)
+  const lstHolyName = useRecoilValue(HolyNameQuery)
+  const studentAbsentDates = useRecoilValue(StudentAbsentListQuery(student.id))
 
-  const StudentAbsent = AbsentList?.map(month => month.item.filter(i => i.studentId === student.id)
-                                                            .map(i => ({...i, dateAbsent: moment.utc(i.dateAbsent)})))
-  
-  const checkDateAndPermissionAndMode = (CurDate, ListDate) => {
-    let dateAbsentObj = []
-    for (let month of ListDate){
-      dateAbsentObj = month?.filter(d => {
-          return d.dateAbsent._d.getTime() === CurDate._d.getTime()
-        })
-      if (dateAbsentObj.length >= 1) break
-    }
+  const checkAbsentDatesOfStudentHasCoincideSundayDate = (sunday, absentDates) => {
+    const currentAbsents = absentDates.filter(absent => moment.utc(absent.dateAbsent).date() === moment.utc(sunday).date())
 
-    if (dateAbsentObj?.length === 2){
-      //length = 2 => absent both mass and class
-      return [2, Number(dateAbsentObj[0]?.hasPermission), Number(dateAbsentObj[1]?.hasPermission), dateAbsentObj]
-    } else if (dateAbsentObj?.length === 1) {
-      //length = 1 => absent either mass or class
-      return [1, dateAbsentObj[0]?.absentMode, Number(dateAbsentObj[0].hasPermission), dateAbsentObj]
-    } else
-      return [0, "-1", "-1", dateAbsentObj]
+    return [
+      currentAbsents?.find(ab => ab.absentMode === AbsentMode.Mass) ?? null,
+      currentAbsents?.find(ab => ab.absentMode === AbsentMode.Class) ?? null
+    ]
   }
 
   return (
-    <>
-      <tr style={{ cursor: 'pointer' }}>
-        <td className={classStyle.pinCell}>
-          {lstHolyname.find(h => h.id === student.stuHolyId).name}&nbsp;
-            <Hidden mdUp>
-              <br />
-            </Hidden> 
-            {student.stuFirstName} {student.stuLastName}
+    <Fragment>
+      <tr style={{ cursor: 'pointer', textAlign: 'center' }}>
+        <td className={classStyle.pinCell} style={{ textAlign: 'left' }}>
+          {lstHolyName.find(h => h.id === student.stuHolyId).name}&nbsp;
+          <Hidden mdUp>
+            <br />
+          </Hidden>
+          {student.stuFirstName} {student.stuLastName}
         </td>
-          {SundayList.map((date) => {
-            const [type, data1, data2, dateAbsentObj] = checkDateAndPermissionAndMode(date, StudentAbsent)
-            //type is the length of absentobj => 1 means absent either mass or class
-             if(type === 1) {
-                 return  (<>
-                      {/*check absent mode*/}
-                     <td style={{alignItems:'center'}}><ControlledOpenSelect Permission={data1 === 1?data2:"-1"} date={new Date(date)} mode={1} StuId={student.id} dateAbsentObj={dateAbsentObj[0]}/></td>
-                     <td style={{alignItems:'center'}}><ControlledOpenSelect Permission={data1 === 1?"-1":data2} date={new Date(date)} mode={2} StuId={student.id} dateAbsentObj={dateAbsentObj[0]}/></td>
-                    </>) 
-              }
-              return (
-                <>
-                  <td><ControlledOpenSelect Permission={data1} date={new Date(date)} mode={1} StuId={student.id} dateAbsentObj={type===2?dateAbsentObj[0]:null}/></td>
-                  <td><ControlledOpenSelect Permission={data2} date={new Date(date)} mode={2} StuId={student.id} dateAbsentObj={type===2?dateAbsentObj[1]:null}/></td>
-                </>
-              )
-            }
-          )}
+        {SundayList.map((date) => {
+            const [massAbsent, classAbsent] = checkAbsentDatesOfStudentHasCoincideSundayDate(date, studentAbsentDates)
+            const massPermission = massAbsent ? massAbsent.hasPermission ? absentTypeOptionsEnum.Permission : absentTypeOptionsEnum.NonPermission : absentTypeOptionsEnum.NoAbsent
+            const classPermission = classAbsent ? classAbsent.hasPermission ? absentTypeOptionsEnum.Permission : absentTypeOptionsEnum.NonPermission : absentTypeOptionsEnum.NoAbsent
+
+            return (
+              <Fragment key={`absent-checkbox-${student.id}-${date}`}>
+                <td><ControlledOpenSelect Permission={massPermission}
+                                          date={date} dropdownAbsentMode={AbsentMode.Mass}
+                                          studentId={student.id}
+                                          absentObj={massAbsent} /></td>
+
+                <td><ControlledOpenSelect Permission={classPermission}
+                                          date={date} dropdownAbsentMode={AbsentMode.Class}
+                                          studentId={student.id}
+                                          absentObj={classAbsent} /></td>
+              </Fragment>
+            )
+          }
+        )}
 
 
       </tr>
@@ -100,8 +86,8 @@ const StudentTeamItem = ({ student, SundayList }) => {
       {/*    </td>*/}
       {/*  </tr>*/}
       {/*)}*/}
-    </>
+    </Fragment>
   )
 }
 
-export default StudentTeamItem
+export default StudentAttendanceItem

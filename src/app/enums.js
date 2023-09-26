@@ -123,19 +123,19 @@ export const RegisterMode = {
   Online: 1
 }
 
-export const colorOption = {
+export const absentTypeOptionsColorEnum = {
   '0': 'red',
   '1': 'blue',
   '-1': 'black'
 }
 
-export const valueOption = {
+export const absentTypeOptionsEnum = {
   Permission: '1',
   NonPermission: '0',
   NoAbsent: '-1'
 }
 
-export const saveDataMode = {
+export const saveAbsentDataModeEnum = {
   Add: 0,
   Modify: 1,
   Delete: 3

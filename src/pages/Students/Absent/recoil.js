@@ -1,11 +1,10 @@
-import { atom, selector } from 'recoil'
+import { atom, selector, selectorFamily } from 'recoil'
 import _ from 'lodash'
 
 import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { HolyNameQuery } from 'recoils/selectors'
 import { Roles, StudentStatus } from 'app/enums'
-import { ReloadStudentList } from '../../HuynhTruong/ManageStudentScore/recoil'
 
 export const ReloadStudentAbsent = atom({
   key: 'ReloadStudentAbsent',
@@ -22,8 +21,8 @@ export const UnionCodeFilter = atom({
   default: 1
 })
 
-export const UnionSelected = atom ({
-  key: 'UnionSelected',
+export const AbsentUnionSelected = atom({
+  key: 'AbsentUnionSelected',
   default: 1
 })
 
@@ -37,20 +36,26 @@ export const AbsentSelected = atom({
   default: undefined
 })
 
+export const ReloadAbsentStudentList = atom({
+  key: 'ReloadAbsentStudentList',
+  default: 1
+})
+
+
 export const LoadStudentAbsent = selector({
   key: 'LoadStudentAbsent',
   get: async ({ get }) => {
     get(ReloadStudentAbsent)
     const unionCode = get(UnionCodeFilter)
-    const unionId = get(UnionSelected)
+    const unionId = get(AbsentUnionSelected)
 
 
     const { classId, userId, scholasticId, roles } = sessionHelper()
 
     try {
-      var res = await doGet(`student/getAbsent`, { scholasticId: scholasticId, classCode: classId, userId: userId })
+      const res = await doGet(`student/getAbsent`, { scholasticId: scholasticId, classCode: classId, userId: userId })
       if (res && res.data.success && res.data.data) {
-        let result = []
+        const result = []
 
         for (let stu of res.data.data) {
           let [year, month] = stu.dateAbsent.match(/\d+/g)
@@ -69,7 +74,6 @@ export const LoadStudentAbsent = selector({
           }
         }
 
-        // return _.orderBy(result, ['year'], ['asc'])
         return result
       }
     } catch (err) {
@@ -98,7 +102,10 @@ export const LoadListStudent = selector({
         )
         newList = newList.map(stu => {
           if (stu.studentClass.some(sl => sl.unionId !== 1 && sl.class.scholasticId === Number(scholasticId)))
-            return { id: stu.id, name: `${lstHolyName.find(h => h.id === stu.stuHolyId).name} ${stu.stuFirstName} ${stu.stuLastName}` }
+            return {
+              id: stu.id,
+              name: `${lstHolyName.find(h => h.id === stu.stuHolyId).name} ${stu.stuFirstName} ${stu.stuLastName}`
+            }
           return { id: 0 }
         })
 
@@ -116,7 +123,7 @@ export const LoadSundayList = selector({
     const { scholasticId } = sessionHelper()
 
     try {
-      var res = await doGet(`student/getSchoolDates`, { scholasticId, semesterCode: 'null' })
+      const res = await doGet(`student/getSchoolDates`, { scholasticId, semesterCode: 'null' })
 
       if (res && res.data.success) {
         return res.data.data.map(item => item.schoolDate)
@@ -129,14 +136,14 @@ export const LoadSundayList = selector({
 
 
 export const StudentListQuery = selector({
-  key: 'studentListState',
+  key: 'studentListQuery',
   get: async ({ get }) => {
-    get(ReloadStudentList)
+    get(ReloadAbsentStudentList)
     const { classId, scholasticId } = sessionHelper()
-    const unionId = get(UnionSelected)
+    const unionId = get(AbsentUnionSelected)
 
     try {
-      var res = await doGet(`student/getStudentInClass`, { classCode: classId, unionId: unionId })
+      const res = await doGet(`student/getStudentInClass`, { classCode: classId, unionId: unionId })
 
       if (res && res.data.success && res.data.data) {
         const distinctTeam = [...new Set(res.data.data.map(x => x.studentClass.find(sc => Number(sc.classId) === Number(classId)).team))]
@@ -159,7 +166,22 @@ export const StudentListQuery = selector({
         return _.orderBy(lstStudent, ['team'], ['asc'])
       }
     } catch (err) {
-      return null
+      return []
     }
   }
+})
+
+export const StudentAbsentListQuery = selectorFamily({
+  key: 'StudentAbsentListQuery',
+  get:
+    studentId =>
+      async ({ get }) => {
+        const { classId, scholasticId } = sessionHelper()
+        const res = await doGet(`student/absents`, { studentId, classId, scholasticId })
+
+        if (res && res.data.success) {
+          return res.data.data
+        }
+        return []
+      }
 })
