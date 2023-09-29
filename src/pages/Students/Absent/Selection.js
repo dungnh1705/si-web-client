@@ -7,8 +7,6 @@ import InputBase from '@material-ui/core/InputBase'
 import sessionHelper from 'utils/sessionHelper'
 import { doPost } from 'utils/axios'
 import { absentTypeOptionsColorEnum, absentTypeOptionsEnum, saveAbsentDataModeEnum } from 'app/enums'
-import { useRecoilState } from 'recoil'
-import { ReloadStudentDetailsWithAbsentList } from './recoil'
 
 const BootstrapInput = withStyles(theme => ({
   root: {
@@ -51,13 +49,11 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function ControlledOpenSelect({ Permission, date, dropdownAbsentMode, studentId, absentObj }) {
+export default function ControlledOpenSelect({ Permission, date, dropdownAbsentMode, studentId, absentObj, handleReload }) {
   const classes = useStyles()
 
-  let reload = 0
   const [absentType, setAbsentType] = React.useState(absentTypeOptionsEnum.NoAbsent) // Manage state of absent mode before and after change
   const [selectedColor, setSelectedColor] = React.useState(absentTypeOptionsColorEnum[Permission.toString()])
-  const [reloadAbsent, setReloadAbsent] = useRecoilState(ReloadStudentDetailsWithAbsentList)
 
   const handleChange = async event => {
     const data = {
@@ -97,7 +93,7 @@ export default function ControlledOpenSelect({ Permission, date, dropdownAbsentM
     try {
       await doPost(`student/absent`, body)
       setAbsentType(selectedAttendanceOption)
-      setReloadAbsent([...reloadAbsent, { id: studentId, reload: reload++ }])
+      handleReload()
     } catch (err) {}
   }
 

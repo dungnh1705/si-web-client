@@ -30,6 +30,10 @@ const useStyle = makeStyles({
       content: '""',
       backgroundColor: '#E5E6F5'
     }
+  },
+  tableHeader: {
+    borderLeft: '2px solid #dcdef1', 
+    textAlign: 'center'
   }
 })
 
@@ -96,6 +100,7 @@ const StudentAttendance = ({ team }) => {
             <thead>
             <tr>
               <th className={classStyle.pinCell}></th>
+              <th colSpan='2' className={classStyle.tableHeader}>Tổng</th>
               {filteredAndFormattedDates.map((stringDate) => (
                 <th colSpan='2' style={{ borderLeft: '2px solid #dcdef1', textAlign: 'center' }}
                     key={`title-column-${team.team}-${stringDate}`}>{stringDate}</th>
@@ -103,6 +108,8 @@ const StudentAttendance = ({ team }) => {
             </tr>
             <tr>
               <th className={classStyle.pinCell}>Tên Thánh, Họ và Tên</th>
+              <th className={classStyle.tableHeader}>Tổng Lễ</th>
+              <th className={classStyle.tableHeader}>Tổng Học</th>
               {filteredAndFormattedDates.map((stringDate) => (
                 <Fragment key={`column-${team.team}-${stringDate}`}>
                   <th style={{ borderLeft: '2px solid #dcdef1', textAlign: 'center' }}>Lễ</th>

@@ -8,6 +8,8 @@ import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { Skeleton } from '@material-ui/lab'
 
+import { SumAbsent } from './SumAbsent'
+
 const useStyle = makeStyles({
   pinCell: {
     position: 'sticky',
@@ -31,6 +33,7 @@ const useStyle = makeStyles({
 export default function ({ lstHolyName, SundayList, studentId }) {
   const classStyle = useStyle()
   const [studentInfo, setStudentInfo] = useState()
+  const [countAbsents, setCountAbsents] = useState()
 
   useEffect(() => {
     async function fetchData() {
@@ -47,10 +50,29 @@ export default function ({ lstHolyName, SundayList, studentId }) {
     }
   }, [studentInfo])
 
+  useEffect(() => {
+    async function fetchData() {
+      const { classId, scholasticId } = sessionHelper()
+      const res = await doGet(`student/count-absents`, { studentId, classId, scholasticId })
+
+      if (res && res.data.success) {
+        setCountAbsents(res.data.data)
+      }
+    }
+
+    if (studentInfo && !countAbsents) {
+      fetchData().finally()
+    }
+  }, [countAbsents, studentInfo])
+
   const checkAbsentDatesOfStudentHasCoincideSundayDate = (sunday, absentDates) => {
     const currentAbsents = absentDates?.filter(absent => moment.utc(absent.dateAbsent).date() === moment.utc(sunday).date())
 
     return [currentAbsents?.find(ab => ab.absentMode === AbsentMode.Mass) ?? null, currentAbsents?.find(ab => ab.absentMode === AbsentMode.Class) ?? null]
+  }
+
+  const handleReloadCountAbsents = () => {
+    setCountAbsents(null)
   }
 
   if (!studentInfo)
@@ -71,6 +93,7 @@ export default function ({ lstHolyName, SundayList, studentId }) {
         </Hidden>
         {studentInfo?.stuFirstName} {studentInfo?.stuLastName}
       </td>
+      <SumAbsent totalAbsents={countAbsents} />
       {SundayList.map(date => {
         const [massAbsent, classAbsent] = checkAbsentDatesOfStudentHasCoincideSundayDate(date, studentInfo?.absents)
         const massPermission = massAbsent ? (massAbsent.hasPermission ? absentTypeOptionsEnum.Permission : absentTypeOptionsEnum.NonPermission) : absentTypeOptionsEnum.NoAbsent
@@ -79,10 +102,24 @@ export default function ({ lstHolyName, SundayList, studentId }) {
         return (
           <Fragment key={`absent-checkbox-${studentId}-${date}`}>
             <td>
-              <ControlledOpenSelect Permission={massPermission} date={date} dropdownAbsentMode={AbsentMode.Mass} studentId={studentId} absentObj={massAbsent} />
+              <ControlledOpenSelect
+                Permission={massPermission}
+                date={date}
+                dropdownAbsentMode={AbsentMode.Mass}
+                studentId={studentId}
+                absentObj={massAbsent}
+                handleReload={handleReloadCountAbsents}
+              />
             </td>
             <td>
-              <ControlledOpenSelect Permission={classPermission} date={date} dropdownAbsentMode={AbsentMode.Class} studentId={studentId} absentObj={classAbsent} />
+              <ControlledOpenSelect
+                Permission={classPermission}
+                date={date}
+                dropdownAbsentMode={AbsentMode.Class}
+                studentId={studentId}
+                absentObj={classAbsent}
+                handleReload={handleReloadCountAbsents}
+              />
             </td>
           </Fragment>
         )
