@@ -1,21 +1,18 @@
 import React, { Fragment } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { LoadSundayList } from './recoil'
+import { SundayVisible } from './recoil'
 import AttendanceItemDetails from './components/AttendanceItemDetails'
 import { HolyNameQuery } from 'recoils/selectors'
-import moment from 'moment/moment'
+
 
 const StudentAttendanceItem = ({ studentIds }) => {
   const lstHolyName = useRecoilValue(HolyNameQuery)
-  const listSunday = useRecoilValue(LoadSundayList)
-
-  const LimitSundayList = listSunday.filter(date => moment.utc(date) <= moment() && moment.utc(date).month() > 7)
-
+  const sundayVisible = useRecoilValue(SundayVisible)
   return (
     <Fragment>
       {studentIds.map(id => (
-        <AttendanceItemDetails SundayList={LimitSundayList} lstHolyName={lstHolyName} studentId={id} key={`item-details-${id}`} />
+        <AttendanceItemDetails SundayList={sundayVisible} lstHolyName={lstHolyName} studentId={id} key={`item-details-${id}`} />
       ))}
       {/*{showDetail.some(d => d === student.stuCode) && (*/}
       {/*  <tr style={{ backgroundColor: 'white' }}>*/}

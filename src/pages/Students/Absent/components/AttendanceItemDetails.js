@@ -9,6 +9,11 @@ import sessionHelper from 'utils/sessionHelper'
 import { Skeleton } from '@material-ui/lab'
 
 import { SumAbsent } from './SumAbsent'
+import { totalAbsentsColorEnum } from 'app/enums'
+import { red, yellow, grey } from '@material-ui/core/colors'
+
+import { useRecoilState } from 'recoil'
+import { ReloadAbsentStudentList } from '../recoil'
 
 const useStyle = makeStyles({
   pinCell: {
@@ -30,10 +35,26 @@ const useStyle = makeStyles({
   }
 })
 
+const setBackGroundColor = totalClassAbsent => {
+  return totalClassAbsent < 2
+    ? totalAbsentsColorEnum.normal
+    : totalClassAbsent >= 2 && totalClassAbsent < 4
+    ? yellow[totalAbsentsColorEnum.alarm]
+    : totalClassAbsent === 4
+    ? red[totalAbsentsColorEnum.warning]
+    : grey[totalAbsentsColorEnum.out]
+}
+
 export default function ({ lstHolyName, SundayList, studentId }) {
   const classStyle = useStyle()
+
   const [studentInfo, setStudentInfo] = useState()
-  const [countAbsents, setCountAbsents] = useState()
+
+  const [totalMassAbsents, setTotalMassAbsents] = useState(0)
+  const [totalClassAbsents, setTotalClassAbsents] = useState(0)
+
+  const [reloadAbsentStudentList, setReloadAbsentStudentList] = useRecoilState(ReloadAbsentStudentList)
+  const [reloadCountAbsents, setReloadCountAbsents] = useState(true)
 
   useEffect(() => {
     async function fetchData() {
@@ -45,10 +66,11 @@ export default function ({ lstHolyName, SundayList, studentId }) {
       }
     }
 
-    if (!studentInfo) {
+    if (!studentInfo || reloadAbsentStudentList) {
       fetchData().finally()
+      setReloadAbsentStudentList(false)
     }
-  }, [studentInfo])
+  }, [studentInfo, reloadAbsentStudentList])
 
   useEffect(() => {
     async function fetchData() {
@@ -56,14 +78,16 @@ export default function ({ lstHolyName, SundayList, studentId }) {
       const res = await doGet(`student/count-absents`, { studentId, classId, scholasticId })
 
       if (res && res.data.success) {
-        setCountAbsents(res.data.data)
+        setTotalMassAbsents(res.data.data?.totalMassPermission + res.data.data?.totalMassNonPermission)
+        setTotalClassAbsents(res.data.data?.totalClassPermission + res.data.data?.totalClassNonPermission)
+        setReloadCountAbsents(false)
       }
     }
 
-    if (studentInfo && !countAbsents) {
+    if (studentInfo && reloadCountAbsents) {
       fetchData().finally()
     }
-  }, [countAbsents, studentInfo])
+  }, [reloadCountAbsents, studentInfo])
 
   const checkAbsentDatesOfStudentHasCoincideSundayDate = (sunday, absentDates) => {
     const currentAbsents = absentDates?.filter(absent => moment.utc(absent.dateAbsent).date() === moment.utc(sunday).date())
@@ -72,7 +96,7 @@ export default function ({ lstHolyName, SundayList, studentId }) {
   }
 
   const handleReloadCountAbsents = () => {
-    setCountAbsents(null)
+    setReloadCountAbsents(true)
   }
 
   if (!studentInfo)
@@ -85,7 +109,7 @@ export default function ({ lstHolyName, SundayList, studentId }) {
     )
 
   return (
-    <tr style={{ cursor: 'pointer', textAlign: 'center' }}>
+    <tr style={{ cursor: 'pointer', textAlign: 'center', backgroundColor: setBackGroundColor(totalClassAbsents) }}>
       <td className={classStyle.pinCell} style={{ textAlign: 'left' }}>
         {lstHolyName.find(h => h.id === studentInfo?.stuHolyId)?.name ?? ''}&nbsp;
         <Hidden mdUp>
@@ -93,7 +117,7 @@ export default function ({ lstHolyName, SundayList, studentId }) {
         </Hidden>
         {studentInfo?.stuFirstName} {studentInfo?.stuLastName}
       </td>
-      <SumAbsent totalAbsents={countAbsents} />
+      <SumAbsent totalMassAbsents={totalMassAbsents} totalClassAbsents={totalClassAbsents} />
       {SundayList.map(date => {
         const [massAbsent, classAbsent] = checkAbsentDatesOfStudentHasCoincideSundayDate(date, studentInfo?.absents)
         const massPermission = massAbsent ? (massAbsent.hasPermission ? absentTypeOptionsEnum.Permission : absentTypeOptionsEnum.NonPermission) : absentTypeOptionsEnum.NoAbsent
@@ -108,7 +132,7 @@ export default function ({ lstHolyName, SundayList, studentId }) {
                 dropdownAbsentMode={AbsentMode.Mass}
                 studentId={studentId}
                 absentObj={massAbsent}
-                handleReload={handleReloadCountAbsents}
+                handleReloadTotal={handleReloadCountAbsents}
               />
             </td>
             <td>
@@ -118,7 +142,7 @@ export default function ({ lstHolyName, SundayList, studentId }) {
                 dropdownAbsentMode={AbsentMode.Class}
                 studentId={studentId}
                 absentObj={classAbsent}
-                handleReload={handleReloadCountAbsents}
+                handleReloadTotal={handleReloadCountAbsents}
               />
             </td>
           </Fragment>

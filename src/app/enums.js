@@ -140,3 +140,10 @@ export const saveAbsentDataModeEnum = {
   Modify: 1,
   Delete: 3
 }
+
+export const totalAbsentsColorEnum = {
+  'normal': 'inherit',
+  'alarm': 200,
+  'warning': 300,
+  'out': 300,
+}

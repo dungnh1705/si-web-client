@@ -8,8 +8,8 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import StudentAttendanceItem from './StudentAttendanceItem'
-import { AbsentUnionSelected, LoadSundayList } from './recoil'
-import { useRecoilValue } from 'recoil'
+import { AbsentUnionSelected, SundaySelected, SundayVisible } from './recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 
@@ -34,7 +34,7 @@ const useStyle = makeStyles({
   tableHeader: {
     borderLeft: '2px solid #dcdef1', 
     textAlign: 'center'
-  }
+  },
 })
 
 const StudentAttendance = ({ team }) => {
@@ -52,12 +52,19 @@ const StudentAttendance = ({ team }) => {
   }
 
   const unionIdSelected = useRecoilValue(AbsentUnionSelected)
-  const listSunday = useRecoilValue(LoadSundayList)
-  const currentDate = moment()
 
-  const filteredAndFormattedDates = listSunday
-    .filter((date) => moment.utc(date) <= currentDate && moment.utc(date).month() > 7)
-    .map((date) => formatDate(date))
+  const sundaySelected= useRecoilValue(SundaySelected)
+
+  const [sundayVisible, setSundayVisible] = useRecoilState(SundayVisible)
+
+  const FormattedDates = sundayVisible.map((date) => formatDate(date))
+
+
+  const handleScroll = () => {
+    if (sundayVisible.length === sundaySelected.length) return  
+
+    setSundayVisible(sundaySelected)
+  };
 
   useEffect(() => {
     async function fetchData(teamId) {
@@ -77,6 +84,10 @@ const StudentAttendance = ({ team }) => {
     }
   }, [collapse, team.team, unionIdSelected])
 
+  useEffect(() => {
+    //if there are more than 7 sundays, we will only show 7 sundays
+    sundaySelected.length > 7 ? setSundayVisible(sundaySelected.slice(0, 7)) : setSundayVisible(sundaySelected);
+  }, [sundaySelected])
 
   return (
     <Grid item xs={12}>
@@ -95,14 +106,14 @@ const StudentAttendance = ({ team }) => {
             </div>
           </Grid>
         </div>
-        <div className='table-responsive' hidden={collapse}>
+        <div className='table-responsive' hidden={collapse} onScroll={handleScroll}>
           <table className='table table-hover text-nowrap mb-0'>
             <thead>
             <tr>
               <th className={classStyle.pinCell}></th>
               <th colSpan='2' className={classStyle.tableHeader}>Tổng</th>
-              {filteredAndFormattedDates.map((stringDate) => (
-                <th colSpan='2' style={{ borderLeft: '2px solid #dcdef1', textAlign: 'center' }}
+              {FormattedDates.map((stringDate) => (
+                <th colSpan='2'className={classStyle.tableHeader}
                     key={`title-column-${team.team}-${stringDate}`}>{stringDate}</th>
               ))}
             </tr>
@@ -110,10 +121,10 @@ const StudentAttendance = ({ team }) => {
               <th className={classStyle.pinCell}>Tên Thánh, Họ và Tên</th>
               <th className={classStyle.tableHeader}>Tổng Lễ</th>
               <th className={classStyle.tableHeader}>Tổng Học</th>
-              {filteredAndFormattedDates.map((stringDate) => (
+              {FormattedDates.map((stringDate) => (
                 <Fragment key={`column-${team.team}-${stringDate}`}>
-                  <th style={{ borderLeft: '2px solid #dcdef1', textAlign: 'center' }}>Lễ</th>
-                  <th style={{ borderLeft: '2px solid #dcdef1', textAlign: 'center' }}>Học</th>
+                  <th className={classStyle.tableHeader}>Lễ</th>
+                  <th className={classStyle.tableHeader}>Học</th>
                 </Fragment>
               ))}
             </tr>

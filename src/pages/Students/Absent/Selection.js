@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import FormControl from '@material-ui/core/FormControl'
 import NativeSelect from '@material-ui/core/NativeSelect'
 import InputBase from '@material-ui/core/InputBase'
 
+import moment from 'moment'
+
 import sessionHelper from 'utils/sessionHelper'
-import { doPost } from 'utils/axios'
+import { doPost, doGet } from 'utils/axios'
+
 import { absentTypeOptionsColorEnum, absentTypeOptionsEnum, saveAbsentDataModeEnum } from 'app/enums'
 
 const BootstrapInput = withStyles(theme => ({
@@ -49,11 +52,21 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function ControlledOpenSelect({ Permission, date, dropdownAbsentMode, studentId, absentObj, handleReload }) {
+export default function ControlledOpenSelect({ Permission, date, dropdownAbsentMode, studentId, absentObj, handleReloadTotal }) {
   const classes = useStyles()
 
-  const [absentType, setAbsentType] = React.useState(absentTypeOptionsEnum.NoAbsent) // Manage state of absent mode before and after change
-  const [selectedColor, setSelectedColor] = React.useState(absentTypeOptionsColorEnum[Permission.toString()])
+  const [absentType, setAbsentType] = useState(absentTypeOptionsEnum.NoAbsent) // Manage state of absent mode before and after change
+  const [selectedColor, setSelectedColor] = useState(absentTypeOptionsColorEnum[Permission.toString()])
+  const [absentObjState, setAbsentObjState] = useState(absentObj)
+
+  async function updateAbsentObj () {
+    const { classId, scholasticId } = sessionHelper()
+    const res = await doGet(`student/absents`, { studentId, classId, scholasticId })
+
+      if (res && res.data.success) {
+        setAbsentObjState(res.data.data?.absents.filter(absent => moment.utc(absent.dateAbsent).date() === moment.utc(date).date() && absent.absentMode === dropdownAbsentMode)[0])
+      }
+  }
 
   const handleChange = async event => {
     const data = {
@@ -87,13 +100,14 @@ export default function ControlledOpenSelect({ Permission, date, dropdownAbsentM
         mode: absentType !== absentTypeOptionsEnum.NoAbsent ? saveAbsentDataModeEnum.Modify : saveAbsentDataModeEnum.Add
       }
     } else {
-      body = { ...absentObj, mode: saveAbsentDataModeEnum.Delete }
+      body = { ...absentObjState, mode: saveAbsentDataModeEnum.Delete }
     }
 
     try {
       await doPost(`student/absent`, body)
       setAbsentType(selectedAttendanceOption)
-      handleReload()
+      handleReloadTotal()
+      updateAbsentObj()
     } catch (err) {}
   }
 

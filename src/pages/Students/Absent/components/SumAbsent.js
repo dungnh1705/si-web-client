@@ -1,23 +1,14 @@
 import React, { Fragment } from 'react'
-import { Skeleton } from '@material-ui/lab'
 
-export const SumAbsent = ({ totalAbsents }) => {
-  if (!totalAbsents)
-    return (
-      <Fragment>
-        <td>
-          <Skeleton />
-        </td>
-        <td>
-          <Skeleton />
-        </td>
-      </Fragment>
-    )
+export const SumFieldAbsent = ({ totalAbsents }) => {
+  return <td className="text-center">{totalAbsents}</td>
+}
 
+export const SumAbsent = ({ totalMassAbsents, totalClassAbsents }) => {
   return (
     <Fragment>
-      <td className="text-center">{totalAbsents?.totalMassPermission + totalAbsents.totalMassNonPermission}</td>
-      <td className="text-center">{totalAbsents?.totalClassPermission + totalAbsents.totalClassNonPermission}</td>
+      <SumFieldAbsent totalAbsents={totalMassAbsents} />
+      <SumFieldAbsent totalAbsents={totalClassAbsents} />
     </Fragment>
   )
 }

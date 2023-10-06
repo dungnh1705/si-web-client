@@ -7,6 +7,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { AbsentUnionSelected, UnionCodeFilter } from './recoil'
 import { UnionQuery } from 'recoils/selectors'
 
+import DayViewSelections from './components/DayViewSelection'
 export default function HeaderAction() {
   const lstUnion = useRecoilValue(UnionQuery)
   const [unionFilter, setUnionFilter] = useRecoilState(UnionCodeFilter)
@@ -44,7 +45,7 @@ export default function HeaderAction() {
 
   return (
     <Grid item container spacing={3} justifyContent='flex-start' alignItems='center'>
-      <Grid item xs={6} sm={2}>
+      <Grid item xs={5} sm={3} lg={2}>
         {canShowListUnion() && (
           <Card>
             <TextField
@@ -68,6 +69,9 @@ export default function HeaderAction() {
             </TextField>
           </Card>
         )}
+      </Grid>
+      <Grid item xs={12} sm={3} style={{ margin: 'auto' }}>
+        <DayViewSelections />
       </Grid>
     </Grid>
   )

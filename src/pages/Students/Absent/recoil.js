@@ -25,6 +25,16 @@ export const AbsentUnionSelected = atom({
   default: undefined
 })
 
+export const SundaySelected = atom({
+  key: 'SundaySelected',
+  default: []
+})
+
+export const SundayVisible = atom({
+  key: 'SundayVisible',
+  default: []
+})
+
 export const ShowConfirmDialog = atom({
   key: 'ShowConfirmDialog',
   default: false
@@ -37,7 +47,7 @@ export const AbsentSelected = atom({
 
 export const ReloadAbsentStudentList = atom({
   key: 'ReloadAbsentStudentList',
-  default: 1
+  default: false
 })
 
 export const LoadStudentAbsent = selector({
