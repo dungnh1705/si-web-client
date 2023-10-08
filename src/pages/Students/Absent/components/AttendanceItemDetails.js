@@ -90,7 +90,7 @@ export default function ({ lstHolyName, SundayList, studentId }) {
   }, [reloadCountAbsents, studentInfo])
 
   const checkAbsentDatesOfStudentHasCoincideSundayDate = (sunday, absentDates) => {
-    const currentAbsents = absentDates?.filter(absent => moment.utc(absent.dateAbsent).date() === moment.utc(sunday).date())
+    const currentAbsents = absentDates?.filter(absent => moment.utc(absent.dateAbsent).isSame(moment.utc(sunday)))
 
     return [currentAbsents?.find(ab => ab.absentMode === AbsentMode.Mass) ?? null, currentAbsents?.find(ab => ab.absentMode === AbsentMode.Class) ?? null]
   }
