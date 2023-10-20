@@ -1,74 +1,81 @@
+import { Grid, Button } from '@material-ui/core'
+import { KeyboardArrowUp, KeyboardArrowDown, KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { useTheme } from '@material-ui/core/styles'
+
 import React from 'react'
-import { Grid, TextField, MenuItem, Button } from '@material-ui/core'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
 
-import ArrowForwardIos from '@material-ui/icons/ArrowForwardIos'
-
-import { toastState } from 'recoils/atoms'
-import { UnionQuery } from 'recoils/selectors'
-
-import { NewUnionIdSelected, StudentSelected, ReloadStudents } from '../recoil'
+import { StudentSelected, TypeSelected, ReloadStudents } from '../recoil'
+import { changeOptionEnum } from 'app/enums'
 import sessionHelper from 'utils/sessionHelper'
 import { doPost } from 'utils/axios'
 
-const Transition = () => {
-  const unions = useRecoilValue(UnionQuery)
+export default function Transition({ leftOption, rightOption }) {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
+  const typeSelected = useRecoilValue(TypeSelected)
   const setReloadStudents = useSetRecoilState(ReloadStudents)
+  const [studentIdsSelected, setStudentIdsSelected] = useRecoilState(StudentSelected)
 
-  const [newUnionId, setNewUnionId] = useRecoilState(NewUnionIdSelected)
-  const [studentIds, setStudentIds] = useRecoilState(StudentSelected)
-  const [toast, setToast] = useRecoilState(toastState)
+  const studentsLeftSide =
+    typeSelected === changeOptionEnum.Union ? studentIdsSelected.filter(stu => stu.union === leftOption) : studentIdsSelected.filter(stu => stu.team === leftOption)
+  const studentsRightSide =
+    typeSelected === changeOptionEnum.Union ? studentIdsSelected.filter(stu => stu.union === rightOption) : studentIdsSelected.filter(stu => stu.team === rightOption)
 
-  const handleChangeUnion = e => {
-    setNewUnionId(e.target.value)
-    setStudentIds([])
-  }
-
-  const handleButtonClick = async () => {
-    const { classId, userId, scholasticId } = sessionHelper()
-
-    const data = {
-      studentIds,
+  const sendData = async (destinationId, studentIdsMoved) => {
+    const { classId, userId, scholasticId, fullName: modifiedBy } = sessionHelper()
+    let api = 'student/'
+    let data = {
+      studentIds: studentIdsMoved,
       scholasticId,
       classId,
-      newUnionId,
+      modifiedBy,
       userId
+    }
+    if (typeSelected === changeOptionEnum.Union) {
+      data = { ...data, newUnionId: destinationId }
+      api += 'updateStudentsUnion'
+    } else {
+      data = { ...data, team: destinationId }
+      api += 'updateStudentTeam'
     }
 
     try {
-      const res = await doPost('student/updateStudentsUnion', data)
+      const res = await doPost(api, data)
       if (res && res.data.success) {
-        setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
-        setReloadStudents(reload => reload + 1)
+        const remainStudentIds = studentIdsSelected.filter(stu => !studentIdsMoved.includes(stu.stuId))
+        setStudentIdsSelected(remainStudentIds)
+        setReloadStudents(prev => prev + 1)
       }
-    } catch (err) {
-      setToast({ ...toast, open: true, message: err.message, type: 'error' })
-    } finally {
-    }
+    } catch (err) {}
+  }
+
+  const handleForwardButtonClick = async () => {
+    const destinationId = rightOption
+    const studentIds = studentsLeftSide.map(stu => stu.stuId)
+    await sendData(destinationId, studentIds)
+  }
+
+  const handleBackwardButtonClick = async () => {
+    const destinationId = leftOption
+    const studentIds = studentsRightSide.map(stu => stu.stuId)
+    await sendData(destinationId, studentIds)
   }
 
   return (
-    <Grid container item xs={12} alignContent="flex-start" spacing={2}>
-      <Grid item xs={12}>
-        <TextField variant="outlined" fullWidth select label="CĐ mới" onChange={handleChangeUnion}>
-          {unions?.map(union => {
-            return (
-              <MenuItem key={`new-union-${union.unionId}`} value={union.unionId}>
-                {union.unionCode}
-              </MenuItem>
-            )
-          })}
-        </TextField>
+    <Grid item container spacing={1} justifyContent="center" alignItems="center">
+      <Grid item xs={6} sm={6} lg={12} container justifyContent="center" alignItems="center">
+        <Button variant="contained" disabled={leftOption === rightOption || studentsLeftSide.length < 1 || rightOption === 0} onClick={handleForwardButtonClick}>
+          {isMobile ? <KeyboardArrowDown /> : <KeyboardArrowRight />}
+        </Button>
       </Grid>
-
-      <Grid container item xs={12} justifyContent="center">
-        <Button size="large" color="primary" variant="contained" onClick={handleButtonClick} disabled={!newUnionId || studentIds.length === 0}>
-          <ArrowForwardIos />
+      <Grid item xs={6} sm={6} lg={12} container justifyContent="center" alignItems="center">
+        <Button variant="contained" disabled={rightOption === leftOption || studentsRightSide.length < 1 || leftOption === 0} onClick={handleBackwardButtonClick}>
+          {isMobile ? <KeyboardArrowUp /> : <KeyboardArrowLeft />}
         </Button>
       </Grid>
     </Grid>
   )
 }
-
-export default Transition

@@ -1,32 +1,23 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { Grid } from '@material-ui/core'
 
-import CardSkeleton from 'components/Loading/card-skeleton'
+import { useRecoilValue } from 'recoil'
+import { TypeSelected } from './recoil'
+import { changeOptionEnum } from 'app/enums'
 
-import Students from './components/Students'
-import Transition from './components/Transition'
-import Destination from './components/Destination'
+import HeaderAction from './components/HeaderAction'
+import ChangeTeam from './ChangeTeam/ChangeTeam'
+import ChangeUnion from './ChangeUnion/ChangeUnion'
 
 const ChangeStudentUnion = () => {
+  const typeSelected = useRecoilValue(TypeSelected)
   return (
     <Grid container spacing={2}>
-      <Grid container item spacing={2} xs={12} md={5}>
-        <Suspense fallback={<CardSkeleton />}>
-          <Students />
-        </Suspense>
-      </Grid>
+      <HeaderAction key={'Header action'} />
 
-      <Grid container item spacing={2} xs={12} md={2} justifyContent="center">
-        <Suspense fallback={<>Tải danh sách Chi đoàn ...</>}>
-          <Transition />
-        </Suspense>
-      </Grid>
+      {typeSelected === changeOptionEnum.Team && <ChangeTeam key={'change Team'} />}
 
-      <Grid container item spacing={2} xs={12} md={5}>
-        <Suspense fallback={<CardSkeleton />}>
-          <Destination />
-        </Suspense>
-      </Grid>
+      {typeSelected === changeOptionEnum.Union && <ChangeUnion key={'change Union'} />}
     </Grid>
   )
 }
