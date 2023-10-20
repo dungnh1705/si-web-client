@@ -16,9 +16,49 @@ export const NewUnionIdSelected = atom({
   default: undefined
 })
 
+export const ActiveButton = atom({
+  key: 'activeButton',
+  default: 0
+})
+
+export const ActiveStep = atom({
+  key: 'activeStep',
+  default: 0
+})
+
 export const StudentSelected = atom({
   key: 'studentSelected',
   default: []
+})
+
+export const TypeSelected = atom({
+  key: 'typeSelected',
+  default: 0
+})
+
+export const UnionSelected = atom({
+  key: 'unionSelected',
+  default: 0
+})
+
+export const UnionLeftSide = atom({
+  key: 'UnionIdLeftSide',
+  default: 1
+})
+
+export const TeamLeftSide = atom({
+  key: 'TeamIdLeftSide',
+  default: 0
+})
+
+export const UnionRightSide = atom({
+  key: 'unionIdRightSide',
+  default: 1
+})
+
+export const TeamRightSide = atom({
+  key: 'TeamRightSide',
+  default: 0
 })
 
 export const StudentsQuery = selector({

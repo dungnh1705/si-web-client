@@ -147,3 +147,8 @@ export const totalAbsentsColorEnum = {
   'warning': 300,
   'out': 300,
 }
+
+export const changeOptionEnum = {
+  'Union': 1,
+  'Team': 2,
+}
