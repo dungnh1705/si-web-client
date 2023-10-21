@@ -342,7 +342,13 @@ export const StudentDialog = () => {
                 </FormGroup>
               </FormControl>
             </Grid>
+            
+            <Grid item xs={12} lg={6} hidden={!formData.values['isDisability']}>
+              <ShortTextField formik={formData} name="specialInfo" label="Thông tin đặc biệt" maxLength={250} readOnly={!isEdit}/>
+            </Grid>
 
+            <Grid item lg={6} hidden={!formData.values['isDisability']}></Grid>
+            
             <Grid item xs={12} sm={6} md={3} lg={2}>
               <TextField
                 fullWidth
