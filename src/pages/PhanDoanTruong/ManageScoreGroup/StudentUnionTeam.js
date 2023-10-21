@@ -11,7 +11,7 @@ import { SemesterSelected, TeamScoreSelected } from 'pages/PhanDoanTruong/Manage
 import StudentUnionTeamBody from './StudentUnionTeamBody'
 
 const columns = [
-  { id: 1, label: 'Miệng', align: 'center' },
+  //{ id: 1, label: 'Miệng', align: 'center' },
   {
     id: 2,
     label: '15\u0027',
@@ -107,7 +107,7 @@ const StudentUnionTeam = ({ team, totalStudents }) => {
               <th rowSpan="3" align="left" className={styleClass.pinCell}>
                 Tên Thánh, Họ và Tên
               </th>
-              <th colSpan={semester !== SemesterEnum.total ? 6 : 4} style={{ textAlign: 'center' }}>
+              <th colSpan={semester !== SemesterEnum.total ? 5 : 4} style={{ textAlign: 'center' }}>
                 Học tập
               </th>
               <th colSpan="4" style={{ textAlign: 'center' }}>
