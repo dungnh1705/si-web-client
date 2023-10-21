@@ -6,7 +6,7 @@ import { GetUnionTeamsInfoSelector } from 'pages/PhanDoanTruong/ManageScoreGroup
 
 const StudentUnion = () => {
   const teams = useRecoilValue(GetUnionTeamsInfoSelector)
-
+console.log(teams)
   return (
     <>
       {teams?.map(item => (

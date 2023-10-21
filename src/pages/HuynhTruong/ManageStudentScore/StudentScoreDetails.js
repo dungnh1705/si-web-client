@@ -142,7 +142,7 @@ const StudentScoreDetails = ({ student }) => {
 
   return (
     <>
-      <Grid item xs={2} sm={3}>
+      {/* <Grid item xs={2} sm={3}>
         <TextField
           {...TextField_Props('oldTest', `Miệng`, 3)}
           type="text"
@@ -151,7 +151,7 @@ const StudentScoreDetails = ({ student }) => {
           }}
           onBlur={saveScores}
         />
-      </Grid>
+      </Grid> */}
       <Grid item xs={2} sm={3}>
         <TextField
           {...TextField_Props('fifteenTest', `15'`, 3)}

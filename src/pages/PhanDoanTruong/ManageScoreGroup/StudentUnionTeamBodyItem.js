@@ -163,9 +163,9 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
             </Hidden>
             {student.firstName} {student.lastName}
           </td>
-          <td>
+          {/* <td>
             <ScoreTextField value={student.score?.oldTest} handleSave={handleSaveScore} name="oldTest" isNumber minWidth="80px" />
-          </td>
+          </td> */}
           <td>
             <ScoreTextField value={student.score?.fifteenTest} handleSave={handleSaveScore} name="fifteenTest" isNumber minWidth="80px" />
           </td>

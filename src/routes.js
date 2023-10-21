@@ -232,7 +232,7 @@ export default [
         exact: true,
         component: () => (
           <Suspense fallback={<PageSkeleton />}>
-            <ManageStudentScore />
+            <ManageStudentScore />.
           </Suspense>
         )
       },
