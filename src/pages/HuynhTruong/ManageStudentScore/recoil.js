@@ -1,4 +1,4 @@
-import { atom, selector,selectorFamily } from 'recoil'
+import { atom, selector, selectorFamily } from 'recoil'
 import _ from 'lodash'
 import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
@@ -9,20 +9,19 @@ export const ReloadStudentList = atom({
   default: 0
 })
 
-export const StudentListQuery = selector({ 
+export const StudentListQuery = selector({
   key: 'studentListState',
   get: async ({ get }) => {
     get(ReloadStudentList)
     const { classId, scholasticId, unionId } = sessionHelper()
     //
-   
 
     try {
-      var res = await doGet(`student/getStudentInClass`, { classCode: classId, unionId: unionId })
+      const res = await doGet(`student/getStudentInClass`, { classCode: classId, unionId: unionId })
       if (res && res.data.success && res.data.data) {
         const distinctTeam = [...new Set(res.data.data.map(x => x.studentClass.find(sc => Number(sc.classId) === Number(classId)).team))]
         const lstStudent = []
-        console.log(distinctTeam);
+        console.log(distinctTeam)
         for (const t of distinctTeam) {
           if (t !== 0) lstStudent.push({ team: t, students: [] })
         }
@@ -54,43 +53,48 @@ export const WorkingSemester = atom({
   key: 'workingSemester',
   default: SemesterEnum.semesterOne
 })
-//
-export const GetTeamsInfoSelector = selector({
-  get: async ({ get }) => {
-    // const unionId = get(UnionScoreSelected)
-    // const { classId } = sessionHelper()
-    const  { classId, scholasticId, unionId } = sessionHelper();
 
-    if (unionId) {
-      const res = await doGet(`class/getTeamsInUnion`, { classId, unionId })
-      if (res && res.data.success) {
-        const { data } = res.data
-        return data
-      }
+export const GetTeamsInfoSelector = selector({
+  key: 'GetTeamsInfoSelector',
+  get: async () => {
+    const { classId, unionId } = sessionHelper()
+
+    const res = await doGet(`class/getTeamsInUnion`, { classId, unionId })
+    if (res && res.data.success) {
+      const { data } = res.data
+      return data
     }
-    return null
+
+    return []
   }
 })
 
-//
 export const TeamScoreSelected = atom({
   key: 'TeamScoreSelected',
   default: []
 })
+
 export const SemesterSelected = atom({
   key: 'semesterSelected',
   default: 301
 })
+
 export const StudentScoreInUnionSelector = selector({
   key: 'StudentScoreInUnionSelector',
   get: async ({ get }) => {
-    
     //const unionId = get(UnionScoreSelected)
     const semesterCode = get(SemesterSelected)
 
-    const { scholasticId, classId, userId,unionId } = sessionHelper()
-  
-    const res = await doGet(`student/getScoreByUnionId`, { scholasticId, userId, classId, getAttendance: true, unionId, semesterCode })
+    const { scholasticId, classId, userId, unionId } = sessionHelper()
+
+    const res = await doGet(`student/getScoreByUnionId`, {
+      scholasticId,
+      userId,
+      classId,
+      getAttendance: true,
+      unionId,
+      semesterCode
+    })
     if (res && res.data.success) {
       const { data } = res.data
       return data.reduce((group, stu) => {
@@ -104,10 +108,12 @@ export const StudentScoreInUnionSelector = selector({
     return null
   }
 })
+
 export const UnionScoreSelected = atom({
   key: 'UnionScoreSelected',
   default: undefined
 })
+
 export const StudentScoreInTeamSelector = selectorFamily({
   key: 'StudentScoreInTeamSelector',
   get:

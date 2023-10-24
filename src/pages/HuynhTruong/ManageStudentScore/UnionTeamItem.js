@@ -1,60 +1,5 @@
-// import React from 'react'
-// import { useRecoilState, useRecoilValue } from 'recoil'
-
-// import { StudentStatus } from 'app/enums'
-// import { HolyNameQuery } from 'recoils/selectors'
-
-// import StudentTeamItemDetails from './StudentTeamItemDetails'
-// import { ShowDetail } from './recoil'
-
-// const StudentTeamItem = ({ student }) => {
-//   const [showDetail, setShowDetail] = useRecoilState(ShowDetail)
-//   const lstHolyname = useRecoilValue(HolyNameQuery)
-
-//   const openDetail = code => {
-//     setShowDetail([...showDetail, code])
-//   }
-
-//   const closeDetail = code => {
-//     setShowDetail(showDetail.filter(i => i !== code))
-//   }
-
-//   const handleClickRow = e => {
-//     e.preventDefault()
-
-//     if (student.status !== StudentStatus.ChangeChurch && student.status !== StudentStatus.LeaveStudy)
-//       showDetail.some(d => d === student.stuCode) ? closeDetail(student.stuCode) : openDetail(student.stuCode)
-//   }
-
-//   return (
-//     <>
-//       <tr style={{ cursor: 'pointer' }} onClick={handleClickRow}>
-//         <td>{student.stuCode}</td>
-//         <td>
-//           {lstHolyname.find(h => h.id === student.stuHolyId).name} {student.stuFirstName} {student.stuLastName}
-//         </td>
-//         <td>
-//           {student.note}
-//           {student.status === StudentStatus.ChangeChurch && <span className="badge badge-danger">Chuyển xứ</span>}
-//           {student.status === StudentStatus.LeaveStudy && <span className="badge badge-warning">Nghỉ luôn</span>}
-//         </td>
-//       </tr>
-//       {showDetail.some(d => d === student.stuCode) && (
-//         <tr style={{ backgroundColor: 'white' }}>
-//           <td colSpan={7}>
-//             <StudentTeamItemDetails student={student} key={student.stuCode + 1} />
-//           </td>
-//         </tr>
-//       )}
-//     </>
-//   )
-// }
-
-// export default StudentTeamItem
-
-//
 import StudentTeamItemDetails from './StudentTeamItemDetails'
-//
+
 import { Card, Grid, Tooltip, IconButton, Divider, Table, makeStyles } from '@material-ui/core'
 import React, { useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
@@ -62,39 +7,9 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
-import { SemesterEnum } from 'app/enums'
+import { ScoreFormTitle, SemesterEnum } from 'app/enums'
 
 import { SemesterSelected, TeamScoreSelected } from './recoil'
-import StudentUnionTeamBody from 'pages/PhanDoanTruong/ManageScoreGroup/StudentUnionTeamBody'
-
-const columns = [
-  //{ id: 1, label: 'Miệng', align: 'center' },
-  {
-    id: 2,
-    label: '15\u0027',
-    align: 'center'
-  },
-  {
-    id: 3,
-    label: '1 tiết',
-    align: 'center'
-  },
-  {
-    id: 4,
-    label: 'HK',
-    align: 'center'
-  },
-  {
-    id: 5,
-    label: 'TB HK',
-    align: 'center'
-  },
-  {
-    id: 6,
-    label: 'Xếp loại',
-    align: 'center'
-  }
-]
 
 const columnsTotal = [
   { id: 1, label: 'TB HKI', align: 'center' },
@@ -122,7 +37,7 @@ const useStyle = makeStyles({
   }
 })
 
-const StudentTeamItem = ({ team, totalStudents }) => {
+const UnionTeamItem = ({ team, totalStudents, form }) => {
   const styleClass = useStyle()
   const [collapse, setCollapse] = useState(true)
 
@@ -132,6 +47,21 @@ const StudentTeamItem = ({ team, totalStudents }) => {
   function handleClickTeam() {
     setTeamSelected(items => [...new Set([...items, team])])
     setCollapse(!collapse)
+  }
+
+  const columns = () => {
+    const scoreForm = JSON.parse(form)
+    const result = []
+
+    scoreForm.map((item, index) =>
+      result.push({
+        id: index + 1,
+        label: ScoreFormTitle[item.label],
+        align: 'center'
+      })
+    )
+
+    return result
   }
 
   return (
@@ -184,7 +114,7 @@ const StudentTeamItem = ({ team, totalStudents }) => {
             </tr>
             <tr>
               {semester !== SemesterEnum.total &&
-                columns.map(column => (
+                columns().map(column => (
                   <th key={column.id} align={column.align} style={{ minWidth: column.minWidth }} rowSpan="2">
                     {column.label}
                   </th>
@@ -218,5 +148,4 @@ const StudentTeamItem = ({ team, totalStudents }) => {
   )
 }
 
-export default StudentTeamItem
-
+export default UnionTeamItem
