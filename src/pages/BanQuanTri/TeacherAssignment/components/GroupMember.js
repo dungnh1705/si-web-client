@@ -27,7 +27,7 @@ export default function GroupMember({ info }) {
   })
 
   const assignmentForm = useFormik({
-    initialValues: assignments,
+    initialValues: assignments.filter(item => item.id !== info.leaderId),
     validationSchema: Yup.object({}),
     validateOnChange: true,
     validateOnMount: true,
