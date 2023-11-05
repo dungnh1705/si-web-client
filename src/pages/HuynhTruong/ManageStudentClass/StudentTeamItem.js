@@ -32,7 +32,7 @@ const StudentTeamItem = ({ student, team, viewAbsentMode, index }) => {
     const newTeam = e.target.value
     try {
       const res = await doPost(`student/updateStudentTeam`, {
-        studentId: student.id,
+        studentIds: [student.id],
         classId: sessionHelper().classId,
         team: newTeam
       })
@@ -104,10 +104,9 @@ const StudentTeamItem = ({ student, team, viewAbsentMode, index }) => {
     <tr className={`align-items-center tr__active tr-student ${findClassName(student)}`}>
       {viewMode === ViewModes.XepDoi && (
         <Fragment>
-          <td className='td-center'>
-            <Select labelId='demo-simple-select-label' id='demo-simple-select' value={team} onChange={handleChange}
-                    disabled={checkDisabled(student.status)}>
-              <MenuItem value='0' key='team-disabled' disabled>
+          <td className="td-center">
+            <Select labelId="demo-simple-select-label" id="demo-simple-select" value={team} onChange={handleChange} disabled={checkDisabled(student.status)}>
+              <MenuItem value="0" key="team-disabled" disabled>
                 N/A
               </MenuItem>
               {lstTeam?.map(i => {
@@ -119,12 +118,11 @@ const StudentTeamItem = ({ student, team, viewAbsentMode, index }) => {
               })}
             </Select>
           </td>
-          <td className='td-center'>{index}</td>
+          <td className="td-center">{index}</td>
         </Fragment>
       )}
-      <td onClick={handleRowClick} className='td-student'>
-        {student?.studentClass?.find(sl => sl.classId === Number(sessionHelper().classId))?.isTeamLead &&
-          <span className='td-student__team-leader' />}
+      <td onClick={handleRowClick} className="td-student">
+        {student?.studentClass?.find(sl => sl.classId === Number(sessionHelper().classId))?.isTeamLead && <span className="td-student__team-leader" />}
         <Typography>
           {lstHolyName.find(h => h.id === student.stuHolyId).name}
           <br />
@@ -132,9 +130,9 @@ const StudentTeamItem = ({ student, team, viewAbsentMode, index }) => {
         </Typography>
       </td>
       <td>
-        {student.status === StudentStatus.ChangeChurch && <span className='badge badge-danger'>Chuyển xứ</span>}
-        {student.status === StudentStatus.LeaveStudy && <span className='badge badge-warning'>Nghỉ luôn</span>}
-        {student.studentClass[0].stayInClass && <span className='badge badge-dark'>Ở lại lớp</span>}
+        {student.status === StudentStatus.ChangeChurch && <span className="badge badge-danger">Chuyển xứ</span>}
+        {student.status === StudentStatus.LeaveStudy && <span className="badge badge-warning">Nghỉ luôn</span>}
+        {student.studentClass[0].stayInClass && <span className="badge badge-dark">Ở lại lớp</span>}
       </td>
       {/*<td className='td-center'>*/}
       {/*  {team !== 0 && viewMode === ViewModes.DiemDanh && viewAbsentMode === AbsentMode.Mass && (*/}
