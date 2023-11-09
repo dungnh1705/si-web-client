@@ -38,16 +38,17 @@ export default function HeaderAction() {
     handleClose()
   }
 
-  const handleDownloadExcel = (e, semesterCode) => {
+  const handleDownloadExcel = async (e, semesterCode) => {
     e.preventDefault()
     const params = {
       ScholasticId: sessionHelper().scholasticId,
       ClassId: sessionHelper().classId,
       SemesterCode: semesterCode,
-      UnionId: sessionHelper().unionId
+      UnionId: sessionHelper().unionId,
+      GroupId: sessionHelper().groupId
     }
 
-    doDownload('file/getScoreCSV', params)
+    await doDownload('file/getScoreCSV', params)
     handleClose()
   }
 

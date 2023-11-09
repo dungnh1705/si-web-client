@@ -43,9 +43,10 @@ export const ChooseFileDialog = () => {
       fromData.append('ScholasticId', sessionHelper().scholasticId)
       fromData.append('UserFullName', `${sessionHelper().firstName} ${sessionHelper().lastName}`)
       fromData.append('Semester', semester)
-      fromData.append('IsLeader', pageCall === 'HT-StudentScore' ? false : true)
+      // fromData.append('IsLeader', pageCall !== 'HT-StudentScore')
+      fromData.append('GroupId', sessionHelper().groupId)
 
-      var res = await doPost(`file/uploadScoreFile`, fromData)
+      const res = await doPost(`file/uploadScoreFile`, fromData)
       if (res && res.data.success) {
         handleClose()
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
