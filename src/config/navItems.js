@@ -20,9 +20,7 @@ import { Download, DownloadCloud } from 'react-feather'
 const functions = [
   { label: 'Thông tin chung', icon: DashboardTwoToneIcon, to: '/Dashboard' },
   { label: 'Xem báo cáo', icon: PollTwoToneIcon, to: '/Report' },
-  { label: 'Tải biểu mẫu', role: Roles.PhanDoanTruong, icon: Download, to: '/Form' },
-  { label: 'Tải biểu mẫu', role: Roles.HuynhTruong, icon: Download, to: '/Form' },
-  { label: 'Tải biểu mẫu', role: Roles.DuTruong, icon: Download, to: '/Form' },
+  { label: 'Tải biểu mẫu', icon: Download, to: '/Form' },
   {
     role: Roles.BanDieuHanh,
     label: 'Ban điều hành',

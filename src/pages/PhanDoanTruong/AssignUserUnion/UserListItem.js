@@ -5,7 +5,7 @@ import StyledCheckbox from 'components/UI/StyledCheckbox'
 
 import red from '@material-ui/core/colors/red'
 import ClearTwoToneIcon from '@material-ui/icons/ClearTwoTone'
-import sessionHelper from 'utils/sessionHelper'
+import sessionHelper, { setLocalStoreData } from 'utils/sessionHelper'
 import { doPost } from 'utils/axios'
 
 import { HolyNameQuery } from 'recoils/selectors'
@@ -47,6 +47,10 @@ const UserListItem = ({ assign }) => {
         setLoading(false)
         setReloadUsers(reload => reload + 1)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
+        if (assign.appUserId == sessionHelper().userId) {
+          setLocalStoreData('unionId', 1)
+          window.location.reload()
+        }
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.data.message, type: 'error' })
