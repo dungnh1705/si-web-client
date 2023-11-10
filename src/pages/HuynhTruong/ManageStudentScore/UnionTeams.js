@@ -10,6 +10,7 @@ const UnionTeams = () => {
   const teams = useRecoilValue(GetTeamsInfoSelector)
   const groupSettings = useRecoilValue(GroupSettingsQuery)
 
+
   return (
     <Fragment>
       {teams?.map(item => (

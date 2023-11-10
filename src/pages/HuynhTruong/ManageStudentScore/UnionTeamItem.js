@@ -97,14 +97,14 @@ const UnionTeamItem = ({ team, totalStudents, form }) => {
               <th colSpan={semester !== SemesterEnum.total ? 5 : 4} style={{ textAlign: 'center' }}>
                 Học tập
               </th>
-              <th colSpan="4" style={{ textAlign: 'center' }}>
-                Chuyên cần
-              </th>
               <th rowSpan="3" align="center">
                 Đạo đức
               </th>
               <th rowSpan="3" align="center">
                 Nhận xét đánh giá
+              </th>
+              <th colSpan="6" style={{ textAlign: 'center' }}>
+                Chuyên cần
               </th>
               {semester === SemesterEnum.total && (
                 <th rowSpan="3" align="center">
@@ -119,6 +119,13 @@ const UnionTeamItem = ({ team, totalStudents, form }) => {
                     {column.label}
                   </th>
                 ))}
+                   <th  rowSpan="2">
+                    Điểm trung bình
+                  </th>
+                  <th  rowSpan="2">
+                   Học Lực
+                  </th>
+
               {semester === SemesterEnum.total &&
                 columnsTotal.map(column => (
                   <th key={column.id} align={column.align} style={{ minWidth: column.minWidth }} rowSpan="2">
