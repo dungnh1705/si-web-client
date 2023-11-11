@@ -11,7 +11,6 @@ import { doGet, doPost } from 'utils/axios'
 
 import { SemesterSelected } from './recoil'
 import ScoreTextField from 'components/Controls/ScoreTextField'
-import { GroupSettingsQuery } from 'recoils/selectors'
 
 const useStyle = makeStyles({
   pinCell: {
@@ -197,12 +196,11 @@ const StudentTotalScoreDetails = ({ studentId }) => {
           <td align={'center'}>
             <ScoreTextField value={student.score?.average} handleSave={handleSaveScore} name="average" isNumber minWidth="50px" />
           </td>
-          <td>{student.score?.ranking}</td>
-
-          <td>
+          <td align={'center'}>{student.score?.ranking}</td>
+          <td align={'center'}>
             <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="80px" />
           </td>
-          <td>
+          <td align={'center'}>
             <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="100px" />
           </td>
           {/* Nghỉ học có phép */}

@@ -1,6 +1,6 @@
 import StudentTeamItemDetails from './StudentTeamItemDetails'
 
-import { Card, Grid, Tooltip, IconButton, Divider, Table, makeStyles } from '@material-ui/core'
+import { Card, Grid, Tooltip, IconButton, Divider, Table, makeStyles, Hidden } from '@material-ui/core'
 import React, { Fragment, useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
@@ -92,7 +92,11 @@ const UnionTeamItem = ({ team, totalStudents, defaultScoreForm }) => {
           <thead>
             <tr>
               <th rowSpan="3" align="left" className={styleClass.pinCell}>
-                Tên Thánh, Họ và Tên
+                Tên Thánh,&nbsp;
+                <Hidden mdUp>
+                  <br />
+                </Hidden>
+                Họ và Tên
               </th>
               <th colSpan={semester !== SemesterEnum.total ? columns().length + 2 : 4} style={{ textAlign: 'center' }}>
                 Học tập
