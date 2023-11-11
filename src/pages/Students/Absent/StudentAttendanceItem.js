@@ -14,13 +14,6 @@ const StudentAttendanceItem = ({ studentIds }) => {
       {studentIds.map(id => (
         <AttendanceItemDetails SundayList={sundayVisible} lstHolyName={lstHolyName} studentId={id} key={`item-details-${id}`} />
       ))}
-      {/*{showDetail.some(d => d === student.stuCode) && (*/}
-      {/*  <tr style={{ backgroundColor: 'white' }}>*/}
-      {/*    <td colSpan={7}>*/}
-      {/*      <StudentTeamItemDetails student={student} key={student.stuCode + 1} />*/}
-      {/*    </td>*/}
-      {/*  </tr>*/}
-      {/*)}*/}
     </Fragment>
   )
 }
