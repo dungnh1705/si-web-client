@@ -1,5 +1,4 @@
-//
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import red from '@material-ui/core/colors/red'
 import { makeStyles, Hidden } from '@material-ui/core'
@@ -12,6 +11,7 @@ import { doGet, doPost } from 'utils/axios'
 
 import { SemesterSelected } from './recoil'
 import ScoreTextField from 'components/Controls/ScoreTextField'
+import { GroupSettingsQuery } from 'recoils/selectors'
 
 const useStyle = makeStyles({
   pinCell: {
@@ -32,11 +32,6 @@ const useStyle = makeStyles({
     }
   }
 })
-const scoreForm = [
-  { key: 'FifteenTest', label: 'FifteenTest', require: false, value: '9', coefficient: 1 },
-  { key: 'LessonTest', label: 'LessonTest', require: false, value: '5', coefficient: 2 },
-  { key: 'SemesterTest', label: 'SemesterTest', require: false, value: '8', coefficient: 3 }
-]
 
 const StudentTotalScoreDetails = ({ studentId }) => {
   const classStyle = useStyle()
@@ -47,10 +42,10 @@ const StudentTotalScoreDetails = ({ studentId }) => {
 
   const semester = useRecoilValue(SemesterSelected)
   const [toast, setToast] = useRecoilState(toastState)
+
   const handleRowClick = e => {
     console.log(e)
     e.preventDefault()
-    
   }
 
   const handleCheckUpClass = async e => {
@@ -104,16 +99,25 @@ const StudentTotalScoreDetails = ({ studentId }) => {
   async function handleSaveScore(name, newVal) {
     const { firstName, lastName, scholasticId } = sessionHelper()
     const avg = name === 'average' ? (newVal === 0 || !newVal ? null : newVal) : null
-    // let newForm = [
-    //   { key: 'FifteenTest', label: 'FifteenTest', require: false, value: '9', coefficient: 1 },
-    //   { key: 'LessonTest', label: 'LessonTest', require: false, value: '5', coefficient: 2 },
-    //   { key: 'SemesterTest', label: 'SemesterTest', require: false, value: '8', coefficient: 3 }
-    // ]
 
-    let index= scoreForm.findIndex(x => x.key === name);
-    index >= 0 ?scoreForm[index]?.value = newVal:console.log('không tìm thấy '+ name)
-   
-    const newScore = { ...student.score, [name]: newVal, average: avg, userFullName: `${firstName} ${lastName}`, semesterCode: semester, studentId: student.id, scholasticId, scoreForm:newForm }
+    const oldScoreFrom = JSON.parse(student.score.scoreForm)
+    const newScoreForm = oldScoreFrom.map(item => {
+      if (item.key === name) {
+        return { ...item, value: newVal }
+      }
+      return item
+    })
+
+    const newScore = {
+      ...student.score,
+      [name]: newVal,
+      average: avg,
+      userFullName: `${firstName} ${lastName}`,
+      semesterCode: semester,
+      studentId: student.id,
+      scholasticId,
+      scoreForm: JSON.stringify(newScoreForm)
+    }
 
     try {
       const res = await doPost(`student/updateStudentScore`, newScore)
@@ -129,16 +133,22 @@ const StudentTotalScoreDetails = ({ studentId }) => {
 
   useEffect(() => {
     async function fetch() {
-      const { scholasticId } = sessionHelper()
+      const { scholasticId, groupId } = sessionHelper()
 
-      const res = await doGet('student/getStudentScoreInTeam', { studentId, semesterCode: semester, scholasticId })
+      const res = await doGet('student/getStudentScoreInTeam', {
+        studentId,
+        semesterCode: semester,
+        scholasticId,
+        groupId
+      })
       if (res && res.data.success) {
         const { data } = res.data
 
         setStudent({ ...student, ...data })
       }
     }
-    if (!student) fetch()
+
+    if (!student) fetch().finally()
   }, [])
 
   useEffect(() => {
@@ -160,12 +170,12 @@ const StudentTotalScoreDetails = ({ studentId }) => {
     }
 
     if (reload > 0) {
-      fetch()
+      fetch().finally()
     }
   }, [reload])
 
   return (
-    <>
+    <Fragment>
       {student && (semester === SemesterEnum.semesterOne || semester === SemesterEnum.semesterTwo) && (
         <tr
           className="tr__active"
@@ -179,31 +189,18 @@ const StudentTotalScoreDetails = ({ studentId }) => {
             </Hidden>
             {student.firstName} {student.lastName}
           </td>
-          {/* <td>
-            <ScoreTextField value={student.score?.oldTest} handleSave={handleSaveScore} name="oldTest" isNumber minWidth="80px" />
-          </td> */}
-
-          {/* <td>
-            <ScoreTextField value={student.score?.fifteenTest} handleSave={handleSaveScore} name="fifteenTest" isNumber minWidth="80px" />
-          </td>
-          <td>
-            <ScoreTextField value={student.score?.lessonTest} handleSave={handleSaveScore} name="lessonTest" isNumber minWidth="80px" />
-          </td>
-          <td>
-            <ScoreTextField value={student.score?.semesterTest} handleSave={handleSaveScore} name="semesterTest" isNumber minWidth="80px" />
-          </td> */}
-          {scoreForm.map(item => (
-            <td>
-              <ScoreTextField value={item.value} handleSave={handleSaveScore} name={item.key} isNumber minWidth="80px" />
+          {JSON.parse(student.score?.scoreForm)?.map(item => (
+            <td key={`${student.id}-${item.key}`}>
+              <ScoreTextField value={item.value} handleSave={handleSaveScore} name={item.key} isNumber minWidth="50px" />
             </td>
           ))}
-          <td>
-            <ScoreTextField value={student.score?.average} handleSave={handleSaveScore} name="average" isNumber minWidth="80px" />
+          <td align={'center'}>
+            <ScoreTextField value={student.score?.average} handleSave={handleSaveScore} name="average" isNumber minWidth="50px" />
           </td>
           <td>{student.score?.ranking}</td>
 
           <td>
-            <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="100px" />
+            <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="80px" />
           </td>
           <td>
             <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="100px" />
@@ -261,7 +258,7 @@ const StudentTotalScoreDetails = ({ studentId }) => {
           </td>
         </tr>
       )}
-    </>
+    </Fragment>
   )
 }
 

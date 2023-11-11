@@ -10,11 +10,10 @@ const UnionTeams = () => {
   const teams = useRecoilValue(GetTeamsInfoSelector)
   const groupSettings = useRecoilValue(GroupSettingsQuery)
 
-
   return (
     <Fragment>
       {teams?.map(item => (
-        <UnionTeamItem team={item.team} totalStudents={item.totalStudents} key={`UnionTeam-${item.team}`} form={groupSettings?.scoreForm} />
+        <UnionTeamItem team={item.team} totalStudents={item.totalStudents} key={`UnionTeam-${item.team}`} defaultScoreForm={groupSettings?.scoreForm} />
       ))}
     </Fragment>
   )

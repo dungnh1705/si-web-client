@@ -1,7 +1,7 @@
 import StudentTeamItemDetails from './StudentTeamItemDetails'
 
 import { Card, Grid, Tooltip, IconButton, Divider, Table, makeStyles } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
@@ -37,7 +37,7 @@ const useStyle = makeStyles({
   }
 })
 
-const UnionTeamItem = ({ team, totalStudents, form }) => {
+const UnionTeamItem = ({ team, totalStudents, defaultScoreForm }) => {
   const styleClass = useStyle()
   const [collapse, setCollapse] = useState(true)
 
@@ -50,7 +50,7 @@ const UnionTeamItem = ({ team, totalStudents, form }) => {
   }
 
   const columns = () => {
-    const scoreForm = JSON.parse(form)
+    const scoreForm = JSON.parse(defaultScoreForm)
     const result = []
 
     scoreForm.map((item, index) =>
@@ -94,7 +94,7 @@ const UnionTeamItem = ({ team, totalStudents, form }) => {
               <th rowSpan="3" align="left" className={styleClass.pinCell}>
                 Tên Thánh, Họ và Tên
               </th>
-              <th colSpan={semester !== SemesterEnum.total ? 5 : 4} style={{ textAlign: 'center' }}>
+              <th colSpan={semester !== SemesterEnum.total ? columns().length + 2 : 4} style={{ textAlign: 'center' }}>
                 Học tập
               </th>
               <th rowSpan="3" align="center">
@@ -113,18 +113,21 @@ const UnionTeamItem = ({ team, totalStudents, form }) => {
               )}
             </tr>
             <tr>
-              {semester !== SemesterEnum.total &&
-                columns().map(column => (
-                  <th key={column.id} align={column.align} style={{ minWidth: column.minWidth }} rowSpan="2">
-                    {column.label}
+              {semester !== SemesterEnum.total && (
+                <Fragment>
+                  {columns().map(column => (
+                    <th key={column.id} align={column.align} style={{ minWidth: 50 }} rowSpan="2">
+                      {column.label}
+                    </th>
+                  ))}
+                  <th rowSpan="2" align="center">
+                    TB HK
                   </th>
-                ))}
-                   <th  rowSpan="2">
-                    Điểm trung bình
+                  <th rowSpan="2" align="center">
+                    Học Lực
                   </th>
-                  <th  rowSpan="2">
-                   Học Lực
-                  </th>
+                </Fragment>
+              )}
 
               {semester === SemesterEnum.total &&
                 columnsTotal.map(column => (
@@ -147,7 +150,7 @@ const UnionTeamItem = ({ team, totalStudents, form }) => {
             </tr>
           </thead>
           <tbody>
-            <StudentTeamItemDetails team={team} />
+            <StudentTeamItemDetails team={team} defaultScoreForm={defaultScoreForm} />
           </tbody>
         </Table>
       </div>
