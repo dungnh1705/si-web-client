@@ -67,15 +67,15 @@ export const UnionRegisterQuery = selectorFamily({
   key: 'UnionRegisterQuery',
   get:
     groupId =>
-      async ({ get }) => {
-        get(reloadListUnion)
-        const res = await doGet(`assignment/getUnionByGroupId`, { groupId })
+    async ({ get }) => {
+      get(reloadListUnion)
+      const res = await doGet(`assignment/getUnionByGroupId`, { groupId })
 
-        if (res && res.data.success) {
-          return _.orderBy(res.data.data, ['unionCode'], ['asc'])
-        }
-        return []
+      if (res && res.data.success) {
+        return _.orderBy(res.data.data, ['unionCode'], ['asc'])
       }
+      return []
+    }
 })
 
 export const TemplatesQuery = selector({
@@ -138,5 +138,16 @@ export const UserImageSelector = selector({
       return userAvatar?.url ?? ''
     }
     return ''
+  }
+})
+
+export const GroupSettingsQuery = selector({
+  key: 'GroupSettingsQuery',
+  get: async () => {
+    const { groupId } = sessionHelper()
+    if (!groupId) return undefined
+
+    const res = await doGet('setting/getGroupSettings', { groupId })
+    if (res && res.data.success) return res.data.data
   }
 })

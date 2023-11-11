@@ -33,9 +33,10 @@ const useStyle = makeStyles({
 })
 
 const StudentUnionTeamBodyItem = ({ studentId }) => {
-  const classStyle = useStyle()
+  const classStyle = useStyle()   
 
-  const [student, setStudent] = useState(undefined)
+
+        const [student, setStudent] = useState(undefined)
   const [reload, setReload] = useState(0)
   const [beUpClass, setBeUpClass] = useState(false)
 
@@ -178,6 +179,12 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
           <td>
             <ScoreTextField value={student.score?.average} handleSave={handleSaveScore} name="average" isNumber minWidth="80px" />
           </td>
+          <td>
+            <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="100px" />
+          </td>
+          <td>
+            <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="700px" />
+          </td>
           <td>{student.score?.ranking}</td>
           {/* Nghỉ học có phép */}
           <td>{sumAbsents().classHasPermission}</td>
@@ -187,12 +194,6 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
           <td>{sumAbsents().massHasPermission}</td>
           {/* Nghỉ lễ không phép */}
           <td>{sumAbsents().massNonPermission}</td>
-          <td>
-            <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="100px" />
-          </td>
-          <td>
-            <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="700px" />
-          </td>
         </tr>
       )}
 
@@ -217,6 +218,13 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
           <td>
             <ScoreTextField value={student.score?.avgTotal} handleSave={handleSaveScore} name="avgTotal" isNumber minWidth="80px" />
           </td>
+
+          <td>
+            <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="100px" />
+          </td>
+          <td>
+            <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="700px" />
+          </td>
           <td>{student.score?.ranking ?? ''}</td>
           {/* Nghỉ học có phép */}
           <td>{sumAbsents().classHasPermission}</td>
@@ -226,12 +234,6 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
           <td>{sumAbsents().massHasPermission}</td>
           {/* Nghỉ lễ không phép */}
           <td>{sumAbsents().massNonPermission}</td>
-          <td>
-            <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="100px" />
-          </td>
-          <td>
-            <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="700px" />
-          </td>
           <td>
             <StyledCheckbox checked={beUpClass} onClick={handleCheckUpClass} />
           </td>
