@@ -3,6 +3,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles'
 import FormControl from '@material-ui/core/FormControl'
 import NativeSelect from '@material-ui/core/NativeSelect'
 import InputBase from '@material-ui/core/InputBase'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import moment from 'moment'
 
@@ -55,17 +56,27 @@ const useStyles = makeStyles(theme => ({
 export default function ControlledOpenSelect({ Permission, date, dropdownAbsentMode, studentId, absentObj, handleReloadTotal }) {
   const classes = useStyles()
 
+  const TooltipProps = absentObj?.isCalculated ?
+    {
+      disableHoverListener: false,
+      disableFocusListener: false,
+      enterTouchDelay: 5,
+    } : {
+      disableHoverListener: true,
+      disableFocusListener: true,
+    }
+
   const [absentType, setAbsentType] = useState(absentTypeOptionsEnum.NoAbsent) // Manage state of absent mode before and after change
   const [selectedColor, setSelectedColor] = useState(absentTypeOptionsColorEnum[Permission.toString()])
   const [absentObjState, setAbsentObjState] = useState(absentObj)
 
-  async function updateAbsentObj () {
+  async function updateAbsentObj() {
     const { classId, scholasticId } = sessionHelper()
     const res = await doGet(`student/absents`, { studentId, classId, scholasticId })
 
-      if (res && res.data.success) {
-        setAbsentObjState(res.data.data?.absents.filter(absent => moment.utc(absent.dateAbsent).date() === moment.utc(date).date() && absent.absentMode === dropdownAbsentMode)[0])
-      }
+    if (res && res.data.success) {
+      setAbsentObjState(res.data.data?.absents.filter(absent => moment.utc(absent.dateAbsent).date() === moment.utc(date).date() && absent.absentMode === dropdownAbsentMode)[0])
+    }
   }
 
   const handleChange = async event => {
@@ -108,7 +119,7 @@ export default function ControlledOpenSelect({ Permission, date, dropdownAbsentM
       setAbsentType(selectedAttendanceOption)
       handleReloadTotal()
       updateAbsentObj()
-    } catch (err) {}
+    } catch (err) { }
   }
 
   useEffect(() => {
@@ -118,15 +129,17 @@ export default function ControlledOpenSelect({ Permission, date, dropdownAbsentM
   return (
     <>
       <FormControl className={classes.margin}>
-        <NativeSelect value={absentType} onChange={handleChange} input={<BootstrapInput />} style={{ color: selectedColor }}>
-          <option aria-label="None" value={absentTypeOptionsEnum.NoAbsent} />
-          <option value={absentTypeOptionsEnum.Permission} style={{ color: absentTypeOptionsColorEnum[absentTypeOptionsEnum.Permission] }}>
-            P
-          </option>
-          <option value={absentTypeOptionsEnum.NonPermission} style={{ color: absentTypeOptionsColorEnum[absentTypeOptionsEnum.NonPermission] }}>
-            KP
-          </option>
-        </NativeSelect>
+        <Tooltip title="Đã tính vào điểm chuyên cần, không thể thay đổi" {...TooltipProps}>
+          <NativeSelect value={absentType} onChange={handleChange} input={<BootstrapInput />} disabled={absentObj?.isCalculated} style={{ color: selectedColor }}>
+            <option aria-label="None" value={absentTypeOptionsEnum.NoAbsent} />
+            <option value={absentTypeOptionsEnum.Permission} style={{ color: absentTypeOptionsColorEnum[absentTypeOptionsEnum.Permission] }}>
+              P
+            </option>
+            <option value={absentTypeOptionsEnum.NonPermission} style={{ color: absentTypeOptionsColorEnum[absentTypeOptionsEnum.NonPermission] }}>
+              KP
+            </option>
+          </NativeSelect>
+        </Tooltip>
       </FormControl>
     </>
   )
