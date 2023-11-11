@@ -124,8 +124,8 @@ export const RegisterMode = {
 }
 
 export const absentTypeOptionsColorEnum = {
-  '0': 'red',
-  '1': 'green',
+  0: 'red',
+  1: 'green',
   '-1': 'black'
 }
 
@@ -142,13 +142,23 @@ export const saveAbsentDataModeEnum = {
 }
 
 export const totalAbsentsColorEnum = {
-  'normal': 'inherit',
-  'alarm': 200,
-  'warning': 300,
-  'out': 300,
+  normal: 'inherit',
+  alarm: 200,
+  warning: 300,
+  out: 300
 }
 
 export const changeOptionEnum = {
-  'Union': 1,
-  'Team': 2,
+  Union: 1,
+  Team: 2
+}
+
+export const ScoreFormTitle = {
+  FifteenTest: '15\u0027',
+  LessonTest: '1 tiết',
+  SemesterTest: 'HK',
+  Average: 'TB',
+  Morality: 'Đạo đức',
+  Comment: 'Nhận xét',
+  Ranking: 'Xếp loại'
 }

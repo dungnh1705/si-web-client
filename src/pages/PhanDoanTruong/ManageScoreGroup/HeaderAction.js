@@ -39,7 +39,7 @@ export default function HeaderAction() {
     setExpandDownloadDoc(false)
   }
 
-  const handleDownloadExcel = (e, semesterCode) => {
+  const handleDownloadExcel = async (e, semesterCode) => {
     e.preventDefault()
     handleClose()
 
@@ -47,10 +47,11 @@ export default function HeaderAction() {
       scholasticId: sessionHelper().scholasticId,
       classId: sessionHelper().classId,
       userId: sessionHelper().userId,
-      semester: semesterCode
+      semester: semesterCode,
+      groupId: sessionHelper().groupId
     }
 
-    return doDownload('file/getGroupScoreCSV', params)
+    await doDownload('file/getGroupScoreCSV', params)
   }
 
   const handleUploadExcel = () => {

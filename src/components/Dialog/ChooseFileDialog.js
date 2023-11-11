@@ -6,8 +6,8 @@ import ButtonLoading from 'components/UI/ButtonLoading'
 import { doPost } from 'utils/axios'
 import { toastState } from 'recoils/atoms'
 import sessionHelper from 'utils/sessionHelper'
-import { ReloadStudentList } from 'pages/HuynhTruong/ManageStudentScore/recoil'
-import { ReloadGroupScore } from 'pages/PhanDoanTruong/ManageScoreGroup/recoil'
+// import { ReloadStudentList } from 'pages/HuynhTruong/ManageStudentScore/recoil'
+// import { ReloadGroupScore } from 'pages/PhanDoanTruong/ManageScoreGroup/recoil'
 import { SemesterEnum } from 'app/enums'
 
 import { ChooseFileDialogAtom } from './recoil'
@@ -16,8 +16,8 @@ export const ChooseFileDialog = () => {
   const [dialog, setDialog] = useRecoilState(ChooseFileDialogAtom)
   const [toast, setToast] = useRecoilState(toastState)
 
-  const setReloadScoreClass = useSetRecoilState(ReloadStudentList)
-  const setReloadScoreGroup = useSetRecoilState(ReloadGroupScore)
+  // const setReloadScoreClass = useSetRecoilState(ReloadStudentList)
+  // const setReloadScoreGroup = useSetRecoilState(ReloadGroupScore)
 
   const [loading, setLoading] = useState(false)
   const [file, setFile] = useState(undefined)
@@ -43,14 +43,16 @@ export const ChooseFileDialog = () => {
       fromData.append('ScholasticId', sessionHelper().scholasticId)
       fromData.append('UserFullName', `${sessionHelper().firstName} ${sessionHelper().lastName}`)
       fromData.append('Semester', semester)
-      fromData.append('IsLeader', pageCall === 'HT-StudentScore' ? false : true)
+      // fromData.append('IsLeader', pageCall !== 'HT-StudentScore')
+      fromData.append('GroupId', sessionHelper().groupId)
 
-      var res = await doPost(`file/uploadScoreFile`, fromData)
+      const res = await doPost(`file/uploadScoreFile`, fromData)
       if (res && res.data.success) {
         handleClose()
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
-        if (pageCall === 'HT-StudentScore') setReloadScoreClass(reload => reload + 1)
-        if (pageCall === 'PDT-StudentGroupScore') setReloadScoreGroup(reload => reload + 1)
+        // if (pageCall === 'HT-StudentScore') setReloadScoreClass(reload => reload + 1)
+        // if (pageCall === 'PDT-StudentGroupScore') setReloadScoreGroup(reload => reload + 1)
+        window.location.reload()
       } else {
         setToast({ ...toast, open: true, message: res.data.message, type: 'error' })
       }

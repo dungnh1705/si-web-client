@@ -15,7 +15,7 @@ export default {
   },
 
   calculateAvgScore(workingSemester, oldVal, newVal) {
-    // console.log({ ...oldVal })
+     console.log({ ...oldVal })
     const pointDivide = workingSemester === SemesterEnum.semesterOne ? s1PointDivide : workingSemester === SemesterEnum.semesterTwo ? s2PointDivide : 7
 
     return newVal && Number(newVal.average) === Number(oldVal.average)
