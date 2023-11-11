@@ -227,7 +227,7 @@ const StudentTotalScoreDetails = ({ studentId }) => {
             {student.firstName} {student.lastName}
           </td>
           <td>
-            <ScoreTextField value={student.score?.avgSemesterOne} handleSave={handleSaveScore} name="avgSemesterOne" isNumber minWidth="80px" />
+            <ScoreTextField style={{ textAlign: 'center' }} value={student.score?.avgSemesterOne} handleSave={handleSaveScore} name="avgSemesterOne" isNumber minWidth="80px" />
           </td>
           <td>
             <ScoreTextField value={student.score?.avgSemesterTwo} handleSave={handleSaveScore} name="avgSemesterTwo" isNumber minWidth="80px" />

@@ -39,5 +39,5 @@ export default function ScoreTextField(props) {
     setNewVal(value ?? '')
   }, [value])
 
-  return <TextField value={newVal} variant="outlined" style={{ minWidth: minWidth }} onChange={handleOnChange} onBlur={handleOnBlur} type="text" error={!isValid} />
+  return <TextField  InputProps={{inputProps: {style: { textAlign: "center" },}}} value={newVal} variant="outlined" style={{ minWidth: minWidth  }} onChange={handleOnChange} onBlur={handleOnBlur} type="text" error={!isValid} />
 }

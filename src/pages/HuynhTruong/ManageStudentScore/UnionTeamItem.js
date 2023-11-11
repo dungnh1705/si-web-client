@@ -101,17 +101,17 @@ const UnionTeamItem = ({ team, totalStudents, defaultScoreForm }) => {
               <th colSpan={semester !== SemesterEnum.total ? columns().length + 2 : 4} style={{ textAlign: 'center' }}>
                 Học tập
               </th>
-              <th rowSpan="3" align="center">
+              <th rowSpan="3" style={{ textAlign: 'center' }}>
                 Đạo đức
               </th>
-              <th rowSpan="3" align="center">
+              <th rowSpan="3" style={{ textAlign: 'center' }}>
                 Nhận xét đánh giá
               </th>
-              <th colSpan="6" style={{ textAlign: 'center' }}>
+              <th colSpan="4" style={{ textAlign: 'center' }}>
                 Chuyên cần
               </th>
               {semester === SemesterEnum.total && (
-                <th rowSpan="3" align="center">
+                <th rowSpan="3" style={{ textAlign: 'center' }}>
                   Lên lớp
                 </th>
               )}
@@ -120,14 +120,14 @@ const UnionTeamItem = ({ team, totalStudents, defaultScoreForm }) => {
               {semester !== SemesterEnum.total && (
                 <Fragment>
                   {columns().map(column => (
-                    <th key={column.id} align={column.align} style={{ minWidth: 50 }} rowSpan="2">
+                    <th key={column.id} align={column.align} style={{ minWidth: 50,textAlign: 'center' }} rowSpan="2">
                       {column.label}
                     </th>
                   ))}
-                  <th rowSpan="2" align="center">
+                  <th rowSpan="2" style={{ textAlign: 'center' }}>
                     TB HK
                   </th>
-                  <th rowSpan="2" align="center">
+                  <th rowSpan="2" style={{ textAlign: 'center' }}>
                     Học Lực
                   </th>
                 </Fragment>
@@ -147,10 +147,10 @@ const UnionTeamItem = ({ team, totalStudents, defaultScoreForm }) => {
               </th>
             </tr>
             <tr>
-              <th align="center">P</th>
-              <th align="center">KP</th>
-              <th align="center">P</th>
-              <th align="center">KP</th>
+              <th style={{ textAlign: 'center' }}>P</th>
+              <th style={{ textAlign: 'center' }}>KP</th>
+              <th style={{ textAlign: 'center' }}>P</th>
+              <th style={{ textAlign: 'center' }}>KP</th>
             </tr>
           </thead>
           <tbody>
