@@ -1,43 +1,45 @@
-import { Card, Grid, Tooltip, IconButton, Divider, Table, makeStyles } from '@material-ui/core'
-import React, { useState } from 'react'
+import { Card, Grid, Tooltip, IconButton, Divider, Table, makeStyles,Hidden } from '@material-ui/core'
+import React, { useState,Fragment } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
-import { SemesterEnum } from 'app/enums'
-
+import { ScoreFormTitle, SemesterEnum } from 'app/enums'
 import { SemesterSelected, TeamScoreSelected } from 'pages/PhanDoanTruong/ManageScoreGroup/recoil'
 import StudentUnionTeamBody from './StudentUnionTeamBody'
 
-const columns = [
-  //{ id: 1, label: 'Miệng', align: 'center' },
-  {
-    id: 2,
-    label: '15\u0027',
-    align: 'center'
-  },
-  {
-    id: 3,
-    label: '1 tiết',
-    align: 'center'
-  },
-  {
-    id: 4,
-    label: 'HK',
-    align: 'center'
-  },
-  {
-    id: 5,
-    label: 'TB HK',
-    align: 'center'
-  },
-  {
-    id: 6,
-    label: 'Xếp loại',
-    align: 'center'
-  }
-]
+// const columns = [
+//   //{ id: 1, label: 'Miệng', align: 'center' },
+//   {
+//     id: 2,
+//     label: '15\u0027',
+//     align: 'center'
+//   },
+//   {
+//     id: 3,
+//     label: '1 tiết',
+//     align: 'center'
+//   },
+//   {
+//     id: 4,
+//     label: 'HK',
+//     align: 'center'
+//   },
+//   {
+//     id: 5,
+//     label: 'TB HK',
+//     align: 'center'
+//   },
+//   {
+//     id: 6,
+//     label: 'Xếp loại',
+//     align: 'center'
+//   }
+// ]
+
+
+
 
 const columnsTotal = [
   { id: 1, label: 'TB HKI', align: 'center' },
@@ -65,13 +67,26 @@ const useStyle = makeStyles({
   }
 })
 
-const StudentUnionTeam = ({ team, totalStudents }) => {
+const StudentUnionTeam = ({ team, totalStudents,defaultScoreForm }) => {
   const styleClass = useStyle()
   const [collapse, setCollapse] = useState(true)
 
   const semester = useRecoilValue(SemesterSelected)
   const setTeamSelected = useSetRecoilState(TeamScoreSelected)
-
+  console.log(defaultScoreForm)
+  const columns = () => {
+  const scoreForm = JSON.parse(defaultScoreForm)
+  const result = []
+  
+    scoreForm.map((item, index) =>
+      result.push({
+        id: index + 1,
+        label: ScoreFormTitle[item.label],
+        align: 'center'
+      })
+    )
+    return result
+  }
   function handleClickTeam() {
     setTeamSelected(items => [...new Set([...items, team])])
     setCollapse(!collapse)
@@ -103,35 +118,49 @@ const StudentUnionTeam = ({ team, totalStudents }) => {
       <div className="table-responsive" hidden={collapse}>
         <Table stickyHeader aria-label="sticky table" className="table text-nowrap table-hover mb-0">
           <thead>
-            <tr>
+          <tr>
               <th rowSpan="3" align="left" className={styleClass.pinCell}>
-                Tên Thánh, Họ và Tên
+                Tên Thánh,&nbsp;
+                <Hidden mdUp>
+                  <br />
+                </Hidden>
+                Họ và Tên
               </th>
-              <th colSpan={semester !== SemesterEnum.total ? 5 : 4} style={{ textAlign: 'center' }}>
+              <th colSpan={semester !== SemesterEnum.total ? columns().length + 2 : 4} style={{ textAlign: 'center' }}>
                 Học tập
+              </th>
+              <th rowSpan="3" style={{ textAlign: 'center' }}>
+                Đạo đức
+              </th>
+              <th rowSpan="3" style={{ textAlign: 'center' }}>
+                Nhận xét đánh giá
               </th>
               <th colSpan="4" style={{ textAlign: 'center' }}>
                 Chuyên cần
               </th>
-              <th rowSpan="3" align="center">
-                Đạo đức
-              </th>
-              <th rowSpan="3" align="center">
-                Nhận xét đánh giá
-              </th>
               {semester === SemesterEnum.total && (
-                <th rowSpan="3" align="center">
+                <th rowSpan="3" style={{ textAlign: 'center' }}>
                   Lên lớp
                 </th>
               )}
             </tr>
             <tr>
-              {semester !== SemesterEnum.total &&
-                columns.map(column => (
-                  <th key={column.id} align={column.align} style={{ minWidth: column.minWidth }} rowSpan="2">
-                    {column.label}
+              {semester !== SemesterEnum.total && (
+                <Fragment>
+                  {columns().map(column => (
+                    <th key={column.id} align={column.align} style={{ minWidth: 50.}} rowSpan="2">
+                      {column.label}
+                    </th>
+                  ))}
+                  <th rowSpan="2" style={{ textAlign: 'center' }}>
+                    TB HK
                   </th>
-                ))}
+                  <th rowSpan="2" style={{ textAlign: 'center' }}>
+                    Học Lực
+                  </th>
+                </Fragment>
+              )}
+
               {semester === SemesterEnum.total &&
                 columnsTotal.map(column => (
                   <th key={column.id} align={column.align} style={{ minWidth: column.minWidth }} rowSpan="2">
@@ -146,10 +175,10 @@ const StudentUnionTeam = ({ team, totalStudents }) => {
               </th>
             </tr>
             <tr>
-              <th align="center">P</th>
-              <th align="center">KP</th>
-              <th align="center">P</th>
-              <th align="center">KP</th>
+              <th style={{ textAlign: 'center' }}>P</th>
+              <th style={{ textAlign: 'center' }}>KP</th>
+              <th style={{ textAlign: 'center' }}>P</th>
+              <th style={{ textAlign: 'center' }}>KP</th>
             </tr>
           </thead>
           <tbody>

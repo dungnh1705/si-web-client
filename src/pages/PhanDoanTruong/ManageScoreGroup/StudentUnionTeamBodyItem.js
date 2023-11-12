@@ -114,9 +114,9 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
 
   useEffect(() => {
     async function fetch() {
-      const { scholasticId } = sessionHelper()
+      const { scholasticId,groupId } = sessionHelper()
 
-      const res = await doGet('student/getStudentScoreInTeam', { studentId, semesterCode: semester, scholasticId })
+      const res = await doGet('student/getStudentScoreInTeam', { groupId,studentId, semesterCode: semester, scholasticId })
       if (res && res.data.success) {
         const { data } = res.data
 
@@ -134,9 +134,9 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
 
   useEffect(() => {
     async function fetch() {
-      const { scholasticId } = sessionHelper()
+      const { scholasticId ,groupId} = sessionHelper()
 
-      const res = await doGet('student/getStudentScoreInTeam', { studentId, semesterCode: semester, scholasticId })
+      const res = await doGet('student/getStudentScoreInTeam', { groupId,studentId, semesterCode: semester, scholasticId })
       if (res && res.data.success) {
         const { data } = res.data
 
@@ -167,7 +167,7 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
           {/* <td>
             <ScoreTextField value={student.score?.oldTest} handleSave={handleSaveScore} name="oldTest" isNumber minWidth="80px" />
           </td> */}
-          <td>
+          {/* <td>
             <ScoreTextField value={student.score?.fifteenTest} handleSave={handleSaveScore} name="fifteenTest" isNumber minWidth="80px" />
           </td>
           <td>
@@ -175,17 +175,23 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
           </td>
           <td>
             <ScoreTextField value={student.score?.semesterTest} handleSave={handleSaveScore} name="semesterTest" isNumber minWidth="80px" />
-          </td>
+          </td> */}
+          {JSON.parse(student.score?.scoreForm)?.map(item => (
+            <td key={`${student.id}-${item.key}`}>
+              <ScoreTextField value={item.value} handleSave={handleSaveScore} name={item.key} isNumber minWidth="50px" />
+            </td>
+          ))}
           <td>
             <ScoreTextField value={student.score?.average} handleSave={handleSaveScore} name="average" isNumber minWidth="80px" />
           </td>
+          <td align='center' >{student.score?.ranking}</td>
           <td>
             <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="100px" />
           </td>
           <td>
             <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="700px" />
           </td>
-          <td>{student.score?.ranking}</td>
+
           {/* Nghỉ học có phép */}
           <td>{sumAbsents().classHasPermission}</td>
           {/* Nghỉ học không phép */}
@@ -218,14 +224,14 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
           <td>
             <ScoreTextField value={student.score?.avgTotal} handleSave={handleSaveScore} name="avgTotal" isNumber minWidth="80px" />
           </td>
-
+          <td align='center' >{student.score?.ranking ?? '' }</td>
           <td>
             <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="100px" />
           </td>
           <td>
             <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="700px" />
           </td>
-          <td>{student.score?.ranking ?? ''}</td>
+
           {/* Nghỉ học có phép */}
           <td>{sumAbsents().classHasPermission}</td>
           {/* Nghỉ học không phép */}

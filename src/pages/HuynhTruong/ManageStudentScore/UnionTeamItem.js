@@ -43,7 +43,7 @@ const UnionTeamItem = ({ team, totalStudents, defaultScoreForm }) => {
 
   const semester = useRecoilValue(SemesterSelected)
   const setTeamSelected = useSetRecoilState(TeamScoreSelected)
-
+  //console.log(defaultScoreForm)
   function handleClickTeam() {
     setTeamSelected(items => [...new Set([...items, team])])
     setCollapse(!collapse)
@@ -60,7 +60,6 @@ const UnionTeamItem = ({ team, totalStudents, defaultScoreForm }) => {
         align: 'center'
       })
     )
-
     return result
   }
 
@@ -120,7 +119,7 @@ const UnionTeamItem = ({ team, totalStudents, defaultScoreForm }) => {
               {semester !== SemesterEnum.total && (
                 <Fragment>
                   {columns().map(column => (
-                    <th key={column.id} align={column.align} style={{ minWidth: 50,textAlign: 'center' }} rowSpan="2">
+                    <th key={column.id} align={column.align} style={{ minWidth: 50.}} rowSpan="2">
                       {column.label}
                     </th>
                   ))}
