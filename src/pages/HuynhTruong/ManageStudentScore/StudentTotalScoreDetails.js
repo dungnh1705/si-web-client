@@ -200,7 +200,7 @@ const StudentTotalScoreDetails = ({ studentId }) => {
             <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="80px" />
           </td>
           <td align={'center'}>
-            <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="100px" />
+            <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="400px" />
           </td>
           {/* Nghỉ học có phép */}
           <td>{sumAbsents().classHasPermission}</td>
@@ -240,7 +240,7 @@ const StudentTotalScoreDetails = ({ studentId }) => {
             <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="100px" />
           </td>
           <td>
-            <ScoreTextField  value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="700px" />
+            <ScoreTextField  value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="400px" />
           </td>
           {/* Nghỉ học có phép */}
           <td>{sumAbsents().classHasPermission}</td>

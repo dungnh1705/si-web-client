@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+
+import React, { Fragment, useEffect, useState } from 'react'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import red from '@material-ui/core/colors/red'
 import { makeStyles, Hidden } from '@material-ui/core'
@@ -98,7 +99,7 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
   async function handleSaveScore(name, newVal) {
     const { firstName, lastName, scholasticId } = sessionHelper()
     const avg = name === 'average' ? (newVal === 0 || !newVal ? null : newVal) : null
-    const newScore = { ...student.score, [name]: newVal, average: avg, userFullName: `${firstName} ${lastName}`, semesterCode: semester, studentId: student.id, scholasticId }
+    const newScore = { ...student.score, [name]: newVal, average: avg, userFullNme: `${firstName} ${lastName}`, semesterCode: semester, studentId: student.id, scholasticId }
 
     try {
       const res = await doPost(`student/updateStudentScore`, newScore)
@@ -114,9 +115,9 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
 
   useEffect(() => {
     async function fetch() {
-      const { scholasticId } = sessionHelper()
+      const {groupId, scholasticId } = sessionHelper()
 
-      const res = await doGet('student/getStudentScoreInTeam', { studentId, semesterCode: semester, scholasticId })
+      const res = await doGet('student/getStudentScoreInTeam', {groupId, studentId, semesterCode: semester, scholasticId })
       if (res && res.data.success) {
         const { data } = res.data
 
@@ -134,9 +135,9 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
 
   useEffect(() => {
     async function fetch() {
-      const { scholasticId } = sessionHelper()
+      const { groupId,scholasticId } = sessionHelper()
 
-      const res = await doGet('student/getStudentScoreInTeam', { studentId, semesterCode: semester, scholasticId })
+      const res = await doGet('student/getStudentScoreInTeam', {groupId, studentId, semesterCode: semester, scholasticId })
       if (res && res.data.success) {
         const { data } = res.data
 
@@ -150,7 +151,7 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
   }, [reload])
 
   return (
-    <>
+    <Fragment>
       {student && (semester === SemesterEnum.semesterOne || semester === SemesterEnum.semesterTwo) && (
         <tr
           className="tr__active"
@@ -164,28 +165,21 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
             </Hidden>
             {student.firstName} {student.lastName}
           </td>
-          {/* <td>
-            <ScoreTextField value={student.score?.oldTest} handleSave={handleSaveScore} name="oldTest" isNumber minWidth="80px" />
-          </td> */}
-          <td>
-            <ScoreTextField value={student.score?.fifteenTest} handleSave={handleSaveScore} name="fifteenTest" isNumber minWidth="80px" />
+          {JSON.parse(student.score?.scoreForm)?.map(item => (
+            <td key={`${student.id}-${item.Key}`}>
+              <ScoreTextField value={item.Value} handleSave={handleSaveScore} name={item.Key} isNumber minWidth="50px" />
+            </td>
+          ))}
+          <td align={'center'}>
+            <ScoreTextField value={student.score?.average} handleSave={handleSaveScore} name="average" isNumber minWidth="50px" />
           </td>
-          <td>
-            <ScoreTextField value={student.score?.lessonTest} handleSave={handleSaveScore} name="lessonTest" isNumber minWidth="80px" />
+          <td align={'center'}>{student.score?.ranking}</td>
+          <td align={'center'}>
+            <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="80px" />
           </td>
-          <td>
-            <ScoreTextField value={student.score?.semesterTest} handleSave={handleSaveScore} name="semesterTest" isNumber minWidth="80px" />
+          <td align={'center'}>
+            <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="400px" />
           </td>
-          <td>
-            <ScoreTextField value={student.score?.average} handleSave={handleSaveScore} name="average" isNumber minWidth="80px" />
-          </td>
-          <td>
-            <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="100px" />
-          </td>
-          <td>
-            <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="700px" />
-          </td>
-          <td>{student.score?.ranking}</td>
           {/* Nghỉ học có phép */}
           <td>{sumAbsents().classHasPermission}</td>
           {/* Nghỉ học không phép */}
@@ -210,7 +204,7 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
             {student.firstName} {student.lastName}
           </td>
           <td>
-            <ScoreTextField value={student.score?.avgSemesterOne} handleSave={handleSaveScore} name="avgSemesterOne" isNumber minWidth="80px" />
+            <ScoreTextField  value={student.score?.avgSemesterOne} handleSave={handleSaveScore} name="avgSemesterOne" isNumber minWidth="80px" />
           </td>
           <td>
             <ScoreTextField value={student.score?.avgSemesterTwo} handleSave={handleSaveScore} name="avgSemesterTwo" isNumber minWidth="80px" />
@@ -218,14 +212,14 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
           <td>
             <ScoreTextField value={student.score?.avgTotal} handleSave={handleSaveScore} name="avgTotal" isNumber minWidth="80px" />
           </td>
+          <td>{student.score?.ranking ?? ''}</td>
 
           <td>
             <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="100px" />
           </td>
           <td>
-            <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="700px" />
+            <ScoreTextField  value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="400px" />
           </td>
-          <td>{student.score?.ranking ?? ''}</td>
           {/* Nghỉ học có phép */}
           <td>{sumAbsents().classHasPermission}</td>
           {/* Nghỉ học không phép */}
@@ -239,7 +233,7 @@ const StudentUnionTeamBodyItem = ({ studentId }) => {
           </td>
         </tr>
       )}
-    </>
+    </Fragment>
   )
 }
 
