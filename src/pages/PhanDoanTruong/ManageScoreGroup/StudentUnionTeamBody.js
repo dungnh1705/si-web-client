@@ -17,7 +17,11 @@ const StudentUnionTeamBody = ({ team }) => {
 
   useEffect(() => {
     async function fetchData(teamId) {
-      const res = await doGet('student/getStudentIdsInTeam', { classId: sessionHelper().classId, unionId: unionSelected, team: teamId })
+      const res = await doGet('student/getStudentIdsInTeam', {
+        classId: sessionHelper().classId,
+        unionId: unionSelected,
+        team: teamId
+      })
       if (res && res.data.success) {
         const { data } = res.data
         setIds(data)
@@ -25,7 +29,7 @@ const StudentUnionTeamBody = ({ team }) => {
     }
 
     if (teamSelected.includes(team)) {
-      fetchData(team)
+      fetchData(team).finally()
     }
   }, [teamSelected])
 

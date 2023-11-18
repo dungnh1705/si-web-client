@@ -9,35 +9,6 @@ import { ScoreFormTitle, SemesterEnum } from 'app/enums'
 import { SemesterSelected, TeamScoreSelected } from 'pages/PhanDoanTruong/ManageScoreGroup/recoil'
 import StudentUnionTeamBody from './StudentUnionTeamBody'
 
-// const columns = [
-//   //{ id: 1, label: 'Miệng', align: 'center' },
-//   {
-//     id: 2,
-//     label: '15\u0027',
-//     align: 'center'
-//   },
-//   {
-//     id: 3,
-//     label: '1 tiết',
-//     align: 'center'
-//   },
-//   {
-//     id: 4,
-//     label: 'HK',
-//     align: 'center'
-//   },
-//   {
-//     id: 5,
-//     label: 'TB HK',
-//     align: 'center'
-//   },
-//   {
-//     id: 6,
-//     label: 'Xếp loại',
-//     align: 'center'
-//   }
-// ]
-
 const columnsTotal = [
   { id: 1, label: 'TB HKI', align: 'center' },
   { id: 2, label: 'TB HKII', align: 'center' },
@@ -64,7 +35,7 @@ const useStyle = makeStyles({
   }
 })
 
-const StudentUnionTeam = ({ team, totalStudents , defaultScoreForm}) => {
+const StudentUnionTeam = ({ team, totalStudents, defaultScoreForm }) => {
   const styleClass = useStyle()
   const [collapse, setCollapse] = useState(true)
 
@@ -75,6 +46,7 @@ const StudentUnionTeam = ({ team, totalStudents , defaultScoreForm}) => {
     setTeamSelected(items => [...new Set([...items, team])])
     setCollapse(!collapse)
   }
+
   const columns = () => {
     const scoreForm = JSON.parse(defaultScoreForm)
     const result = []
@@ -82,7 +54,7 @@ const StudentUnionTeam = ({ team, totalStudents , defaultScoreForm}) => {
     scoreForm.map((item, index) =>
       result.push({
         id: index + 1,
-        label: ScoreFormTitle[item.label],
+        label: ScoreFormTitle[item.Label],
         align: 'center'
       })
     )
@@ -141,7 +113,7 @@ const StudentUnionTeam = ({ team, totalStudents , defaultScoreForm}) => {
               {semester !== SemesterEnum.total && (
                 <Fragment>
                   {columns().map(column => (
-                    <th key={column.id} align={column.align} style={{ minWidth: 50.}} rowSpan="2">
+                    <th key={column.id} align={column.align} style={{ minWidth: 50, textAlign: 'center' }} rowSpan="2">
                       {column.label}
                     </th>
                   ))}

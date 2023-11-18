@@ -8,11 +8,11 @@ import { GroupSettingsQuery } from 'recoils/selectors'
 const StudentUnion = () => {
   const teams = useRecoilValue(GetUnionTeamsInfoSelector)
   const groupSettings = useRecoilValue(GroupSettingsQuery)
-console.log(teams)
+
   return (
     <>
       {teams?.map(item => (
-        <StudentUnionTeam team={item.team} totalStudents={item.totalStudents} key={`StudentUnionTeam-${item.team}`} defaultScoreForm={groupSettings?.scoreForm}/>
+        <StudentUnionTeam team={item.team} totalStudents={item.totalStudents} key={`StudentUnionTeam-${item.team}`} defaultScoreForm={groupSettings?.scoreForm} />
       ))}
     </>
   )
