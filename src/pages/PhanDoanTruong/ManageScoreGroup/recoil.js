@@ -37,7 +37,14 @@ export const StudentScoreInUnionSelector = selector({
 
     const { scholasticId, classId, userId } = sessionHelper()
 
-    const res = await doGet(`student/getScoreByUnionId`, { scholasticId, userId, classId, getAttendance: true, unionId, semesterCode })
+    const res = await doGet(`student/getScoreByUnionId`, {
+      scholasticId,
+      userId,
+      classId,
+      getAttendance: true,
+      unionId,
+      semesterCode
+    })
     if (res && res.data.success) {
       const { data } = res.data
       return data.reduce((group, stu) => {
@@ -58,9 +65,9 @@ export const StudentScoreInTeamSelector = selectorFamily({
     studentId =>
     async ({ get }) => {
       const semesterCode = get(SemesterSelected)
-      const { scholasticId } = sessionHelper()
+      const { groupId, scholasticId } = sessionHelper()
 
-      const res = await doGet(`student/getStudentScoreInTeam`, { scholasticId, studentId, semesterCode })
+      const res = await doGet(`student/getStudentScoreInTeam`, { groupId, scholasticId, studentId, semesterCode })
       if (res && res.data.success) {
         const { data } = res.data
 

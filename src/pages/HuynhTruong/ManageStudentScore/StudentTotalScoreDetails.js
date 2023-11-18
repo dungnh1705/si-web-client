@@ -111,7 +111,6 @@ const StudentTotalScoreDetails = ({ studentId }) => {
       ...student.score,
       [name]: newVal,
       average: avg,
-      userFullName: `${firstName} ${lastName}`,
       semesterCode: semester,
       studentId: student.id,
       scholasticId,
@@ -200,7 +199,7 @@ const StudentTotalScoreDetails = ({ studentId }) => {
             <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="80px" />
           </td>
           <td align={'center'}>
-            <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="100px" />
+            <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="400px" />
           </td>
           {/* Nghỉ học có phép */}
           <td>{sumAbsents().classHasPermission}</td>
@@ -226,7 +225,7 @@ const StudentTotalScoreDetails = ({ studentId }) => {
             {student.firstName} {student.lastName}
           </td>
           <td>
-            <ScoreTextField  value={student.score?.avgSemesterOne} handleSave={handleSaveScore} name="avgSemesterOne" isNumber minWidth="80px" />
+            <ScoreTextField value={student.score?.avgSemesterOne} handleSave={handleSaveScore} name="avgSemesterOne" isNumber minWidth="80px" />
           </td>
           <td>
             <ScoreTextField value={student.score?.avgSemesterTwo} handleSave={handleSaveScore} name="avgSemesterTwo" isNumber minWidth="80px" />
@@ -240,7 +239,7 @@ const StudentTotalScoreDetails = ({ studentId }) => {
             <ScoreTextField value={student.score?.morality} handleSave={handleSaveScore} name="morality" minWidth="100px" />
           </td>
           <td>
-            <ScoreTextField  value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="700px" />
+            <ScoreTextField value={student.score?.comment} handleSave={handleSaveScore} name="comment" minWidth="400px" />
           </td>
           {/* Nghỉ học có phép */}
           <td>{sumAbsents().classHasPermission}</td>
