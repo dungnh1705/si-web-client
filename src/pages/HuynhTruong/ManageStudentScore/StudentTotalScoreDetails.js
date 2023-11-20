@@ -192,6 +192,9 @@ const StudentTotalScoreDetails = ({ studentId }) => {
             </td>
           ))}
           <td align={'center'}>
+          {student.score?.attendanceScore}
+          </td>
+          <td align={'center'}>
             <ScoreTextField value={student.score?.average} handleSave={handleSaveScore} name="average" isNumber minWidth="50px" />
           </td>
           <td align={'center'}>{student.score?.ranking}</td>
