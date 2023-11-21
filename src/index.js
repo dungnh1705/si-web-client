@@ -22,8 +22,8 @@ const requestNotificationPermission = async () => {
   if ('Notification' in window) {
     try {
       const permission = await Notification.requestPermission()
-      saveLocalStorage('notification', permission ?? '')
-      console.log('Notification permission:', permission)
+      saveLocalStorage('notification', `${permission}` ?? '')
+      // console.log('Notification permission:', permission)
     } catch (error) {
       console.error('Error requesting notification permission:', error)
     }

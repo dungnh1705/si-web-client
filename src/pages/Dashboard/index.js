@@ -10,7 +10,7 @@ import PhanDoanTruongDashboard from './PhanDoanTruong'
 import BanQuanTrigDashboard from './BanQuanTri'
 import { useRecoilValue } from 'recoil'
 import { messageState } from 'recoils/firebase'
-import { doPost } from '../../utils/axios'
+import { doPost } from 'utils/axios'
 
 const Dashboard = () => {
   const maxRole = StringUtils.getMaxRole(sessionHelper().roles)
@@ -18,18 +18,24 @@ const Dashboard = () => {
   const firebaseMessage = useRecoilValue(messageState)
 
   useEffect(() => {
-    if (notification == 'granted') {
+    if (notification === 'granted') {
       firebaseMessage
         .getToken()
         .then(currentToken => {
           doPost('notification/upsertNotificationToken', {
             userId: sessionHelper().userId,
             token: currentToken
-          }).then(response => console.log(response))
+          }).then(response => {
+            // TODO: action when success
+            // console.log(response)
+          })
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          // TODO: active when fail
+          // console.log(err)
+        })
     }
-  }, [])
+  }, [notification])
 
   return (
     <Suspense fallback={<>Đang tải dữ liệu...</>}>
