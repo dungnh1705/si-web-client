@@ -2,8 +2,8 @@ import React, { Suspense, useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import RowSkeleton from 'components/Loading/row-skeleton'
+import { TeamScoreSelected, UnionScoreSelected } from 'recoils/atoms'
 
-import { TeamScoreSelected, UnionScoreSelected } from 'pages/PhanDoanTruong/ManageScoreGroup/recoil'
 import StudentUnionTeamBodyItem from 'pages/PhanDoanTruong/ManageScoreGroup/StudentUnionTeamBodyItem'
 import { doGet } from 'utils/axios'
 

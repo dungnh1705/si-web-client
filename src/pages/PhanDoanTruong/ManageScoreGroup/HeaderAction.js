@@ -12,7 +12,7 @@ import sessionHelper from 'utils/sessionHelper'
 
 import { ChooseFileDialogAtom, GroupScoreResultDialogAtom } from 'components/Dialog/recoil'
 
-import { SemesterSelected } from './recoil'
+import { SemesterSelected } from 'recoils/atoms'
 import { doDownload } from 'utils/axios'
 
 export default function HeaderAction() {
