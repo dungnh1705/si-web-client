@@ -91,7 +91,7 @@ const StudentUnionTeam = ({ team, totalStudents, defaultScoreForm }) => {
               <th rowSpan="3" align="left" className={styleClass.pinCell}>
                 Tên Thánh, Họ và Tên
               </th>
-              <th colSpan={semester !== SemesterEnum.total ? columns().length + 2 : 4} style={{ textAlign: 'center' }}>
+              <th colSpan={semester !== SemesterEnum.total ? columns().length + 3 : 4} style={{ textAlign: 'center' }}>
                 Học tập
               </th>
               <th rowSpan="3" style={{ textAlign: 'center' }}>
@@ -117,6 +117,9 @@ const StudentUnionTeam = ({ team, totalStudents, defaultScoreForm }) => {
                       {column.label}
                     </th>
                   ))}
+                  <th rowSpan="2" style={{ textAlign: 'center' }}>
+                    Chuyên Cần
+                  </th>
                   <th rowSpan="2" style={{ textAlign: 'center' }}>
                     TB HK
                   </th>
