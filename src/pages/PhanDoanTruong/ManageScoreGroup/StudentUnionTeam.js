@@ -4,9 +4,9 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import React, { Fragment, useState } from 'react'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import { SemesterSelected, TeamScoreSelected } from 'recoils/atoms'
 
 import { ScoreFormTitle, SemesterEnum } from 'app/enums'
-import { SemesterSelected, TeamScoreSelected } from 'pages/PhanDoanTruong/ManageScoreGroup/recoil'
 import StudentUnionTeamBody from './StudentUnionTeamBody'
 
 const columnsTotal = [

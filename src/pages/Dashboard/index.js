@@ -1,16 +1,41 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Suspense } from 'react'
 
-import sessionHelper from 'utils/sessionHelper'
+import sessionHelper, { getLocalStorage } from 'utils/sessionHelper'
 import { Roles } from 'app/enums'
 import StringUtils from 'utils/StringUtils'
 
 import HuynhTruongDashboard from './HuynhTruong'
 import PhanDoanTruongDashboard from './PhanDoanTruong'
 import BanQuanTrigDashboard from './BanQuanTri'
+import { useRecoilValue } from 'recoil'
+import { messageState } from 'recoils/firebase'
+import { doPost } from 'utils/axios'
 
 const Dashboard = () => {
   const maxRole = StringUtils.getMaxRole(sessionHelper().roles)
+  const notification = getLocalStorage('notification')
+  const firebaseMessage = useRecoilValue(messageState)
+
+  useEffect(() => {
+    if (notification === 'granted') {
+      firebaseMessage
+        .getToken()
+        .then(currentToken => {
+          doPost('notification/upsertNotificationToken', {
+            userId: sessionHelper().userId,
+            token: currentToken
+          }).then(response => {
+            // TODO: action when success
+            // console.log(response)
+          })
+        })
+        .catch(err => {
+          // TODO: active when fail
+          // console.log(err)
+        })
+    }
+  }, [notification])
 
   return (
     <Suspense fallback={<>Đang tải dữ liệu...</>}>

@@ -9,7 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import { ScoreFormTitle, SemesterEnum } from 'app/enums'
 
-import { SemesterSelected, TeamScoreSelected } from './recoil'
+import { SemesterSelected, TeamScoreSelected } from 'recoils/atoms'
 
 const columnsTotal = [
   { id: 1, label: 'TB HKI', align: 'center' },

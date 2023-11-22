@@ -9,7 +9,7 @@ import { toastState } from 'recoils/atoms'
 import sessionHelper from 'utils/sessionHelper'
 import { doGet, doPost } from 'utils/axios'
 
-import { SemesterSelected } from 'pages/PhanDoanTruong/ManageScoreGroup/recoil'
+import { SemesterSelected } from 'recoils/atoms'
 import ScoreTextField from 'components/Controls/ScoreTextField'
 
 const useStyle = makeStyles({

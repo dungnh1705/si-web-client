@@ -8,8 +8,8 @@ import Slider from 'react-slick'
 import { Semester } from 'app/enums'
 import { ChooseFileDialog, GroupScoreResultDialog } from 'components/Dialog'
 import { UnionQuery } from 'recoils/selectors'
+import { SemesterSelected, UnionScoreSelected } from 'recoils/atoms'
 
-import { SemesterSelected, UnionScoreSelected } from 'pages/PhanDoanTruong/ManageScoreGroup/recoil'
 import HeaderAction from 'pages/PhanDoanTruong/ManageScoreGroup//HeaderAction'
 import StudentUnion from 'pages/PhanDoanTruong/ManageScoreGroup/StudentUnion'
 import PageSkeleton from 'components/Loading/page-skeleton'
@@ -104,4 +104,3 @@ const ManageScoreGroup = () => {
 }
 
 export default ManageScoreGroup
- 
