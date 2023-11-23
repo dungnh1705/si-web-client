@@ -118,7 +118,10 @@ const RegisterForm = () => {
       setGroupId('CC-CC')
 
       try {
-        var res = await doPost(`student/updateNewStudentInfo`, { ...formData, UserFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}` })
+        const res = await doPost(`student/updateNewStudentInfo`, {
+          ...formData,
+          UserFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`
+        })
         if (res && res.data.success) {
           setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
           setReloadStu(reload => reload + 1)
@@ -143,7 +146,15 @@ const RegisterForm = () => {
         if (res && res.data.success) {
           setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
           setReloadStu(reload => reload + 1)
-          stuForm.resetForm({ values: { ...initValue, stuBranchId: branchId, stuGroupId: groupId, stuUnionId: formData.stuUnionId, stuTeamCode: formData.stuTeamCode } })
+          stuForm.resetForm({
+            values: {
+              ...initValue,
+              stuBranchId: branchId,
+              stuGroupId: groupId,
+              stuUnionId: formData.stuUnionId,
+              stuTeamCode: formData.stuTeamCode
+            }
+          })
         }
       } catch (err) {
         setToast({ ...toast, open: true, message: err.message, type: 'error' })
