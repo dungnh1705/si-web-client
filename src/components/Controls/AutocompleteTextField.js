@@ -1,7 +1,6 @@
 import React from 'react'
 import { TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete'
-
 import parse from 'autosuggest-highlight/parse'
 import match from 'autosuggest-highlight/match'
 import { get } from 'lodash'
@@ -16,7 +15,14 @@ export default function AutocompleteTextField({ formik, name, label = '', option
         if (newValue) formik.setFieldValue(name, newValue?.id)
       }}
       fullWidth
-      freeSolo
+      clearOnBlur = {false}
+      onInputChange = {(event,newInputValue) => {     
+        if (!get(newInputValue,name))        
+        {
+          formik.setFieldValue(name, 0)
+          formik.setFieldValue("newHolyName",newInputValue)  
+        }  
+      }}
       id={name}
       options={options}
       renderOption={(option, { inputValue }) => {
