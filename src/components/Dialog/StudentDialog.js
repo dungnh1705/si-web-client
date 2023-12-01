@@ -136,7 +136,8 @@ export const StudentDialog = () => {
     try {
       const res = await doPost(`student/updateStudent`, {
         ...formVal,
-        userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`
+        userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`,
+        userId: sessionHelper().userId,
       })
 
       if (res && res.data.success) {
