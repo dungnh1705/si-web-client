@@ -13,6 +13,7 @@ import HeaderLogo from '../../layout-components/HeaderLogo'
 // import HeaderDrawer from '../../layout-components/HeaderDrawer'
 import HeaderUserBox from '../HeaderUserbox'
 import HeaderSearch from '../../layout-components/HeaderSearch'
+import HeaderNotification from '../HeaderNotification'
 // import HeaderMenu from '../../layout-components/HeaderMenu'
 
 import MenuOpenRoundedIcon from '@material-ui/icons/MenuOpenRounded'
@@ -80,6 +81,7 @@ const Header = props => {
           </Hidden>
           <Box className="d-flex align-items-center">
             {/* <HeaderDots /> */}
+            <HeaderNotification />
             <HeaderSearch />
             <HeaderUserBox />
             {/* <HeaderDrawer /> */}
