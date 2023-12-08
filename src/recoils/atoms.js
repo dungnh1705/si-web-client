@@ -133,3 +133,8 @@ export const UnionScoreSelected = atom({
   key: 'UnionScoreSelected',
   default: undefined
 })
+
+export const loadNotification = atom({
+  key: 'loadNotification',
+  default: 0
+})

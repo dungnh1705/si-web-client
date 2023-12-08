@@ -1,8 +1,8 @@
 import React from 'react'
 
+import moment from 'moment';
 import avatar2 from 'assets/images/avatars/avatar2.jpg'
-
-
+import NotificationSkeleton from './component/NotificationSkeleton';
 import { Avatar, Grid, Typography, useMediaQuery, makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
@@ -37,9 +37,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NotificationItem() {
+export default function NotificationItem({ notification }) {
     const classes = useStyles();
     const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
+
+    if (!notification) {
+        return <NotificationSkeleton isMobile={isSmallScreen} />
+    }
+
     return (
         <Grid
             container
@@ -47,32 +52,32 @@ export default function NotificationItem() {
             justifyContent="center"
             gap={4}
             style={{
+                position: 'relative',
                 borderBottom: '1px solid #ddd',
-                padding: isSmallScreen ? '3px' : '7px', // Adjust the padding
-                position: 'relative', // Add position relative to the container
-            }}
-        >
+                padding: isSmallScreen ? '3px' : '7px',
+            }}>
             <Grid item xs={1} md={2} lg={2}>
                 <Avatar className={isSmallScreen ? classes.small : classes.large} alt="..." src={avatar2} />
             </Grid>
             <Grid item xs={10} md={9} lg={9}>
                 <Typography variant='h5' color='textPrimary' style={{ fontWeight: 'bold' }}>
-                    Cập nhật thông tin
+                    {notification.title}
                 </Typography>
                 <div>
-                    <span style={{fontSize: isSmallScreen ? '13px': '16px'}}>
-                        Bùi Đỗ Duy Quân vừa mới thêm 1 đoàn sinh vào chi đoàn của bạn.
+                    <span>
+                        {notification.message}
                     </span>
                 </div>
                 <div>
-                    <span color='blue'>
-                        10 min ago
+                    <span>
+                        {moment(notification.createdDate).fromNow()}
                     </span>
                 </div>
             </Grid>
-            <Grid item xs={1} md={1} lg={1}>
-                <div className={classes.dot}></div> {/* Add the blue dot */}
-            </Grid>
+            {!notification?.isRead &&
+                <Grid item xs={1} md={1} lg={1}>
+                    <div className={classes.dot}></div> {/* Add the blue dot */}
+                </Grid>}
         </Grid>
     )
 }

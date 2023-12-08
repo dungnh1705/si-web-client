@@ -8,7 +8,8 @@ import FileUtils from 'utils/FileUtils'
 
 import { storageState } from 'recoils/firebase'
 
-import { themeOptionsState, reloadTemplates, reloadListUnion, reloadUserAvatar, UserImageAtom } from './atoms'
+import { themeOptionsState, reloadTemplates, reloadListUnion, reloadUserAvatar, UserImageAtom, loadNotification } from './atoms'
+import { load } from 'config'
 
 export const themeOptionsActions = selector({
   key: 'themeOptionsActions',
@@ -67,15 +68,15 @@ export const UnionRegisterQuery = selectorFamily({
   key: 'UnionRegisterQuery',
   get:
     groupId =>
-    async ({ get }) => {
-      get(reloadListUnion)
-      const res = await doGet(`assignment/getUnionByGroupId`, { groupId })
+      async ({ get }) => {
+        get(reloadListUnion)
+        const res = await doGet(`assignment/getUnionByGroupId`, { groupId })
 
-      if (res && res.data.success) {
-        return _.orderBy(res.data.data, ['unionCode'], ['asc'])
+        if (res && res.data.success) {
+          return _.orderBy(res.data.data, ['unionCode'], ['asc'])
+        }
+        return []
       }
-      return []
-    }
 })
 
 export const TemplatesQuery = selector({
@@ -157,5 +158,18 @@ export const NotificationPermissionSelector = selector({
   get: async () => {
     const permission = (await Notification.permission) ?? ''
     return `${permission}`
+  }
+})
+
+export const NumberNotification = selector({
+  key: 'loadNumberNotification',
+  get: async ({ get }) => {
+    get(loadNotification)
+    const userId = sessionHelper().userId
+    const response = await doGet('notification/count', {
+      userId
+    })
+    const { data } = response.data
+    return data
   }
 })
