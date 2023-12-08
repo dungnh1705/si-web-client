@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { useTheme, useMediaQuery } from "@material-ui/core";
+import { useTheme, useMediaQuery, Typography } from "@material-ui/core";
 
 import { doGet } from "utils/axios";
 
@@ -10,7 +10,7 @@ export default function NotificationList({ userId, quantity, open }) {
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'))
 
-    const [pageSize, setPageSize] = useState(3)
+    const [pageSize, setPageSize] = useState(5)
     const [notifications, setNotifications] = useState([])
     useEffect(() => {
         async function fetchNotification() {
@@ -28,15 +28,19 @@ export default function NotificationList({ userId, quantity, open }) {
     }, [pageSize])
 
     return (
-        <div className={!isMobile ? "popover-custom-xl overflow-hidden" : "popover-custom-lg overflow-hidden"}>
+        <div className={!isMobile ? "popover-custom-xl overflow-hidden" : "popover-custom-lg overflow-hidden"} style={{width: '360px'}}>
             <div className="height-280" style={{
                 width: isMobile ? "90vw" : '100%',
+                height: isMobile ? "80vh" : '500px',
             }}>
                 <PerfectScrollbar
                     onScrollDown={() => {
-                        pageSize < quantity && setPageSize(pageSize + 3)
+                        pageSize < quantity && setPageSize(pageSize + 2)
                     }}
                 >
+                    <Typography variant="h3" className="font-weight-bold mb-3">
+                        Thông báo
+                    </Typography>
                     {Array.from({ length: quantity }).map((_, index) => (
                         <NotificationItem notification={notifications[index]} key={index} />
                     ))}

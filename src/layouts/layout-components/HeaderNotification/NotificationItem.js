@@ -1,6 +1,7 @@
 import React from 'react'
 
 import moment from 'moment';
+import 'moment/locale/vi'; // without this line it didn't work
 import avatar2 from 'assets/images/avatars/avatar2.jpg'
 import NotificationSkeleton from './component/NotificationSkeleton';
 import { Avatar, Grid, Typography, useMediaQuery, makeStyles } from '@material-ui/core'
@@ -54,23 +55,26 @@ export default function NotificationItem({ notification }) {
             style={{
                 position: 'relative',
                 borderBottom: '1px solid #ddd',
-                padding: isSmallScreen ? '3px' : '7px',
+                padding: isSmallScreen ? '3px' : '7px'
             }}>
             <Grid item xs={1} md={2} lg={2}>
-                <Avatar className={isSmallScreen ? classes.small : classes.large} alt="..." src={avatar2} />
+                <Avatar className={isSmallScreen ? classes.small : classes.large} alt="..." src={avatar2}
+                    style={{
+                        margin: 'auto',
+                    }} />
             </Grid>
             <Grid item xs={10} md={9} lg={9}>
-                <Typography variant='h5' color='textPrimary' style={{ fontWeight: 'bold' }}>
+                <Typography variant='h5' color='textPrimary' style={{ fontWeight: 'bold', paddingLeft: '12px' }}>
                     {notification.title}
                 </Typography>
-                <div>
+                <div style={{paddingLeft: '12px'}}>
                     <span>
                         {notification.message}
                     </span>
                 </div>
-                <div>
+                <div style={{paddingLeft: '12px'}}>
                     <span>
-                        {moment(notification.createdDate).fromNow()}
+                        {moment(notification.createdDate).locale('vi').fromNow()}
                     </span>
                 </div>
             </Grid>
