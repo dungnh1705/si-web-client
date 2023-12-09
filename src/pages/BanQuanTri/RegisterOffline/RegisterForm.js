@@ -188,6 +188,7 @@ const RegisterForm = () => {
     }
   }, [get(stuForm.values, 'stuGroupId')])
 
+  // console.log('stuForm',stuForm.values)
   return (
     <Suspense fallback={<>Đang tải...</>}>
       <Card className="card-box mb-4 w-100">
