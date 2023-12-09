@@ -15,13 +15,12 @@ export default function AutocompleteTextField({ formik, name, label = '', option
         if (newValue) formik.setFieldValue(name, newValue?.id)
       }}
       fullWidth
-      clearOnBlur = {false}
-      onInputChange = {(event,newInputValue) => {     
-        if (!get(newInputValue,name))        
-        {
+      clearOnBlur={false}
+      onInputChange={(event, newInputValue) => {
+        if (!get(newInputValue, name)) {
           formik.setFieldValue(name, 0)
-          formik.setFieldValue("newHolyName",newInputValue)  
-        }  
+          formik.setFieldValue('newHolyName', newInputValue)
+        }
       }}
       id={name}
       options={options}

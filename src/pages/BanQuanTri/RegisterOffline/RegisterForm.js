@@ -89,7 +89,6 @@ const RegisterForm = () => {
     initialErrors: { StuFirstName: 'Required' }
   })
 
-  
   const TextField_Props = (name, label, maxLength) => {
     const { values, errors, touched, handleBlur, handleChange } = stuForm
     return {
@@ -189,7 +188,7 @@ const RegisterForm = () => {
     }
   }, [get(stuForm.values, 'stuGroupId')])
 
-  console.log('stuForm',stuForm.values)
+  // console.log('stuForm',stuForm.values)
   return (
     <Suspense fallback={<>Đang tải...</>}>
       <Card className="card-box mb-4 w-100">
