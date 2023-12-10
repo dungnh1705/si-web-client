@@ -1,6 +1,9 @@
 {
   "name": "webclient",
   "version": "0.1.0",
+  "engines": {
+    "node": "14.20.0"
+  },
   "private": true,
   "dependencies": {
     "@craco/craco": "^5.9.0",
