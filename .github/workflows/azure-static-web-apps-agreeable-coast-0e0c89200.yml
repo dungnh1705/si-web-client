@@ -20,6 +20,7 @@ env:
   REACT_APP_S2_POINT_DIVIDE: ${{ secrets.REACT_APP_S2_POINT_DIVIDE }}
   REACT_APP_SECRET_KEY: ${{ secrets.REACT_APP_SECRET_KEY }}
   REACT_APP_START_YEAR_DOC_ID: ${{ secrets.REACT_APP_START_YEAR_DOC_ID }}
+  CI: false
 
 jobs:
   build_and_deploy_job:
