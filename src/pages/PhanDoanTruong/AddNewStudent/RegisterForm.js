@@ -73,7 +73,7 @@ const RegisterForm = () => {
     const formData = stuForm.values
 
     try {
-      const res = await doPost(`student/registerStudent`, {
+      var res = await doPost(`student/registerStudent`, {
         ...formData,
         UserFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`,
         RegisterMode: RegisterMode.Offline,
@@ -85,13 +85,7 @@ const RegisterForm = () => {
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         setReloadStudent(old => old + 1)
-        stuForm.resetForm({
-          values: {
-            ...initValue,
-            stuUnionId: formData.stuUnionId,
-            stuTeamCode: formData.stuTeamCode
-          }
-        })
+        stuForm.resetForm({ values: { ...initValue, stuUnionId: formData.stuUnionId, stuTeamCode: formData.stuTeamCode } })
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })

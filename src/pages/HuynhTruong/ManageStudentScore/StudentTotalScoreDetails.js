@@ -9,7 +9,7 @@ import { toastState } from 'recoils/atoms'
 import sessionHelper from 'utils/sessionHelper'
 import { doGet, doPost } from 'utils/axios'
 
-import { SemesterSelected } from 'recoils/atoms'
+import { SemesterSelected } from './recoil'
 import ScoreTextField from 'components/Controls/ScoreTextField'
 
 const useStyle = makeStyles({
@@ -191,9 +191,6 @@ const StudentTotalScoreDetails = ({ studentId }) => {
               <ScoreTextField value={item.Value} handleSave={handleSaveScore} name={item.Key} isNumber minWidth="50px" />
             </td>
           ))}
-          <td align={'center'}>
-          {student.score?.attendanceScore}
-          </td>
           <td align={'center'}>
             <ScoreTextField value={student.score?.average} handleSave={handleSaveScore} name="average" isNumber minWidth="50px" />
           </td>

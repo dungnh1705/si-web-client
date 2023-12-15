@@ -5,7 +5,6 @@ import 'firebase/firestore'
 // import 'firebase/functions'
 import 'firebase/storage'
 // import 'firebase/auth'
-import 'firebase/messaging'
 
 import { FirebaseProdConfig, FirebaseStagingConfig } from 'config/index'
 
@@ -44,9 +43,4 @@ export const firestoreState = atom({
 export const storageState = atom({
   key: 'storageState',
   default: firebase.storage()
-})
-
-export const messageState = atom({
-  key: 'messageState',
-  default: firebase.messaging()
 })

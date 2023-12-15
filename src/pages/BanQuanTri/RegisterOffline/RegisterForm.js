@@ -118,10 +118,7 @@ const RegisterForm = () => {
       setGroupId('CC-CC')
 
       try {
-        const res = await doPost(`student/updateNewStudentInfo`, {
-          ...formData,
-          UserFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`
-        })
+        var res = await doPost(`student/updateNewStudentInfo`, { ...formData, UserFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}` })
         if (res && res.data.success) {
           setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
           setReloadStu(reload => reload + 1)
@@ -146,15 +143,7 @@ const RegisterForm = () => {
         if (res && res.data.success) {
           setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
           setReloadStu(reload => reload + 1)
-          stuForm.resetForm({
-            values: {
-              ...initValue,
-              stuBranchId: branchId,
-              stuGroupId: groupId,
-              stuUnionId: formData.stuUnionId,
-              stuTeamCode: formData.stuTeamCode
-            }
-          })
+          stuForm.resetForm({ values: { ...initValue, stuBranchId: branchId, stuGroupId: groupId, stuUnionId: formData.stuUnionId, stuTeamCode: formData.stuTeamCode } })
         }
       } catch (err) {
         setToast({ ...toast, open: true, message: err.message, type: 'error' })
@@ -188,7 +177,6 @@ const RegisterForm = () => {
     }
   }, [get(stuForm.values, 'stuGroupId')])
 
-  // console.log('stuForm',stuForm.values)
   return (
     <Suspense fallback={<>Đang tải...</>}>
       <Card className="card-box mb-4 w-100">

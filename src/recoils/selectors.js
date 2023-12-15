@@ -151,11 +151,3 @@ export const GroupSettingsQuery = selector({
     if (res && res.data.success) return res.data.data
   }
 })
-
-export const NotificationPermissionSelector = selector({
-  key: 'NotificationPermissionSelector',
-  get: async () => {
-    const permission = (await Notification.permission) ?? ''
-    return `${permission}`
-  }
-})

@@ -9,7 +9,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import { ScoreFormTitle, SemesterEnum } from 'app/enums'
 
-import { SemesterSelected, TeamScoreSelected } from 'recoils/atoms'
+import { SemesterSelected, TeamScoreSelected } from './recoil'
 
 const columnsTotal = [
   { id: 1, label: 'TB HKI', align: 'center' },
@@ -98,7 +98,7 @@ const UnionTeamItem = ({ team, totalStudents, defaultScoreForm }) => {
                 </Hidden>
                 Họ và Tên
               </th>
-              <th colSpan={semester !== SemesterEnum.total ? columns().length + 3 : 4} style={{ textAlign: 'center' }}>
+              <th colSpan={semester !== SemesterEnum.total ? columns().length + 2 : 4} style={{ textAlign: 'center' }}>
                 Học tập
               </th>
               <th rowSpan="3" style={{ textAlign: 'center' }}>
@@ -124,9 +124,6 @@ const UnionTeamItem = ({ team, totalStudents, defaultScoreForm }) => {
                       {column.label}
                     </th>
                   ))}
-                  <th rowSpan="2" style={{ textAlign: 'center' }}>
-                    Chuyên Cần
-                  </th>
                   <th rowSpan="2" style={{ textAlign: 'center' }}>
                     TB HK
                   </th>

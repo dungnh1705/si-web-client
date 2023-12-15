@@ -1,4 +1,4 @@
-import { atom } from 'recoil'
+import { atom, atomFamily } from 'recoil'
 import { ViewModes } from 'app/enums'
 
 export const themeOptionsState = atom({
@@ -116,20 +116,5 @@ export const ShowChangePassword = atom({
 
 export const UserImageAtom = atom({
   key: 'UserImageAtom',
-  default: undefined
-})
-
-export const SemesterSelected = atom({
-  key: 'SemesterSelected',
-  default: 301
-})
-
-export const TeamScoreSelected = atom({
-  key: 'TeamScoreSelected',
-  default: []
-})
-
-export const UnionScoreSelected = atom({
-  key: 'UnionScoreSelected',
   default: undefined
 })

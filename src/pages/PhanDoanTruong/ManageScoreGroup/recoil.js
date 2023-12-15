@@ -3,11 +3,15 @@ import _ from 'lodash'
 import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { UnionQuery } from 'recoils/selectors'
-import { SemesterSelected, UnionScoreSelected } from 'recoils/atoms'
 
 export const SearchGroupScore = atom({
   key: 'searchGroupScore',
   default: undefined
+})
+
+export const SemesterSelected = atom({
+  key: 'semesterSelected',
+  default: 301
 })
 
 export const ReloadGroupScore = atom({
@@ -15,35 +19,45 @@ export const ReloadGroupScore = atom({
   default: 1
 })
 
-// export const StudentScoreInUnionSelector = selector({
-//   key: 'StudentScoreInUnionSelector',
-//   get: async ({ get }) => {
-//     const unionId = get(UnionScoreSelected)
-//     const semesterCode = get(SemesterSelected)
-//
-//     const { scholasticId, classId, userId } = sessionHelper()
-//
-//     const res = await doGet(`student/getScoreByUnionId`, {
-//       scholasticId,
-//       userId,
-//       classId,
-//       getAttendance: true,
-//       unionId,
-//       semesterCode
-//     })
-//     if (res && res.data.success) {
-//       const { data } = res.data
-//       return data.reduce((group, stu) => {
-//         const { currentClass } = stu
-//         group[currentClass.team] = group[currentClass.team] ?? []
-//         group[currentClass.team].push(stu)
-//
-//         return group
-//       }, {})
-//     }
-//     return null
-//   }
-// })
+export const UnionScoreSelected = atom({
+  key: 'UnionScoreSelected',
+  default: undefined
+})
+
+export const TeamScoreSelected = atom({
+  key: 'TeamScoreSelected',
+  default: []
+})
+
+export const StudentScoreInUnionSelector = selector({
+  key: 'StudentScoreInUnionSelector',
+  get: async ({ get }) => {
+    const unionId = get(UnionScoreSelected)
+    const semesterCode = get(SemesterSelected)
+
+    const { scholasticId, classId, userId } = sessionHelper()
+
+    const res = await doGet(`student/getScoreByUnionId`, {
+      scholasticId,
+      userId,
+      classId,
+      getAttendance: true,
+      unionId,
+      semesterCode
+    })
+    if (res && res.data.success) {
+      const { data } = res.data
+      return data.reduce((group, stu) => {
+        const { currentClass } = stu
+        group[currentClass.team] = group[currentClass.team] ?? []
+        group[currentClass.team].push(stu)
+
+        return group
+      }, {})
+    }
+    return null
+  }
+})
 
 export const StudentScoreInTeamSelector = selectorFamily({
   key: 'StudentScoreInTeamSelector',

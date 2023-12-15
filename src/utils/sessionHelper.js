@@ -6,14 +6,6 @@ import { Roles } from '../app/enums'
 const LOGIN_INFO_KEY = 'login_info'
 const secretKey = process.env.REACT_APP_SECRET_KEY
 
-export function saveLocalStorage(key, value) {
-  localStorage.setItem(key, value)
-}
-
-export function getLocalStorage(key) {
-  return localStorage.getItem(key)
-}
-
 export function setLocalStoreData(key, data) {
   const localData = JSON.parse(localStorage.getItem(LOGIN_INFO_KEY))
   localData[key] = data

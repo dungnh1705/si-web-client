@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil'
 import { Semester } from 'app/enums'
 import { ChooseFileDialog, GroupScoreResultDialog } from 'components/Dialog'
 
-import { SemesterSelected } from 'recoils/atoms'
+import { SemesterSelected } from './recoil'
 import HeaderAction from './HeaderAction'
 
 import UnionTeams from './UnionTeams'

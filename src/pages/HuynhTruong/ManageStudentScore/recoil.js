@@ -3,7 +3,6 @@ import _ from 'lodash'
 import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { SemesterEnum } from 'app/enums'
-import { SemesterSelected } from 'recoils/atoms'
 
 export const ReloadStudentList = atom({
   key: 'ReloadStudentList',
@@ -70,34 +69,50 @@ export const GetTeamsInfoSelector = selector({
   }
 })
 
-// export const StudentScoreInUnionSelector = selector({
-//   key: 'StudentScoreInUnionSelector',
-//   get: async ({ get }) => {
-//     const semesterCode = get(SemesterSelected)
-//
-//     const { scholasticId, classId, userId, unionId } = sessionHelper()
-//
-//     const res = await doGet(`student/getScoreByUnionId`, {
-//       scholasticId,
-//       userId,
-//       classId,
-//       getAttendance: true,
-//       unionId,
-//       semesterCode
-//     })
-//     if (res && res.data.success) {
-//       const { data } = res.data
-//       return data.reduce((group, stu) => {
-//         const { currentClass } = stu
-//         group[currentClass.team] = group[currentClass.team] ?? []
-//         group[currentClass.team].push(stu)
-//
-//         return group
-//       }, {})
-//     }
-//     return null
-//   }
-// })
+export const TeamScoreSelected = atom({
+  key: 'TeamScoreSelected',
+  default: []
+})
+
+export const SemesterSelected = atom({
+  key: 'semesterSelected',
+  default: 301
+})
+
+export const StudentScoreInUnionSelector = selector({
+  key: 'StudentScoreInUnionSelector',
+  get: async ({ get }) => {
+    //const unionId = get(UnionScoreSelected)
+    const semesterCode = get(SemesterSelected)
+
+    const { scholasticId, classId, userId, unionId } = sessionHelper()
+
+    const res = await doGet(`student/getScoreByUnionId`, {
+      scholasticId,
+      userId,
+      classId,
+      getAttendance: true,
+      unionId,
+      semesterCode
+    })
+    if (res && res.data.success) {
+      const { data } = res.data
+      return data.reduce((group, stu) => {
+        const { currentClass } = stu
+        group[currentClass.team] = group[currentClass.team] ?? []
+        group[currentClass.team].push(stu)
+
+        return group
+      }, {})
+    }
+    return null
+  }
+})
+
+export const UnionScoreSelected = atom({
+  key: 'UnionScoreSelected',
+  default: undefined
+})
 
 export const StudentScoreInTeamSelector = selectorFamily({
   key: 'StudentScoreInTeamSelector',

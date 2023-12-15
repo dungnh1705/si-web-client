@@ -15,22 +15,16 @@ import DateFnsUtils from '@date-io/date-fns'
 
 import ScrollToTop from './components/ScrollToTop'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import { NotificationPermissionSelector } from './recoils/selectors'
 
 export const history = createBrowserHistory()
 
 const App = () => {
   const _themeColor = useRecoilValue(themeColor)
-  const _notificationPermission = useRecoilValue(NotificationPermissionSelector)
 
   useEffect(() => {
     localStorage.setItem('si_primaryColor', _themeColor.primary)
     localStorage.setItem('si_secondaryColor', _themeColor.secondary)
   }, [_themeColor])
-
-  useEffect(() => {
-    localStorage.setItem('notification', _notificationPermission)
-  }, [_notificationPermission])
 
   const overrideColor = {
     primary: {

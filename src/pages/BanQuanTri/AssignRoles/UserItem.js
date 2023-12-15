@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { Avatar } from '@material-ui/core'
 
-import { useTheme } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+// import Badge from 'components/UI/Badge'
 
 import { UserStatus } from 'app/enums'
 import { storageState } from 'recoils/firebase'
@@ -16,49 +15,9 @@ import moment from 'moment/moment'
 
 import UserAction from './components/UserAction'
 import { ChangeUserPasswordDialogAtom, ChangeUserStatusDialogAtom, UserInfoDialogAtom } from 'components/Dialog/recoil'
-import { TextField, InputAdornment, Divider, Fab, List, Card, Button, makeStyles } from '@material-ui/core'
 
-const useStyle = makeStyles({
-  pinCell: {
-    position: 'sticky',
-    left: 0,
-    zIndex: 1,
-    backgroundColor: 'white',
-
-    '&::after': {
-      position: 'absolute',
-      right: 0,
-      top: 0,
-      bottom: 0,
-      width: '2px',
-      zIndex: 2,
-      content: '""',
-      backgroundColor: '#dbdcef'
-    }
-  },
-  pinCellSecond: {
-    position: 'sticky',
-    left: '68px',
-    zIndex: 1,
-    backgroundColor: 'white',
-
-    '&::after': {
-      position: 'absolute',
-      right: 0,
-      top: 0,
-      bottom: 0,
-      width: '2px',
-      zIndex: 2,
-      content: '""',
-      backgroundColor: '#dbdcef'
-    }
-  }
-})
 const UserItem = ({ user }) => {
   const storage = useRecoilValue(storageState)
-
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   const setUserFormMode = useSetRecoilState(UserFormMode)
   const setEditingUser = useSetRecoilState(EditingUser)
@@ -96,22 +55,15 @@ const UserItem = ({ user }) => {
   const handleChangeInfo = () => {
     setChangeInfoDialog({ ...changeInfoDialog, open: true, info: user })
   }
-  const styleClass = useStyle()
+
   return (
     <tr>
-      {!isMobile && <td className={styleClass.pinCell}>#{user.id}</td>}
-
-      <td className={isMobile ? styleClass.pinCell : styleClass.pinCellSecond}>
+      <td className="font-weight-bold">#{user.id}</td>
+      <td>
         <div className="d-flex align-items-center">
-          {!isMobile && <Avatar alt="..." className="mr-2" src={imageUrl} />}
-
-          <div>
-            {user.holyName.name} {isMobile && <br />}
-            {user.firstName}&nbsp;
-            {user.lastName}
-          </div>
+          <Avatar alt="..." className="mr-2" src={imageUrl} />
+          <div>{user.fullName}</div>
         </div>
-        {!isMobile && <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{user.email}</div>}
       </td>
       <td>{user.dob ? moment(user.dob).format('DD/MM/YYYY') : ''}</td>
       <td className="text-center">{user.patronDate ? moment(user.patronDate).format('DD/MM') : ''}</td>
@@ -131,4 +83,5 @@ const UserItem = ({ user }) => {
     </tr>
   )
 }
+
 export default UserItem
