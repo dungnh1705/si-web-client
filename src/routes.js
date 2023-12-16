@@ -28,13 +28,12 @@ import ChangeStudentUnion from 'pages/PhanDoanTruong/ChangeStudentUnion'
 import ManageStudentScore from 'pages/HuynhTruong/ManageStudentScore'
 import { default as StudentAbsent } from 'pages/Students/Absent'
 import { default as StudentClass } from 'pages/HuynhTruong/ManageStudentClass'
-import Dashboard from 'pages/Dashboard'
 
 export default [
   {
     path: '/',
     exact: true,
-    component: () => <Redirect to="/Dashboard" />
+    component: () => <Redirect to='/Dashboard' />
   },
   {
     path: ['/Login', '/ResetPassword', '/VerifyNewUser'],
@@ -56,7 +55,7 @@ export default [
         component: lazy(() => import('pages/Authentication/ResetPassword'))
       },
       {
-        component: () => <Redirect to="/errors/error-404" />
+        component: () => <Redirect to='/errors/error-404' />
       }
     ]
   },
@@ -75,7 +74,7 @@ export default [
         component: lazy(() => import('pages/Error/Error500'))
       },
       {
-        component: () => <Redirect to="/errors/error-404" />
+        component: () => <Redirect to='/errors/error-404' />
       }
     ]
   },
@@ -86,11 +85,7 @@ export default [
       {
         path: '/Dashboard',
         exact: true,
-        component: () => (
-          <Suspense fallback={<CardSkeleton />}>
-            <Dashboard />
-          </Suspense>
-        )
+        component: lazy(() => import('pages/Dashboard'))
       },
       {
         path: '/MyProfile',
@@ -252,7 +247,7 @@ export default [
       },
       // Error page
       {
-        component: () => <Redirect to="/errors/error-404" />
+        component: () => <Redirect to='/errors/error-404' />
       }
     ]
   }
