@@ -70,27 +70,25 @@ export function getLevel(roles = [], isCheckLoginUser = true) {
 
 export function checkLoginToken() {
   try {
+    console.log(secretKey)
     const loginInfo = localStorage.getItem(LOGIN_INFO_KEY)
-
-    if (loginInfo == null) {
+    if (!loginInfo) {
       return false
     }
 
     const token = JSON.parse(loginInfo).token
-    if (token) {
-      const auth = jwt.verify(token, secretKey)
-      if (auth) {
-        if (Date.now() >= auth.exp * 1000) {
-          deleteLoginData()
-          return false
-        } else {
-          return true
-        }
-      }
+    if (!token) {
+      deleteLoginData()
+      return false
     }
 
-    deleteLoginData()
-    return false
+    const auth = jwt.verify(token, secretKey)
+    if (Date.now() >= auth.exp * 1000) {
+      deleteLoginData()
+      return false
+    }
+
+    return true
   } catch (err) {
     return false
   }
