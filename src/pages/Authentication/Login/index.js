@@ -36,7 +36,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false)
 
   const signInForm = useFormik({
-    initialValues: { Email: '', Password: '', RememberMe: false },
+    initialValues: { Email: '', Password: '', RememberMe: true },
     validationSchema: loginValidationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -171,11 +171,11 @@ const Login = () => {
                             </div>
                             <Grid container spacing={1} alignItems="center">
                               <Grid item xs={12} md={6} lg={6}>
-                                <FormControlLabel
-                                  className="m--2"
-                                  control={<Checkbox onChange={handleChangeRememberMe} value={signInForm.values.RememberMe} color="primary" />}
-                                  label="Lưu đăng nhập của tôi"
-                                />
+                                {/*<FormControlLabel*/}
+                                {/*  className="m--2"*/}
+                                {/*  control={<Checkbox onChange={handleChangeRememberMe} value={signInForm.values.RememberMe} color="primary" />}*/}
+                                {/*  label="Lưu đăng nhập của tôi"*/}
+                                {/*/>*/}
                               </Grid>
                               <Grid container item xs={12} md={6} lg={6} justifyContent="flex-end">
                                 <Grid item>
