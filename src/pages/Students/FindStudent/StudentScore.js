@@ -16,6 +16,8 @@ import { nanoid } from 'nanoid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
 import { PhoneCallDialogAtom } from 'components/Dialog/recoil'
+import ScoreHeader from './ScoreHeader'
+import ScoreBody from './ScoreBody'
 
 const useStyle = makeStyles({
   pinCell: {
@@ -37,7 +39,6 @@ const useStyle = makeStyles({
   }
 })
 
-
 const StudentScore = ({ tabValue }) => {
   const ClassStyle = useStyle()
 
@@ -49,6 +50,15 @@ const StudentScore = ({ tabValue }) => {
 
   const getHolyName = holyId => {
     return lstHolyName?.find(h => h.id === holyId)?.name
+  }
+
+  const getHeaderScoreLabels = scoreLabels => {
+    const dynamicLabels = [{ Label: 'FifteenTest' }, { Label: 'FifteenTest' }, { Label: 'LessonTest' }, { Label: 'SemesterTest' }]
+
+    const fixLabels = [{ Label: 'Average' }, { Label: 'Morality' }, { Label: 'Ranking' }]
+
+    const parseLabels = scoreLabels ? JSON.parse(scoreLabels) : null
+    return (parseLabels || dynamicLabels).concat(fixLabels)
   }
 
   const handleClickCollapse = sectionId => {
@@ -76,11 +86,12 @@ const StudentScore = ({ tabValue }) => {
           const key = `${sl.studentId}-${index}`
           const groupInfo = sl?.class?.group
           const sOne = student.semesterOne?.find(s => s.scholasticId === sl.class?.scholasticId)
+          const headerScoreLabels = getHeaderScoreLabels(sOne?.scoreForm)
           const sTwo = student.semesterTwo?.find(s => s.scholasticId === sl.class?.scholasticId)
           const total = student.total?.find(s => s.scholasticId === sl.class?.scholasticId)
 
           return (
-            <div key={key}>
+            <Fragment key={key}>
               <Card className="card-box mb-2 w-100">
                 <div className="card-header d-flex pb-1 pt-1" onClick={() => handleClickCollapse(key)} style={{ cursor: 'pointer' }}>
                   <div className="card-header--title">
@@ -174,63 +185,45 @@ const StudentScore = ({ tabValue }) => {
                         <thead>
                           <tr>
                             <th className={ClassStyle.pinCell}></th>
-                            <th style={{ textAlign: 'center' }}>15'</th>
-                            <th style={{ textAlign: 'center' }}>15'</th>
-                            <th style={{ textAlign: 'center' }}>1 tiết</th>
-                            <th style={{ textAlign: 'center' }}>Học kỳ</th>
-                            <th style={{ textAlign: 'center' }}>TB</th>
-                            <th style={{ textAlign: 'center' }}>Đạo đức</th>
-                            <th style={{ textAlign: 'center' }}>Xếp loại</th>
+                            <ScoreHeader scoreLabels={headerScoreLabels} />
                           </tr>
                         </thead>
-                        <tbody className={ClassStyle.pinCell}>
+                        <tbody>
                           <tr>
                             <th className={ClassStyle.pinCell}>Học kỳ I</th>
-                            <th style={{ textAlign: 'center' }}>{sOne?.oldTest}</th>
-                            <th style={{ textAlign: 'center' }}>{sOne?.fifteenTest}</th>
-                            <th style={{ textAlign: 'center' }}>{sOne?.lessonTest}</th>
-                            <th style={{ textAlign: 'center' }}>{sOne?.semesterTest}</th>
-                            <th style={{ textAlign: 'center' }}>{sOne?.average}</th>
-                            <th style={{ textAlign: 'center' }}>{sOne?.morality}</th>
-                            <th style={{ textAlign: 'center' }}>{sOne?.ranking}</th>
+                            <ScoreBody semesterData={sOne} headerLength={headerScoreLabels.length} />
                           </tr>
                           <tr>
                             <th className={ClassStyle.pinCell}>Nhận xét</th>
-                            <th colSpan={7} style={{ textAlign: 'center' }}>
+                            <th colSpan={headerScoreLabels.length} style={{ textAlign: 'center' }}>
                               {sOne?.comment}
                             </th>
                           </tr>
                           <tr>
                             <th className={ClassStyle.pinCell}>Học kỳ II</th>
-                            <th style={{ textAlign: 'center' }}>{sTwo?.oldTest}</th>
-                            <th style={{ textAlign: 'center' }}>{sTwo?.fifteenTest}</th>
-                            <th style={{ textAlign: 'center' }}>{sTwo?.lessonTest}</th>
-                            <th style={{ textAlign: 'center' }}>{sTwo?.semesterTest}</th>
-                            <th style={{ textAlign: 'center' }}>{sTwo?.average}</th>
-                            <th style={{ textAlign: 'center' }}>{sTwo?.morality}</th>
-                            <th style={{ textAlign: 'center' }}>{sTwo?.ranking}</th>
+                            <ScoreBody semesterData={sTwo} headerLength={headerScoreLabels.length} />
                           </tr>
                           <tr>
                             <th className={ClassStyle.pinCell}>Nhận xét</th>
-                            <th colSpan={7} style={{ textAlign: 'center' }}>
+                            <th colSpan={headerScoreLabels.length} style={{ textAlign: 'center' }}>
                               {sTwo?.comment}
                             </th>
                           </tr>
                           <tr>
                             <th className={ClassStyle.pinCell}>Cả năm</th>
-                            <th style={{ textAlign: 'center' }} colSpan={2}>
-                              {total?.avgSemesterOne}
+                            <th style={{ textAlign: 'center' }} colSpan={Math.floor((headerScoreLabels.length - 3) / 2)}>
+                              TB HKI: {total?.avgSemesterOne}
                             </th>
-                            <th style={{ textAlign: 'center' }} colSpan={2}>
-                              {total?.avgSemesterTwo}
+                            <th style={{ textAlign: 'center' }} colSpan={((headerScoreLabels.length - 3) / 2).toFixed()}>
+                              TB HKII: {total?.avgSemesterTwo}
                             </th>
-                            <th style={{ textAlign: 'center' }}>{total?.avgTotal}</th>
+                            <th style={{ textAlign: 'center' }}>TB Cả năm: {total?.avgTotal}</th>
                             <th style={{ textAlign: 'center' }}>{total?.morality}</th>
                             <th style={{ textAlign: 'center' }}>{total?.ranking}</th>
                           </tr>
                           <tr>
                             <th className={ClassStyle.pinCell}>Nhận xét</th>
-                            <th colSpan={7} style={{ textAlign: 'center' }}>
+                            <th colSpan={headerScoreLabels.length} style={{ textAlign: 'center' }}>
                               {total?.comment}
                             </th>
                           </tr>
@@ -240,7 +233,7 @@ const StudentScore = ({ tabValue }) => {
                   </Grid>
                 </CardContent>
               </Card>
-            </div>
+            </Fragment>
           )
         })}
       </div>

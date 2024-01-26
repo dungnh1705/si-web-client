@@ -12,7 +12,7 @@ import sessionHelper from 'utils/sessionHelper'
 
 import { ChooseFileDialogAtom, GroupScoreResultDialogAtom } from 'components/Dialog/recoil'
 
-import { SemesterSelected } from './recoil'
+import { SemesterSelected } from 'recoils/atoms'
 import { doDownload } from 'utils/axios'
 
 export default function HeaderAction() {
@@ -59,23 +59,37 @@ export default function HeaderAction() {
     handleClose()
   }
 
-  const handleDownloadResult = async (event, semesterCode) => {
+  // const handleDownloadResult = async (event, semesterCode) => {
+  //   event.preventDefault()
+  //   let templateId = '',
+  //     title = ''
+  //
+  //   if (semesterCode === SemesterEnum.semesterOne) {
+  //     templateId = process.env.REACT_APP_FROM_RESULT_SEMESTER_ONE_ID
+  //     title = 'HKI'
+  //   }
+  //
+  //   if (semesterCode === SemesterEnum.total) {
+  //     templateId = process.env.REACT_APP_FROM_RESULT_TOTAL_ID
+  //     title = 'Cả năm'
+  //   }
+  //
+  //   setDialogResult({ ...dialogResult, open: true, templateId: templateId, title: title })
+  //   handleClose()
+  // }
+
+  const handleDownloadGroupResult = async (event, semesterCode) => {
     event.preventDefault()
-    let templateId = '',
-      title = ''
-
-    if (semesterCode === SemesterEnum.semesterOne) {
-      templateId = process.env.REACT_APP_FROM_RESULT_SEMESTER_ONE_ID
-      title = 'HKI'
-    }
-
-    if (semesterCode === SemesterEnum.total) {
-      templateId = process.env.REACT_APP_FROM_RESULT_TOTAL_ID
-      title = 'Cả năm'
-    }
-
-    setDialogResult({ ...dialogResult, open: true, templateId: templateId, title: title })
     handleClose()
+
+    const params = {
+      scholasticId: sessionHelper().scholasticId,
+      classId: sessionHelper().classId,
+      userId: sessionHelper().userId,
+      semesterCode
+    }
+
+    await doDownload('download/groupResultExcelFile', params)
   }
 
   return (
@@ -105,8 +119,8 @@ export default function HeaderAction() {
               <div className="grid-menu grid-menu-1col w-100">
                 <div>
                   <div className="d-flex justify-content-left">
-                    <FontAwesomeIcon icon={faFilePdf} size="lg" className="mr-3" />
-                    <div className="d-flex align-items-center">Tải phiếu điểm</div>
+                    <FontAwesomeIcon icon={faFileExcel} size="lg" className="mr-3" />
+                    <div className="d-flex align-items-center">Tải kết quả Học tập</div>
                     <div style={{ marginLeft: 'auto' }}>{expandDownloadDoc ? <ExpandLess /> : <ExpandMore />}</div>
                   </div>
                 </div>
@@ -114,10 +128,13 @@ export default function HeaderAction() {
             </ListItem>
             <Collapse in={expandDownloadDoc} timeout="auto" unmountOnExit style={{ width: '100%' }}>
               <List disablePadding>
-                <ListItem button onClick={e => handleDownloadResult(e, SemesterEnum.semesterOne)} style={{ textAlign: 'center' }}>
+                <ListItem button onClick={e => handleDownloadGroupResult(e, SemesterEnum.semesterOne)} style={{ textAlign: 'center' }}>
                   <ListItemText primary="Học kỳ I" />
                 </ListItem>
-                <ListItem button onClick={e => handleDownloadResult(e, SemesterEnum.total)} style={{ textAlign: 'center' }}>
+                <ListItem button onClick={e => handleDownloadGroupResult(e, SemesterEnum.semesterTwo)} style={{ textAlign: 'center' }}>
+                  <ListItemText primary="Học kỳ II" />
+                </ListItem>
+                <ListItem button onClick={e => handleDownloadGroupResult(e, SemesterEnum.total)} style={{ textAlign: 'center' }}>
                   <ListItemText primary="Cả năm" />
                 </ListItem>
               </List>

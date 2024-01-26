@@ -5,6 +5,7 @@ import { orderBy } from 'lodash'
 import sessionHelper from 'utils/sessionHelper'
 import { doGet } from 'utils/axios'
 import { UnionQuery } from 'recoils/selectors'
+import { Roles } from 'app/enums'
 
 export const ReloadStudents = atom({
   key: 'reloadStudents',
@@ -67,9 +68,10 @@ export const StudentsQuery = selector({
     get(ReloadStudents)
     const lstUnion = get(UnionQuery)
 
-    const { userId, scholasticId, classId, unionId } = sessionHelper()
+    const { userId, scholasticId, classId, unionId, roles } = sessionHelper()
+    const isGetAll = roles.includes(Roles.PhanDoanTruong) || roles.includes(Roles.HocTap)
 
-    var res = await doGet(`student/getStudents`, { scholasticId, userId, classId, unionId })
+    const res = await doGet(`student/getStudents`, { scholasticId, userId, classId, unionId, isGetAll })
 
     if (res && res.data.success) {
       const lstStudent = [{ unionId: 1, unionCode: 0, students: [] }]

@@ -8,8 +8,7 @@ import Yup from 'utils/Yup'
 import { useFormik } from 'formik'
 import { ShortTextField } from '../Controls'
 import { loadingState, toastState } from 'recoils/atoms'
-import { doPost } from '../../utils/axios'
-import sessionHelper from '../../utils/sessionHelper'
+import { doPost } from 'utils/axios'
 
 export default function NewUserDialog({ reloadUserList }) {
   const theme = useTheme()

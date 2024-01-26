@@ -162,3 +162,13 @@ export const ScoreFormTitle = {
   Comment: 'Nhận xét',
   Ranking: 'Xếp loại'
 }
+
+export const NotificationType = {
+  UpdateStudentInformation: 5001,
+  ChangeStudentStatus: 5002,
+  CreateNewStudent: 5003,
+
+  UpdateStudentScoreSemesterOne: 6001,
+  UpdateStudentScoreSemesterTwo: 6002,
+  UpdateStudentScoreTotal: 6003
+}

@@ -34,7 +34,7 @@ import { get } from 'lodash'
 import { StudentStatus } from 'app/enums'
 import sessionHelper from 'utils/sessionHelper'
 import { HolyNameQuery } from 'recoils/selectors'
-import { toastState } from 'recoils/atoms'
+import { reloadHolyName, toastState } from 'recoils/atoms'
 import StyledCheckbox from 'components/UI/StyledCheckbox'
 import StyledRadio from 'components/UI/StyledRadio'
 import ButtonLoading from 'components/UI/ButtonLoading'
@@ -51,6 +51,7 @@ export const StudentDialog = () => {
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
 
   const lstHolyName = useRecoilValue(HolyNameQuery)
+  const setReloadHolyName = useSetRecoilState(reloadHolyName)
 
   const setReloadClass = useSetRecoilState(ReloadStudentClass)
   const setReloadGroup = useSetRecoilState(ReloadStudentGroup)
@@ -58,7 +59,7 @@ export const StudentDialog = () => {
   const [studentDialog, setStudentDialog] = useRecoilState(StudentDialogAtom)
   const [phoneDialog, setPhoneDialog] = useRecoilState(PhoneCallDialogAtom)
   const [toast, setToast] = useRecoilState(toastState)
-  const [chagenGroupModal, setChangeGroupModal] = useRecoilState(ChangeGroupModalAtom)
+  const [changeGroupModal, setChangeGroupModal] = useRecoilState(ChangeGroupModalAtom)
 
   const [isEdit, setIsEdit] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -121,6 +122,13 @@ export const StudentDialog = () => {
   }
 
   const handleReload = () => {
+    const formVal = formData.values
+    const checkReloadHolyNameList =
+      get(formVal, 'stuHolyId') === 0 || get(formVal, 'studentMoreInfo.stuFatherHolyId') === 0 || get(formVal, 'studentMoreInfo.stuMotherHolyId') === 0
+    if (checkReloadHolyNameList) {
+      setReloadHolyName(old => old + 1)
+    }
+
     if (pageCall) {
       if (pageCall === 'HT-Student') setReloadClass(reload => reload + 1)
       if (pageCall === 'PDT-Student') setReloadGroup(reload => reload + 1)
@@ -135,18 +143,18 @@ export const StudentDialog = () => {
 
     try {
       const res = await doPost(`student/updateStudent`, {
-        ...formVal,
-        userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`
+        ...formVal
       })
 
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
-        setIsEdit(!isEdit)
         handleReload()
-        setLoading(false)
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })
+    } finally {
+      setLoading(false)
+      setIsEdit(!isEdit)
     }
   }
 
@@ -168,7 +176,6 @@ export const StudentDialog = () => {
 
     const data = {
       userId: sessionHelper().userId,
-      userFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`,
       studentId: formData.values['id'],
       oldValue: formData.values['status'],
       newValue: formData.values['newValue'],
@@ -269,14 +276,14 @@ export const StudentDialog = () => {
   })
 
   const handleClickChangeGroup = () => {
-    setChangeGroupModal({ ...chagenGroupModal, openDialog: true, student: student, closeParent: false })
+    setChangeGroupModal({ ...changeGroupModal, openDialog: true, student: student, closeParent: false })
   }
 
   useEffect(() => {
-    if (chagenGroupModal.closeParent === true) {
+    if (changeGroupModal.closeParent === true) {
       handleClose()
     }
-  }, [chagenGroupModal.closeParent])
+  }, [changeGroupModal.closeParent])
 
   return loading ? (
     <ModalSkeleton loading={true} />
@@ -342,13 +349,13 @@ export const StudentDialog = () => {
                 </FormGroup>
               </FormControl>
             </Grid>
-            
+
             <Grid item xs={12} lg={6} hidden={!formData.values['isDisability']}>
-              <ShortTextField formik={formData} name="specialInfo" label="Thông tin đặc biệt" maxLength={250} readOnly={!isEdit}/>
+              <ShortTextField formik={formData} name="specialInfo" label="Thông tin đặc biệt" maxLength={250} readOnly={!isEdit} />
             </Grid>
 
             <Grid item lg={6} hidden={!formData.values['isDisability']}></Grid>
-            
+
             <Grid item xs={12} sm={6} md={3} lg={2}>
               <TextField
                 fullWidth
@@ -378,7 +385,7 @@ export const StudentDialog = () => {
             <Grid item xs={12} sm={6} md={3}>
               {!isEdit && (
                 <TextField
-                  value={lstHolyName.find(item => item.id === formData.values['stuHolyId'])?.name}
+                  value={lstHolyName.find(item => item.id === formData.values['stuHolyId'])?.name ?? get(formData.values, 'newHolyName') ?? ''}
                   label="Tên Thánh"
                   InputLabelProps={{
                     shrink: true
@@ -476,7 +483,11 @@ export const StudentDialog = () => {
             <Grid item xs={12} sm={6} md={3}>
               {!isEdit && (
                 <TextField
-                  value={lstHolyName.find(item => item.id === get(formData.values, 'studentMoreInfo.stuFatherHolyId'))?.name}
+                  value={
+                    lstHolyName.find(item => item.id === get(formData.values, 'studentMoreInfo.stuFatherHolyId'))?.name ??
+                    get(formData.values, 'studentMoreInfo.newFatherHolyName') ??
+                    ''
+                  }
                   label="Tên Thánh"
                   InputLabelProps={{
                     shrink: true
@@ -504,7 +515,11 @@ export const StudentDialog = () => {
             <Grid item xs={12} sm={6} md={3}>
               {!isEdit && (
                 <TextField
-                  value={lstHolyName.find(item => item.id === get(formData.values, 'studentMoreInfo.stuMotherHolyId'))?.name}
+                  value={
+                    lstHolyName.find(item => item.id === get(formData.values, 'studentMoreInfo.stuMotherHolyId'))?.name ??
+                    get(formData.values, 'studentMoreInfo.newMotherHolyName') ??
+                    ''
+                  }
                   label="Tên Thánh"
                   InputLabelProps={{
                     shrink: true

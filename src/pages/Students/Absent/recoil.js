@@ -1,9 +1,9 @@
 import { atom, selector } from 'recoil'
-import _ from 'lodash'
+import _, { orderBy } from 'lodash'
 
 import { doGet } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
-import { Roles } from 'app/enums'
+import { Roles, SemesterEnum } from 'app/enums'
 
 export const ReloadStudentAbsent = atom({
   key: 'ReloadStudentAbsent',
@@ -48,6 +48,16 @@ export const AbsentSelected = atom({
 export const ReloadAbsentStudentList = atom({
   key: 'ReloadAbsentStudentList',
   default: false
+})
+
+export const ReloadStudentDetailsWithAbsentList = atom({
+  key: 'ReloadStudentDetailsWithAbsentList',
+  default: []
+})
+
+export const AbsentSemesterSelected = atom({
+  key: 'AbsentSemesterSelected',
+  default: SemesterEnum.semesterOne
 })
 
 export const LoadStudentAbsent = selector({
@@ -106,6 +116,24 @@ export const LoadSundayList = selector({
   }
 })
 
+export const LoadSundayListWithSemester = selector({
+  key: 'LoadSundayListWithSemester',
+  get: async ({ get }) => {
+    const { scholasticId } = sessionHelper()
+    const semesterCode = get(AbsentSemesterSelected)
+
+    try {
+      const res = await doGet(`student/getSchoolDates`, { scholasticId, semesterCode })
+
+      if (res && res.data.success) {
+        return res.data.data.map(item => item.schoolDate)
+      }
+    } catch (err) {
+      return []
+    }
+  }
+})
+
 export const StudentListQuery = selector({
   key: 'studentListQuery',
   get: async ({ get }) => {
@@ -148,11 +176,6 @@ export const StudentListQuery = selector({
   }
 })
 
-export const ReloadStudentDetailsWithAbsentList = atom({
-  key: 'ReloadStudentDetailsWithAbsentList',
-  default: []
-})
-
 export const GetTeamsInUnionQuery = selector({
   key: 'GetTeamsInUnionQuery',
   get: async ({ get }) => {
@@ -165,6 +188,25 @@ export const GetTeamsInUnionQuery = selector({
         const { data } = res.data
         return data
       }
+    }
+    return []
+  }
+})
+
+export const StudentForSelectQuery = selector({
+  key: 'StudentForSelectQuery',
+  get: async () => {
+    const { userId, scholasticId, classId, unionId, roles } = sessionHelper()
+    const isGetAll = roles.includes(Roles.PhanDoanTruong) || roles.includes(Roles.HocTap)
+
+    const res = await doGet(`student/getStudents`, { scholasticId, userId, classId, unionId, isGetAll })
+
+    if (res && res.data.success) {
+      const students = res.data.data
+
+      return students.map(student => {
+        return { id: student.id, name: `${student.stuHolyname.name} ${student.stuFirstName} ${student.stuLastName}` }
+      })
     }
     return []
   }

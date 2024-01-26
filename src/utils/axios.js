@@ -40,6 +40,7 @@ const convertDateTimeOffset = payload => {
 
 const doAxios = (method, action, data, params = null) => {
   const modifiedBy = sessionHelper().fullName
+  const userFullName = sessionHelper().fullName
 
   const headers = sessionHelper().token
     ? {
@@ -54,7 +55,7 @@ const doAxios = (method, action, data, params = null) => {
   if (data instanceof FormData) {
     body = data
   } else {
-    body = { ...(data ? convertDateTimeOffset(data) : data), modifiedBy }
+    body = { ...(data ? convertDateTimeOffset(data) : data), modifiedBy, userFullName }
   }
 
   return axios({
@@ -90,7 +91,8 @@ const doAxiosDownload = (method, action, params, data) => {
   }).then(res => {
     const blob = new Blob([res.data], { type: res.data.type })
     const contentDisposition = res.headers['content-disposition']
-    let fileName = 'unknown'
+
+    let fileName = 'unknown-filename'
     if (contentDisposition) {
       const fileNameMatch = contentDisposition.match(/filename="(.+)"/)
 

@@ -51,12 +51,12 @@ export default function HeaderDownload() {
 
     const params = {
       scholasticId: sessionHelper().scholasticId,
-      semester: semesterCode,
+      semesterCode,
       classId: classSelected.id,
       userId: classSelected.leaderId
     }
 
-    return doDownload('file/downloadGroupScoreFromManager', params)
+    return doDownload('download/groupResultExcelFile', params)
   }
 
   return (

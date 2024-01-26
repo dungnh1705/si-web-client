@@ -1,44 +1,19 @@
-import React, { Suspense, useEffect } from 'react'
-import { Grid, ButtonGroup, Button, Hidden, Typography, CardContent } from '@material-ui/core'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { useTheme } from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import React, { Suspense } from 'react'
+import { Grid, ButtonGroup, Button, Hidden } from '@material-ui/core'
+import { useRecoilState } from 'recoil'
 
-import Slider from 'react-slick'
 import { Semester } from 'app/enums'
 import { ChooseFileDialog, GroupScoreResultDialog } from 'components/Dialog'
-import { UnionQuery } from 'recoils/selectors'
 
-import { SemesterSelected, UnionScoreSelected } from 'pages/PhanDoanTruong/ManageScoreGroup/recoil'
+import { SemesterSelected } from 'recoils/atoms'
+
 import HeaderAction from 'pages/PhanDoanTruong/ManageScoreGroup//HeaderAction'
 import StudentUnion from 'pages/PhanDoanTruong/ManageScoreGroup/StudentUnion'
 import PageSkeleton from 'components/Loading/page-skeleton'
+import SelectUnion from './SelectUnion'
 
 const ManageScoreGroup = () => {
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-
   const [semester, setSemester] = useRecoilState(SemesterSelected)
-  const [selectedUnion, setSelectedUnion] = useRecoilState(UnionScoreSelected)
-  const lstUnion = useRecoilValue(UnionQuery)
-
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: isMobile ? 2.5 : 4.5,
-    slidesToScroll: isMobile ? 2 : 3,
-    nextArrow: <></>,
-    prevArrow: <></>
-  }
-
-  function handleClickUnion(unionId) {
-    setSelectedUnion(unionId)
-  }
-
-  useEffect(() => {
-    if (!selectedUnion) setSelectedUnion(lstUnion[0]?.unionId)
-  }, [])
 
   const Body = () => {
     return (
@@ -62,27 +37,7 @@ const ManageScoreGroup = () => {
         </Grid>
 
         <br />
-        <Hidden xsDown>
-          <ButtonGroup variant="contained" aria-label="contained primary button group" className={'mb-4'}>
-            {lstUnion?.map(union => (
-              <Button onClick={() => handleClickUnion(union.unionId)} key={union.unionId} color={selectedUnion === union.unionId ? 'primary' : 'default'} size={'large'}>
-                Chi đoàn {union.unionCode}
-              </Button>
-            ))}
-          </ButtonGroup>
-        </Hidden>
-        <Hidden smUp>
-          <Slider {...settings}>
-            {lstUnion &&
-              lstUnion.map(union => (
-                <CardContent onClick={() => handleClickUnion(union.unionId)} key={union.unionId}>
-                  <Typography variant="h4" className={`carousel-header ${selectedUnion === union.unionId ? 'carousel-header__active' : ''}`}>
-                    Chi đoàn {union.unionCode}
-                  </Typography>
-                </CardContent>
-              ))}
-          </Slider>
-        </Hidden>
+        <SelectUnion />
 
         <br />
         <Suspense fallback={<PageSkeleton />}>
@@ -104,4 +59,3 @@ const ManageScoreGroup = () => {
 }
 
 export default ManageScoreGroup
- 

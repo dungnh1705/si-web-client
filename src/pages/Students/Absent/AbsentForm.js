@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil'
-import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Button, FormGroup, FormControlLabel, FormControl, Divider, Box, Input } from '@material-ui/core'
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Button, FormGroup, FormControlLabel, FormControl, Divider, Box, ButtonGroup } from '@material-ui/core'
 
 import StyledCheckbox from 'components/UI/StyledCheckbox'
 import StyledRadio from 'components/UI/StyledRadio'
 import ButtonLoading from 'components/UI/ButtonLoading'
-import { AbsentMode } from 'app/enums'
+import { AbsentMode, SemesterEnum } from 'app/enums'
 import Select from '@material-ui/core/Select'
 import Checkbox from '@material-ui/core/Checkbox'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -24,7 +24,7 @@ import { doPost } from 'utils/axios'
 import sessionHelper from 'utils/sessionHelper'
 import { toastState } from 'recoils/atoms'
 
-import { LoadListStudent, LoadSundayList, OpenAbsentForm, ReloadStudentAbsent } from './recoil'
+import { AbsentSemesterSelected, LoadSundayListWithSemester, OpenAbsentForm, ReloadAbsentStudentList, StudentForSelectQuery } from './recoil'
 
 const initForm = { StudentId: '', Reason: '', DateAbsents: [], IsActive: true, Mode: 0, HasPermission: true, Modes: [] }
 
@@ -40,12 +40,14 @@ const MenuProps = {
 }
 
 const AbsentForm = () => {
-  const lstStudent = useRecoilValue(LoadListStudent)
-  const lstSunday = useRecoilValue(LoadSundayList)
-  const setReloadAbsent = useSetRecoilState(ReloadStudentAbsent)
+  const lstSunday = useRecoilValue(LoadSundayListWithSemester)
+  const lstStudent = useRecoilValue(StudentForSelectQuery)
+
+  const setReloadAbsentStudentList = useSetRecoilState(ReloadAbsentStudentList)
 
   const [openForm, setOpenForm] = useRecoilState(OpenAbsentForm)
   const [toast, setToast] = useRecoilState(toastState)
+  const [semester, setSemester] = useRecoilState(AbsentSemesterSelected)
   const [loading, setLoading] = useState(false)
 
   const validationSchema = Yup.object({
@@ -89,7 +91,7 @@ const AbsentForm = () => {
     let value = formData.values
 
     try {
-      var res = await doPost(`student/absent`, {
+      const res = await doPost(`student/absent`, {
         ...value,
         userId: sessionHelper().userId,
         classId: sessionHelper().classId,
@@ -101,7 +103,7 @@ const AbsentForm = () => {
         setLoading(false)
         setOpenForm(false)
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
-        setReloadAbsent(reload => reload + 1)
+        setReloadAbsentStudentList(old => old + 1)
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })
@@ -138,22 +140,32 @@ const AbsentForm = () => {
 
   return (
     <Dialog open={openForm} onClose={handleCloseForm}>
-      <DialogTitle>Điểm danh</DialogTitle>
+      <DialogTitle>Điểm danh Đoàn sinh</DialogTitle>
       <Divider />
       <DialogContent style={{ padding: '20px 10px' }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel id="multi-date-absent-label" shrink style={{ marginLeft: '15px' }}>
+            <ButtonGroup variant="contained" aria-label="contained primary button group">
+              <Button color={semester === SemesterEnum.semesterOne ? 'primary' : 'default'} onClick={() => setSemester(SemesterEnum.semesterOne)}>
+                Học kì I
+              </Button>
+              <Button color={semester === SemesterEnum.semesterTwo ? 'primary' : 'default'} onClick={() => setSemester(SemesterEnum.semesterTwo)}>
+                Học kì II
+              </Button>
+            </ButtonGroup>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant={'outlined'}>
+              <InputLabel htmlFor="outlined-select" shrink>
                 Chọn ngày nghỉ
               </InputLabel>
               <Select
-                labelId="multi-date-absent-label"
+                labelId="outlined-select-label"
                 id="multiple-chip"
                 multiple
                 value={formData.values['DateAbsents']}
                 onChange={e => handleChange(e.target.value, 'DateAbsents')}
-                input={<Input />}
+                // input={<Input />}
                 renderValue={selected => (
                   <Box style={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                     {selected.map(value => (
@@ -177,7 +189,7 @@ const AbsentForm = () => {
                 if (newValue) formData.setFieldValue('StudentId', newValue?.id)
               }}
               disableClearable
-              noOptionsText="Không có Đoàn sinh phù hợp"
+              noOptionsText="Không tìm thấy Đoàn sinh phù hợp"
               id="studentId"
               options={lstStudent}
               renderOption={(option, { inputValue }) => {

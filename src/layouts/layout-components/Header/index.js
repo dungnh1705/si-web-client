@@ -13,6 +13,7 @@ import HeaderLogo from '../../layout-components/HeaderLogo'
 // import HeaderDrawer from '../../layout-components/HeaderDrawer'
 import HeaderUserBox from '../HeaderUserbox'
 import HeaderSearch from '../../layout-components/HeaderSearch'
+import HeaderNotification from '../HeaderNotification'
 // import HeaderMenu from '../../layout-components/HeaderMenu'
 
 import MenuOpenRoundedIcon from '@material-ui/icons/MenuOpenRounded'
@@ -37,7 +38,6 @@ const Header = props => {
   // const setLayoutStyle = () => {
   //   setThemeOptions({ name: 'layoutStyle', value: layoutStyle === 1 ? 2 : 1 })
   // }
-
   return (
     <Fragment>
       <AppBar
@@ -78,9 +78,17 @@ const Header = props => {
               {/* <HeaderMenu /> */}
             </Box>
           </Hidden>
+          <Hidden mdDown>
+            <Box className="d-flex align-items-center" style={{ marginRight: 'auto' }}>
+              <HeaderSearch />
+            </Box>
+          </Hidden>
           <Box className="d-flex align-items-center">
             {/* <HeaderDots /> */}
-            <HeaderSearch />
+            <Hidden lgUp>
+              <HeaderSearch />
+            </Hidden>
+            <HeaderNotification />
             <HeaderUserBox />
             {/* <HeaderDrawer /> */}
             <Box className="toggle-sidebar-btn-mobile">

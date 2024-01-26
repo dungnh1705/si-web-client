@@ -8,7 +8,6 @@ import sessionHelper from 'utils/sessionHelper'
 // enum
 import { Roles, TemplateType } from 'app/enums'
 
-
 export const groupUnionSelectedAtom = atom({
   key: 'groupUnionSelectedAtom',
   default: undefined
@@ -16,6 +15,11 @@ export const groupUnionSelectedAtom = atom({
 
 export const groupStudentIdSelectedAtom = atom({
   key: 'groupStudentIdSelectedAtom',
+  default: []
+})
+
+export const checkAllIdsSelectedAtom = atom({
+  key: 'checkAllIdsSelectedAtom',
   default: []
 })
 

@@ -11,8 +11,6 @@ import StringUtils from 'utils/StringUtils'
 import { TeacherInfoDialogAtom } from 'components/Dialog/recoil'
 import { doGet } from 'utils/axios'
 import { TeacherInfoDialog } from 'components/Dialog'
-import LoadingScreen from '../../../../components/Loading/LoadingScreen'
-import { BounceLoader } from 'react-spinners'
 
 export default function UnionAssignmentInfo() {
   const holyNames = useRecoilValue(HolyNameQuery)

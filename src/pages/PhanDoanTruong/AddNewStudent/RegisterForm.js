@@ -11,7 +11,7 @@ import Yup from 'utils/Yup'
 import { RegisterMode } from 'app/enums'
 
 import { HolyNameQuery, UnionRegisterQuery } from 'recoils/selectors'
-import { loadingState, toastState } from 'recoils/atoms'
+import { loadingState, reloadHolyName, toastState } from 'recoils/atoms'
 import StyledRadio from 'components/UI/StyledRadio'
 import ShortTextField from 'components/Controls/ShortTextField'
 import AutocompleteTextField from 'components/Controls/AutocompleteTextField'
@@ -35,6 +35,7 @@ const RegisterForm = () => {
 
   const setLoading = useSetRecoilState(loadingState)
   const setReloadStudent = useSetRecoilState(ReloadStudentGroup)
+  const setReloadHolyName = useSetRecoilState(reloadHolyName)
 
   const validationSchema = Yup.object({
     stuFirstName: Yup.string().required('Không để trống').max(100, 'Không nhập nhiều hơn 100 ký tự.'),
@@ -72,10 +73,12 @@ const RegisterForm = () => {
 
     const formData = stuForm.values
 
+    const checkReloadHolyNameList = get(formData, 'stuHolyId') === 0 || get(formData, 'stuFatherHolyId') === 0 || get(formData, 'stuMotherHolyId') === 0
+
     try {
-      var res = await doPost(`student/registerStudent`, {
+      const res = await doPost(`student/registerStudent`, {
         ...formData,
-        UserFullName: `${sessionHelper().firstName} ${sessionHelper().lastName}`,
+
         RegisterMode: RegisterMode.Offline,
         IsFromLeadOfGroup: true,
         UserId: sessionHelper().userId,
@@ -85,7 +88,16 @@ const RegisterForm = () => {
       if (res && res.data.success) {
         setToast({ ...toast, open: true, message: res.data.message, type: 'success' })
         setReloadStudent(old => old + 1)
-        stuForm.resetForm({ values: { ...initValue, stuUnionId: formData.stuUnionId, stuTeamCode: formData.stuTeamCode } })
+        stuForm.resetForm({
+          values: {
+            ...initValue,
+            stuUnionId: formData.stuUnionId,
+            stuTeamCode: formData.stuTeamCode
+          }
+        })
+        if (checkReloadHolyNameList) {
+          setReloadHolyName(old => old + 1)
+        }
       }
     } catch (err) {
       setToast({ ...toast, open: true, message: err.message, type: 'error' })

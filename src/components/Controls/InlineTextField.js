@@ -8,11 +8,23 @@ import DoneIcon from '@material-ui/icons/Done'
 import ClearIcon from '@material-ui/icons/Clear'
 import accounting from 'accounting'
 
-export default function InlineTextField({ label, value, handleChanged, isNumber, isCurrency = false, isRequired = false, isEditable = false, isMoreInfo = false, handleClickIcon, icon, ...rest }) {
+export default function InlineTextField({
+  label,
+  value,
+  handleChanged,
+  isNumber,
+  isCurrency = false,
+  isRequired = false,
+  isEditable = false,
+  isMoreInfo = false,
+  handleClickIcon,
+  icon,
+  ...rest
+}) {
   const inputRef = React.useRef()
   const [localValue, setLocalValue] = useState(value)
   const [showAction, setShowAction] = useState(false)
-  const [valueBeforeChange, setValueBeforeChange] = useState(value)
+  const [valueBeforeChange] = useState(value)
   const [isValid, setIsValid] = useState(false)
 
   const handleChange = e => {
@@ -98,10 +110,10 @@ export default function InlineTextField({ label, value, handleChanged, isNumber,
               ),
               endAdornment: isEditable ? (
                 <InputAdornment position="end">
-                  <IconButton size='medium' edge="end" onClick={handleClickOk} color="primary" disabled={isRequired && !localValue}>
+                  <IconButton size="medium" edge="end" onClick={handleClickOk} color="primary" disabled={isRequired && !localValue}>
                     <DoneIcon />
                   </IconButton>
-                  <IconButton size='medium' edge="end" onClick={cancelChange}>
+                  <IconButton size="medium" edge="end" onClick={cancelChange}>
                     <ClearIcon />
                   </IconButton>
                 </InputAdornment>

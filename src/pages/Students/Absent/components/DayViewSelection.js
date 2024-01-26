@@ -6,6 +6,7 @@ import { LoadSundayList, SundaySelected, ReloadAbsentStudentList } from '../reco
 
 import { Button, ButtonGroup } from '@material-ui/core'
 import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons'
+import { CurrentSemesterQuery } from 'recoils/selectors'
 
 const DayViewSelections = () => {
   const setSundaySelected = useSetRecoilState(SundaySelected)
@@ -13,19 +14,16 @@ const DayViewSelections = () => {
 
   const [activeButton, setActiveButton] = useState('week')
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0)
-  const [currentMonth, setCurrentMonth] = useState(0)
+  const [currentMonth, setCurrentMonth] = useState(moment())
 
   const allSunday = useRecoilValue(LoadSundayList)
+  const currentSemester = useRecoilValue(CurrentSemesterQuery)
 
   const indexOfLastDateInFilterList = allSunday.indexOf(allSunday.filter(date => moment.utc(date) <= moment()).slice(-1)[0])
-
-  const startMonthSemester = moment.utc(allSunday[0]).month()
-  const endMonthSemester = moment.utc(allSunday.slice(-1)[0]).month()
 
   useEffect(() => {
     setSundaySelected(allSunday.filter(date => moment.utc(date) <= moment()).slice(-1))
     setCurrentWeekIndex(indexOfLastDateInFilterList)
-    setCurrentMonth(moment().month())
   }, [])
 
   const defaultView = type => {
@@ -38,7 +36,7 @@ const DayViewSelections = () => {
         break
       case 'month':
         setSundaySelected(allSunday.filter(date => moment.utc(date).month() === moment().month()))
-        setCurrentMonth(moment().month())
+        setCurrentMonth(moment())
         setActiveButton('month')
         break
       case 'semester':
@@ -62,11 +60,17 @@ const DayViewSelections = () => {
     setReloadAbsentStudentList(true)
   }
 
-  const changeMonth = nextMonth => {
-    if (nextMonth < startMonthSemester || nextMonth > endMonthSemester) return
+  const changeMonth = monthDiff => {
+    let newMonth = moment(currentMonth).add(monthDiff, 'month')
+    if (newMonth <= moment(currentSemester.semesterFrom)) {
+      newMonth = moment(currentSemester.semesterFrom)
+    }
+    if (newMonth >= moment(currentSemester.semesterTo)) {
+      newMonth = moment(currentSemester.semesterTo)
+    }
 
-    setSundaySelected(allSunday.filter(date => moment.utc(date).month() === nextMonth))
-    setCurrentMonth(nextMonth)
+    setSundaySelected(allSunday.filter(date => moment.utc(date).month() === newMonth.month()))
+    setCurrentMonth(newMonth)
     setReloadAbsentStudentList(true)
   }
 
@@ -74,7 +78,7 @@ const DayViewSelections = () => {
     if (activeButton === 'week') {
       changeWeek(currentWeekIndex + 1)
     } else if (activeButton === 'month') {
-      changeMonth(currentMonth + 1)
+      changeMonth(1)
     }
   }
 
@@ -82,7 +86,7 @@ const DayViewSelections = () => {
     if (activeButton === 'week') {
       changeWeek(currentWeekIndex - 1)
     } else if (activeButton === 'month') {
-      changeMonth(currentMonth - 1)
+      changeMonth(-1)
     }
   }
 

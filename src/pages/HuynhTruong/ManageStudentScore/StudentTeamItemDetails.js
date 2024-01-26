@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil'
 
 import RowSkeleton from 'components/Loading/row-skeleton'
 
-import { TeamScoreSelected } from './recoil'
+import { TeamScoreSelected } from 'recoils/atoms'
 import { doGet } from 'utils/axios'
 
 import sessionHelper from 'utils/sessionHelper'

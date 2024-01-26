@@ -8,7 +8,7 @@ import FileUtils from 'utils/FileUtils'
 
 import { storageState } from 'recoils/firebase'
 
-import { themeOptionsState, reloadTemplates, reloadListUnion, reloadUserAvatar, UserImageAtom } from './atoms'
+import { themeOptionsState, reloadTemplates, reloadListUnion, reloadUserAvatar, UserImageAtom, reloadHolyName } from './atoms'
 
 export const themeOptionsActions = selector({
   key: 'themeOptionsActions',
@@ -20,8 +20,10 @@ export const themeOptionsActions = selector({
 
 export const HolyNameQuery = selector({
   key: 'HolyNameQuery',
-  get: async () => {
-    let res = await doGet(`holyname/getall`)
+  get: async ({ get }) => {
+    get(reloadHolyName)
+
+    const res = await doGet(`holyname/getall`)
 
     if (res && res.data && res.data.success) return _.orderBy(res.data.data, ['name'], ['asc'])
     else return []
@@ -149,5 +151,24 @@ export const GroupSettingsQuery = selector({
 
     const res = await doGet('setting/getGroupSettings', { groupId })
     if (res && res.data.success) return res.data.data
+  }
+})
+
+export const CurrentSemesterQuery = selector({
+  key: 'CurrentSemesterQuery',
+  get: async () => {
+    const { scholasticId } = sessionHelper()
+    if (!scholasticId) return undefined
+
+    const res = await doGet('scores/current-semester', { scholasticId })
+    if (res && res.data.success) return res.data.data
+  }
+})
+
+export const NotificationPermissionSelector = selector({
+  key: 'NotificationPermissionSelector',
+  get: async () => {
+    const permission = (await Notification.permission) ?? ''
+    return `${permission}`
   }
 })

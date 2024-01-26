@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { TextField } from '@material-ui/core'
 
 export default function ScoreTextField(props) {
-  const { value, handleSave, name, isNumber, minWidth ,textAlign} = props
+  const { value, handleSave, name, isNumber, minWidth, textAlign } = props
 
   const [isValid, setIsValid] = useState(true)
   const [currentVal, setCurrentVal] = useState(value === 0 || !value ? '' : value)
@@ -38,7 +38,17 @@ export default function ScoreTextField(props) {
   useEffect(() => {
     setNewVal(value ?? '')
   }, [value])
-  console.log(textAlign)
-  console.log(value)
-  return <TextField InputProps={{inputProps: {style: { textAlign: name==="comment"?"left":"center" },}}}  value={newVal} variant="outlined" style={{ minWidth: minWidth  }} onChange={handleOnChange} onBlur={handleOnBlur} type="text" error={!isValid} />
+
+  return (
+    <TextField
+      InputProps={{ inputProps: { style: { textAlign: name === 'comment' ? 'left' : 'center' } } }}
+      value={newVal}
+      variant="outlined"
+      style={{ minWidth: minWidth }}
+      onChange={handleOnChange}
+      onBlur={handleOnBlur}
+      type="text"
+      error={!isValid}
+    />
+  )
 }

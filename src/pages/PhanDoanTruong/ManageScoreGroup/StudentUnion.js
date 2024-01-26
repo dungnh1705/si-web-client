@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import StudentUnionTeam from 'pages/PhanDoanTruong/ManageScoreGroup/StudentUnionTeam'
@@ -10,11 +10,11 @@ const StudentUnion = () => {
   const groupSettings = useRecoilValue(GroupSettingsQuery)
 
   return (
-    <>
+    <Fragment>
       {teams?.map(item => (
         <StudentUnionTeam team={item.team} totalStudents={item.totalStudents} key={`StudentUnionTeam-${item.team}`} defaultScoreForm={groupSettings?.scoreForm} />
       ))}
-    </>
+    </Fragment>
   )
 }
 

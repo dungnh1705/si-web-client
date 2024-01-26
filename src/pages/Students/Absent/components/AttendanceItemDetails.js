@@ -1,4 +1,4 @@
-import { Hidden, LinearProgress, makeStyles } from '@material-ui/core'
+import { Hidden, makeStyles } from '@material-ui/core'
 import { AbsentMode, absentTypeOptionsEnum } from 'app/enums'
 import React, { Fragment, useEffect, useState } from 'react'
 import ControlledOpenSelect from '../Selection'

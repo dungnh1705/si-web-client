@@ -1,10 +1,11 @@
-import React, { Suspense, useEffect } from 'react'
+import React, { Fragment, Suspense } from 'react'
 import { Grid, LinearProgress } from '@material-ui/core'
 import { useRecoilValue } from 'recoil'
 
 import { GetTeamsInUnionQuery } from './recoil'
 import StudentAttendance from './StudentAttendance'
 import HeaderAction from './HeaderAction'
+import AbsentForm from './AbsentForm'
 
 const ManageAbsent = () => {
   const teams = useRecoilValue(GetTeamsInUnionQuery)
@@ -20,6 +21,10 @@ const ManageAbsent = () => {
           <StudentAttendance team={team} key={`absent-team-${team.team}`} />
         ))}
       </Suspense>
+
+      <Fragment>
+        <AbsentForm />
+      </Fragment>
     </Grid>
   )
 }
