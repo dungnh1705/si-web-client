@@ -5,5 +5,8 @@
   },
   "mimeTypes": {
     ".json": "text/json"
-  }
+  },
+  "routes": [
+    { "route": "/*", "rewrite": "/index.html" }
+  ]
 }
